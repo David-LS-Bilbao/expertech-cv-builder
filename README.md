@@ -30,4 +30,4 @@ Desarrollar una primera versión funcional de una herramienta que permita estruc
 
 ## Autor
 
-David
+David López Sotelo
