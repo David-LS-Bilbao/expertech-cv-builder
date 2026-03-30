@@ -70,3 +70,25 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: queda establecida una forma de trabajo explícita entre usuario y asistente, el repositorio dispone de una base documental más sólida y la feature `feat/project-setup` avanza con un criterio más claro de organización y aprendizaje.
 - Validación: comprobación manual del estado de Git, confirmación de que la rama `feat/project-setup` existe y está sincronizada con su remoto, revisión del checklist de estructura inicial y verificación de que `.gitignore` ya no está vacío.
 - Próximo paso: cerrar los puntos pendientes de preparación de la feature `feat/project-setup`, subir los commits necesarios y decidir cuándo se da por concluida esta fase para integrarla en `dev`.
+
+### [2026-03-30] Conexión de la base estática inicial del frontend
+
+- Objetivo: dejar una base visible y ejecutable en navegador para comprobar que la estructura inicial del frontend está correctamente conectada.
+- Trabajo realizado: se añadió la carga de `js/app.js` desde `index.html` y se consolidó una base mínima de presentación con `styles/reset.css` y `styles/main.css`.
+- Trabajo realizado por el usuario: edición de `index.html`, `js/app.js`, `styles/reset.css` y `styles/main.css` para dejar una primera pantalla base y verificar el arranque del script en el navegador.
+- Trabajo realizado por Codex: revisión de los cambios realizados, comprobación de la conexión entre HTML, CSS y JavaScript, y actualización de la documentación para reflejar el estado real del proyecto.
+- Archivos afectados: `index.html`, `js/app.js`, `styles/reset.css`, `styles/main.css`, `README.md`, `docs/evidencias.md`, `docs/roadmap.md` y `docs/architecture-notes.md`.
+- Resultado: el proyecto ya dispone de una base estática mínima cargable en navegador, con HTML inicial, estilos enlazados y script JavaScript ejecutándose correctamente.
+- Validación: revisión de la carga del script desde `index.html` y comprobación de que el `console.log` de `js/app.js` puede mostrarse en la consola del navegador.
+- Próximo paso: dejar cerrada la documentación de `feat/project-setup` y preparar la transición hacia `feature/layout-base`.
+
+### [2026-03-30] Cierre documental y preparación del repositorio para continuar
+
+- Objetivo: dejar el trabajo del día documentado, coherente y listo para retomarlo en la siguiente sesión sin perder contexto.
+- Trabajo realizado: se revisó y rehizo el `README.md` con un enfoque más profesional, se actualizaron `docs/roadmap.md` y `docs/architecture-notes.md` para alinearlos con la base real del proyecto, y se corrigió la `meta description` de `index.html`.
+- Trabajo realizado por el usuario: ajuste del roadmap operativo con la convención actual de features y consolidación de la base visual y JavaScript del arranque del proyecto.
+- Trabajo realizado por Codex: revisión de la documentación, corrección puntual de `index.html`, actualización del registro de evidencias y preparación del cierre de la sesión de trabajo.
+- Archivos afectados: `README.md`, `docs/roadmap.md`, `docs/architecture-notes.md`, `docs/evidencias.md` e `index.html`.
+- Resultado: el repositorio queda mejor documentado, con una dirección de trabajo más clara y con una base inicial más fácil de retomar en la siguiente sesión.
+- Validación: revisión manual del contenido de los documentos, del estado actual de la rama `feat/project-setup` y de la coherencia entre HTML, CSS, JavaScript y documentación.
+- Próximo paso: subir todos los cambios a GitHub y continuar la siguiente sesión desde esta misma feature o preparar su cierre hacia `dev`.

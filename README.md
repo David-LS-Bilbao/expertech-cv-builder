@@ -8,7 +8,7 @@ Estado actual: `Bootcamp JavaScript MVP`
 
 Fase actual: `feat/project-setup`
 
-En este punto el repositorio está centrado en dejar una base de trabajo limpia, comprensible y profesional antes de entrar en la construcción funcional del producto.
+En este punto el repositorio ya cuenta con una base estática mínima y operativa: `index.html`, estilos separados en `reset.css` y `main.css`, y un punto de entrada JavaScript conectado mediante `js/app.js`.
 
 ## Objetivo del MVP
 
@@ -99,6 +99,13 @@ La base actual es estática. Para revisarla en local puedes:
 - abrir `index.html` directamente en el navegador
 - o usar una extensión como Live Server en VS Code si quieres recarga automática
 
+Comportamiento actual disponible:
+
+- carga del HTML base del proyecto
+- aplicación de estilos desde `styles/reset.css` y `styles/main.css`
+- carga del script `js/app.js`
+- validación básica de conexión JavaScript mediante `console.log`
+
 ## Roadmap resumido del MVP
 
 1. `feat/project-setup`: preparar la base del proyecto
@@ -117,6 +124,10 @@ La base actual es estática. Para revisarla en local puedes:
 La siguiente fase natural del proyecto es `feature/layout-base`.
 
 Su objetivo será construir la maqueta base de la aplicación con enfoque `editor + preview`, preparar la jerarquía visual principal y dejar la interfaz lista para conectar la lógica en las siguientes features.
+
+## Nota de desarrollo
+
+Durante la fase `feat/project-setup`, el objetivo no es resolver todavía la lógica de negocio del CV, sino garantizar que la base del repositorio, el flujo Git y la estructura inicial del frontend estén preparados para evolucionar sin deuda técnica innecesaria.
 
 ## Autor
 
