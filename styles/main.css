@@ -202,12 +202,11 @@ ul {
   color: var(--color-text-soft);
 }
 
-/* Tarjeta de preview con posición sticky en escritorio */
+/* Tarjeta de preview: por defecto no se queda fija para evitar fricción en móvil */
 .preview-card {
   display: grid;
   gap: var(--space-4);
-  position: sticky;
-  top: var(--space-3);
+  position: static;
 }
 
 /* Cabecera superior del preview */
@@ -306,6 +305,12 @@ ul {
 
   .app-main {
     gap: var(--space-5);
+  }
+
+  /* En desktop la preview sí queda visible mientras se recorre el editor */
+  .preview-card {
+    position: sticky;
+    top: var(--space-3);
   }
 
   #hero-title {
