@@ -1,24 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Metadatos base del documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EXPERTECH CV</title>
     <meta
       name="description"
-      content="Base inicial del proyecto EXPERTECH CV, MVP JavaScript para crear un currículum web interactivo."
+      content="EXPERTECH CV, MVP JavaScript para crear un currículum web interactivo orientado a recruiters."
     />
-        <link rel="stylesheet" href="./styles/reset.css" />
-        <link rel="stylesheet" href="./styles/main.css" />
+    <!-- Reset general para normalizar estilos del navegador -->
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <!-- Hoja principal de estilos del layout -->
+    <link rel="stylesheet" href="./styles/main.css" />
 </head>
-<body>
-    <main>
-        <h1>EXPERTECH CV</h1>
-        <p>Bienvenido a EXPERTECH CV, tu plataforma de gestión de currículums. Aquí puedes crear, almacenar y compartir tu currículum de manera eficiente. Nuestra interfaz intuitiva y herramientas avanzadas te ayudarán a destacar en el mercado laboral.</p>    
-        <p>La siguiente feature construirá el layout editor + preview.</p>
-   </main>
 
-   <script type="module" src="./js/app.js"></script>
+
+<body>
+   <!-- Contenedor general de toda la aplicación -->
+   <div class="app-shell">
+      <!-- Cabecera principal: branding + acción rápida superior -->
+      <header class="app-header">
+        <!-- Bloque de marca y propuesta principal del producto -->
+        <div class="brand-block">
+          <p class="brand-kicker">EXPERTECH</p>
+          <h1 class="brand-title">CV Builder</h1>
+          <p class="brand-tagline">
+            Crea un currículum web claro, visual y orientado a recruiters tech.
+          </p>
+        </div>
+
+        <!-- Zona de acciones rápidas de cabecera -->
+        <div class="header-actions">
+          <button type="button" class="btn btn-secondary">Guardar borrador</button>
+        </div>
+      </header>
+
+      <!-- Contenido principal de la pantalla -->
+      <main class="app-main">
+        <!-- Hero principal con el mensaje de valor de la interfaz -->
+        <section class="hero" aria-labelledby="hero-title">
+          <p class="section-kicker">Editor + preview</p>
+          <h2 id="hero-title">Construye tu CV tech desde una sola pantalla</h2>
+          <p class="hero-text">
+            Organiza tu perfil, conecta tus proyectos y revisa una vista previa
+            resumida antes de pasar a la siguiente fase del MVP.
+          </p>
+        </section>
+
+        <!-- Sección de accesos rápidos a las acciones clave del flujo -->
+        <section class="quick-actions" aria-labelledby="quick-actions-title">
+          <h2 id="quick-actions-title" class="section-title">Acciones rápidas</h2>
+
+          <!-- Lista de botones pensada como atajo a futuros flujos reales -->
+          <div class="quick-actions-list">
+            <button type="button" class="btn btn-primary">Completar perfil</button>
+            <button type="button" class="btn btn-secondary">Conectar GitHub</button>
+            <button type="button" class="btn btn-secondary">Revisar preview</button>
+          </div>
+        </section>
+
+        <!-- Workspace principal: editor a la izquierda y preview a la derecha -->
+        <section class="workspace" aria-label="Zona principal de trabajo">
+          <!-- Panel de edición con los bloques que luego serán dinámicos -->
+          <section class="editor-panel" aria-labelledby="editor-panel-title">
+            <!-- Encabezado del panel editor -->
+            <div class="panel-heading">
+              <p class="section-kicker">Editor</p>
+              <h2 id="editor-panel-title" class="section-title">Bloques del CV</h2>
+              <p class="section-text">
+                Estructura base del contenido editable para el MVP inicial.
+              </p>
+            </div>
+
+            <!-- Bloque 1: perfil profesional del candidato -->
+            <article class="editor-block" aria-labelledby="profile-block-title">
+              <!-- Título y descripción del bloque -->
+              <div class="block-heading">
+                <h3 id="profile-block-title" class="block-title">Perfil profesional</h3>
+                <p class="block-text">
+                  Datos principales del candidato: nombre, rol, resumen y enlaces clave.
+                </p>
+              </div>
+
+              <!-- Placeholder visual mientras no exista formulario real -->
+              <div class="block-placeholder">
+                <p>Nombre y apellidos</p>
+                <p>Frontend Developer · JavaScript · React</p>
+                <p>Resumen profesional breve orientado a recruiter.</p>
+              </div>
+            </article>
+
+            <!-- Bloque 2: futura integración con GitHub -->
+            <article class="editor-block" aria-labelledby="github-block-title">
+              <!-- Título y descripción del bloque -->
+              <div class="block-heading">
+                <h3 id="github-block-title" class="block-title">Conexión GitHub</h3>
+                <p class="block-text">
+                  Zona reservada para importar perfil público y repositorios destacados.
+                </p>
+              </div>
+
+              <!-- Placeholder visual para el estado de conexión -->
+              <div class="block-placeholder">
+                <p>Usuario GitHub</p>
+                <p>Estado de conexión pendiente</p>
+                <p>Listado de repos detectados o mensaje vacío</p>
+              </div>
+            </article>
+
+            <!-- Bloque 3: proyectos importantes del candidato -->
+            <article class="editor-block" aria-labelledby="projects-block-title">
+              <!-- Título y descripción del bloque -->
+              <div class="block-heading">
+                <h3 id="projects-block-title" class="block-title">Proyectos destacados</h3>
+                <p class="block-text">
+                  Selección visual de proyectos relevantes para enseñar experiencia práctica.
+                </p>
+              </div>
+
+              <!-- Placeholder visual de proyectos todavía no dinámicos -->
+              <div class="block-placeholder">
+                <p>Proyecto 1 · Placeholder</p>
+                <p>Proyecto 2 · Placeholder</p>
+                <p>Proyecto 3 · Placeholder</p>
+              </div>
+            </article>
+
+            <!-- Bloque 4: skills y stack tecnológico -->
+            <article class="editor-block" aria-labelledby="skills-block-title">
+              <!-- Título y descripción del bloque -->
+              <div class="block-heading">
+                <h3 id="skills-block-title" class="block-title">Skills / stack</h3>
+                <p class="block-text">
+                  Tecnologías y herramientas principales para lectura rápida.
+                </p>
+              </div>
+
+              <!-- Placeholder visual del stack principal -->
+              <div class="block-placeholder">
+                <p>HTML · CSS · JavaScript</p>
+                <p>Git · GitHub · Responsive Design</p>
+                <p>APIs · UI básica · Accesibilidad inicial</p>
+              </div>
+            </article>
+          </section>
+
+          <!-- Panel lateral de preview del CV -->
+          <aside class="preview-panel" aria-labelledby="preview-panel-title">
+            <!-- Encabezado del panel preview -->
+            <div class="panel-heading">
+              <p class="section-kicker">Preview</p>
+              <h2 id="preview-panel-title" class="section-title">Vista previa del CV</h2>
+              <p class="section-text">
+                Resumen recruiter-friendly del contenido que después será dinámico.
+              </p>
+            </div>
+
+            <!-- Tarjeta principal que simula el CV renderizado -->
+            <article class="preview-card">
+              <!-- Cabecera de la tarjeta preview con identidad principal -->
+              <header class="preview-card-header">
+                <p class="preview-name">Nombre Apellido</p>
+                <p class="preview-role">Frontend Developer</p>
+              </header>
+
+              <!-- Cuerpo del preview con secciones resumidas -->
+              <div class="preview-card-body">
+                <!-- Resumen profesional visible en la tarjeta -->
+                <section class="preview-section" aria-labelledby="preview-summary-title">
+                  <h3 id="preview-summary-title" class="preview-section-title">Resumen</h3>
+                  <p>
+                    Perfil tech con foco en desarrollo frontend, proyectos prácticos y
+                    presentación clara para procesos de selección.
+                  </p>
+                </section>
+
+                <!-- Lista rápida de skills principales -->
+                <section class="preview-section" aria-labelledby="preview-skills-title">
+                  <h3 id="preview-skills-title" class="preview-section-title">Skills clave</h3>
+                  <ul class="preview-list">
+                    <li>HTML5 y CSS3</li>
+                    <li>JavaScript</li>
+                    <li>Responsive design</li>
+                    <li>Git y GitHub</li>
+                  </ul>
+                </section>
+
+                <!-- Lista resumida de proyectos que verá el recruiter -->
+                <section class="preview-section" aria-labelledby="preview-projects-title">
+                  <h3 id="preview-projects-title" class="preview-section-title">
+                    Proyectos visibles
+                  </h3>
+                  <ul class="preview-list">
+                    <li>EXPERTECH CV</li>
+                    <li>Proyecto portfolio placeholder</li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+          </aside>
+        </section>
+
+        <!-- Acciones finales del flujo general del CV -->
+        <section class="final-actions" aria-labelledby="final-actions-title">
+          <h2 id="final-actions-title" class="section-title">Acciones finales</h2>
+
+          <!-- Botones finales pensados para guardar, exportar y compartir -->
+          <div class="final-actions-list">
+            <button type="button" class="btn btn-primary">Guardar CV</button>
+            <button type="button" class="btn btn-secondary">Exportar PDF</button>
+            <button type="button" class="btn btn-secondary">Compartir perfil</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+
 </body>
     
 </html>

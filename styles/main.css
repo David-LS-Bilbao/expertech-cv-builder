@@ -1,20 +1,315 @@
+/* Variables globales de color, espaciado, radios y ancho máximo del layout */
+:root {
+  --color-bg: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef2f7;
+  --color-border: #d9e2ec;
+  --color-text: #1f2937;
+  --color-text-soft: #52606d;
+  --color-heading: #0f172a;
+  --color-accent: #2563eb;
+  --color-accent-soft: #dbeafe;
+  --color-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+
+  --max-width: 1200px;
+}
+
+/* Estilos base del documento: tipografía, fondo y color principal de texto */
 body {
   font-family: Arial, sans-serif;
   line-height: 1.5;
-  background-color: #f5f7fa;
-  color: #1f2937;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
-main {
-  max-width: 720px;
+/* Hace que los botones hereden la tipografía general de la app */
+button {
+  font: inherit;
+}
+
+/* Ajuste base para listas del preview */
+ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Contenedor general de toda la aplicación */
+.app-shell {
+  min-height: 100vh;
+}
+
+/* Centra y limita el ancho de la cabecera y del contenido principal */
+.app-header,
+.app-main {
+  width: min(100% - 2rem, var(--max-width));
   margin: 0 auto;
-  padding: 2rem 1rem;
 }
 
-h1 {
-  margin-bottom: 1rem;
+/* Layout de la cabecera superior */
+.app-header {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5) 0 var(--space-4);
 }
 
-p + p {
-  margin-top: 0.75rem;
+/* Tarjetas y bloques principales con estilo visual compartido */
+.brand-block,
+.hero,
+.quick-actions,
+.editor-block,
+.preview-card,
+.final-actions {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--color-shadow);
+}
+
+/* Espaciado interior de los bloques principales */
+.brand-block,
+.hero,
+.quick-actions,
+.final-actions,
+.preview-card,
+.editor-block {
+  padding: var(--space-4);
+}
+
+/* Contenedor de acciones de la cabecera */
+.header-actions {
+  display: flex;
+}
+
+/* Layout vertical principal de la página */
+.app-main {
+  display: grid;
+  gap: var(--space-4);
+  padding-bottom: var(--space-6);
+}
+
+/* Kicker pequeño reutilizable para etiquetar secciones */
+.brand-kicker,
+.section-kicker {
+  margin-bottom: var(--space-1);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Color de títulos y headings principales */
+.brand-title,
+.section-title,
+.block-title,
+.preview-section-title,
+#hero-title {
+  color: var(--color-heading);
+}
+
+/* Título principal de marca */
+.brand-title {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+/* Texto secundario y descripciones auxiliares */
+.brand-tagline,
+.hero-text,
+.section-text,
+.block-text {
+  color: var(--color-text-soft);
+}
+
+/* Separación superior de textos de apoyo */
+.brand-tagline,
+.hero-text,
+.section-text {
+  margin-top: var(--space-2);
+}
+
+/* Título principal del hero */
+#hero-title {
+  font-size: 1.75rem;
+  line-height: 1.15;
+}
+
+/* Listas de acciones rápidas y acciones finales */
+.quick-actions-list,
+.final-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* Grid principal donde vive la zona de editor + preview */
+.workspace {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Estructura interna de cada panel principal */
+.editor-panel,
+.preview-panel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Cabecera compartida de paneles y bloques */
+.panel-heading {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* Tarjeta individual de cada bloque editable */
+.editor-block {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Cabecera interna del bloque editable */
+.block-heading {
+  display: grid;
+  gap: 0.25rem;
+}
+
+/* Tamaño base de títulos de sección y bloque */
+.block-title,
+.section-title {
+  font-size: 1.125rem;
+}
+
+/* Caja placeholder para representar contenido aún no dinámico */
+.block-placeholder {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-surface-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-soft);
+}
+
+/* Tarjeta de preview con posición sticky en escritorio */
+.preview-card {
+  display: grid;
+  gap: var(--space-4);
+  position: sticky;
+  top: var(--space-3);
+}
+
+/* Cabecera superior del preview */
+.preview-card-header {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Nombre principal del candidato en la preview */
+.preview-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+/* Rol principal mostrado debajo del nombre */
+.preview-role {
+  margin-top: 0.25rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Cuerpo interno del preview */
+.preview-card-body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Cada sección resumida dentro del preview */
+.preview-section {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Título pequeño de cada sección del preview */
+.preview-section-title {
+  font-size: 1rem;
+}
+
+/* Separa verticalmente los elementos de lista a partir del segundo */
+.preview-list li + li {
+  margin-top: 0.35rem;
+}
+
+/* Botón base reutilizable para todas las acciones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Microinteracción simple al pasar el ratón por encima */
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Variante principal del botón */
+.btn-primary {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+/* Variante secundaria del botón */
+.btn-secondary {
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-color: #bfdbfe;
+}
+
+/* Ajustes responsive para tablet y desktop pequeño */
+@media (min-width: 768px) {
+  .app-header {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+
+  .quick-actions-list,
+  .final-actions-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* Ajustes responsive para escritorio ancho */
+@media (min-width: 1024px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    align-items: start;
+  }
+
+  .app-main {
+    gap: var(--space-5);
+  }
+
+  #hero-title {
+    max-width: 12ch;
+    font-size: 2.25rem;
+  }
 }
