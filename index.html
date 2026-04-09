@@ -62,25 +62,134 @@
               </p>
             </div>
 
+            <!--
+              BLOQUE ACTIVO DE ESTA FEATURE
+              Aquí vive el formulario real del perfil.
+              Añadimos una zona de feedback para informar al usuario
+              cuando el guardado haya ido bien.
+            -->
             <article class="editor-block" aria-labelledby="profile-block-title">
               <div class="block-heading">
                 <div class="block-heading-top">
                   <h3 id="profile-block-title" class="block-title">Perfil profesional</h3>
-                  <span class="status-badge">Base inicial</span>
+                  <span class="status-badge">Editable</span>
                 </div>
                 <p class="block-text">
                   Datos principales del candidato: nombre, rol, resumen y enlaces clave.
                 </p>
               </div>
 
-              <div class="block-placeholder">
-                <p>Nombre y apellidos</p>
-                <p>Frontend Developer · JavaScript · React</p>
-                <p>Resumen profesional breve orientado a recruiter.</p>
-              </div>
+              <!--
+                Formulario del perfil.
+                Los atributos "name" coinciden con las propiedades del modelo profile.
+              -->
+              <form
+                id="profile-form"
+                class="profile-form"
+                aria-label="Formulario de perfil profesional"
+              >
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="fullName">Nombre y apellidos</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      placeholder="Ej. David López Sotelo"
+                      autocomplete="name"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="headline">Titular profesional</label>
+                    <input
+                      type="text"
+                      id="headline"
+                      name="headline"
+                      placeholder="Ej. Frontend Developer"
+                      autocomplete="organization-title"
+                    />
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="summary">Resumen profesional</label>
+                    <textarea
+                      id="summary"
+                      name="summary"
+                      rows="5"
+                      placeholder="Cuéntale a un recruiter quién eres, qué sabes hacer y qué tipo de perfil aportas."
+                    ></textarea>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Ej. nombre@email.com"
+                      autocomplete="email"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="location">Ubicación</label>
+                    <input
+                      type="text"
+                      id="location"
+                      name="location"
+                      placeholder="Ej. Bilbao, España"
+                      autocomplete="address-level2"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="linkedinUrl">LinkedIn</label>
+                    <input
+                      type="url"
+                      id="linkedinUrl"
+                      name="linkedinUrl"
+                      placeholder="https://www.linkedin.com/in/tu-perfil"
+                      autocomplete="url"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="githubUsername">Usuario de GitHub</label>
+                    <input
+                      type="text"
+                      id="githubUsername"
+                      name="githubUsername"
+                      placeholder="Ej. David-LS-Bilbao"
+                      autocomplete="username"
+                    />
+                  </div>
+                </div>
+
+                <!--
+                  Zona de feedback del formulario.
+                  JS escribirá aquí mensajes como:
+                  - "Perfil guardado correctamente"
+                  - o futuros avisos mínimos de error/estado
+                  
+                  aria-live="polite" permite anunciar el cambio
+                  a tecnologías de asistencia sin resultar intrusivo.
+                -->
+                <p
+                  id="profile-form-feedback"
+                  class="form-feedback"
+                  aria-live="polite"
+                  role="status"
+                ></p>
+
+                <div class="profile-form-actions">
+                  <button type="submit" class="btn btn-primary">Guardar perfil</button>
+                </div>
+              </form>
 
               <p class="helper-note">
-                Aquí conectaremos después la edición del perfil y los datos principales del CV.
+                En esta fase el formulario permitirá editar y persistir el perfil. La vista
+                previa se conectará después.
               </p>
             </article>
 
