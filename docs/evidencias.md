@@ -103,3 +103,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya no muestra una pantalla base vacía, sino una interfaz real con `header`, `hero`, `quick actions`, `editor`, `preview` y `final actions`, preparada para conectar lógica en las siguientes fases del MVP.
 - Validación: comprobación visual manual del layout en móvil y escritorio, verificación del apilado de bloques en pequeño formato, confirmación de la disposición `editor` izquierda / `preview` derecha en desktop, y validación de que la preview solo queda sticky en escritorio.
 - Próximo paso: empezar `feat/domain-model` para definir entidades, estado base del CV y preparar la persistencia local sin mezclar todavía lógica de GitHub ni render dinámico completo.
+
+### [2026-04-09] Cierre de la feature `feat/domain-model`
+
+- Objetivo: definir el núcleo de datos del CV y dejar una estructura inicial estable para las siguientes features.
+- Trabajo realizado: se crearon las factories `CandidateProfile`, `Project` y `PortfolioCV`, se añadió `createInitialCVState()` como punto de partida consistente del estado de la app y se conectó temporalmente el modelo desde `js/app.js` para validar la estructura inicial.
+- Trabajo realizado por el usuario: implementación del modelo de dominio, preparación del estado inicial, revisión de la salida en consola y apertura de la PR hacia `dev`.
+- Trabajo realizado por Codex: revisión del cierre de feature, comprobación del estado real de la PR en GitHub, sincronización de `dev` con el remoto y actualización de la documentación de proyecto para reflejar el nuevo estado del MVP.
+- Archivos afectados: `js/models/CandidateProfile.js`, `js/models/Project.js`, `js/models/PortfolioCV.js`, `js/models/createInitialCVState.js`, `js/app.js`, `README.md`, `docs/evidencias.md` y `docs/roadmap.md`.
+- Resultado: el proyecto ya no depende solo de una maqueta visual; ahora dispone también de un contrato de datos base del CV con perfil, proyectos y metadatos, listo para soportar persistencia local y evolución posterior.
+- Validación: revisión manual del código del modelo, confirmación de que la PR `#2` quedó mergeada en `dev` en GitHub y verificación local de que `dev` incorpora los nuevos archivos del dominio mediante `git pull origin dev`.
+- Próximo paso: arrancar `feat/local-storage` para guardar y recuperar el estado del CV desde el navegador sin mezclar aún edición completa ni live preview.

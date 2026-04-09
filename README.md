@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/layout-base` cerrada y pendiente de integración en `dev`
+Fase actual: `feat/domain-model` cerrada y ya integrada en `dev`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable: `index.html`, estilos separados en `reset.css` y `main.css`, y un punto de entrada JavaScript conectado mediante `js/app.js`. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, y una base JavaScript con modelo de dominio inicial conectada desde `js/app.js`. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un estado inicial estable del CV preparado para crecer.
 
 ## Objetivo del MVP
 
@@ -106,7 +106,9 @@ Comportamiento actual disponible:
 - layout responsive con bloques apilados en móvil
 - distribución `editor` izquierda / `preview` derecha en desktop
 - preview sticky solo en escritorio
-- carga del script `js/app.js` como base para la siguiente fase
+- carga del script `js/app.js` con estado inicial del CV
+- factories base para `CandidateProfile`, `Project` y `PortfolioCV`
+- creación de un estado inicial consistente mediante `createInitialCVState()`
 
 ## Roadmap resumido del MVP
 
@@ -123,13 +125,13 @@ Comportamiento actual disponible:
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/domain-model`.
+La siguiente fase natural del proyecto es `feat/local-storage`.
 
-Su objetivo será definir las entidades principales del proyecto, ordenar el estado base del CV y dejar preparada la estructura de datos que después conectará editor, preview y persistencia local.
+Su objetivo será persistir el estado del CV en el navegador, recuperar los datos al recargar y dejar preparado un flujo mínimo de guardado local antes de conectar edición real y preview dinámica.
 
 ## Nota de desarrollo
 
-La feature `feat/layout-base` ya ha dejado cerrada la base visual del MVP sin invadir todavía la lógica de negocio. Siguen fuera de alcance en este punto los formularios funcionales, la persistencia local, la integración con GitHub, el render dinámico completo de la preview, la exportación PDF y una revisión profunda de accesibilidad.
+La feature `feat/domain-model` ya ha dejado cerrada la estructura base de datos del MVP sin invadir todavía persistencia, formularios funcionales ni render dinámico. Siguen fuera de alcance en este punto `localStorage`, la integración con GitHub, la exportación PDF y una revisión profunda de accesibilidad.
 
 ## Autor
 
