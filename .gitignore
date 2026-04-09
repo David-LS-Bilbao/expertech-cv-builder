@@ -1,0 +1,17 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración local del editor
+# Descomenta la siguiente línea si no quieres compartir la configuración de VS Code
+# .vscode/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Posibles salidas de build futuras
+dist/
