@@ -92,3 +92,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el repositorio queda mejor documentado, con una dirección de trabajo más clara y con una base inicial más fácil de retomar en la siguiente sesión.
 - Validación: revisión manual del contenido de los documentos, del estado actual de la rama `feat/project-setup` y de la coherencia entre HTML, CSS, JavaScript y documentación.
 - Próximo paso: subir todos los cambios a GitHub y continuar la siguiente sesión desde esta misma feature o preparar su cierre hacia `dev`.
+
+### [2026-04-09] Cierre de la feature `feat/layout-base`
+
+- Objetivo: construir la primera maqueta real del producto y dejar cerrada la arquitectura visual base de `EXPERTECH CV`.
+- Trabajo realizado: se sustituyó el placeholder inicial por una pantalla completa con flujo visual claro, se consolidó una estructura `editor + preview`, se trabajó con enfoque mobile-first, se añadió adaptación a escritorio, se pulieron estados vacíos, badges y microcopy, y se ajustó la preview para que sea sticky solo en desktop.
+- Trabajo realizado por el usuario: implementación de la maqueta base en `index.html` y `styles/main.css`, revisión visual de la feature, cierre funcional de la rama y apertura de la PR hacia `dev`.
+- Trabajo realizado por Codex: revisión del cierre de feature, ajuste puntual del comportamiento sticky de la preview, comentarios explicativos en HTML y CSS para facilitar lectura y mantenimiento, y actualización de la documentación del proyecto.
+- Archivos afectados: `index.html`, `styles/main.css`, `README.md`, `docs/evidencias.md` y `docs/roadmap.md`.
+- Resultado: el proyecto ya no muestra una pantalla base vacía, sino una interfaz real con `header`, `hero`, `quick actions`, `editor`, `preview` y `final actions`, preparada para conectar lógica en las siguientes fases del MVP.
+- Validación: comprobación visual manual del layout en móvil y escritorio, verificación del apilado de bloques en pequeño formato, confirmación de la disposición `editor` izquierda / `preview` derecha en desktop, y validación de que la preview solo queda sticky en escritorio.
+- Próximo paso: empezar `feat/domain-model` para definir entidades, estado base del CV y preparar la persistencia local sin mezclar todavía lógica de GitHub ni render dinámico completo.

@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/project-setup`
+Fase actual: `feat/layout-base` cerrada y pendiente de integración en `dev`
 
-En este punto el repositorio ya cuenta con una base estática mínima y operativa: `index.html`, estilos separados en `reset.css` y `main.css`, y un punto de entrada JavaScript conectado mediante `js/app.js`.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable: `index.html`, estilos separados en `reset.css` y `main.css`, y un punto de entrada JavaScript conectado mediante `js/app.js`. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales.
 
 ## Objetivo del MVP
 
@@ -101,33 +101,35 @@ La base actual es estática. Para revisarla en local puedes:
 
 Comportamiento actual disponible:
 
-- carga del HTML base del proyecto
+- carga de una pantalla principal ya maquetada
 - aplicación de estilos desde `styles/reset.css` y `styles/main.css`
-- carga del script `js/app.js`
-- validación básica de conexión JavaScript mediante `console.log`
+- layout responsive con bloques apilados en móvil
+- distribución `editor` izquierda / `preview` derecha en desktop
+- preview sticky solo en escritorio
+- carga del script `js/app.js` como base para la siguiente fase
 
 ## Roadmap resumido del MVP
 
 1. `feat/project-setup`: preparar la base del proyecto
-2. `feature/layout-base`: construir la arquitectura visual editor + preview
-3. `feature/domain-model`: definir el modelo de datos
-4. `feature/local-storage`: persistir el estado del CV
-5. `feature/editor-profile`: crear formularios y edición del perfil
-6. `feature/live-preview`: reflejar cambios en tiempo real
-7. `feature/github-integration`: enriquecer el CV con datos de GitHub
-8. `feature/projects-visualization`: mejorar lectura y visualización de proyectos
-9. `feature/export-pdf-qr`: exportación resumida y acceso por QR
-10. `feature/polish-accessibility`: pulido final, estados UX y accesibilidad
+2. `feat/layout-base`: construir la arquitectura visual editor + preview
+3. `feat/domain-model`: definir el modelo de datos
+4. `feat/local-storage`: persistir el estado del CV
+5. `feat/editor-profile`: crear formularios y edición del perfil
+6. `feat/live-preview`: reflejar cambios en tiempo real
+7. `feat/github-integration`: enriquecer el CV con datos de GitHub
+8. `feat/projects-visualization`: mejorar lectura y visualización de proyectos
+9. `feat/export-pdf-qr`: exportación resumida y acceso por QR
+10. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feature/layout-base`.
+La siguiente fase natural del proyecto es `feat/domain-model`.
 
-Su objetivo será construir la maqueta base de la aplicación con enfoque `editor + preview`, preparar la jerarquía visual principal y dejar la interfaz lista para conectar la lógica en las siguientes features.
+Su objetivo será definir las entidades principales del proyecto, ordenar el estado base del CV y dejar preparada la estructura de datos que después conectará editor, preview y persistencia local.
 
 ## Nota de desarrollo
 
-Durante la fase `feat/project-setup`, el objetivo no es resolver todavía la lógica de negocio del CV, sino garantizar que la base del repositorio, el flujo Git y la estructura inicial del frontend estén preparados para evolucionar sin deuda técnica innecesaria.
+La feature `feat/layout-base` ya ha dejado cerrada la base visual del MVP sin invadir todavía la lógica de negocio. Siguen fuera de alcance en este punto los formularios funcionales, la persistencia local, la integración con GitHub, el render dinámico completo de la preview, la exportación PDF y una revisión profunda de accesibilidad.
 
 ## Autor
 
