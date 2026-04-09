@@ -4,41 +4,38 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa
 
-- `feat/local-storage`
+- `feat/editor-profile`
 
 Objetivo actual:
-- persistir el estado del CV en el navegador
-- recuperar los datos al recargar la app
-- preparar un flujo mínimo de guardado estable
-- dejar la base lista para conectar el editor real
+- permitir edición manual real de los datos principales del CV
+- conectar formulario y estado persistido
+- preparar la base para reflejar cambios en la preview
+- mantener una estructura simple y evolutiva
 
 ## Siguientes features previstas
 
-1. `feat/editor-profile`
-   - permitir edición manual de los datos del perfil
-
-2. `feat/live-preview`
+1. `feat/live-preview`
    - reflejar cambios en tiempo real en la vista del CV
 
-3. `feat/github-integration`
+2. `feat/github-integration`
    - obtener datos básicos desde GitHub API
 
-4. `feat/projects-visualization`
+3. `feat/projects-visualization`
    - mejorar lectura y visualización de proyectos
 
-5. `feat/export-pdf-qr`
+4. `feat/export-pdf-qr`
    - preparar salida PDF resumen y acceso mediante QR
 
-6. `feat/polish-accessibility`
+5. `feat/polish-accessibility`
    - pulido visual, estados UX y accesibilidad básica
 
 ## Feature cerrada recientemente
 
-- `feat/domain-model`
-  - entidades principales del CV ya definidas
-  - estado inicial estable ya preparado
-  - integración temporal en `js/app.js` ya validada
-  - base lista para persistencia local
+- `feat/local-storage`
+  - persistencia mínima en navegador ya implementada
+  - recuperación del estado al recargar ya resuelta
+  - servicio dedicado de almacenamiento ya creado
+  - base lista para conectar edición real
 
 ## Regla de trabajo
 

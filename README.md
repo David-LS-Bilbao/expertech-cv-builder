@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/domain-model` cerrada y ya integrada en `dev`
+Fase actual: `feat/local-storage` cerrada y pendiente de integración en `dev`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, y una base JavaScript con modelo de dominio inicial conectada desde `js/app.js`. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un estado inicial estable del CV preparado para crecer.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial y un primer servicio de persistencia en `localStorage` conectado desde `js/app.js`. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un estado inicial del CV preparado para guardarse y recuperarse.
 
 ## Objetivo del MVP
 
@@ -109,6 +109,9 @@ Comportamiento actual disponible:
 - carga del script `js/app.js` con estado inicial del CV
 - factories base para `CandidateProfile`, `Project` y `PortfolioCV`
 - creación de un estado inicial consistente mediante `createInitialCVState()`
+- persistencia básica del CV en `localStorage`
+- recuperación del CV guardado al volver a cargar la app
+- utilidades mínimas de depuración expuestas en `window.cvStorageDebug`
 
 ## Roadmap resumido del MVP
 
@@ -125,13 +128,13 @@ Comportamiento actual disponible:
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/local-storage`.
+La siguiente fase natural del proyecto es `feat/editor-profile`.
 
-Su objetivo será persistir el estado del CV en el navegador, recuperar los datos al recargar y dejar preparado un flujo mínimo de guardado local antes de conectar edición real y preview dinámica.
+Su objetivo será permitir edición manual real de los datos del perfil, conectar el formulario con el estado persistido y dejar lista la base para reflejar cambios en la preview.
 
 ## Nota de desarrollo
 
-La feature `feat/domain-model` ya ha dejado cerrada la estructura base de datos del MVP sin invadir todavía persistencia, formularios funcionales ni render dinámico. Siguen fuera de alcance en este punto `localStorage`, la integración con GitHub, la exportación PDF y una revisión profunda de accesibilidad.
+La feature `feat/local-storage` ya ha dejado resuelta la persistencia mínima del estado sin entrar todavía en formularios funcionales, render dinámico completo ni sincronización con la UI real. Siguen fuera de alcance en este punto la integración con GitHub, la exportación PDF y una revisión profunda de accesibilidad.
 
 ## Autor
 

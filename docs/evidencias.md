@@ -114,3 +114,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya no depende solo de una maqueta visual; ahora dispone también de un contrato de datos base del CV con perfil, proyectos y metadatos, listo para soportar persistencia local y evolución posterior.
 - Validación: revisión manual del código del modelo, confirmación de que la PR `#2` quedó mergeada en `dev` en GitHub y verificación local de que `dev` incorpora los nuevos archivos del dominio mediante `git pull origin dev`.
 - Próximo paso: arrancar `feat/local-storage` para guardar y recuperar el estado del CV desde el navegador sin mezclar aún edición completa ni live preview.
+
+### [2026-04-09] Cierre de la feature `feat/local-storage`
+
+- Objetivo: añadir persistencia mínima del estado del CV en el navegador sin mezclar todavía edición completa ni render dinámico real.
+- Trabajo realizado: se creó `CVStorageService` con operaciones de guardado, carga, reset y comprobación de existencia previa, se integró el flujo en `js/app.js`, se evitó que la app destruyera la persistencia en cada carga y se dejaron utilidades mínimas accesibles desde consola para validación manual.
+- Trabajo realizado por el usuario: implementación del servicio de `localStorage`, conexión del flujo base en `js/app.js`, revisión visual y funcional de la feature y preparación de la rama para PR posterior hacia `dev`.
+- Trabajo realizado por Codex: revisión del diff de la feature, detección y corrección del problema que reseteaba el almacenamiento en cada arranque, restauración de `README.md` internos que se estaban borrando accidentalmente, y actualización de la documentación de proyecto para reflejar el nuevo estado de la rama.
+- Archivos afectados: `js/services/CVStorageService.js`, `js/app.js`, `js/models/README.md`, `js/services/README.md`, `README.md`, `docs/evidencias.md` y `docs/roadmap.md`.
+- Resultado: el proyecto ya puede guardar y recuperar un estado base del CV en `localStorage`, manteniendo una estructura normalizada y preparada para que la siguiente feature conecte edición real sobre persistencia existente.
+- Validación: revisión manual del servicio y del punto de entrada, comprobación de que la rama queda limpia salvo los cambios esperados y verificación sintáctica prevista antes del push final.
+- Próximo paso: arrancar `feat/editor-profile` para editar datos reales del candidato sobre el estado persistido y preparar la conexión posterior con la preview.

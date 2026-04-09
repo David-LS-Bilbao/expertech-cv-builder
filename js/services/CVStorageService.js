@@ -8,10 +8,21 @@ import { createInitialCVState } from "../models/createInitialCVState.js";
 // Clave única de almacenamiento para el proyecto.
 const CV_STORAGE_KEY = "expertech-cv";
 
+// Indica si ya existe un CV persistido en el navegador.
+export function hasStoredCV() {
+  return localStorage.getItem(CV_STORAGE_KEY) !== null;
+}
+
 // Guarda el estado completo del CV en localStorage.
 export function saveCV(cvState) {
   // Normalizamos antes de guardar para asegurar una estructura estable.
-  const normalizedCV = createPortfolioCV(cvState);
+  const normalizedCV = createPortfolioCV({
+    ...cvState,
+    meta: {
+      ...cvState?.meta,
+      lastUpdated: new Date().toISOString(),
+    },
+  });
 
   localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(normalizedCV));
 
