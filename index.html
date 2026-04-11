@@ -61,7 +61,6 @@
                 Estructura base del contenido editable para el MVP inicial.
               </p>
             </div>
-
             <!--
               BLOQUE ACTIVO DE ESTA FEATURE
               Aquí vive el formulario real del perfil.
@@ -188,8 +187,8 @@
               </form>
 
               <p class="helper-note">
-                En esta fase el formulario permitirá editar y persistir el perfil. La vista
-                previa se conectará después.
+                 El formulario actualiza la vista previa en tiempo real y permite guardar los
+                cambios del perfil en localStorage.
               </p>
             </article>
 
@@ -259,20 +258,21 @@
               <p class="section-kicker">Preview</p>
               <h2 id="preview-panel-title" class="section-title">Vista previa del CV</h2>
               <p class="section-text">
-                Resumen recruiter-friendly del contenido que después será dinámico.
+                  Vista previa recruiter-friendly conectada al perfil y actualizada en tiempo real.
+
               </p>
             </div>
 
             <article class="preview-card">
               <header class="preview-card-header">
-                <p class="preview-name">Nombre Apellido</p>
-                <p class="preview-role">Frontend Developer</p>
+                <p id="preview-full-name" class="preview-name">Nombre Apellido</p>
+                <p id="preview-headline"  class="preview-role">Frontend Developer</p>
               </header>
 
               <div class="preview-card-body">
                 <section class="preview-section" aria-labelledby="preview-summary-title">
                   <h3 id="preview-summary-title" class="preview-section-title">Resumen</h3>
-                  <p>
+                  <p id="preview-summary">
                     Perfil tech con foco en desarrollo frontend, proyectos prácticos y
                     presentación clara para procesos de selección.
                   </p>
@@ -298,7 +298,7 @@
                   </ul>
                 </section>
 
-                <div class="empty-state empty-state-preview">
+                <div id="preview-empty-state" class="empty-state empty-state-preview">
                   <p class="empty-state-title">Vista previa estática del layout base.</p>
                   <p class="empty-state-text">
                     En la feature de live preview esta tarjeta reflejará cambios reales del editor.
