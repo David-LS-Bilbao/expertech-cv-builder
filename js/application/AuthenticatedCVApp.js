@@ -16,6 +16,7 @@ import { createInitialCVState } from "../models/createInitialCVState.js";
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { createProfileEditor } from "../ui/ProfileEditor.js";
 import { createPreviewRenderer } from "../ui/PreviewRenderer.js";
+import { createPrintCVRenderer } from "../ui/PrintCVRenderer.js";
 import { createGitHubIntegration } from "../ui/GitHubIntegration.js";
 import { saveCV, loadCV, hasStoredCV } from "../services/CVStorageService.js";
 
@@ -27,6 +28,7 @@ const GITHUB_PROJECT_ID_PREFIX = "github-repo-";
 export function createAuthenticatedCVApp({
   profileFormSelector = "#profile-form",
   profileFeedbackSelector = "#profile-form-feedback",
+  exportPdfButtonSelector = "#export-pdf-button",
 } = {}) {
   // Estado global del CV dentro de la app autenticada.
   let cvState = null;
@@ -34,7 +36,9 @@ export function createAuthenticatedCVApp({
   // Referencias a los módulos UI de la zona autenticada.
   let profileEditor = null;
   let previewRenderer = null;
+  let printCVRenderer = null;
   let githubIntegration = null;
+  let exportPdfButtonElement = null;
 
   // Evita inicializar dos veces la misma app autenticada.
   let isInitialized = false;
@@ -113,6 +117,7 @@ export function createAuthenticatedCVApp({
       fullName: profile.fullName || githubProfile.name || "",
       summary: profile.summary || githubProfile.bio || "",
       location: profile.location || githubProfile.location || "",
+      avatarUrl: githubProfile.avatarUrl || profile.avatarUrl || "",
     };
 
     return createPortfolioCV({
@@ -189,8 +194,44 @@ export function createAuthenticatedCVApp({
       previewRenderer.updateCVState(savedCV);
     }
 
+    if (printCVRenderer) {
+      printCVRenderer.updateCVState(savedCV);
+    }
+
     if (githubIntegration) {
       githubIntegration.updateCVState(savedCV);
+    }
+  }
+
+  // Conecta el botón visible de exportación con la impresión del navegador.
+  // Para este MVP:
+  // - reutilizamos la preview actual,
+  // - delegamos la salida PDF al navegador,
+  // - la limpieza visual la resuelve CSS de impresión.
+  function bindExportPdfButton() {
+    const button = document.querySelector(exportPdfButtonSelector);
+
+    if (!button || exportPdfButtonElement === button) {
+      return;
+    }
+
+    exportPdfButtonElement = button;
+
+    exportPdfButtonElement.addEventListener("click", () => {
+      if (typeof window.print !== "function") {
+        console.error("Este navegador no soporta impresión desde window.print().");
+        return;
+      }
+
+      window.print();
+    });
+
+    // Botón Vista Pública
+    const viewPublicButton = document.querySelector("#view-public-button");
+    if (viewPublicButton) {
+      viewPublicButton.addEventListener("click", () => {
+        window.open("./public.html", "_blank");
+      });
     }
   }
 
@@ -217,7 +258,19 @@ export function createAuthenticatedCVApp({
       previewRenderer.init();
     }
 
-    // 3. Creamos la integración GitHub.
+    // 3. Creamos la vista exportable específica para impresión.
+    const createdPrintCVRenderer = createPrintCVRenderer({
+      initialCVState: cvState,
+    });
+
+    if (!createdPrintCVRenderer) {
+      console.error("No se pudo inicializar PrintCVRenderer.");
+    } else {
+      printCVRenderer = createdPrintCVRenderer;
+      printCVRenderer.init();
+    }
+
+    // 4. Creamos la integración GitHub.
     const createdGitHubIntegration = createGitHubIntegration({
       initialCVState: cvState,
 
@@ -249,7 +302,7 @@ export function createAuthenticatedCVApp({
       githubIntegration.init();
     }
 
-    // 4. Creamos el editor del perfil.
+    // 5. Creamos el editor del perfil.
     const createdProfileEditor = createProfileEditor({
       formSelector: profileFormSelector,
       feedbackSelector: profileFeedbackSelector,
@@ -258,6 +311,10 @@ export function createAuthenticatedCVApp({
       onChange: (draftCVState) => {
         if (previewRenderer) {
           previewRenderer.updateCVState(draftCVState);
+        }
+
+        if (printCVRenderer) {
+          printCVRenderer.updateCVState(draftCVState);
         }
       },
 
@@ -274,6 +331,7 @@ export function createAuthenticatedCVApp({
 
     profileEditor = createdProfileEditor;
     profileEditor.init();
+    bindExportPdfButton();
 
     isInitialized = true;
 
@@ -290,6 +348,7 @@ export function createAuthenticatedCVApp({
     return {
       profileEditor,
       previewRenderer,
+      printCVRenderer,
       githubIntegration,
     };
   }
