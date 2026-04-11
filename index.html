@@ -14,7 +14,7 @@
 
   <body>
     <!-- Root vacío del auth screen.
-         AuthScreenTemplate.js inyectará aquí el markup real de login/register. -->
+         AuthScreenTemplate.js inyecta aquí el markup real de login/register. -->
     <section
       id="auth-screen"
       class="auth-screen"
@@ -23,7 +23,7 @@
 
     <!-- Contenedor principal de la app autenticada.
          Empieza oculto por defecto.
-         app.js + AuthScreen.js decidirán cuándo mostrarlo. -->
+         AppRuntime + AuthScreen deciden cuándo mostrarlo. -->
     <div id="app-shell-authenticated" class="app-shell" hidden>
       <header class="app-header">
         <div class="brand-block">
@@ -35,10 +35,8 @@
         </div>
 
         <div class="header-actions">
-          <!-- Acción existente del MVP -->
           <button type="button" class="btn btn-secondary">Guardar borrador</button>
 
-          <!-- Logout del MVP local -->
           <button
             type="button"
             id="logout-button"
@@ -196,167 +194,10 @@
               </p>
             </article>
 
-            <article class="editor-block" aria-labelledby="github-block-title">
-              <div class="block-heading">
-                <div class="block-heading-top">
-                  <h3 id="github-block-title" class="block-title">Conexión GitHub</h3>
-                  <span id="github-status-badge" class="status-badge status-badge-muted">
-                    Sin conectar
-                  </span>
-                </div>
-                <p class="block-text">
-                  Busca un perfil público de GitHub para enriquecer el CV y seleccionar
-                  repositorios destacados manualmente.
-                </p>
-              </div>
-
-              <!-- Formulario independiente para la búsqueda en GitHub.
-                   Mantiene el flujo manual del perfil como base segura si la API falla. -->
-              <form
-                id="github-form"
-                class="github-form"
-                aria-label="Formulario de búsqueda de perfil de GitHub"
-              >
-                <div class="form-grid">
-                  <div class="form-field">
-                    <label for="github-username-search">Usuario de GitHub</label>
-                    <input
-                      type="text"
-                      id="github-username-search"
-                      name="githubUsernameSearch"
-                      placeholder="Ej. David-LS-Bilbao"
-                      autocomplete="username"
-                    />
-                  </div>
-                </div>
-
-                <p
-                  id="github-form-feedback"
-                  class="form-feedback"
-                  aria-live="polite"
-                  role="status"
-                ></p>
-
-                <div class="profile-form-actions github-form-actions">
-                  <button type="submit" class="btn btn-primary">Buscar perfil</button>
-                </div>
-              </form>
-
-              <div id="github-empty-state" class="empty-state">
-                <p class="empty-state-title">Todavía no has cargado un perfil de GitHub.</p>
-                <p class="empty-state-text">
-                  Introduce un username público para traer datos básicos del perfil y revisar
-                  repositorios candidatos. Si la API falla, el formulario manual del CV seguirá
-                  funcionando como base segura.
-                </p>
-              </div>
-
-              <section
-                id="github-profile-result"
-                class="github-profile-result"
-                aria-labelledby="github-profile-result-title"
-                hidden
-              >
-                <h4 id="github-profile-result-title" class="preview-section-title">
-                  Perfil público encontrado
-                </h4>
-
-                <article class="preview-card github-profile-card">
-                  <header class="preview-card-header">
-                    <img
-                      id="github-profile-avatar"
-                      class="github-profile-avatar"
-                      src=""
-                      alt=""
-                    />
-                    <div class="github-profile-meta">
-                      <p id="github-profile-name" class="preview-name">Nombre GitHub</p>
-                      <p id="github-profile-login" class="preview-role">@login</p>
-                    </div>
-                  </header>
-
-                  <div class="preview-card-body">
-                    <p id="github-profile-bio">
-                      Biografía pública del perfil de GitHub.
-                    </p>
-                    <p>
-                      <a
-                        id="github-profile-link"
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Ver perfil en GitHub
-                      </a>
-                    </p>
-                  </div>
-                </article>
-              </section>
-
-              <section
-                id="github-repositories-section"
-                class="github-repositories-section"
-                aria-labelledby="github-repositories-title"
-                hidden
-              >
-                <div class="block-heading">
-                  <div class="block-heading-top">
-                    <h4 id="github-repositories-title" class="block-title">
-                      Repositorios candidatos
-                    </h4>
-                    <span id="github-repositories-count" class="status-badge status-badge-muted">
-                      0 encontrados
-                    </span>
-                  </div>
-                  <p class="block-text">
-                    Selecciona manualmente los repositorios que quieras destacar en el CV.
-                  </p>
-                </div>
-
-                <div
-                  id="github-repositories-list"
-                  class="github-repositories-list"
-                  aria-live="polite"
-                ></div>
-              </section>
-
-              <section
-                id="github-selected-repositories-section"
-                class="github-selected-repositories-section"
-                aria-labelledby="github-selected-repositories-title"
-                hidden
-              >
-                <div class="block-heading">
-                  <div class="block-heading-top">
-                    <h4 id="github-selected-repositories-title" class="block-title">
-                      Repositorios destacados seleccionados
-                    </h4>
-                    <span
-                      id="github-selected-repositories-count"
-                      class="status-badge status-badge-muted"
-                    >
-                      0 seleccionados
-                    </span>
-                  </div>
-                  <p class="block-text">
-                    Esta selección ya se guarda como base para los proyectos del CV y prepara su
-                    visualización posterior.
-                  </p>
-                </div>
-
-                <div
-                  id="github-selected-repositories-list"
-                  class="github-selected-repositories-list"
-                  aria-live="polite"
-                ></div>
-              </section>
-
-              <p class="helper-note">
-                La selección de repositorios es manual y, en este MVP, todavía no se valida
-                autoría o colaboración avanzada; si GitHub falla, el flujo manual sigue siendo la
-                base segura.
-              </p>
-            </article>
+            <!-- Root vacío del bloque GitHub.
+                 GitHubBlockTemplate.js inyecta aquí el markup base.
+                 GitHubIntegration.js lo usa después para el comportamiento real. -->
+            <div id="github-block-root"></div>
 
             <article class="editor-block" aria-labelledby="projects-block-title">
               <div class="block-heading">
@@ -402,88 +243,10 @@
             </article>
           </section>
 
-          <aside class="preview-panel" aria-labelledby="preview-panel-title">
-            <div class="panel-heading">
-              <p class="section-kicker">Preview</p>
-              <h2 id="preview-panel-title" class="section-title">Vista previa del CV</h2>
-              <p class="section-text">
-                Vista previa recruiter-friendly conectada al perfil y actualizada en tiempo real.
-              </p>
-            </div>
-
-            <article class="preview-card">
-              <header class="preview-card-header">
-                <p id="preview-full-name" class="preview-name">Nombre Apellido</p>
-                <p id="preview-headline" class="preview-role">Frontend Developer</p>
-              </header>
-
-              <div class="preview-card-body">
-                <section class="preview-section" aria-labelledby="preview-summary-title">
-                  <h3 id="preview-summary-title" class="preview-section-title">Resumen</h3>
-                  <p id="preview-summary">
-                    Perfil tech con foco en desarrollo frontend, proyectos prácticos y
-                    presentación clara para procesos de selección.
-                  </p>
-                </section>
-
-                <section class="preview-section" aria-labelledby="preview-skills-title">
-                  <h3 id="preview-skills-title" class="preview-section-title">Skills clave</h3>
-                  <ul class="preview-list">
-                    <li>HTML5 y CSS3</li>
-                    <li>JavaScript</li>
-                    <li>Responsive design</li>
-                    <li>Git y GitHub</li>
-                  </ul>
-                </section>
-
-                <section
-                  class="preview-section preview-projects-section"
-                  aria-labelledby="preview-projects-title"
-                >
-                  <div class="preview-section-heading">
-                    <h3 id="preview-projects-title" class="preview-section-title">
-                      Proyectos destacados
-                    </h3>
-                    <p class="preview-section-text">
-                      Selección visible de proyectos orientada a lectura rápida para recruiters.
-                    </p>
-                  </div>
-
-                  <div
-                    id="preview-projects-empty-state"
-                    class="empty-state empty-state-preview-projects"
-                    hidden
-                  >
-                    <p class="empty-state-title">
-                      Todavía no hay proyectos destacados visibles.
-                    </p>
-                    <p class="empty-state-text">
-                      Cuando selecciones o guardes proyectos en el CV, aparecerán aquí con su
-                      nombre, descripción, stack y enlaces disponibles.
-                    </p>
-                  </div>
-
-                  <div
-                    id="preview-projects-list"
-                    class="preview-projects-list"
-                    aria-live="polite"
-                  ></div>
-                </section>
-
-                <div
-                  id="preview-empty-state"
-                  class="empty-state empty-state-preview"
-                >
-                  <p class="empty-state-title">
-                    Empieza a escribir para previsualizar tu perfil.
-                  </p>
-                  <p class="empty-state-text">
-                    La vista previa se actualizará en tiempo real con nombre, titular y resumen.
-                  </p>
-                </div>
-              </div>
-            </article>
-          </aside>
+          <!-- Root vacío de preview.
+               PreviewTemplate.js inyecta aquí el markup base del panel preview.
+               PreviewRenderer.js lo utiliza después para pintar datos reales. -->
+          <div id="preview-panel-root"></div>
         </section>
 
         <section class="final-actions" aria-labelledby="final-actions-title">
