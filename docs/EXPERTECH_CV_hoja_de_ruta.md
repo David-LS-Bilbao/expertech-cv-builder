@@ -48,6 +48,7 @@ El alcance de esta fase se alinea con el objetivo actual del repositorio: constr
 - `feature/login-screen`
 - `feature/github-project-sources`
 - `feature/export-pdf-qr`
+- `feature/github-pages-public-preview`
 - `feature/polish-accessibility`
 - `feature/documentacion-final`
 
@@ -401,7 +402,32 @@ El usuario puede generar un CV corto presentable con acceso a la versión web.
 
 ---
 
-## Feature 10 · Pulido, accesibilidad y estados UX
+## Feature 10 · Vista pública demo en GitHub Pages
+
+### Rama
+- `feature/github-pages-public-preview`
+
+### Objetivo
+Simular una publicación pública real del CV sin backend ni base de datos.
+
+### Alcance
+- despliegue estático en GitHub Pages
+- datos públicos de demo preparados para esa versión
+- URL pública de demostración
+- QR apuntando a la URL de GitHub Pages
+- revisión básica del flujo de acceso público
+
+### Entregables
+- demo pública estática accesible por URL
+- QR funcional de demostración
+- separación clara entre vista local y demo pública desplegada
+
+### Criterio de cierre
+El proyecto puede enseñar una simulación pública realista del CV sin depender del `localStorage` del navegador local.
+
+---
+
+## Feature 11 · Pulido, accesibilidad y estados UX
 
 ### Rama
 - `feature/polish-accessibility`
@@ -431,7 +457,7 @@ El MVP se puede enseñar y probar con confianza.
 
 ---
 
-## Feature 11 · Documentación y entrega
+## Feature 12 · Documentación y entrega
 
 ### Rama
 - `feature/documentacion-final`
@@ -469,8 +495,9 @@ El proyecto se puede entregar, explicar y defender con claridad.
 8. Feature 7 · Pantalla de acceso
 9. Feature 8 · Fuentes avanzadas de proyectos GitHub
 10. Feature 9 · Exportación PDF y QR
-11. Feature 10 · Pulido, accesibilidad y estados UX
-12. Feature 11 · Documentación y entrega
+11. Feature 10 · Vista pública demo en GitHub Pages
+12. Feature 11 · Pulido, accesibilidad y estados UX
+13. Feature 12 · Documentación y entrega
 
 ---
 

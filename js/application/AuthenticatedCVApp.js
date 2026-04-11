@@ -312,6 +312,10 @@ export function createAuthenticatedCVApp({
         if (previewRenderer) {
           previewRenderer.updateCVState(draftCVState);
         }
+
+        if (printCVRenderer) {
+          printCVRenderer.updateCVState(draftCVState);
+        }
       },
 
       onSave: (nextCVState) => {

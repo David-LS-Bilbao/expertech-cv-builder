@@ -158,12 +158,12 @@ export function createPrintCVRenderer({
 
     const titleElement = document.createElement("h3");
     titleElement.className = "print-cv-project-name";
-    
+
     const projectName = getDisplayValue(projectData.name, PRINT_CV_FALLBACKS.projectName);
     const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
     const normalizedStack = stack.map((item) => String(item ?? "").trim()).filter(Boolean);
     const stackSnippet = normalizedStack.length > 0 ? ` [${normalizedStack.join(", ")}]` : "";
-    
+
     titleElement.textContent = `${projectName}${stackSnippet}`;
 
     const descriptionElement = document.createElement("p");
@@ -191,14 +191,14 @@ export function createPrintCVRenderer({
 
   function renderProfile(profileData = {}) {
     // Manejo del avatar
-    // Si no han sincronizado con la API o subido foto, GitHub sirve fotos puras 
+    // Si no han sincronizado con la API o subido foto, GitHub sirve fotos puras
     // añadiendo .png al nombre de su usuario. ¡Magia!
-    const fallbackGithubPic = profileData.githubUsername 
-      ? `https://github.com/${profileData.githubUsername}.png` 
+    const fallbackGithubPic = profileData.githubUsername
+      ? `https://github.com/${profileData.githubUsername}.png`
       : "";
 
     const avatarSrc = profileData.avatarBase64 || profileData.avatarUrl || fallbackGithubPic;
-    
+
     if (avatarSrc && avatarElement && avatarPlaceholder) {
       avatarElement.src = avatarSrc;
       avatarElement.style.display = "";

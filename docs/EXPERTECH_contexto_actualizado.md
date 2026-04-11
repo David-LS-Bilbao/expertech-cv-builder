@@ -13,9 +13,9 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Proyecto:** EXPERTECH CV  
 **Marca paraguas:** EXPERTECH  
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
-**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos y una primera capa de trazabilidad mínima del origen de proyectos importados.
+**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado y una primera salida de impresión más cuidada para exportación.
 
-Según la base actual del repositorio, la rama activa pasa a ser `feat/github-project-sources`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados y una señal visual compacta del origen GitHub cuando corresponde.
+Según la base actual del repositorio, la rama activa pasa a ser `feat/export-pdf-qr`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido y una vista local adicional (`public.html`) preparada para una futura publicación compartible.
 
 ---
 
@@ -149,9 +149,9 @@ Ese documento se conserva solo como:
 
 ### README
 El `README.md` debe reflejar:
-- `feat/github-project-sources` como rama activa
+- `feat/export-pdf-qr` como rama activa
 - la auth local MVP ya cerrada
-- la trazabilidad mínima GitHub ya implementada sin vender todavía casos avanzados
+- que `public.html` es una vista local adicional, no una URL pública real todavía
 
 ### Roadmap
 `docs/roadmap.md` puede quedar desalineado en algunos momentos respecto al README o al estado real del repo.
@@ -167,7 +167,7 @@ Antes de abrir cada nuevo chat de feature:
 
 ## 6. Feature activa recomendada
 
-## `feat/github-project-sources`
+## `feat/export-pdf-qr`
 
 ### Motivo
 La arquitectura ya permite:
@@ -178,27 +178,29 @@ La arquitectura ya permite:
 - seleccionar repositorios
 - persistir proyectos
 - representarlos visualmente en la preview
+- preparar una salida de impresión específica
+- mostrar una vista local adicional del CV
 
-Por tanto, el trabajo actual ya no consiste en construir login básico, sino en **ampliar gradualmente la trazabilidad y el origen real de los proyectos importados desde GitHub sin mezclar todavía OAuth ni backend**.
+Por tanto, el trabajo actual ya no consiste en construir login básico ni en ampliar la trazabilidad GitHub, sino en **cerrar una salida PDF más presentable y dejar preparada una vista local adicional del CV sin mezclar todavía backend, base de datos ni publicación real**.
 
 ### Objetivo funcional
-Ampliar la integración GitHub para soportar mejor múltiples orígenes de proyecto, repositorios de otros owners y atribución más clara del origen de cada proyecto dentro del CV.
+Permitir una exportación más clara para recruiters y dejar lista una vista local separada que más adelante pueda evolucionar a experiencia compartible cuando exista persistencia/publicación real fuera de `localStorage`.
 
 ### Qué ya cubre en su slice actual
-- metadatos mínimos de origen persistidos en el modelo `Project`
-- señal visual compacta del origen en la preview
-- compatibilidad con proyectos manuales y con el estado persistido existente
-- limpieza del dato demo legado que confundía el bloque de proyectos
+- renderer específico de impresión
+- sincronización del borrador visible con la exportación PDF
+- soporte de avatar híbrido con imagen local optimizada y fallback GitHub
+- `public.html` como vista local adicional apoyada en el estado persistido del navegador
 
 ### Qué sigue pendiente dentro del área
-- soporte más claro para repos fuera del owner principal
-- atribución más rica del origen del proyecto
-- microcopy más fino sobre autoría o colaboración
+- QR funcional
+- publicación real del CV para terceros
+- persistencia compartible fuera de `localStorage`
 
 ### Qué no debería incluir
 - OAuth o login GitHub
 - backend real
-- exportación PDF/QR
+- base de datos
 - rediseño completo del producto
 
 ---
@@ -229,10 +231,24 @@ Romper persistencia o selección GitHub al tocar proyectos.
 
 ## 8. Orden recomendado a partir del cierre de esta rama
 
-1. cerrar `feat/github-project-sources`
-2. `feat/export-pdf-qr`
+1. cerrar `feat/export-pdf-qr`
+2. `feat/github-pages-public-preview`
 3. `feat/polish-accessibility`
 4. `feat/documentacion-final`
+
+### Siguiente feature sugerida
+
+**`feat/github-pages-public-preview`**
+
+Objetivo:
+- simular una URL pública real del CV usando GitHub Pages
+- desacoplar esa demo pública del `localStorage` local
+- generar un QR de demostración apuntando a la URL publicada
+
+Fuera de alcance:
+- backend
+- base de datos
+- publicación real multiusuario
 
 ---
 
@@ -278,9 +294,11 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 - integración pública básica con GitHub
 - visualización recruiter-friendly de proyectos
 - trazabilidad mínima del origen de proyectos GitHub
+- exportación PDF inicial con vista de impresión específica
+- vista local adicional del CV preparada para compartirse más adelante
 
 La rama activa natural sigue siendo:
 
-**`feat/github-project-sources`**
+**`feat/export-pdf-qr`**
 
-porque ahora toca cerrar de forma limpia la trazabilidad y el origen de los proyectos GitHub sobre una base de auth local y arquitectura ya estabilizadas.
+porque ahora toca cerrar de forma limpia la salida de exportación y dejar bien acotada la futura transición hacia una publicación compartible cuando exista base de datos.

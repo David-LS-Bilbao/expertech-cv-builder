@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: avance funcional de `feat/github-project-sources` sobre la base ya cerrada de `feat/login-screen`
+Fase actual: avance funcional de `feat/export-pdf-qr` sobre la base ya cerrada de `feat/github-project-sources`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), soporte para visualización interactiva en URL pública (`public.html`), y una arquitectura ya separada por capas para reducir la responsabilidad de `app.js`.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en la vista de impresión y una vista local adicional (`public.html`) preparada para compartirse más adelante cuando exista persistencia/publicación real fuera de `localStorage`.
 
 ## Objetivo del MVP
 
@@ -149,7 +149,7 @@ Comportamiento actual disponible:
 - botones visibles de Google y GitHub solo como preparación visual del siguiente MVP
 - mensajes informativos en esos botones, sin OAuth real ni autenticación externa implementada
 - sistema de avatar híbrido (subida de imagen local con resize por canvas o lectura desde GitHub)
-- página interactiva de vista pública (`public.html`) lista para compartir por URL o código QR
+- página interactiva de vista local (`public.html`) preparada para una futura publicación compartible
 
 ## Flujo actual del usuario
 
@@ -195,30 +195,31 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 9. `feat/login-screen`: preparar una pantalla de acceso y base de identidad de usuario
 10. `feat/github-project-sources`: ampliar fuentes GitHub y atribución de proyectos
 11. `feat/export-pdf-qr`: exportación resumida y acceso por QR
-12. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
-13. `feat/documentacion-final`: cierre documental final del proyecto
+12. `feat/github-pages-public-preview`: simulación pública estática en GitHub Pages
+13. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
+14. `feat/documentacion-final`: cierre documental final del proyecto
 
 ## Feature activa
 
-La rama de trabajo actual es `feat/github-project-sources`.
+La rama de trabajo actual es `feat/export-pdf-qr`.
 
 En esta fase ya se ha dejado resuelta una primera mejora útil:
 
-- los proyectos importados desde GitHub conservan metadatos mínimos de origen
-- la preview muestra una señal visual compacta del origen del proyecto
-- el flujo manual de proyectos sigue protegido
-- el proyecto demo legado ya no interfiere con el empty-state real de proyectos
+- existe una vista específica de impresión para exportar una versión más limpia del CV
+- el PDF usa ya el mismo borrador visible que la preview, también antes de guardar
+- el perfil admite avatar híbrido con subida local optimizada y fallback a GitHub
+- `public.html` permite revisar una vista local adicional del CV con el mismo estado guardado
 
 Todavía queda fuera de esta rama:
 
-- múltiples cuentas GitHub
-- colaboraciones
-- atribución avanzada de autoría
+- generación real de QR
+- URL pública realmente compartible para terceros
+- backend y base de datos
 - OAuth real
 
 ## Nota de desarrollo
 
-Las features `feat/github-integration`, `feat/projects-visualization` y `feat/login-screen` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub y representación visual recruiter-friendly de los proyectos. Sobre esa base, `feat/github-project-sources` añade trazabilidad mínima del origen de proyectos importados sin abrir todavía casos avanzados de autoría. La selección de repositorios sigue siendo manual y el flujo manual del perfil continúa como base segura.
+Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen` y `feat/github-project-sources` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub, representación visual recruiter-friendly de los proyectos y trazabilidad mínima del origen importado. Sobre esa base, `feat/export-pdf-qr` está centrada en una salida de impresión más presentable y en preparar una vista local adicional del CV sin introducir todavía publicación real, backend ni persistencia compartible.
 
 Limitaciones actuales importantes:
 
@@ -229,13 +230,22 @@ Limitaciones actuales importantes:
 - no existe aislamiento real por usuario para el estado del CV
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
 - no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
+- `public.html` depende del `localStorage` del mismo navegador y no es una URL pública real todavía
+- el QR sigue siendo una preparación visual, no una funcionalidad cerrada
 
 Orden recomendado a partir del estado actual:
 
-1. cerrar `feat/github-project-sources`
-2. `feat/export-pdf-qr`
+1. cerrar `feat/export-pdf-qr`
+2. `feat/github-pages-public-preview`
 3. `feat/polish-accessibility`
 4. `feat/documentacion-final`
+
+Siguiente feature recomendada tras cerrar esta rama:
+
+- `feat/github-pages-public-preview`
+- objetivo: simular una URL pública real desplegando una versión estática en GitHub Pages
+- alcance: publicación estática de demo, lectura de datos públicos preparados para esa demo y QR apuntando a la URL de GitHub Pages
+- fuera de alcance: backend, base de datos, publicación multiusuario real
 
 ## Autor
 

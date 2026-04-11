@@ -258,7 +258,7 @@ export function createProfileEditor({
         const MAX_SIZE = 300;
         let width = img.width;
         let height = img.height;
-        
+
         if (width > height && width > MAX_SIZE) {
           height *= MAX_SIZE / width;
           width = MAX_SIZE;
@@ -276,7 +276,7 @@ export function createProfileEditor({
         showFeedback("Imagen capturada y lista para guardar.");
         emitLiveChange();
       };
-      
+
       img.onerror = () => {
         showFeedback("Error procesando imagen.", "error");
       };
@@ -293,7 +293,7 @@ export function createProfileEditor({
   function init() {
     fillForm(currentCVState.profile);
     clearFeedback();
-    
+
     // El 'input' asume cambios de texto
     formElement.addEventListener("input", handleInput);
     formElement.addEventListener("submit", handleSubmit);
@@ -309,7 +309,7 @@ export function createProfileEditor({
     clearFeedbackTimeout();
     formElement.removeEventListener("input", handleInput);
     formElement.removeEventListener("submit", handleSubmit);
-    
+
     const avatarInput = formElement.querySelector("#avatarFile");
     if (avatarInput) {
       avatarInput.removeEventListener("change", handleAvatarChange);

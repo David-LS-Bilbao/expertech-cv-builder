@@ -6,22 +6,271 @@
     <title>Perfil Profesional | Expertech CV</title>
     <link rel="stylesheet" href="./styles/main.css" />
     <style>
-      body {
-        background-color: #f8fafc;
-        display: flex;
-        justify-content: center;
-        padding: 3rem 1rem;
-        margin: 0;
-      }
-      
-      .public-cv-container {
-        width: 100%;
-        max-width: 900px;
-        display: flex;
-        justify-content: center;
+      :root {
+        --public-bg: linear-gradient(180deg, #f4efe8 0%, #eef2f7 52%, #f8fafc 100%);
+        --public-ink: #0f172a;
+        --public-soft: #475569;
+        --public-accent: #a61d24;
+        --public-accent-soft: rgba(166, 29, 36, 0.08);
+        --public-border: rgba(15, 23, 42, 0.09);
+        --public-shadow: 0 28px 80px rgba(15, 23, 42, 0.12);
       }
 
-      /* Hacemos que el panel de preview ocupe el centro como un documento standalone */
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: var(--public-bg);
+        color: var(--public-ink);
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: auto;
+        pointer-events: none;
+        z-index: 0;
+        border-radius: 999px;
+        filter: blur(12px);
+      }
+
+      body::before {
+        top: 4rem;
+        left: -8rem;
+        width: 18rem;
+        height: 18rem;
+        background: rgba(166, 29, 36, 0.1);
+      }
+
+      body::after {
+        right: -4rem;
+        bottom: 8rem;
+        width: 16rem;
+        height: 16rem;
+        background: rgba(59, 130, 246, 0.08);
+      }
+
+      .public-site {
+        position: relative;
+        z-index: 1;
+        width: min(1180px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 2rem 0 4rem;
+      }
+
+      .public-header {
+        display: grid;
+        gap: 1.5rem;
+        padding: 1rem 0 2rem;
+      }
+
+      .public-header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .public-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--public-accent);
+      }
+
+      .public-brand-mark {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.9rem;
+        background: #ffffff;
+        border: 1px solid rgba(166, 29, 36, 0.16);
+        box-shadow: 0 12px 32px rgba(166, 29, 36, 0.08);
+      }
+
+      .public-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .public-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .public-link:hover {
+        transform: translateY(-1px);
+      }
+
+      .public-link-primary {
+        background: var(--public-accent);
+        color: #ffffff;
+        box-shadow: 0 14px 30px rgba(166, 29, 36, 0.2);
+      }
+
+      .public-link-secondary {
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--public-ink);
+        border: 1px solid var(--public-border);
+        backdrop-filter: blur(12px);
+      }
+
+      .public-hero {
+        display: grid;
+        gap: 1rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 2rem;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.68)),
+          linear-gradient(120deg, rgba(166, 29, 36, 0.08), rgba(59, 130, 246, 0.04));
+        box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(18px);
+      }
+
+      .public-eyebrow {
+        margin: 0;
+        color: var(--public-accent);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .public-title {
+        margin: 0;
+        max-width: 16ch;
+        font-size: clamp(2.1rem, 5vw, 4.2rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .public-description {
+        margin: 0;
+        max-width: 60ch;
+        color: var(--public-soft);
+        font-size: 1.02rem;
+        line-height: 1.7;
+      }
+
+      .public-stage {
+        display: grid;
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .public-context {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .public-status-card,
+      .public-note-card {
+        padding: 1.35rem 1.4rem;
+        border-radius: 1.4rem;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--public-border);
+        box-shadow: 0 14px 35px rgba(15, 23, 42, 0.06);
+        backdrop-filter: blur(14px);
+      }
+
+      .public-status-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 2rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 999px;
+        background: var(--public-accent-soft);
+        color: var(--public-accent);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .public-status-card h2,
+      .public-note-card h2 {
+        margin: 0.9rem 0 0 0;
+        font-size: 1.1rem;
+      }
+
+      .public-status-card p,
+      .public-note-card p {
+        margin: 0.65rem 0 0 0;
+        color: var(--public-soft);
+        line-height: 1.65;
+      }
+
+      .public-note-card ul {
+        margin: 0.9rem 0 0 1rem;
+        padding: 0;
+        color: var(--public-soft);
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .public-document {
+        position: relative;
+        width: 100%;
+      }
+
+      .public-document::before {
+        content: "";
+        position: absolute;
+        inset: 1rem;
+        border-radius: 2rem;
+        background: linear-gradient(180deg, rgba(166, 29, 36, 0.05), rgba(15, 23, 42, 0));
+        transform: translateY(1rem) scale(0.98);
+        z-index: 0;
+      }
+
+      .public-document-frame {
+        position: relative;
+        z-index: 1;
+        padding: 1rem;
+        border-radius: 2rem;
+        background: rgba(255, 255, 255, 0.48);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: var(--public-shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .public-document-caption {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0 0.35rem 0.9rem;
+        flex-wrap: wrap;
+      }
+
+      .public-document-caption p {
+        margin: 0;
+        color: var(--public-soft);
+        font-size: 0.92rem;
+      }
+
+      .public-document-caption strong {
+        color: var(--public-ink);
+      }
+
       #public-cv-root .preview-panel {
         background: transparent;
         border: none;
@@ -30,7 +279,6 @@
         overflow: visible;
       }
 
-      /* Ocultamos el título "Vista Previa" que es de uso interno del dashboard */
       #public-cv-root .panel-heading {
         display: none;
       }
@@ -38,22 +286,141 @@
       #public-cv-root .preview-card {
         margin: 0 auto;
         width: 100%;
-        max-width: 800px;
+        max-width: 860px;
+        border-radius: 1.7rem;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 24px 56px rgba(15, 23, 42, 0.1);
+      }
+
+      #public-cv-root .preview-card-header {
+        padding-bottom: 1.25rem;
+      }
+
+      #public-cv-root .preview-name {
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      #public-cv-root .preview-project-card {
+        background: linear-gradient(180deg, #fbfdff, #f8fafc);
+      }
+
+      .public-footer {
+        margin-top: 2.5rem;
+        padding: 1.25rem 0 0;
+        color: var(--public-soft);
+        font-size: 0.92rem;
+        text-align: center;
+      }
+
+      @media (min-width: 980px) {
+        .public-stage {
+          grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+          gap: 2rem;
+        }
+
+        .public-context {
+          position: sticky;
+          top: 1.5rem;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .public-site {
+          width: min(100% - 1rem, 1180px);
+          padding-top: 1rem;
+        }
+
+        .public-hero,
+        .public-document-frame {
+          padding: 1rem;
+        }
+
+        .public-title {
+          max-width: 100%;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="public-cv-container">
-      <div id="public-cv-root"></div>
-    </div>
+    <main class="public-site">
+      <header class="public-header">
+        <div class="public-header-top">
+          <div class="public-brand">
+            <span class="public-brand-mark">EC</span>
+            <span>Expertech CV</span>
+          </div>
 
-    <!-- Carga diferida de scripts -->
+          <nav class="public-toolbar" aria-label="Acciones de navegación">
+            <a class="public-link public-link-secondary" href="./index.html">
+              Volver al editor
+            </a>
+            <a class="public-link public-link-primary" href="./index.html#export-pdf-button">
+              Preparar PDF
+            </a>
+          </nav>
+        </div>
+
+        <section class="public-hero" aria-labelledby="public-page-title">
+          <p class="public-eyebrow">Vista local del CV</p>
+          <h1 id="public-page-title" class="public-title">
+            Una simulación cercana de la página pública final.
+          </h1>
+          <p class="public-description">
+            Esta versión te permite revisar cómo se sentirá el CV cuando exista una
+            publicación real compartible. El contenido sigue saliendo del estado local
+            actual, pero la presentación ya busca un aspecto más editorial, claro y profesional.
+          </p>
+        </section>
+      </header>
+
+      <section class="public-stage" aria-label="Vista pública del CV">
+        <aside class="public-context">
+          <section class="public-status-card">
+            <span class="public-status-label">Modo local</span>
+            <h2>Preparada para una futura publicación real</h2>
+            <p>
+              Esta página ya funciona como escaparate visual del CV, pero todavía depende
+              del mismo navegador y del mismo <code>localStorage</code>.
+            </p>
+          </section>
+
+          <section class="public-note-card">
+            <h2>Qué estamos simulando aquí</h2>
+            <p>
+              La estructura, el ritmo visual y la lectura general de una página pública
+              terminada, sin introducir todavía backend ni base de datos.
+            </p>
+            <ul>
+              <li>Jerarquía visual más propia de una página real</li>
+              <li>Documento central más protagonista</li>
+              <li>Marco visual útil para revisar antes del cierre final</li>
+            </ul>
+          </section>
+        </aside>
+
+        <section class="public-document" aria-label="Documento público del CV">
+          <div class="public-document-frame">
+            <div class="public-document-caption">
+              <p><strong>Documento principal</strong> con lectura pensada para recruiter.</p>
+              <p>Visualización local previa a una futura publicación compartible.</p>
+            </div>
+            <div id="public-cv-root"></div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="public-footer">
+        EXPERTECH CV · Vista local de presentación previa a publicación real
+      </footer>
+    </main>
+
     <script type="module">
       import { createPublicCVRenderer } from "./js/ui/PublicCVRenderer.js";
-      
-      document.addEventListener('DOMContentLoaded', () => {
+
+      document.addEventListener("DOMContentLoaded", () => {
         const renderer = createPublicCVRenderer({
-          rootSelector: '#public-cv-root'
+          rootSelector: "#public-cv-root"
         });
         renderer.init();
       });

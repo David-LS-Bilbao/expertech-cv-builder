@@ -1055,7 +1055,7 @@ ul {
     margin-bottom: 5mm;
   }
 
-  .print-cv-avatar, 
+  .print-cv-avatar,
   .print-cv-avatar-placeholder {
     width: 38mm;
     height: 38mm;
@@ -1181,7 +1181,7 @@ ul {
     font-weight: 700;
     padding-bottom: 0.3rem;
   }
-  
+
   .print-cv-main-title {
     margin: 0;
     font-size: 1.2rem;
@@ -1250,7 +1250,3 @@ ul {
     font-weight: 500;
   }
 }
-
-
-
-

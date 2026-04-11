@@ -4,13 +4,13 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/github-project-sources`
+- `feat/export-pdf-qr`
 
 Objetivo actual:
-- conservar metadatos mínimos del origen de proyectos importados desde GitHub
-- mostrar una señal visual compacta de origen en la preview
-- mantener intacta la protección de proyectos manuales reales
-- eliminar la confusión del proyecto demo legado al quitar la selección GitHub
+- preparar una salida PDF breve y más presentable del CV
+- mantener sincronizada la exportación con el borrador visible
+- dejar una vista local adicional (`public.html`) preparada para compartirse más adelante
+- no mezclar todavía backend ni publicación real
 
 ## Consolidación arquitectónica reciente
 
@@ -23,20 +23,20 @@ Objetivo actual:
 
 ## Siguiente feature prevista tras esta rama
 
-- `feat/export-pdf-qr`
+- `feat/github-pages-public-preview`
 
 Objetivo siguiente:
-- preparar una salida PDF breve del CV
-- explorar un acceso compartible mediante QR sin abrir todavía backend
-- mantener el MVP actual estable mientras se añade una salida más presentable
+- simular una URL pública real desplegando una versión estática en GitHub Pages
+- preparar una experiencia pública demo separada del `localStorage` local
+- generar un QR de demostración que apunte a la URL publicada en GitHub Pages
 
 ## Avance reciente dentro de la feature activa
 
-- `feat/github-project-sources`
-  - proyectos GitHub conservan trazabilidad mínima dentro del estado del CV
-  - la preview muestra origen compacto tipo `GitHub · owner/repo`
-  - fallback seguro cuando faltan datos de origen
-  - limpieza del proyecto demo legado para que el empty-state sea coherente
+- `feat/export-pdf-qr`
+  - nueva vista de impresión con layout más limpio para exportación
+  - sincronización del renderer de impresión con el borrador actual del editor
+  - soporte de avatar híbrido con subida local optimizada y fallback GitHub
+  - `public.html` como vista local adicional preparada para compartirse más adelante
 
 ## Feature cerrada recientemente
 
@@ -63,8 +63,8 @@ Objetivo siguiente:
 - la auth actual del MVP no es auth real ni segura para producción
 - no hay backend ni PostgreSQL en esta fase
 - Google y GitHub no implementan OAuth real todavía
-- `feat/github-project-sources` no resuelve todavía múltiples cuentas GitHub
-- no cubre colaboraciones ni atribución avanzada del origen de proyectos
+- `feat/export-pdf-qr` no ofrece todavía URL pública real ni QR funcional
+- no hay backend ni persistencia compartible fuera de `localStorage`
 
 ## Regla de trabajo
 
