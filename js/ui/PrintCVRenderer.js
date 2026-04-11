@@ -140,14 +140,14 @@ export function createPrintCVRenderer({
     const parts = [];
 
     if (repoUrl) {
-      parts.push(`Repo: <a href="${repoUrl}" target="_blank" rel="noopener noreferrer">${formatCleanUrl(repoUrl)}</a>`);
+      parts.push(`<a class="cv-link badge-repo" href="${repoUrl}" target="_blank" rel="noopener noreferrer"><span class="link-label">Repo: </span><span class="link-url">${formatCleanUrl(repoUrl)}</span></a>`);
     }
 
     if (demoUrl) {
-      parts.push(`Live: <a href="${demoUrl}" target="_blank" rel="noopener noreferrer">${formatCleanUrl(demoUrl)}</a>`);
+      parts.push(`<a class="cv-link badge-live" href="${demoUrl}" target="_blank" rel="noopener noreferrer"><span class="link-label">Live: </span><span class="link-url">${formatCleanUrl(demoUrl)}</span></a>`);
     }
 
-    linksElement.innerHTML = parts.join(" · ");
+    linksElement.innerHTML = parts.join(' <span class="link-separator">·</span> ');
 
     return linksElement;
   }

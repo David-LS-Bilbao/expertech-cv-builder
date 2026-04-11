@@ -225,6 +225,14 @@ export function createAuthenticatedCVApp({
 
       window.print();
     });
+
+    // Botón Vista Pública
+    const viewPublicButton = document.querySelector("#view-public-button");
+    if (viewPublicButton) {
+      viewPublicButton.addEventListener("click", () => {
+        window.open("./public.html", "_blank");
+      });
+    }
   }
 
   // Inicializa la app autenticada una sola vez.

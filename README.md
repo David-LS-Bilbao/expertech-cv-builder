@@ -8,7 +8,7 @@ Estado actual: `Bootcamp JavaScript MVP`
 
 Fase actual: avance funcional de `feat/github-project-sources` sobre la base ya cerrada de `feat/login-screen`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub y una arquitectura ya separada por capas para reducir la responsabilidad de `app.js`.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), soporte para visualización interactiva en URL pública (`public.html`), y una arquitectura ya separada por capas para reducir la responsabilidad de `app.js`.
 
 ## Objetivo del MVP
 
@@ -148,6 +148,8 @@ Comportamiento actual disponible:
 - logout visible y funcional desde la app autenticada
 - botones visibles de Google y GitHub solo como preparación visual del siguiente MVP
 - mensajes informativos en esos botones, sin OAuth real ni autenticación externa implementada
+- sistema de avatar híbrido (subida de imagen local con resize por canvas o lectura desde GitHub)
+- página interactiva de vista pública (`public.html`) lista para compartir por URL o código QR
 
 ## Flujo actual del usuario
 

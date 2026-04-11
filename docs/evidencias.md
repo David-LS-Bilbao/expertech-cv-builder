@@ -191,4 +191,13 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Archivos afectados: `js/services/GitHubProfileService.js`, `js/models/Project.js`, `js/application/AuthenticatedCVApp.js`, `js/ui/PreviewRenderer.js`, `js/services/CVStorageService.js`, `styles/main.css`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md`, `docs/EXPERTECH_contexto_actualizado.md` y `docs/architecture-notes.md`.
 - Resultado: los proyectos importados desde GitHub ya conservan una trazabilidad básica visible en la preview, los proyectos manuales siguen protegidos y el bloque de proyectos vuelve al empty-state cuando no hay proyectos reales ni selección GitHub activa.
 - Validación: revisión manual de la preview con proyectos GitHub y manuales, comprobación de que al deseleccionar todos los repos ya no queda el proyecto demo `EXPERTECH CV`, y comprobación sintáctica con `node --check` de `js/services/GitHubProfileService.js`, `js/application/AuthenticatedCVApp.js`, `js/ui/PreviewRenderer.js` y `js/services/CVStorageService.js`.
-- Próximo paso: completar la validación manual final de esta rama, decidir si se cierra como slice MVP suficiente y, después, pasar a `feat/export-pdf-qr`.
+- Próximo paso: arrancar `feat/export-pdf-qr` o iterar sobre el perfil híbrido.
+
+### [2026-04-12] Implementación de Avatar Híbrido y Vista Pública Web
+
+- Objetivo: añadir soporte para avatares (sincronizados desde GitHub o subidos localmente con resize por canvas) y crear una página pública interactiva (`public.html`) basada en el diseño de impresión.
+- Trabajo realizado: se implementó un sistema híbrido que prioriza imágenes subidas localmente (redimensionadas vía canvas para no saturar `localStorage`), luego URL manual externa y finalmente de GitHub. También se creó `public.html` con su respectivo `PublicCVRenderer.js` reutilizando el motor de `PreviewCVRenderer` para montar una versión navegable y responsiva idéntica a la vista previa del dashboard, lista para compartir por URL o código QR.
+- Archivos afectados: `index.html`, `public.html`, `styles/main.css`, `js/application/AuthenticatedCVApp.js`, `js/ui/ProfileEditor.js`, `js/services/GitHubProfileService.js`, `js/ui/PublicCVRenderer.js`.
+- Resultado: el usuario puede elegir cómo gestionar su avatar y cualquier visitante puede visualizar su CV en una URL pública compartible.
+- Validación: comprobada la sincronización correcta de la imagen local redimensionada en el preview interactivo y la correcta renderización visual del `public.html` utilizando el mismo estilo UI limpio de previsualización sin overrides manuales.
+- Próximo paso: iterar sobre funcionalidades de exportación PDF directas.

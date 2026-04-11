@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil Profesional | Expertech CV</title>
+    <link rel="stylesheet" href="./styles/main.css" />
+    <style>
+      body {
+        background-color: #f8fafc;
+        display: flex;
+        justify-content: center;
+        padding: 3rem 1rem;
+        margin: 0;
+      }
+      
+      .public-cv-container {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* Hacemos que el panel de preview ocupe el centro como un documento standalone */
+      #public-cv-root .preview-panel {
+        background: transparent;
+        border: none;
+        padding: 0;
+        width: 100%;
+        overflow: visible;
+      }
+
+      /* Ocultamos el título "Vista Previa" que es de uso interno del dashboard */
+      #public-cv-root .panel-heading {
+        display: none;
+      }
+
+      #public-cv-root .preview-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="public-cv-container">
+      <div id="public-cv-root"></div>
+    </div>
+
+    <!-- Carga diferida de scripts -->
+    <script type="module">
+      import { createPublicCVRenderer } from "./js/ui/PublicCVRenderer.js";
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        const renderer = createPublicCVRenderer({
+          rootSelector: '#public-cv-root'
+        });
+        renderer.init();
+      });
+    </script>
+  </body>
+</html>
