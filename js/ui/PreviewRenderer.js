@@ -226,6 +226,51 @@ export function createPreviewRenderer({
     return linksWrapperElement;
   }
 
+  // Crea una línea breve de trazabilidad del proyecto.
+  // Solo se muestra cuando el proyecto llega desde una fuente externa conocida.
+  function createProjectSourceMeta(projectData = {}) {
+    const sourceProvider = String(projectData.sourceProvider ?? "").trim();
+    const sourceRepositoryFullName = String(
+      projectData.sourceRepositoryFullName ?? ""
+    ).trim();
+    const sourceRelation = String(projectData.sourceRelation ?? "").trim();
+
+    if (!sourceProvider) {
+      return null;
+    }
+
+    const sourceMetaElement = document.createElement("p");
+    sourceMetaElement.className = "preview-project-source";
+
+    const sourceBadgeElement = document.createElement("span");
+    sourceBadgeElement.className = "preview-project-source-badge";
+    sourceBadgeElement.textContent = sourceProvider === "github" ? "GitHub" : sourceProvider;
+    sourceMetaElement.appendChild(sourceBadgeElement);
+
+    const sourceTextParts = [];
+
+    if (sourceRepositoryFullName) {
+      sourceTextParts.push(sourceRepositoryFullName);
+    }
+
+    if (sourceProvider === "github" && sourceTextParts.length === 0) {
+      sourceTextParts.push("origen no disponible");
+    }
+
+    if (sourceRelation && sourceRelation !== "owner") {
+      sourceTextParts.push(`relación: ${sourceRelation}`);
+    }
+
+    if (sourceTextParts.length > 0) {
+      const sourceTextElement = document.createElement("span");
+      sourceTextElement.className = "preview-project-source-text";
+      sourceTextElement.textContent = sourceTextParts.join(" · ");
+      sourceMetaElement.appendChild(sourceTextElement);
+    }
+
+    return sourceMetaElement;
+  }
+
   // Crea una card compacta de proyecto para la preview.
   // Priorizamos lectura rápida:
   // - nombre
@@ -252,6 +297,11 @@ export function createPreviewRenderer({
 
     projectCardElement.appendChild(projectNameElement);
     projectCardElement.appendChild(projectDescriptionElement);
+
+    const projectSourceMetaElement = createProjectSourceMeta(projectData);
+    if (projectSourceMetaElement) {
+      projectCardElement.appendChild(projectSourceMetaElement);
+    }
 
     const projectStackElement = createProjectStack(projectData);
     if (projectStackElement) {

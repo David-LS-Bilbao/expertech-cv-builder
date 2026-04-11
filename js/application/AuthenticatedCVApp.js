@@ -58,17 +58,10 @@ export function createAuthenticatedCVApp({
         githubUsername: "David-LS-Bilbao",
         skills: ["HTML", "CSS", "JavaScript"],
       },
-      projects: [
-        {
-          id: "project-1",
-          name: "EXPERTECH CV",
-          description: "MVP de currículum web interactivo para perfiles tech.",
-          repoUrl: "https://github.com/David-LS-Bilbao/expertech-cv-builder",
-          demoUrl: "",
-          stack: ["HTML", "CSS", "JavaScript"],
-          featured: true,
-        },
-      ],
+      // Dejamos el perfil demo, pero no sembramos proyectos.
+      // Así el bloque de proyectos refleja de forma honesta si todavía
+      // no hay selección GitHub ni proyectos manuales reales.
+      projects: [],
     };
 
     const savedCV = saveCV(demoCVState);
@@ -145,6 +138,19 @@ export function createAuthenticatedCVApp({
       demoUrl: repository.homepageUrl || "",
       stack: repository.language ? [repository.language] : [],
       featured: true,
+      sourceProvider: "github",
+      sourceRepositoryId: String(repository.id ?? ""),
+      sourceRepositoryName: repository.name || "",
+      sourceRepositoryFullName:
+        repository.fullName ||
+        [repository.ownerLogin, repository.name].filter(Boolean).join("/") ||
+        repository.name ||
+        "",
+      sourceRepositoryUrl: repository.repositoryUrl || "",
+      sourceOwnerLogin: repository.ownerLogin || "",
+      sourceOwnerType: repository.ownerType || "",
+      sourceImportedAt: new Date().toISOString(),
+      sourceRelation: "owner",
     }));
   }
 

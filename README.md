@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: cierre funcional de `feat/login-screen` y consolidación arquitectónica del arranque de la app
+Fase actual: avance funcional de `feat/github-project-sources` sobre la base ya cerrada de `feat/login-screen`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview y una arquitectura ya separada por capas para reducir la responsabilidad de `app.js`.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub y una arquitectura ya separada por capas para reducir la responsabilidad de `app.js`.
 
 ## Objetivo del MVP
 
@@ -137,6 +137,9 @@ Comportamiento actual disponible:
 - priorización de proyectos marcados como `featured` cuando existen
 - visualización de nombre, descripción, stack y enlaces dentro de cards de proyecto
 - empty-state específico cuando no hay proyectos visibles en la preview
+- persistencia de metadatos mínimos de origen para proyectos importados desde GitHub
+- línea visual compacta de origen en la preview, por ejemplo `GitHub · owner/repo`
+- limpieza del proyecto demo legado para que el bloque de proyectos no muestre contenido fantasma al quitar la selección GitHub
 - pantalla de acceso con tabs de `login/register`
 - registro local con email + contraseña y creación automática de sesión
 - login local con email + contraseña
@@ -193,15 +196,27 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 12. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
 13. `feat/documentacion-final`: cierre documental final del proyecto
 
-## Siguiente feature prevista
+## Feature activa
 
-La siguiente fase natural del proyecto es `feat/github-project-sources`.
+La rama de trabajo actual es `feat/github-project-sources`.
 
-Su objetivo será ampliar la integración GitHub para manejar mejor orígenes de proyecto, atribución y casos más allá del owner principal, sin prometer todavía OAuth real ni autenticación externa completa.
+En esta fase ya se ha dejado resuelta una primera mejora útil:
+
+- los proyectos importados desde GitHub conservan metadatos mínimos de origen
+- la preview muestra una señal visual compacta del origen del proyecto
+- el flujo manual de proyectos sigue protegido
+- el proyecto demo legado ya no interfiere con el empty-state real de proyectos
+
+Todavía queda fuera de esta rama:
+
+- múltiples cuentas GitHub
+- colaboraciones
+- atribución avanzada de autoría
+- OAuth real
 
 ## Nota de desarrollo
 
-Las features `feat/github-integration`, `feat/projects-visualization` y `feat/login-screen` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub y representación visual recruiter-friendly de los proyectos. La selección de repositorios sigue siendo manual y el flujo manual del perfil continúa como base segura.
+Las features `feat/github-integration`, `feat/projects-visualization` y `feat/login-screen` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub y representación visual recruiter-friendly de los proyectos. Sobre esa base, `feat/github-project-sources` añade trazabilidad mínima del origen de proyectos importados sin abrir todavía casos avanzados de autoría. La selección de repositorios sigue siendo manual y el flujo manual del perfil continúa como base segura.
 
 Limitaciones actuales importantes:
 
@@ -211,10 +226,11 @@ Limitaciones actuales importantes:
 - no hay backend ni PostgreSQL en esta fase
 - no existe aislamiento real por usuario para el estado del CV
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
+- no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
 
 Orden recomendado a partir del estado actual:
 
-1. `feat/github-project-sources`
+1. cerrar `feat/github-project-sources`
 2. `feat/export-pdf-qr`
 3. `feat/polish-accessibility`
 4. `feat/documentacion-final`

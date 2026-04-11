@@ -95,10 +95,13 @@ function normalizeGitHubRepository(repositoryData) {
   return {
     id: repositoryData.id,
     name: repositoryData.name ?? "",
+    fullName: repositoryData.full_name ?? "",
     description: repositoryData.description ?? "",
     repositoryUrl: repositoryData.html_url ?? "",
     homepageUrl: repositoryData.homepage ?? "",
     language: repositoryData.language ?? "",
+    ownerLogin: repositoryData.owner?.login ?? "",
+    ownerType: repositoryData.owner?.type ?? "",
     stars: repositoryData.stargazers_count ?? 0,
     forks: repositoryData.forks_count ?? 0,
     updatedAt: repositoryData.updated_at ?? "",
