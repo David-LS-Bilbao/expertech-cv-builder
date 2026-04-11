@@ -1,18 +1,21 @@
 // Renderizador de la preview del CV.
 // Responsabilidades de este módulo:
-// 1. localizar los nodos principales del preview en el DOM,
-// 2. pintar nombre, titular y resumen a partir del estado,
-// 3. mostrar u ocultar el empty-state general del perfil,
-// 4. renderizar los proyectos destacados desde cvState.projects,
-// 5. permitir re-render cuando cambie el estado del CV.
+// 1. renderizar el bloque base de preview cuando exista un root-template,
+// 2. localizar los nodos principales del preview en el DOM,
+// 3. pintar nombre, titular y resumen a partir del estado,
+// 4. mostrar u ocultar el empty-state general del perfil,
+// 5. renderizar los proyectos destacados desde cvState.projects,
+// 6. permitir re-render cuando cambie el estado del CV.
 //
 // Importante:
 // - no guarda nada en localStorage,
 // - no lee directamente del formulario,
 // - no consulta GitHub por su cuenta,
-// - solo refleja en la UI datos ya existentes del estado.
+// - solo refleja en la UI datos ya existentes del estado,
+// - mantiene compatibilidad con el HTML antiguo mientras hacemos la transición.
 
 import { createPortfolioCV } from "../models/PortfolioCV.js";
+import { renderPreviewTemplate } from "./PreviewTemplate.js";
 
 // Textos fallback por si algún campo todavía está vacío.
 // Así evitamos que la preview quede rota o con huecos raros.
@@ -29,6 +32,7 @@ const PREVIEW_FALLBACKS = {
 // Crea el renderizador de preview.
 // Recibe selectores configurables por si en el futuro cambia el HTML.
 export function createPreviewRenderer({
+  previewRootSelector = "#preview-panel-root",
   fullNameSelector = "#preview-full-name",
   headlineSelector = "#preview-headline",
   summarySelector = "#preview-summary",
@@ -39,6 +43,14 @@ export function createPreviewRenderer({
 } = {}) {
   // Normalizamos el estado para trabajar siempre con la misma estructura.
   let currentCVState = createPortfolioCV(initialCVState);
+
+  // Si existe el root nuevo del template, lo renderizamos.
+  // Si todavía no existe, mantenemos compatibilidad con el HTML anterior.
+  const previewRootElement = document.querySelector(previewRootSelector);
+
+  if (previewRootElement) {
+    renderPreviewTemplate(previewRootElement);
+  }
 
   // Buscamos los nodos principales de la preview.
   const fullNameElement = document.querySelector(fullNameSelector);
@@ -301,7 +313,7 @@ export function createPreviewRenderer({
   }
 
   // Permite actualizar el estado desde fuera y volver a pintar.
-  // Esto será lo normal cuando app.js reciba cambios del formulario
+  // Esto será lo normal cuando la capa superior reciba cambios del formulario
   // o cuando otras features actualicen el CV persistido.
   function updateCVState(nextCVState) {
     currentCVState = createPortfolioCV(nextCVState);
@@ -320,6 +332,7 @@ export function createPreviewRenderer({
     updateCVState,
     getCVState: () => createPortfolioCV(currentCVState),
     getElements: () => ({
+      previewRootElement,
       fullNameElement,
       headlineElement,
       summaryElement,

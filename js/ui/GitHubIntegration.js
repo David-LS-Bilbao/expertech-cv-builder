@@ -1,20 +1,23 @@
 // UI mínima para la integración con GitHub.
 // Responsabilidades de este módulo:
-// 1. gestionar el formulario de búsqueda de GitHub,
-// 2. consultar la API pública a través del servicio,
-// 3. renderizar el perfil público encontrado,
-// 4. renderizar repositorios candidatos,
-// 5. permitir selección manual de repositorios destacados,
-// 6. rehidratar el bloque GitHub al recargar si existe githubUsername persistido,
-// 7. emitir callbacks para que app.js decida cómo integrar esos datos.
+// 1. renderizar el bloque GitHub cuando exista un root-template,
+// 2. gestionar el formulario de búsqueda de GitHub,
+// 3. consultar la API pública a través del servicio,
+// 4. renderizar el perfil público encontrado,
+// 5. renderizar repositorios candidatos,
+// 6. permitir selección manual de repositorios destacados,
+// 7. rehidratar el bloque GitHub al recargar si existe githubUsername persistido,
+// 8. emitir callbacks para que la capa superior decida cómo integrar esos datos.
 //
 // Importante:
 // - aquí no guardamos nada en localStorage,
 // - aquí no tocamos directamente el formulario principal del perfil,
-// - si la API falla, el flujo manual del CV sigue siendo la base segura.
+// - si la API falla, el flujo manual del CV sigue siendo la base segura,
+// - mantiene compatibilidad con el HTML antiguo mientras hacemos la transición.
 
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { fetchGitHubPublicData } from "../services/GitHubProfileService.js";
+import { renderGitHubBlockTemplate } from "./GitHubBlockTemplate.js";
 
 // Estado visual inicial del badge del bloque GitHub.
 const GITHUB_BADGE_LABELS = {
@@ -24,12 +27,13 @@ const GITHUB_BADGE_LABELS = {
   error: "Error",
 };
 
-// Prefijo usado por app.js para convertir repositorios GitHub en projects persistidos.
+// Prefijo usado por la capa superior para convertir repositorios GitHub en projects persistidos.
 // Lo reutilizamos aquí para poder reconstruir la selección al recargar.
 const GITHUB_PROJECT_ID_PREFIX = "github-repo-";
 
 // Crea la integración UI del bloque GitHub.
 export function createGitHubIntegration({
+  githubBlockRootSelector = "#github-block-root",
   formSelector = "#github-form",
   usernameInputSelector = "#github-username-search",
   feedbackSelector = "#github-form-feedback",
@@ -64,6 +68,14 @@ export function createGitHubIntegration({
   // Sirve para evitar estados visuales incoherentes si hubiera varias cargas seguidas.
   let currentLoadRequestId = 0;
 
+  // Si existe el root nuevo del template, lo renderizamos.
+  // Si todavía no existe, mantenemos compatibilidad con el HTML anterior.
+  const githubBlockRootElement = document.querySelector(githubBlockRootSelector);
+
+  if (githubBlockRootElement) {
+    renderGitHubBlockTemplate(githubBlockRootElement);
+  }
+
   // Referencias DOM principales del bloque GitHub.
   const formElement = document.querySelector(formSelector);
   const usernameInputElement = document.querySelector(usernameInputSelector);
@@ -78,9 +90,15 @@ export function createGitHubIntegration({
   const profileBioElement = document.querySelector(profileBioSelector);
   const profileLinkElement = document.querySelector(profileLinkSelector);
 
-  const repositoriesSectionElement = document.querySelector(repositoriesSectionSelector);
-  const repositoriesCountElement = document.querySelector(repositoriesCountSelector);
-  const repositoriesListElement = document.querySelector(repositoriesListSelector);
+  const repositoriesSectionElement = document.querySelector(
+    repositoriesSectionSelector
+  );
+  const repositoriesCountElement = document.querySelector(
+    repositoriesCountSelector
+  );
+  const repositoriesListElement = document.querySelector(
+    repositoriesListSelector
+  );
 
   const selectedRepositoriesSectionElement = document.querySelector(
     selectedRepositoriesSectionSelector
@@ -145,7 +163,8 @@ export function createGitHubIntegration({
       return;
     }
 
-    statusBadgeElement.textContent = GITHUB_BADGE_LABELS[mode] ?? GITHUB_BADGE_LABELS.idle;
+    statusBadgeElement.textContent =
+      GITHUB_BADGE_LABELS[mode] ?? GITHUB_BADGE_LABELS.idle;
 
     if (mode === "connected") {
       statusBadgeElement.classList.remove("status-badge-muted");
@@ -217,11 +236,14 @@ export function createGitHubIntegration({
     }
 
     if (profileNameElement) {
-      profileNameElement.textContent = profile.name || profile.login || "Perfil GitHub";
+      profileNameElement.textContent =
+        profile.name || profile.login || "Perfil GitHub";
     }
 
     if (profileLoginElement) {
-      profileLoginElement.textContent = profile.login ? `@${profile.login}` : "@usuario";
+      profileLoginElement.textContent = profile.login
+        ? `@${profile.login}`
+        : "@usuario";
     }
 
     if (profileBioElement) {
@@ -378,7 +400,9 @@ export function createGitHubIntegration({
     }
 
     selectedRepositories.forEach((repository) => {
-      selectedRepositoriesListElement.appendChild(createSelectedRepositoryItem(repository));
+      selectedRepositoriesListElement.appendChild(
+        createSelectedRepositoryItem(repository)
+      );
     });
 
     selectedRepositoriesSectionElement.hidden = false;
@@ -394,7 +418,8 @@ export function createGitHubIntegration({
 
     if (alreadySelected) {
       selectedRepositories = selectedRepositories.filter(
-        (selectedRepository) => String(selectedRepository.id) !== String(repository.id)
+        (selectedRepository) =>
+          String(selectedRepository.id) !== String(repository.id)
       );
     } else {
       selectedRepositories = [...selectedRepositories, repository];
@@ -411,11 +436,17 @@ export function createGitHubIntegration({
     setStatusBadge("loading");
 
     if (isRehydration) {
-      showFeedback(`Recuperando perfil público de GitHub para "${username}"...`, "info");
+      showFeedback(
+        `Recuperando perfil público de GitHub para "${username}"...`,
+        "info"
+      );
       return;
     }
 
-    showFeedback(`Consultando perfil público de GitHub para "${username}"...`, "info");
+    showFeedback(
+      `Consultando perfil público de GitHub para "${username}"...`,
+      "info"
+    );
   }
 
   // Renderiza todos los datos traídos de GitHub tras una consulta exitosa.
@@ -448,7 +479,10 @@ export function createGitHubIntegration({
   // Esta misma función sirve tanto para:
   // - búsqueda manual
   // - rehidratación automática al recargar
-  async function loadGitHubData(username, { isRehydration = false, notifyCallbacks = true } = {}) {
+  async function loadGitHubData(
+    username,
+    { isRehydration = false, notifyCallbacks = true } = {}
+  ) {
     const normalizedUsername = normalizeUsername(username);
 
     if (!normalizedUsername) {
@@ -467,7 +501,9 @@ export function createGitHubIntegration({
     }
 
     // Reconstruimos la selección a partir de projects persistidos del CV.
-    selectedRepositories = buildSelectedRepositoriesFromCVState(githubData.repositories);
+    selectedRepositories = buildSelectedRepositoriesFromCVState(
+      githubData.repositories
+    );
 
     renderGitHubData(githubData);
 
@@ -540,7 +576,7 @@ export function createGitHubIntegration({
     }
   }
 
-  // Reconciliación ligera cuando app.js actualiza el estado global.
+  // Reconciliación ligera cuando la capa superior actualiza el estado global.
   // Si ya tenemos datos GitHub cargados y siguen correspondiendo
   // al mismo username persistido, reconstruimos la selección visual.
   function reconcileLoadedGitHubStateWithCVState() {
@@ -615,7 +651,7 @@ export function createGitHubIntegration({
     formElement.removeEventListener("submit", handleSubmit);
   }
 
-  // Permite actualizar el estado base desde app.js.
+  // Permite actualizar el estado base desde la capa superior.
   function updateCVState(nextCVState) {
     currentCVState = createPortfolioCV(nextCVState);
     syncSearchInputWithCVState();
@@ -630,5 +666,18 @@ export function createGitHubIntegration({
     getGitHubData: () => currentGitHubData,
     getSelectedRepositories: () => [...selectedRepositories],
     getSearchUsername,
+    getElements: () => ({
+      githubBlockRootElement,
+      formElement,
+      usernameInputElement,
+      feedbackElement,
+      statusBadgeElement,
+      emptyStateElement,
+      profileResultElement,
+      repositoriesSectionElement,
+      repositoriesListElement,
+      selectedRepositoriesSectionElement,
+      selectedRepositoriesListElement,
+    }),
   };
 }
