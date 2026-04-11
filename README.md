@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/editor-profile` cerrada y pendiente de integración en `dev`
+Fase actual: `feat/live-preview` cerrada a nivel funcional y siguiente paso enfocado en `feat/github-integration`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage` y un primer formulario funcional de perfil conectado al estado. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un flujo real de edición y guardado del perfil.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage`, formulario funcional de perfil conectado al estado y una preview recruiter-friendly sincronizada en tiempo real para los datos principales del perfil. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un flujo real de edición, guardado y render reactivo del bloque de perfil.
 
 ## Objetivo del MVP
 
@@ -111,10 +111,14 @@ Comportamiento actual disponible:
 - creación de un estado inicial consistente mediante `createInitialCVState()`
 - persistencia básica del CV en `localStorage`
 - recuperación del CV guardado al volver a cargar la app
-- utilidades mínimas de depuración expuestas en `window.cvStorageDebug`
+- utilidades mínimas de depuración expuestas en `window.cvAppDebug`
 - formulario de perfil funcional en la columna de edición
 - rehidratación del formulario al recargar la app
 - feedback visual de guardado tras enviar el formulario
+- render en vivo de nombre, titular y resumen en la preview
+- sincronización inicial de la preview con el estado cargado desde `localStorage`
+- fallbacks visuales cuando faltan datos del perfil
+- ocultación automática del estado vacío de la preview cuando ya existe contenido real
 
 ## Roadmap resumido del MVP
 
@@ -131,13 +135,13 @@ Comportamiento actual disponible:
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/live-preview`.
+La siguiente fase natural del proyecto es `feat/github-integration`.
 
-Su objetivo será reflejar en la preview los cambios del perfil en tiempo real, conectar mejor la experiencia editor + vista previa y dejar la base preparada para los siguientes bloques dinámicos del CV.
+Su objetivo será consultar datos básicos desde GitHub, mostrarlos en la interfaz y permitir al usuario decidir qué información incorpora al CV sin romper el flujo actual de edición manual.
 
 ## Nota de desarrollo
 
-La feature `feat/editor-profile` ya ha dejado resuelta la edición manual del perfil con persistencia y rehidratación, pero todavía no conecta la preview en tiempo real ni cubre edición de proyectos, integración con GitHub, exportación PDF o una revisión profunda de accesibilidad.
+La feature `feat/live-preview` ya deja resuelto el render en tiempo real del bloque principal de perfil, pero todavía quedan pendientes la integración de proyectos y skills dinámicos en la preview, la conexión con GitHub, la exportación PDF y una revisión más profunda de accesibilidad.
 
 ## Autor
 

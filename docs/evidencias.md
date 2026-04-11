@@ -136,3 +136,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya permite editar manualmente el perfil principal del candidato, guardar los cambios en `localStorage` y rehidratar el formulario al recargar, dejando una base clara para conectar la preview en la siguiente feature.
 - Validación: revisión manual del código, verificación de nombres de campos entre HTML y JS, comprobación sintáctica con `node --check` y confirmación de que el feedback visual permanece oculto cuando está vacío.
 - Próximo paso: arrancar `feat/live-preview` para reflejar en tiempo real los cambios del perfil en la vista previa del CV.
+
+### [2026-04-11] Cierre de la feature `feat/live-preview`
+
+- Objetivo: conectar la edición del perfil con una vista previa recruiter-friendly que responda en tiempo real sin romper la persistencia existente.
+- Trabajo realizado: se creó `PreviewRenderer.js` para renderizar nombre, titular y resumen del perfil, se amplió `ProfileEditor.js` para emitir cambios mientras el usuario escribe, y se conectó `js/app.js` para mantener sincronizados editor, preview y `localStorage` sin mezclar responsabilidades.
+- Trabajo realizado por el usuario: implementación del renderizador de preview, conexión del flujo `editor -> estado -> preview`, ajuste del HTML de la tarjeta de vista previa y validación manual del comportamiento durante escritura y guardado.
+- Trabajo realizado por Codex: revisión del cierre funcional de la feature, comprobación de coherencia entre módulos y actualización de la documentación del proyecto para dejar el estado del MVP alineado con lo ya implementado.
+- Archivos afectados: `index.html`, `js/ui/PreviewRenderer.js`, `js/ui/ProfileEditor.js`, `js/app.js`, `README.md`, `docs/roadmap.md` y `docs/evidencias.md`.
+- Resultado: el proyecto ya muestra en la preview los datos principales del perfil en tiempo real, mantiene fallbacks cuando faltan campos y conserva el flujo de guardado sobre `localStorage` como fuente persistente.
+- Validación: revisión manual del código y del flujo de interfaz, comprobación de sincronización entre editor y preview, y validación sintáctica con `node --check` de `js/app.js`, `js/ui/ProfileEditor.js` y `js/ui/PreviewRenderer.js`.
+- Próximo paso: arrancar `feat/github-integration` para consultar datos públicos básicos desde GitHub sin sustituir la edición manual ya disponible.
