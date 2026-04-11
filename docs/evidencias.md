@@ -125,3 +125,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya puede guardar y recuperar un estado base del CV en `localStorage`, manteniendo una estructura normalizada y preparada para que la siguiente feature conecte edición real sobre persistencia existente.
 - Validación: revisión manual del servicio y del punto de entrada, comprobación de que la rama queda limpia salvo los cambios esperados y verificación sintáctica prevista antes del push final.
 - Próximo paso: arrancar `feat/editor-profile` para editar datos reales del candidato sobre el estado persistido y preparar la conexión posterior con la preview.
+
+### [2026-04-09] Cierre de la feature `feat/editor-profile`
+
+- Objetivo: permitir edición manual real de los datos principales del CV, conectando el formulario con el estado persistido.
+- Trabajo realizado: se montó el formulario de perfil en `index.html`, se añadieron estilos específicos y feedback visual en `styles/main.css`, se creó `ProfileEditor.js` para rellenar, leer y enviar el formulario, y se conectó `js/app.js` con la persistencia existente para cargar, guardar y rehidratar el perfil.
+- Trabajo realizado por el usuario: implementación del formulario, ajuste de estilos, conexión del módulo UI y validación manual del flujo de guardado, recarga y feedback visual.
+- Trabajo realizado por Codex: revisión del working tree real de la rama, restauración de `README.md` borrados accidentalmente, verificación sintáctica de `js/app.js` y `js/ui/ProfileEditor.js`, y actualización de la documentación de cierre.
+- Archivos afectados: `index.html`, `styles/main.css`, `js/ui/ProfileEditor.js`, `js/app.js`, `README.md`, `docs/evidencias.md` y `docs/roadmap.md`.
+- Resultado: el proyecto ya permite editar manualmente el perfil principal del candidato, guardar los cambios en `localStorage` y rehidratar el formulario al recargar, dejando una base clara para conectar la preview en la siguiente feature.
+- Validación: revisión manual del código, verificación de nombres de campos entre HTML y JS, comprobación sintáctica con `node --check` y confirmación de que el feedback visual permanece oculto cuando está vacío.
+- Próximo paso: arrancar `feat/live-preview` para reflejar en tiempo real los cambios del perfil en la vista previa del CV.
