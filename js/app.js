@@ -1,20 +1,26 @@
 // Punto de entrada principal de la app.
-// En esta fase coordina 4 responsabilidades:
-// 1. cargar el estado del CV desde localStorage,
-// 2. inicializar el editor del perfil,
-// 3. inicializar y actualizar la preview en vivo,
-// 4. conectar la integración de GitHub con el estado global.
+// En esta fase coordina 5 responsabilidades:
+//
+// 1. gestionar la capa de acceso local (login / register),
+// 2. decidir si se muestra auth-screen o la app principal,
+// 3. cargar el estado del CV desde localStorage cuando la sesión es válida,
+// 4. inicializar editor, preview y GitHub sobre la app autenticada,
+// 5. mantener separados:
+//    - auth local,
+//    - estado del CV,
+//    - integración GitHub.
 //
 // Importante:
-// - la persistencia sigue centralizada aquí,
-// - el editor del perfil sigue siendo la base manual segura,
-// - GitHub solo enriquece el estado y nunca debe romper el flujo manual.
+// - la autenticación en este MVP es local y simple,
+// - no implementa OAuth real todavía,
+// - la persistencia del CV sigue separada de la persistencia de auth.
 
 import { createInitialCVState } from "./models/createInitialCVState.js";
 import { createPortfolioCV } from "./models/PortfolioCV.js";
 import { createProfileEditor } from "./ui/ProfileEditor.js";
 import { createPreviewRenderer } from "./ui/PreviewRenderer.js";
 import { createGitHubIntegration } from "./ui/GitHubIntegration.js";
+import { createAuthScreen } from "./ui/AuthScreen.js";
 import { saveCV, loadCV, resetCV, hasStoredCV } from "./services/CVStorageService.js";
 
 console.log("EXPERTECH CV · app inicializada");
@@ -23,9 +29,20 @@ console.log("EXPERTECH CV · app inicializada");
 // Esto nos permite reemplazarlos después sin tocar proyectos manuales.
 const GITHUB_PROJECT_ID_PREFIX = "github-repo-";
 
-// Estado global mínimo de la aplicación.
-// app.js sigue siendo el punto de composición.
+// Estado global mínimo del CV.
+// La auth local se gestiona aparte, desde AuthScreen + AuthStorageService.
 let cvState = null;
+
+// Referencias a módulos UI de la zona autenticada.
+// Empiezan a null y solo se crean cuando la sesión permite entrar.
+let profileEditor = null;
+let previewRenderer = null;
+let githubIntegration = null;
+let authScreen = null;
+let logoutButtonElement = null;
+// Indica si la app principal ya fue montada.
+// Así evitamos reinicializar toda la interfaz varias veces.
+let isAuthenticatedAppInitialized = false;
 
 // Crea un estado demo solo la primera vez, si aún no existe nada en localStorage.
 // Esto ayuda a probar editor, preview y futura integración GitHub con contenido realista.
@@ -66,7 +83,7 @@ function seedInitialCVState() {
   return savedCV;
 }
 
-// Carga el estado base de la aplicación.
+// Carga el estado base del CV.
 // Si no hay datos guardados, sembramos uno inicial para facilitar la prueba manual.
 function bootstrapCVState() {
   const hasExistingCV = hasStoredCV();
@@ -80,7 +97,7 @@ function bootstrapCVState() {
   return loadCV();
 }
 
-// Guarda el estado global y lo persiste.
+// Guarda el estado global del CV y lo persiste.
 function persistCVState(nextCVState) {
   cvState = createPortfolioCV(nextCVState);
 
@@ -156,13 +173,8 @@ function mergeSelectedRepositoriesIntoCVState(currentState, selectedRepositories
   });
 }
 
-// Rehidrata todas las piezas UI relevantes cuando el estado global cambia.
-function syncUIWithCVState({
-  savedCV,
-  profileEditor,
-  previewRenderer,
-  githubIntegration,
-}) {
+// Rehidrata todas las piezas UI relevantes cuando cambia el estado del CV.
+function syncUIWithCVState(savedCV) {
   if (profileEditor) {
     profileEditor.updateCVState(savedCV);
   }
@@ -176,81 +188,119 @@ function syncUIWithCVState({
   }
 }
 
-// Arranque principal de la app.
-function initApp() {
-  // 1. Cargamos el estado inicial.
+// Si por cualquier motivo falla AuthScreen, mostramos la app principal
+// para no dejar la pantalla bloqueada en desarrollo.
+function showAuthenticatedAppFallback() {
+  const authScreenElement = document.querySelector("#auth-screen");
+  const authenticatedAppElement = document.querySelector("#app-shell-authenticated");
+
+  if (authScreenElement) {
+    authScreenElement.hidden = true;
+  }
+
+  if (authenticatedAppElement) {
+    authenticatedAppElement.hidden = false;
+  }
+}
+
+
+
+
+// Conecta el botón visible de logout con la capa de auth.
+// Regla MVP:
+// - cerrar sesión limpia solo la sesión activa,
+// - no borra usuarios registrados,
+// - no borra el estado del CV.
+function bindLogoutButton() {
+  const button = document.querySelector("#logout-button");
+
+  if (!button || !authScreen) {
+    return;
+  }
+
+  // Evitamos volver a registrar el mismo listener varias veces.
+  if (logoutButtonElement === button) {
+    return;
+  }
+
+  logoutButtonElement = button;
+
+  logoutButtonElement.addEventListener("click", () => {
+    authScreen.signOut();
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+// Inicializa la app principal autenticada.
+// Esta función solo debe ejecutarse cuando la sesión local sea válida.
+function bootstrapAuthenticatedApp() {
+  // Evitamos reinicializar si ya está montada.
+  if (isAuthenticatedAppInitialized) {
+    return;
+  }
+
+  // 1. Cargamos el estado inicial del CV.
   cvState = bootstrapCVState();
 
-  console.log("CV cargado al arrancar la app:", cvState);
+  console.log("CV cargado al arrancar la app autenticada:", cvState);
 
   // 2. Creamos la preview y la hidratamos con el estado actual.
-  //    Esta feature sigue renderizando:
-  //    - fullName
-  //    - headline
-  //    - summary
-  const previewRenderer = createPreviewRenderer({
+  const createdPreviewRenderer = createPreviewRenderer({
     initialCVState: cvState,
   });
 
-  if (!previewRenderer) {
+  if (!createdPreviewRenderer) {
     console.error("No se pudo inicializar PreviewRenderer.");
   } else {
+    previewRenderer = createdPreviewRenderer;
     previewRenderer.init();
   }
 
   // 3. Creamos la integración GitHub.
-  //    - carga perfil público y repos candidatos
-  //    - enriquece el estado del CV sin romper el flujo manual
-  //    - convierte selección manual en proyectos del CV
-  const githubIntegration = createGitHubIntegration({
+  const createdGitHubIntegration = createGitHubIntegration({
     initialCVState: cvState,
 
     onProfileLoaded: (githubData) => {
       const enrichedCVState = mergeGitHubProfileIntoCVState(cvState, githubData);
       const savedCV = persistCVState(enrichedCVState);
 
-      syncUIWithCVState({
-        savedCV,
-        profileEditor,
-        previewRenderer,
-        githubIntegration,
-      });
+      syncUIWithCVState(savedCV);
     },
 
     onRepositoriesSelectionChange: (selectedRepositories) => {
-      const nextCVState = mergeSelectedRepositoriesIntoCVState(cvState, selectedRepositories);
+      const nextCVState = mergeSelectedRepositoriesIntoCVState(
+        cvState,
+        selectedRepositories
+      );
       const savedCV = persistCVState(nextCVState);
 
-      syncUIWithCVState({
-        savedCV,
-        profileEditor,
-        previewRenderer,
-        githubIntegration,
-      });
+      syncUIWithCVState(savedCV);
     },
   });
 
-  if (!githubIntegration) {
+  if (!createdGitHubIntegration) {
     console.error("No se pudo inicializar GitHubIntegration.");
   } else {
+    githubIntegration = createdGitHubIntegration;
     githubIntegration.init();
   }
 
   // 4. Creamos el editor del perfil.
-  //    Mientras el usuario escribe:
-  //    - actualizamos la preview en tiempo real
-  //    - no persistimos todavía en localStorage
-  //
-  //    Al guardar:
-  //    - persistimos el nuevo estado,
-  //    - rehidratamos editor, preview y GitHub block
-  const profileEditor = createProfileEditor({
+  const createdProfileEditor = createProfileEditor({
     formSelector: "#profile-form",
     feedbackSelector: "#profile-form-feedback",
     initialCVState: cvState,
 
     onChange: (draftCVState) => {
-      // Render en tiempo real sin guardar todavía.
       if (previewRenderer) {
         previewRenderer.updateCVState(draftCVState);
       }
@@ -258,26 +308,24 @@ function initApp() {
 
     onSave: (nextCVState) => {
       const savedCV = persistCVState(nextCVState);
-
-      syncUIWithCVState({
-        savedCV,
-        profileEditor,
-        previewRenderer,
-        githubIntegration,
-      });
+      syncUIWithCVState(savedCV);
     },
   });
 
-  if (!profileEditor) {
+  if (!createdProfileEditor) {
     console.error("No se pudo inicializar ProfileEditor.");
     return;
   }
 
-  // 5. Inicializamos el editor para rellenar el formulario y escuchar eventos.
+  profileEditor = createdProfileEditor;
   profileEditor.init();
 
-  // 6. Dejamos utilidades mínimas en window para validación manual durante desarrollo.
+  // Marcamos que la app principal ya quedó montada.
+  isAuthenticatedAppInitialized = true;
+
+  // Utilidades mínimas para debug.
   window.cvAppDebug = {
+    ...(window.cvAppDebug ?? {}),
     loadCV,
     saveCV,
     resetCV,
@@ -285,9 +333,60 @@ function initApp() {
     profileEditor,
     previewRenderer,
     githubIntegration,
+    authScreen,
+    bootstrapAuthenticatedApp,
     mergeGitHubProfileIntoCVState,
     mergeSelectedRepositoriesIntoCVState,
   };
+}
+
+// Inicializa la capa de acceso / identidad local.
+function initAuthLayer() {
+  const createdAuthScreen = createAuthScreen({
+    onAuthSuccess: ({ action, session }) => {
+      console.log("Auth OK:", action, session);
+
+      // Cuando la auth local es válida:
+      // - AuthScreen ya muestra la app principal
+      // - aquí montamos el MVP real una sola vez
+      bootstrapAuthenticatedApp();
+    },
+
+    onLogout: () => {
+      console.log("Sesión cerrada.");
+
+      // En este MVP no destruimos el estado del CV al cerrar sesión.
+      // Solo dejamos trazabilidad mínima para depuración.
+      window.cvAppDebug = {
+        ...(window.cvAppDebug ?? {}),
+        authScreen,
+      };
+    },
+  });
+
+  if (!createdAuthScreen) {
+    console.error("No se pudo inicializar AuthScreen. Se hará fallback a la app principal.");
+    showAuthenticatedAppFallback();
+    bootstrapAuthenticatedApp();
+    return;
+  }
+
+  authScreen = createdAuthScreen;
+  authScreen.init();
+
+  // Conectamos el botón visible de cerrar sesión de la app autenticada.
+  bindLogoutButton();
+
+  // Dejamos también auth disponible en debug desde el principio.
+  window.cvAppDebug = {
+    ...(window.cvAppDebug ?? {}),
+    authScreen,
+  };
+}
+
+// Arranque principal de la app.
+function initApp() {
+  initAuthLayer();
 }
 
 // Ejecutamos el arranque.
