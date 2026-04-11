@@ -37,6 +37,19 @@ body {
   color: var(--color-text);
 }
 
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-text);
+}
+
+[hidden] {
+  display: none !important;
+}
+
 button,
 input,
 textarea {
@@ -260,10 +273,11 @@ ul {
 }
 
 /* =========================
-   FORMULARIO DE PERFIL
+   FORMULARIOS BASE
    ========================= */
 
-.profile-form {
+.profile-form,
+.github-form {
   display: grid;
   gap: var(--space-3);
 }
@@ -317,12 +331,8 @@ ul {
 }
 
 /* =========================
-   FEEDBACK DE GUARDADO
-   =========================
-   - oculto cuando está vacío
-   - visible cuando JS escribe texto
-   - preparado para futuro success/error
-*/
+   FEEDBACK
+   ========================= */
 
 .form-feedback {
   margin: 0;
@@ -351,11 +361,150 @@ ul {
   color: var(--color-badge-text);
 }
 
-.profile-form-actions {
+.profile-form-actions,
+.github-form-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
 }
+
+/* =========================
+   BLOQUE GITHUB
+   ========================= */
+
+.github-profile-result,
+.github-repositories-section,
+.github-selected-repositories-section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.github-profile-result,
+.github-repositories-section {
+  padding-top: var(--space-1);
+}
+
+.github-selected-repositories-section {
+  padding-top: var(--space-2);
+}
+
+.github-profile-card {
+  gap: var(--space-3);
+}
+
+.github-profile-card .preview-card-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.github-profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+}
+
+.github-profile-meta {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.github-profile-meta .preview-name,
+.github-profile-meta .preview-role {
+  margin: 0;
+}
+
+.github-repositories-list,
+.github-selected-repositories-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.github-repository-item,
+.github-selected-repository-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.github-selected-repository-item {
+  background-color: #f8fbff;
+  border-color: var(--color-accent-border);
+}
+
+.github-repository-item .empty-state-title,
+.github-selected-repository-item .empty-state-title {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--color-heading);
+  word-break: break-word;
+}
+
+.github-repository-item .empty-state-text,
+.github-selected-repository-item .empty-state-text {
+  margin: 0;
+}
+
+.github-repository-item .empty-state-text:first-of-type,
+.github-selected-repository-item .empty-state-text:first-of-type {
+  color: var(--color-text);
+  line-height: 1.45;
+}
+
+.github-repository-item .empty-state-text:last-of-type,
+.github-selected-repository-item .empty-state-text:last-of-type {
+  font-size: 0.9rem;
+  color: var(--color-text-soft);
+}
+
+.github-repository-item .profile-form-actions,
+.github-selected-repository-item .profile-form-actions {
+  margin-top: auto;
+  padding-top: var(--space-2);
+  align-items: center;
+}
+
+.github-repository-item .btn,
+.github-selected-repository-item .btn {
+  min-height: 40px;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.925rem;
+  text-decoration: none;
+}
+
+.github-repository-item .btn-secondary,
+.github-selected-repository-item .btn-secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text-soft);
+  border-color: var(--color-border);
+}
+
+.github-repository-item .btn-primary,
+.github-selected-repository-item .btn-primary {
+  box-shadow: none;
+}
+
+.github-repositories-section .block-text,
+.github-selected-repositories-section .block-text {
+  max-width: 60ch;
+}
+
+/* =========================
+   PREVIEW
+   ========================= */
 
 .preview-card {
   display: grid;
@@ -398,6 +547,10 @@ ul {
   margin-top: 0.35rem;
 }
 
+/* =========================
+   BOTONES
+   ========================= */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -408,6 +561,7 @@ ul {
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -459,6 +613,16 @@ ul {
 
   .form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .github-repositories-list,
+  .github-selected-repositories-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .github-profile-avatar {
+    width: 84px;
+    height: 84px;
   }
 }
 
