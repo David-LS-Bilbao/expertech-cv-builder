@@ -26,6 +26,9 @@ const PROFILE_FORM_FIELDS = [
   "githubUsername",
 ];
 
+// Tiempo en milisegundos antes de ocultar el feedback automáticamente.
+const FEEDBACK_HIDE_DELAY = 2500;
+
 // Crea el editor de perfil.
 // Recibe:
 // - formSelector: selector del formulario
@@ -40,6 +43,10 @@ export function createProfileEditor({
 } = {}) {
   // Normalizamos el estado completo para trabajar siempre con una estructura estable.
   let currentCVState = createPortfolioCV(initialCVState);
+
+  // Referencia al timeout activo del feedback.
+  // Sirve para evitar que varios guardados se pisen entre sí.
+  let feedbackTimeoutId = null;
 
   // Buscamos el formulario real en el DOM.
   const formElement = document.querySelector(formSelector);
@@ -106,15 +113,60 @@ export function createProfileEditor({
     feedbackElement.classList.remove("is-error", "is-info");
   }
 
+  // Cancela el temporizador actual del feedback si existe.
+  function clearFeedbackTimeout() {
+    if (feedbackTimeoutId) {
+      window.clearTimeout(feedbackTimeoutId);
+      feedbackTimeoutId = null;
+    }
+  }
+
+  // Limpia el contenido visible del feedback.
+  function clearFeedback() {
+    if (!feedbackElement) {
+      return;
+    }
+
+    clearFeedbackTimeout();
+    resetFeedbackState();
+    feedbackElement.textContent = "";
+  }
+
+  // Oculta el feedback después de un tiempo.
+  function scheduleFeedbackHide() {
+    if (!feedbackElement) {
+      return;
+    }
+
+    clearFeedbackTimeout();
+
+    feedbackTimeoutId = window.setTimeout(() => {
+      clearFeedback();
+    }, FEEDBACK_HIDE_DELAY);
+  }
+
   // Muestra un mensaje de feedback simple.
   // type puede ser:
   // - success (estilo base)
   // - error
   // - info
+  //
+  // Para que el usuario perciba el cambio aunque el texto sea el mismo:
+  // 1. limpiamos primero el feedback,
+  // 2. forzamos un reflow,
+  // 3. volvemos a pintar el mensaje,
+  // 4. programamos el auto-hide.
   function showFeedback(message, type = "success") {
     if (!feedbackElement) {
       return;
     }
+
+    // Reiniciamos el feedback para que cada guardado se note.
+    clearFeedback();
+
+    // Fuerza al navegador a registrar el cambio visual antes de volver a pintar.
+    // Esto ayuda a que el mismo mensaje se perciba otra vez.
+    void feedbackElement.offsetHeight;
 
     resetFeedbackState();
 
@@ -127,16 +179,8 @@ export function createProfileEditor({
     }
 
     feedbackElement.textContent = message;
-  }
 
-  // Limpia el contenido visible del feedback.
-  function clearFeedback() {
-    if (!feedbackElement) {
-      return;
-    }
-
-    resetFeedbackState();
-    feedbackElement.textContent = "";
+    scheduleFeedbackHide();
   }
 
   // Maneja el submit del formulario.
@@ -176,6 +220,7 @@ export function createProfileEditor({
 
   // Permite desmontar el listener si en el futuro hiciera falta.
   function destroy() {
+    clearFeedbackTimeout();
     formElement.removeEventListener("submit", handleSubmit);
   }
 

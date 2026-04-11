@@ -1,27 +1,28 @@
 // Punto de entrada principal de la app.
-// En esta feature su responsabilidad es:
-// 1. cargar el estado actual del CV desde localStorage,
-// 2. inicializar el editor de perfil,
-// 3. guardar el estado cuando el usuario envía el formulario.
+// En esta fase coordina 3 responsabilidades:
+// 1. cargar el estado del CV desde localStorage,
+// 2. inicializar el editor del perfil,
+// 3. inicializar y actualizar la preview en vivo.
 //
 // Importante:
-// - no conectamos todavía la preview dinámica,
-// - no tocamos otras features como GitHub o proyectos,
-// - mantenemos una integración mínima, clara y trazable.
+// - la persistencia sigue centralizada aquí,
+// - el editor solo gestiona UI del formulario,
+// - la preview solo renderiza datos ya existentes del estado.
 
 import { createInitialCVState } from "./models/createInitialCVState.js";
 import { createPortfolioCV } from "./models/PortfolioCV.js";
 import { createProfileEditor } from "./ui/ProfileEditor.js";
+import { createPreviewRenderer } from "./ui/PreviewRenderer.js";
 import { saveCV, loadCV, resetCV, hasStoredCV } from "./services/CVStorageService.js";
 
 console.log("EXPERTECH CV · app inicializada");
 
 // Estado global mínimo de la aplicación.
-// Lo mantenemos aquí para que app.js siga siendo el punto de composición.
+// app.js sigue siendo el punto de composición.
 let cvState = null;
 
 // Crea un estado demo solo la primera vez, si aún no existe nada en localStorage.
-// Esto ayuda a que el formulario no arranque completamente vacío durante desarrollo.
+// Esto ayuda a probar el editor y la preview con contenido realista.
 function seedInitialCVState() {
   const initialCVState = createInitialCVState();
 
@@ -91,17 +92,40 @@ function initApp() {
 
   console.log("CV cargado al arrancar la app:", cvState);
 
-  // 2. Creamos el editor del perfil y le pasamos:
-  //    - el estado inicial,
-  //    - qué hacer al guardar.
+  // 2. Creamos la preview y la hidratamos con el estado actual.
+  //    Esta feature solo renderiza:
+  //    - fullName
+  //    - headline
+  //    - summary
+  const previewRenderer = createPreviewRenderer({
+    initialCVState: cvState,
+  });
+
+  if (!previewRenderer) {
+    console.error("No se pudo inicializar PreviewRenderer.");
+  } else {
+    previewRenderer.init();
+  }
+
+  // 3. Creamos el editor del perfil.
+  //    Al guardar:
+  //    - persistimos el nuevo estado,
+  //    - rehidratamos el editor con el estado normalizado,
+  //    - actualizamos la preview en vivo.
   const profileEditor = createProfileEditor({
     formSelector: "#profile-form",
+    feedbackSelector: "#profile-form-feedback",
     initialCVState: cvState,
     onSave: (nextCVState) => {
       const savedCV = persistCVState(nextCVState);
 
-      // Dejamos sincronizado el editor con el estado normalizado/persistido.
+      // Mantiene el editor sincronizado con el estado guardado.
       profileEditor.updateCVState(savedCV);
+
+      // Mantiene la preview sincronizada con el estado guardado.
+      if (previewRenderer) {
+        previewRenderer.updateCVState(savedCV);
+      }
     },
   });
 
@@ -111,16 +135,17 @@ function initApp() {
     return;
   }
 
-  // 3. Inicializamos el editor para rellenar el formulario y escuchar el submit.
+  // 4. Inicializamos el editor para rellenar el formulario y escuchar el submit.
   profileEditor.init();
 
-  // 4. Dejamos utilidades mínimas en window para validación manual durante desarrollo.
+  // 5. Dejamos utilidades mínimas en window para validación manual durante desarrollo.
   window.cvAppDebug = {
     loadCV,
     saveCV,
     resetCV,
     getCVState: () => cvState,
     profileEditor,
+    previewRenderer,
   };
 }
 
