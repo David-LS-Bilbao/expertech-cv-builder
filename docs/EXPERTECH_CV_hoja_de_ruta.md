@@ -39,9 +39,12 @@ El alcance de esta fase se alinea con el objetivo actual del repositorio: constr
 - `feature/editor-profile`
 - `feature/live-preview`
 - `feature/github-integration`
+- `feature/projects-visualization`
+- `feature/login-screen`
+- `feature/github-project-sources`
 - `feature/export-pdf-qr`
 - `feature/polish-accessibility`
-- `docs/readme-memory`
+- `feature/documentacion-final`
 
 ---
 
@@ -250,7 +253,7 @@ Todo cambio relevante se refleja en la preview sin recarga.
 
 ---
 
-## Feature 5 · Integración con GitHub API
+## Feature 5 · Integración pública básica con GitHub API
 
 ### Rama
 - `feature/github-integration`
@@ -278,6 +281,12 @@ Traer datos útiles del perfil técnico desde GitHub para enriquecer el CV.
 
 ### Criterio de cierre
 La app obtiene datos de GitHub y el usuario puede incorporarlos al CV.
+
+### Fuera de alcance en esta feature
+- múltiples cuentas GitHub
+- repositorios de otros owners o atribución avanzada
+- colaboraciones
+- OAuth o autenticación GitHub
 
 ---
 
@@ -311,7 +320,55 @@ Los proyectos se pueden explorar y entender rápidamente.
 
 ---
 
-## Feature 7 · Exportación PDF y QR
+## Feature 7 · Pantalla de acceso
+
+### Rama
+- `feature/login-screen`
+
+### Objetivo
+Preparar una pantalla de acceso clara y una base de identidad de usuario dentro del producto sin obligar todavía a resolver autenticación externa compleja.
+
+### Alcance
+- pantalla de entrada o acceso
+- microcopy claro sobre el valor del producto
+- estructura preparada para un futuro flujo de identidad
+- separación limpia respecto a la integración GitHub actual
+
+### Entregables
+- pantalla de acceso coherente con el producto
+- base visual y funcional para la futura identidad de usuario
+- documentación clara de límites de esta fase
+
+### Criterio de cierre
+El proyecto dispone de una pantalla de acceso comprensible y lista para soportar evolución posterior sin introducir todavía autenticación compleja.
+
+---
+
+## Feature 8 · Fuentes avanzadas de proyectos GitHub
+
+### Rama
+- `feature/github-project-sources`
+
+### Objetivo
+Ampliar la integración GitHub para soportar mejor varias cuentas, repositorios de otros owners, colaboraciones y atribución clara del origen del proyecto.
+
+### Alcance
+- soporte documental y técnico para múltiples orígenes GitHub
+- diferenciación entre repos propios y externos
+- reglas de atribución del origen del proyecto
+- base para ampliación futura sin prometer todavía OAuth
+
+### Entregables
+- estrategia clara de orígenes GitHub ampliados
+- UI y estado preparados para distinguir fuentes de proyecto
+- atribución visible y comprensible dentro del producto
+
+### Criterio de cierre
+El sistema puede representar con más claridad de dónde viene cada proyecto GitHub sin depender aún de autenticación avanzada.
+
+---
+
+## Feature 9 · Exportación PDF y QR
 
 ### Rama
 - `feature/export-pdf-qr`
@@ -339,7 +396,7 @@ El usuario puede generar un CV corto presentable con acceso a la versión web.
 
 ---
 
-## Feature 8 · Pulido, accesibilidad y estados UX
+## Feature 10 · Pulido, accesibilidad y estados UX
 
 ### Rama
 - `feature/polish-accessibility`
@@ -369,10 +426,10 @@ El MVP se puede enseñar y probar con confianza.
 
 ---
 
-## Feature 9 · Documentación y entrega
+## Feature 11 · Documentación y entrega
 
 ### Rama
-- `docs/readme-memory`
+- `feature/documentacion-final`
 
 ### Objetivo
 Dejar el proyecto listo para revisión académica y portfolio.
@@ -402,11 +459,13 @@ El proyecto se puede entregar, explicar y defender con claridad.
 3. Feature 2 · Modelo de dominio y persistencia local
 4. Feature 3 · Editor del perfil y formularios dinámicos
 5. Feature 4 · Vista previa en vivo del CV
-6. Feature 5 · Integración con GitHub API
+6. Feature 5 · Integración pública básica con GitHub API
 7. Feature 6 · Gestión de proyectos y visualización
-8. Feature 7 · Exportación PDF y QR
-9. Feature 8 · Pulido, accesibilidad y estados UX
-10. Feature 9 · Documentación y entrega
+8. Feature 7 · Pantalla de acceso
+9. Feature 8 · Fuentes avanzadas de proyectos GitHub
+10. Feature 9 · Exportación PDF y QR
+11. Feature 10 · Pulido, accesibilidad y estados UX
+12. Feature 11 · Documentación y entrega
 
 ---
 
