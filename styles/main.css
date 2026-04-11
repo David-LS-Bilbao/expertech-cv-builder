@@ -177,6 +177,10 @@ ul {
   gap: var(--space-4);
 }
 
+.print-cv-root {
+  display: none;
+}
+
 .panel-heading {
   display: grid;
   gap: var(--space-1);
@@ -923,5 +927,137 @@ ul {
   #hero-title {
     max-width: 12ch;
     font-size: 2.25rem;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  #auth-screen,
+  .app-header,
+  .hero,
+  .quick-actions,
+  .editor-panel,
+  .final-actions,
+  .preview-panel {
+    display: none !important;
+  }
+
+  #app-shell-authenticated {
+    display: block !important;
+    min-height: auto;
+  }
+
+  .app-main,
+  .workspace {
+    display: block !important;
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-cv-root {
+    display: block !important;
+  }
+
+  .print-cv {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .print-cv-header {
+    display: grid;
+    gap: 0.2rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid #d1d5db;
+  }
+
+  .print-cv-name {
+    margin: 0;
+    font-size: 1.7rem;
+    line-height: 1.1;
+    color: #111827;
+  }
+
+  .print-cv-headline {
+    margin: 0;
+    color: #374151;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .print-cv-section {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .print-cv-section-title {
+    margin: 0;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #111827;
+  }
+
+  .print-cv-summary {
+    margin: 0;
+    color: #111827;
+    line-height: 1.45;
+  }
+
+  .print-cv-projects-list {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .print-cv-project {
+    display: grid;
+    gap: 0.18rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid #e5e7eb;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-cv-project-name,
+  .print-cv-project-description,
+  .print-cv-project-source,
+  .print-cv-project-stack,
+  .print-cv-project-links {
+    margin: 0;
+  }
+
+  .print-cv-project-name {
+    font-size: 1rem;
+    line-height: 1.3;
+    color: #111827;
+  }
+
+  .print-cv-project-description {
+    color: #1f2937;
+    line-height: 1.45;
+  }
+
+  .print-cv-project-source,
+  .print-cv-project-stack,
+  .print-cv-project-links {
+    color: #6b7280;
+    font-size: 0.84rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .print-cv-project-links a {
+    color: #111827;
+    text-decoration: underline;
   }
 }

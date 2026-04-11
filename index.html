@@ -247,6 +247,11 @@
                PreviewTemplate.js inyecta aquí el markup base del panel preview.
                PreviewRenderer.js lo utiliza después para pintar datos reales. -->
           <div id="preview-panel-root"></div>
+
+          <!-- Root vacío de la versión exportable.
+               PrintCVTemplate.js inyecta aquí el markup print-only del CV.
+               PrintCVRenderer.js lo pinta con el mismo estado del CV. -->
+          <div id="print-cv-root" class="print-cv-root" aria-hidden="true"></div>
         </section>
 
         <section class="final-actions" aria-labelledby="final-actions-title">
@@ -257,7 +262,13 @@
 
           <div class="final-actions-list">
             <button type="button" class="btn btn-primary">Guardar CV</button>
-            <button type="button" class="btn btn-secondary">Exportar PDF</button>
+            <button
+              type="button"
+              id="export-pdf-button"
+              class="btn btn-secondary"
+            >
+              Exportar PDF
+            </button>
             <button type="button" class="btn btn-secondary">Compartir perfil</button>
           </div>
         </section>
