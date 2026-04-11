@@ -159,3 +159,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Validación: revisión manual del flujo UI, comprobación de que el empty-state GitHub se oculta tras una carga correcta, confirmación de que el badge cambia a `Conectado`, validación del fallback manual cuando la API falla y verificación sintáctica con `node --check` de `js/app.js`, `js/ui/GitHubIntegration.js` y `js/services/GitHubProfileService.js`.
 - Próximo paso: arrancar `feat/projects-visualization` para representar de forma más clara en el CV los proyectos ya seleccionados y mejorar la lectura recruiter-friendly del portfolio.
 - Orden posterior recomendado: `feat/login-screen` para preparar identidad de usuario sin autenticación externa compleja, `feat/github-project-sources` para ampliar orígenes y atribución de proyectos GitHub, y después `feat/export-pdf-qr`, `feat/polish-accessibility` y `feat/documentacion-final`.
+
+### [2026-04-11] Cierre de la feature `feat/projects-visualization`
+
+- Objetivo: mejorar la lectura y visualización de proyectos dentro del CV, aprovechando la selección GitHub ya persistida como base del bloque de proyectos.
+- Trabajo realizado: se adaptó la preview para incluir un contenedor dinámico de proyectos, se amplió `PreviewRenderer.js` para renderizar cards desde `cvState.projects`, se priorizaron proyectos marcados como `featured`, se añadió un empty-state específico y se incorporaron estilos para nombre, descripción, stack y enlaces.
+- Trabajo realizado por el usuario: implementación y validación visual del bloque de proyectos en la preview, revisión manual del resultado recruiter-friendly y comprobación de que la selección GitHub ya persistida se refleja correctamente en el CV.
+- Trabajo realizado por Codex: revisión del estado real de la base tras la integración completa de GitHub en `dev`, validación de que la preview ya no dependía de contenido estático, comprobación del cumplimiento de objetivos de la feature y actualización de la documentación de cierre.
+- Archivos afectados: `index.html`, `styles/main.css`, `js/ui/PreviewRenderer.js`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md` y `docs/EXPERTECH_contexto_actualizado.md`.
+- Resultado: el proyecto ya representa proyectos destacados dentro de la preview con una presentación más clara para recruiters, reutilizando el estado persistido del CV y manteniendo separación limpia entre datos, selección GitHub y render visual.
+- Validación: revisión visual manual de la preview con varios proyectos, comprobación de cards con nombre, descripción, stack y enlaces, verificación del empty-state específico y comprobación sintáctica con `node --check js/ui/PreviewRenderer.js`.
+- Próximo paso: arrancar `feat/login-screen` para preparar una pantalla de acceso clara y una base de identidad de usuario sin introducir todavía autenticación externa compleja.

@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/github-integration` cerrada a nivel funcional y siguiente paso enfocado en `feat/projects-visualization`
+Fase actual: `feat/projects-visualization` cerrada a nivel funcional y siguiente paso enfocado en `feat/login-screen`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage`, formulario funcional de perfil conectado al estado, una preview recruiter-friendly sincronizada en tiempo real y una integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage`, formulario funcional de perfil conectado al estado, una preview recruiter-friendly sincronizada en tiempo real, una integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, y un bloque de proyectos ya conectado a la preview como cards dinámicas orientadas a recruiters.
 
 ## Objetivo del MVP
 
@@ -124,6 +124,10 @@ Comportamiento actual disponible:
 - carga de repositorios candidatos y selección manual de repos destacados
 - persistencia de `githubUsername` y de proyectos generados desde repositorios seleccionados
 - rehidratación del bloque GitHub a partir del estado persistido, manteniendo el flujo manual como fallback si la API falla
+- render dinámico de proyectos destacados en la preview a partir de `cvState.projects`
+- priorización de proyectos marcados como `featured` cuando existen
+- visualización de nombre, descripción, stack y enlaces dentro de cards de proyecto
+- empty-state específico cuando no hay proyectos visibles en la preview
 
 ## Roadmap resumido del MVP
 
@@ -143,22 +147,21 @@ Comportamiento actual disponible:
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/projects-visualization`.
+La siguiente fase natural del proyecto es `feat/login-screen`.
 
-Su objetivo será reflejar de forma más clara en el CV los proyectos ya seleccionados, mejorar su lectura para recruiters y consolidar la parte visual del portfolio.
+Su objetivo será preparar una pantalla de acceso clara y una base de identidad de usuario dentro del producto, sin obligar todavía a resolver autenticación externa compleja ni OAuth.
 
 ## Nota de desarrollo
 
-La feature `feat/github-integration` ya deja resuelta la integración pública básica con GitHub dentro del alcance MVP: la selección de repositorios es manual y el flujo manual del perfil sigue siendo la base segura. Siguen fuera de esta fase la autenticación OAuth, la gestión de múltiples cuentas, las colaboraciones, los repositorios privados y la validación avanzada de autoría o atribución.
+Las features `feat/github-integration` y `feat/projects-visualization` ya dejan resuelta la integración pública básica con GitHub y la representación visual recruiter-friendly de los proyectos dentro del alcance MVP. La selección de repositorios sigue siendo manual y el flujo manual del perfil continúa como base segura. Siguen fuera de esta fase la autenticación OAuth, la gestión de múltiples cuentas, las colaboraciones, los repositorios privados y la validación avanzada de autoría o atribución.
 
 Orden recomendado a partir del estado actual:
 
-1. `feat/projects-visualization`
-2. `feat/login-screen`
-3. `feat/github-project-sources`
-4. `feat/export-pdf-qr`
-5. `feat/polish-accessibility`
-6. `feat/documentacion-final`
+1. `feat/login-screen`
+2. `feat/github-project-sources`
+3. `feat/export-pdf-qr`
+4. `feat/polish-accessibility`
+5. `feat/documentacion-final`
 
 ## Autor
 
