@@ -108,14 +108,26 @@ function initApp() {
   }
 
   // 3. Creamos el editor del perfil.
+  //    Mientras el usuario escribe:
+  //    - actualizamos la preview en tiempo real
+  //    - no persistimos todavía en localStorage
+  //
   //    Al guardar:
   //    - persistimos el nuevo estado,
   //    - rehidratamos el editor con el estado normalizado,
-  //    - actualizamos la preview en vivo.
+  //    - actualizamos también la preview con el estado guardado.
   const profileEditor = createProfileEditor({
     formSelector: "#profile-form",
     feedbackSelector: "#profile-form-feedback",
     initialCVState: cvState,
+
+    onChange: (draftCVState) => {
+      // Render en tiempo real sin guardar todavía.
+      if (previewRenderer) {
+        previewRenderer.updateCVState(draftCVState);
+      }
+    },
+
     onSave: (nextCVState) => {
       const savedCV = persistCVState(nextCVState);
 
@@ -135,7 +147,7 @@ function initApp() {
     return;
   }
 
-  // 4. Inicializamos el editor para rellenar el formulario y escuchar el submit.
+  // 4. Inicializamos el editor para rellenar el formulario y escuchar eventos.
   profileEditor.init();
 
   // 5. Dejamos utilidades mínimas en window para validación manual durante desarrollo.

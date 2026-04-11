@@ -3,13 +3,14 @@
 // 1. localizar el formulario en el DOM,
 // 2. rellenarlo con los datos actuales del CV,
 // 3. leer los cambios del usuario,
-// 4. devolver un nuevo estado actualizado al hacer submit,
-// 5. mostrar feedback visual básico de guardado.
+// 4. emitir cambios en tiempo real para la preview,
+// 5. devolver un nuevo estado actualizado al hacer submit,
+// 6. mostrar feedback visual básico de guardado.
 //
 // Importante:
 // - aquí no guardamos directamente en localStorage,
 // - esa responsabilidad sigue en app.js / servicios,
-// - así mantenemos separación clara entre UI y persistencia.
+// - así mantenemos separación clara entre UI, preview y persistencia.
 
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { createCandidateProfile } from "../models/CandidateProfile.js";
@@ -35,11 +36,13 @@ const FEEDBACK_HIDE_DELAY = 2500;
 // - feedbackSelector: selector del nodo de feedback
 // - initialCVState: estado inicial ya cargado
 // - onSave: callback que recibirá el nuevo estado del CV al guardar
+// - onChange: callback que recibirá el estado temporal del CV mientras se escribe
 export function createProfileEditor({
   formSelector = "#profile-form",
   feedbackSelector = "#profile-form-feedback",
   initialCVState,
   onSave = () => {},
+  onChange = () => {},
 } = {}) {
   // Normalizamos el estado completo para trabajar siempre con una estructura estable.
   let currentCVState = createPortfolioCV(initialCVState);
@@ -165,7 +168,6 @@ export function createProfileEditor({
     clearFeedback();
 
     // Fuerza al navegador a registrar el cambio visual antes de volver a pintar.
-    // Esto ayuda a que el mismo mensaje se perciba otra vez.
     void feedbackElement.offsetHeight;
 
     resetFeedbackState();
@@ -181,6 +183,28 @@ export function createProfileEditor({
     feedbackElement.textContent = message;
 
     scheduleFeedbackHide();
+  }
+
+  // Emite el estado temporal del CV mientras el usuario escribe.
+  // Esto permite que app.js actualice la preview en tiempo real
+  // sin persistir todavía en localStorage.
+  function emitLiveChange() {
+    const nextCVState = buildNextCVState();
+
+    // El editor mantiene una referencia interna al estado más reciente,
+    // aunque todavía no esté persistido.
+    currentCVState = nextCVState;
+
+    onChange(nextCVState);
+  }
+
+  // Maneja los cambios en tiempo real del formulario.
+  function handleInput() {
+    // Si el usuario vuelve a escribir, quitamos el mensaje de "guardado"
+    // para no dar la impresión de que esos cambios ya están persistidos.
+    clearFeedback();
+
+    emitLiveChange();
   }
 
   // Maneja el submit del formulario.
@@ -211,21 +235,23 @@ export function createProfileEditor({
   // Inicializa el editor:
   // - rellena el formulario
   // - limpia feedback inicial
-  // - enlaza el submit
+  // - enlaza input y submit
   function init() {
     fillForm(currentCVState.profile);
     clearFeedback();
+    formElement.addEventListener("input", handleInput);
     formElement.addEventListener("submit", handleSubmit);
   }
 
-  // Permite desmontar el listener si en el futuro hiciera falta.
+  // Permite desmontar los listeners si en el futuro hiciera falta.
   function destroy() {
     clearFeedbackTimeout();
+    formElement.removeEventListener("input", handleInput);
     formElement.removeEventListener("submit", handleSubmit);
   }
 
   // Permite actualizar el editor desde fuera con un nuevo estado.
-  // Útil si en otra feature cambia el estado global y queremos rehidratar la UI.
+  // Útil cuando app.js persiste y devuelve un estado normalizado.
   function updateCVState(nextCVState) {
     currentCVState = createPortfolioCV(nextCVState);
     fillForm(currentCVState.profile);

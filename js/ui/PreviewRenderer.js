@@ -2,7 +2,8 @@
 // Responsabilidades de este módulo:
 // 1. localizar los nodos del preview en el DOM,
 // 2. pintar nombre, titular y resumen a partir del estado,
-// 3. permitir re-render cuando cambie el perfil.
+// 3. mostrar u ocultar el empty-state de ayuda,
+// 4. permitir re-render cuando cambie el perfil.
 //
 // Importante:
 // - no guarda nada en localStorage,
@@ -26,6 +27,7 @@ export function createPreviewRenderer({
   fullNameSelector = "#preview-full-name",
   headlineSelector = "#preview-headline",
   summarySelector = "#preview-summary",
+  emptyStateSelector = "#preview-empty-state",
   initialCVState,
 } = {}) {
   // Normalizamos el estado para trabajar siempre con la misma estructura.
@@ -35,8 +37,9 @@ export function createPreviewRenderer({
   const fullNameElement = document.querySelector(fullNameSelector);
   const headlineElement = document.querySelector(headlineSelector);
   const summaryElement = document.querySelector(summarySelector);
+  const emptyStateElement = document.querySelector(emptyStateSelector);
 
-  // Si falta alguno, devolvemos null para que app.js lo gestione de forma clara.
+  // Los tres nodos principales sí son obligatorios para esta feature.
   if (!fullNameElement || !headlineElement || !summaryElement) {
     console.error("No se pudo inicializar PreviewRenderer: faltan nodos del preview.");
     return null;
@@ -48,6 +51,31 @@ export function createPreviewRenderer({
   function getDisplayValue(value, fallback) {
     const normalizedValue = String(value ?? "").trim();
     return normalizedValue || fallback;
+  }
+
+  // Indica si el perfil tiene contenido real suficiente
+  // como para considerar que la preview ya no está vacía.
+  // Regla MVP:
+  // si hay al menos uno de estos campos con texto, ocultamos la ayuda.
+  function hasPreviewContent(profileData = {}) {
+    const fullName = String(profileData.fullName ?? "").trim();
+    const headline = String(profileData.headline ?? "").trim();
+    const summary = String(profileData.summary ?? "").trim();
+
+    return Boolean(fullName || headline || summary);
+  }
+
+  // Muestra u oculta el empty-state del preview.
+  // Si no existe el nodo en el HTML, no rompemos la app.
+  function renderEmptyState(profileData = {}) {
+    if (!emptyStateElement) {
+      return;
+    }
+
+    const shouldShowEmptyState = !hasPreviewContent(profileData);
+
+    // Usamos la propiedad hidden porque es simple, semántica y suficiente para este MVP.
+    emptyStateElement.hidden = !shouldShowEmptyState;
   }
 
   // Pinta solo el bloque de perfil en la preview.
@@ -66,6 +94,8 @@ export function createPreviewRenderer({
       profileData.summary,
       PREVIEW_FALLBACKS.summary
     );
+
+    renderEmptyState(profileData);
   }
 
   // Render principal de esta feature.
@@ -75,7 +105,7 @@ export function createPreviewRenderer({
   }
 
   // Permite actualizar el estado desde fuera y volver a pintar.
-  // Esto será lo normal cuando app.js guarde cambios del formulario.
+  // Esto será lo normal cuando app.js reciba cambios del formulario.
   function updateCVState(nextCVState) {
     currentCVState = createPortfolioCV(nextCVState);
     render();
@@ -96,6 +126,7 @@ export function createPreviewRenderer({
       fullNameElement,
       headlineElement,
       summaryElement,
+      emptyStateElement,
     }),
   };
 }
