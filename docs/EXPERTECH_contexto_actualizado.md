@@ -13,9 +13,9 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Proyecto:** EXPERTECH CV  
 **Marca paraguas:** EXPERTECH  
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
-**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub y visualización dinámica de proyectos ya conectada.
+**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos y una primera capa de trazabilidad mínima del origen de proyectos importados.
 
-Según la base actual del repositorio, la fase ya cerrada funcionalmente más reciente es `feat/login-screen` y el siguiente paso natural pasa a ser `feat/github-project-sources`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub y render recruiter-friendly de proyectos seleccionados.
+Según la base actual del repositorio, la rama activa pasa a ser `feat/github-project-sources`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados y una señal visual compacta del origen GitHub cuando corresponde.
 
 ---
 
@@ -97,8 +97,14 @@ Según la base actual del repositorio, la fase ya cerrada funcionalmente más re
   - nombre
   - descripción
   - stack
-  - enlaces disponibles
+- enlaces disponibles
 - empty-state específico cuando no hay proyectos visibles
+
+### 2.10. Trazabilidad básica de proyectos GitHub
+- persistencia de metadatos mínimos del origen del proyecto importado
+- línea visual compacta en preview tipo `GitHub · owner/repo`
+- fallback seguro cuando faltan datos de origen
+- limpieza del proyecto demo legado para que no reaparezca al quitar toda la selección GitHub
 
 ---
 
@@ -142,10 +148,10 @@ Ese documento se conserva solo como:
 ## 5. Estado documental detectado
 
 ### README
-El `README.md` ya está alineado con el estado actual del repo:
-- da por cerrada funcionalmente `feat/login-screen`
-- sitúa la siguiente feature en `feat/github-project-sources`
-- describe correctamente la base funcional ya existente
+El `README.md` debe reflejar:
+- `feat/github-project-sources` como rama activa
+- la auth local MVP ya cerrada
+- la trazabilidad mínima GitHub ya implementada sin vender todavía casos avanzados
 
 ### Roadmap
 `docs/roadmap.md` puede quedar desalineado en algunos momentos respecto al README o al estado real del repo.
@@ -159,7 +165,7 @@ Antes de abrir cada nuevo chat de feature:
 
 ---
 
-## 6. Siguiente feature recomendada
+## 6. Feature activa recomendada
 
 ## `feat/github-project-sources`
 
@@ -173,17 +179,21 @@ La arquitectura ya permite:
 - persistir proyectos
 - representarlos visualmente en la preview
 
-Por tanto, el siguiente paso lógico ya no es construir login básico, sino **ampliar la trazabilidad y el origen real de los proyectos importados desde GitHub sin mezclar todavía OAuth ni backend**.
+Por tanto, el trabajo actual ya no consiste en construir login básico, sino en **ampliar gradualmente la trazabilidad y el origen real de los proyectos importados desde GitHub sin mezclar todavía OAuth ni backend**.
 
 ### Objetivo funcional
 Ampliar la integración GitHub para soportar mejor múltiples orígenes de proyecto, repositorios de otros owners y atribución más clara del origen de cada proyecto dentro del CV.
 
-### Qué debería incluir
-- mejora del origen y atribución de proyectos GitHub
+### Qué ya cubre en su slice actual
+- metadatos mínimos de origen persistidos en el modelo `Project`
+- señal visual compacta del origen en la preview
+- compatibilidad con proyectos manuales y con el estado persistido existente
+- limpieza del dato demo legado que confundía el bloque de proyectos
+
+### Qué sigue pendiente dentro del área
 - soporte más claro para repos fuera del owner principal
-- compatibilidad con el estado actual del CV y su persistencia
-- continuidad con la selección manual ya existente
-- microcopy claro sobre limitaciones de autoría y colaboración
+- atribución más rica del origen del proyecto
+- microcopy más fino sobre autoría o colaboración
 
 ### Qué no debería incluir
 - OAuth o login GitHub
@@ -217,9 +227,9 @@ Romper persistencia o selección GitHub al tocar proyectos.
 
 ---
 
-## 8. Orden recomendado a partir de ahora
+## 8. Orden recomendado a partir del cierre de esta rama
 
-1. `feat/github-project-sources`
+1. cerrar `feat/github-project-sources`
 2. `feat/export-pdf-qr`
 3. `feat/polish-accessibility`
 4. `feat/documentacion-final`
@@ -267,9 +277,10 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 - live preview
 - integración pública básica con GitHub
 - visualización recruiter-friendly de proyectos
+- trazabilidad mínima del origen de proyectos GitHub
 
-El siguiente paso natural es:
+La rama activa natural sigue siendo:
 
 **`feat/github-project-sources`**
 
-porque ahora toca mejorar la trazabilidad y el origen de los proyectos GitHub sobre una base de auth local y arquitectura ya estabilizadas.
+porque ahora toca cerrar de forma limpia la trazabilidad y el origen de los proyectos GitHub sobre una base de auth local y arquitectura ya estabilizadas.

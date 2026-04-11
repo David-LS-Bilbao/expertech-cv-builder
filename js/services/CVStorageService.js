@@ -8,6 +8,48 @@ import { createInitialCVState } from "../models/createInitialCVState.js";
 // Clave única de almacenamiento para el proyecto.
 const CV_STORAGE_KEY = "expertech-cv";
 
+// Firma exacta del proyecto demo antiguo que se sembraba en versiones previas.
+// La usamos para limpiar el dato legado sin tocar proyectos manuales reales.
+function isLegacySeededDemoProject(project = {}) {
+  const normalizedStack = Array.isArray(project.stack) ? project.stack : [];
+
+  return (
+    project.id === "project-1" &&
+    project.name === "EXPERTECH CV" &&
+    project.description ===
+      "MVP de currículum web interactivo para perfiles tech." &&
+    project.repoUrl ===
+      "https://github.com/David-LS-Bilbao/expertech-cv-builder" &&
+    project.demoUrl === "" &&
+    Boolean(project.featured) === true &&
+    normalizedStack.length === 3 &&
+    normalizedStack[0] === "HTML" &&
+    normalizedStack[1] === "CSS" &&
+    normalizedStack[2] === "JavaScript" &&
+    !String(project.sourceProvider ?? "").trim()
+  );
+}
+
+function removeLegacySeededDemoProject(cvState) {
+  const normalizedCV = createPortfolioCV(cvState);
+  const nextProjects = normalizedCV.projects.filter(
+    (project) => !isLegacySeededDemoProject(project)
+  );
+
+  const hasRemovedLegacyDemo =
+    nextProjects.length !== normalizedCV.projects.length;
+
+  return {
+    hasRemovedLegacyDemo,
+    cvState: hasRemovedLegacyDemo
+      ? createPortfolioCV({
+          ...normalizedCV,
+          projects: nextProjects,
+        })
+      : normalizedCV,
+  };
+}
+
 // Indica si ya existe un CV persistido en el navegador.
 export function hasStoredCV() {
   return localStorage.getItem(CV_STORAGE_KEY) !== null;
@@ -43,7 +85,16 @@ export function loadCV() {
     const parsedCV = JSON.parse(storedCV);
 
     // Normalizamos el resultado para evitar shapes rotas o incompletas.
-    return createPortfolioCV(parsedCV);
+    const { cvState, hasRemovedLegacyDemo } =
+      removeLegacySeededDemoProject(parsedCV);
+
+    // Si limpiamos el proyecto demo legado, dejamos también persistido
+    // el estado saneado para que no vuelva a reaparecer al recargar.
+    if (hasRemovedLegacyDemo) {
+      localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(cvState));
+    }
+
+    return cvState;
   } catch (error) {
     // Si el JSON está corrupto, evitamos romper la app.
     console.error("Error al cargar el CV desde localStorage:", error);

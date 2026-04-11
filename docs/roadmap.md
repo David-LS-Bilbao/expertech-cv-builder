@@ -2,18 +2,15 @@
 
 Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
-## Feature cerrada funcionalmente en la rama actual
+## Feature activa en la rama actual
 
-- `feat/login-screen`
+- `feat/github-project-sources`
 
-Objetivo cubierto:
-- pantalla de acceso `login/register`
-- registro y login local con email + contraseña
-- persistencia de usuarios y sesión en `localStorage`
-- restauración de sesión al recargar
-- logout visible y funcional
-- botones Google y GitHub visibles solo como preparación visual del siguiente MVP
-- arranque global reorganizado para que `app.js` quede como entry point mínimo
+Objetivo actual:
+- conservar metadatos mínimos del origen de proyectos importados desde GitHub
+- mostrar una señal visual compacta de origen en la preview
+- mantener intacta la protección de proyectos manuales reales
+- eliminar la confusión del proyecto demo legado al quitar la selección GitHub
 
 ## Consolidación arquitectónica reciente
 
@@ -24,14 +21,22 @@ Objetivo cubierto:
 - `index.html` más cercano a shell base que a archivo monolítico
 - separación más clara entre auth, sesión, estado del CV, integración GitHub y sincronización de UI
 
-## Siguiente feature prevista
+## Siguiente feature prevista tras esta rama
 
-- `feat/github-project-sources`
+- `feat/export-pdf-qr`
 
 Objetivo siguiente:
-- ampliar la integración GitHub para múltiples cuentas, repositorios de otros owners y colaboraciones
-- dejar más clara la atribución del origen del proyecto sin prometer todavía OAuth
-- mantener separadas la auth local MVP y la futura auth real
+- preparar una salida PDF breve del CV
+- explorar un acceso compartible mediante QR sin abrir todavía backend
+- mantener el MVP actual estable mientras se añade una salida más presentable
+
+## Avance reciente dentro de la feature activa
+
+- `feat/github-project-sources`
+  - proyectos GitHub conservan trazabilidad mínima dentro del estado del CV
+  - la preview muestra origen compacto tipo `GitHub · owner/repo`
+  - fallback seguro cuando faltan datos de origen
+  - limpieza del proyecto demo legado para que el empty-state sea coherente
 
 ## Feature cerrada recientemente
 
@@ -58,7 +63,7 @@ Objetivo siguiente:
 - la auth actual del MVP no es auth real ni segura para producción
 - no hay backend ni PostgreSQL en esta fase
 - Google y GitHub no implementan OAuth real todavía
-- `feat/github-integration` no resuelve todavía múltiples cuentas GitHub
+- `feat/github-project-sources` no resuelve todavía múltiples cuentas GitHub
 - no cubre colaboraciones ni atribución avanzada del origen de proyectos
 
 ## Regla de trabajo
