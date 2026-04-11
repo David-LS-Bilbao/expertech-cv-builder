@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/live-preview` cerrada a nivel funcional y siguiente paso enfocado en `feat/github-integration`
+Fase actual: `feat/github-integration` cerrada a nivel funcional y siguiente paso enfocado en `feat/projects-visualization`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage`, formulario funcional de perfil conectado al estado y una preview recruiter-friendly sincronizada en tiempo real para los datos principales del perfil. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un flujo real de edición, guardado y render reactivo del bloque de perfil.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage`, formulario funcional de perfil conectado al estado, una preview recruiter-friendly sincronizada en tiempo real y una integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente.
 
 ## Objetivo del MVP
 
@@ -119,6 +119,11 @@ Comportamiento actual disponible:
 - sincronización inicial de la preview con el estado cargado desde `localStorage`
 - fallbacks visuales cuando faltan datos del perfil
 - ocultación automática del estado vacío de la preview cuando ya existe contenido real
+- búsqueda de perfil público de GitHub desde un bloque independiente del formulario manual
+- carga de perfil GitHub con avatar, nombre visible, bio y enlace público
+- carga de repositorios candidatos y selección manual de repos destacados
+- persistencia de `githubUsername` y de proyectos generados desde repositorios seleccionados
+- rehidratación del bloque GitHub a partir del estado persistido, manteniendo el flujo manual como fallback si la API falla
 
 ## Roadmap resumido del MVP
 
@@ -128,20 +133,32 @@ Comportamiento actual disponible:
 4. `feat/local-storage`: persistir el estado del CV
 5. `feat/editor-profile`: crear formularios y edición del perfil
 6. `feat/live-preview`: reflejar cambios en tiempo real
-7. `feat/github-integration`: enriquecer el CV con datos de GitHub
-8. `feat/projects-visualization`: mejorar lectura y visualización de proyectos
-9. `feat/export-pdf-qr`: exportación resumida y acceso por QR
-10. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
+7. `feat/github-integration`: integrar perfil público y repositorios básicos desde GitHub
+8. `feat/projects-visualization`: mejorar lectura y visualización de proyectos seleccionados
+9. `feat/login-screen`: preparar una pantalla de acceso y base de identidad de usuario
+10. `feat/github-project-sources`: ampliar fuentes GitHub y atribución de proyectos
+11. `feat/export-pdf-qr`: exportación resumida y acceso por QR
+12. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
+13. `feat/documentacion-final`: cierre documental final del proyecto
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/github-integration`.
+La siguiente fase natural del proyecto es `feat/projects-visualization`.
 
-Su objetivo será consultar datos básicos desde GitHub, mostrarlos en la interfaz y permitir al usuario decidir qué información incorpora al CV sin romper el flujo actual de edición manual.
+Su objetivo será reflejar de forma más clara en el CV los proyectos ya seleccionados, mejorar su lectura para recruiters y consolidar la parte visual del portfolio.
 
 ## Nota de desarrollo
 
-La feature `feat/live-preview` ya deja resuelto el render en tiempo real del bloque principal de perfil, pero todavía quedan pendientes la integración de proyectos y skills dinámicos en la preview, la conexión con GitHub, la exportación PDF y una revisión más profunda de accesibilidad.
+La feature `feat/github-integration` ya deja resuelta la integración pública básica con GitHub dentro del alcance MVP: la selección de repositorios es manual y el flujo manual del perfil sigue siendo la base segura. Siguen fuera de esta fase la autenticación OAuth, la gestión de múltiples cuentas, las colaboraciones, los repositorios privados y la validación avanzada de autoría o atribución.
+
+Orden recomendado a partir del estado actual:
+
+1. `feat/projects-visualization`
+2. `feat/login-screen`
+3. `feat/github-project-sources`
+4. `feat/export-pdf-qr`
+5. `feat/polish-accessibility`
+6. `feat/documentacion-final`
 
 ## Autor
 
