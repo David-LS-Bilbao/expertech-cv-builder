@@ -147,3 +147,15 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya muestra en la preview los datos principales del perfil en tiempo real, mantiene fallbacks cuando faltan campos y conserva el flujo de guardado sobre `localStorage` como fuente persistente.
 - Validación: revisión manual del código y del flujo de interfaz, comprobación de sincronización entre editor y preview, y validación sintáctica con `node --check` de `js/app.js`, `js/ui/ProfileEditor.js` y `js/ui/PreviewRenderer.js`.
 - Próximo paso: arrancar `feat/github-integration` para consultar datos públicos básicos desde GitHub sin sustituir la edición manual ya disponible.
+
+### [2026-04-11] Cierre de la feature `feat/github-integration`
+
+- Objetivo: enriquecer el CV con una integración pública básica de GitHub sin romper el flujo manual ya existente del perfil.
+- Trabajo realizado: se añadió un bloque independiente para búsqueda de usuario GitHub, se creó `GitHubProfileService.js` para consultar perfil y repositorios públicos, se implementó `GitHubIntegration.js` para renderizar perfil, candidatos y selección manual, y se conectó `js/app.js` para persistir `githubUsername` y proyectos derivados de repositorios seleccionados dentro del estado actual del CV.
+- Trabajo realizado por el usuario: implementación del bloque GitHub en HTML y CSS, construcción del servicio y del módulo UI, validación manual del flujo de búsqueda y selección, y cierre del ajuste visual del empty-state para que responda correctamente al atributo `hidden`.
+- Trabajo realizado por Codex: auditoría del flujo de carga y rehidratación, identificación de la causa raíz del empty-state visible, aplicación del fix mínimo en estilos, revisión de coherencia visual de la feature y actualización de la documentación de cierre.
+- Archivos afectados: `index.html`, `styles/main.css`, `js/app.js`, `js/ui/GitHubIntegration.js`, `js/services/GitHubProfileService.js`, `README.md`, `docs/roadmap.md` y `docs/evidencias.md`.
+- Resultado: el proyecto ya puede consultar datos públicos de GitHub, mostrar perfil y repositorios candidatos, permitir selección manual de repos destacados, persistir esa selección dentro del estado del CV y rehidratar el bloque de forma coherente dentro del alcance MVP actual.
+- Validación: revisión manual del flujo UI, comprobación de que el empty-state GitHub se oculta tras una carga correcta, confirmación de que el badge cambia a `Conectado`, validación del fallback manual cuando la API falla y verificación sintáctica con `node --check` de `js/app.js`, `js/ui/GitHubIntegration.js` y `js/services/GitHubProfileService.js`.
+- Próximo paso: arrancar `feat/projects-visualization` para representar de forma más clara en el CV los proyectos ya seleccionados y mejorar la lectura recruiter-friendly del portfolio.
+- Orden posterior recomendado: `feat/login-screen` para preparar identidad de usuario sin autenticación externa compleja, `feat/github-project-sources` para ampliar orígenes y atribución de proyectos GitHub, y después `feat/export-pdf-qr`, `feat/polish-accessibility` y `feat/documentacion-final`.
