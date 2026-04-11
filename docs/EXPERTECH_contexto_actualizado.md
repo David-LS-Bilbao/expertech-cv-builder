@@ -13,9 +13,9 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Proyecto:** EXPERTECH CV  
 **Marca paraguas:** EXPERTECH  
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
-**Estado actual:** base funcional del CV ya construida, con perfil editable, preview reactiva, integración pública básica con GitHub y visualización dinámica de proyectos ya conectada.
+**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub y visualización dinámica de proyectos ya conectada.
 
-Según el `README.md` actual del repositorio, la fase ya cerrada más reciente es `feat/projects-visualization` y el siguiente paso natural es `feat/login-screen`. El proyecto ya cuenta con layout real, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub y render recruiter-friendly de proyectos seleccionados.
+Según la base actual del repositorio, la fase ya cerrada funcionalmente más reciente es `feat/login-screen` y el siguiente paso natural pasa a ser `feat/github-project-sources`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub y render recruiter-friendly de proyectos seleccionados.
 
 ---
 
@@ -51,12 +51,22 @@ Según el `README.md` actual del repositorio, la fase ya cerrada más reciente e
 - actualización de `lastUpdated`
 - utilidades mínimas de depuración
 
-### 2.5. Perfil editable
+### 2.5. Auth local MVP
+- pantalla de acceso `login/register`
+- registro con email + contraseña
+- login con email + contraseña
+- persistencia de usuarios y sesión en `localStorage`
+- restauración de sesión al recargar
+- logout visible y funcional
+- botones de Google y GitHub solo como preparación visual del siguiente MVP
+- sin OAuth real ni autenticación segura de producción
+
+### 2.6. Perfil editable
 - formulario de perfil funcional
 - rehidratación al recargar
 - feedback visual de guardado
 
-### 2.6. Live preview
+### 2.7. Live preview
 - render reactivo de:
   - `fullName`
   - `headline`
@@ -65,7 +75,7 @@ Según el `README.md` actual del repositorio, la fase ya cerrada más reciente e
 - fallbacks visuales
 - control de `empty-state`
 
-### 2.7. Integración pública básica con GitHub
+### 2.8. Integración pública básica con GitHub
 - búsqueda manual de perfil público
 - carga de datos básicos del perfil público:
   - `login`
@@ -79,7 +89,7 @@ Según el `README.md` actual del repositorio, la fase ya cerrada más reciente e
 - rehidratación básica del bloque GitHub al recargar
 - mantenimiento del flujo manual como fallback si la API falla
 
-### 2.8. Visualización de proyectos
+### 2.9. Visualización de proyectos
 - bloque de proyectos de la preview ya preparado para render dinámico
 - cards de proyecto conectadas a `cvState.projects`
 - priorización de proyectos marcados como `featured`
@@ -99,7 +109,7 @@ A día de hoy siguen fuera de alcance o pendientes:
 - exportación PDF
 - QR al CV
 - accesibilidad más profunda
-- login real
+- auth real o segura de producción
 - backend
 - base de datos
 - múltiples cuentas GitHub
@@ -133,8 +143,8 @@ Ese documento se conserva solo como:
 
 ### README
 El `README.md` ya está alineado con el estado actual del repo:
-- da por cerrada `feat/projects-visualization`
-- sitúa la siguiente feature en `feat/login-screen`
+- da por cerrada funcionalmente `feat/login-screen`
+- sitúa la siguiente feature en `feat/github-project-sources`
 - describe correctamente la base funcional ya existente
 
 ### Roadmap
@@ -151,10 +161,11 @@ Antes de abrir cada nuevo chat de feature:
 
 ## 6. Siguiente feature recomendada
 
-## `feat/login-screen`
+## `feat/github-project-sources`
 
 ### Motivo
 La arquitectura ya permite:
+- acceso local al producto
 - editar perfil
 - previsualizar perfil
 - enriquecer con GitHub
@@ -162,23 +173,21 @@ La arquitectura ya permite:
 - persistir proyectos
 - representarlos visualmente en la preview
 
-Por tanto, el siguiente paso lógico ya no es mejorar proyectos, sino **ordenar la entrada al producto y preparar una base de identidad de usuario sin meter todavía autenticación compleja**.
+Por tanto, el siguiente paso lógico ya no es construir login básico, sino **ampliar la trazabilidad y el origen real de los proyectos importados desde GitHub sin mezclar todavía OAuth ni backend**.
 
 ### Objetivo funcional
-Preparar una pantalla de acceso clara y una base de identidad de usuario dentro del producto, sin obligar todavía a resolver OAuth ni autenticación externa compleja.
+Ampliar la integración GitHub para soportar mejor múltiples orígenes de proyecto, repositorios de otros owners y atribución más clara del origen de cada proyecto dentro del CV.
 
 ### Qué debería incluir
-- pantalla de acceso o entrada clara
-- base de identidad local dentro del producto
-- continuidad con el flujo actual del CV
-- compatibilidad con futuras features de auth real o backend
-- microcopy claro sobre el alcance MVP
+- mejora del origen y atribución de proyectos GitHub
+- soporte más claro para repos fuera del owner principal
+- compatibilidad con el estado actual del CV y su persistencia
+- continuidad con la selección manual ya existente
+- microcopy claro sobre limitaciones de autoría y colaboración
 
 ### Qué no debería incluir
 - OAuth o login GitHub
 - backend real
-- múltiples cuentas GitHub
-- nuevas fuentes GitHub complejas
 - exportación PDF/QR
 - rediseño completo del producto
 
@@ -210,11 +219,10 @@ Romper persistencia o selección GitHub al tocar proyectos.
 
 ## 8. Orden recomendado a partir de ahora
 
-1. `feat/login-screen`
-2. `feat/github-project-sources`
-3. `feat/export-pdf-qr`
-4. `feat/polish-accessibility`
-5. `feat/documentacion-final`
+1. `feat/github-project-sources`
+2. `feat/export-pdf-qr`
+3. `feat/polish-accessibility`
+4. `feat/documentacion-final`
 
 ---
 
@@ -251,6 +259,7 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 ## 11. Resumen corto para apertura de chats
 
 **EXPERTECH CV** ya dispone de:
+- auth local básica para MVP
 - layout base
 - dominio
 - persistencia
@@ -261,6 +270,6 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 
 El siguiente paso natural es:
 
-**`feat/login-screen`**
+**`feat/github-project-sources`**
 
-porque ahora toca ordenar la entrada al producto y preparar una base de identidad de usuario sin añadir todavía autenticación externa compleja.
+porque ahora toca mejorar la trazabilidad y el origen de los proyectos GitHub sobre una base de auth local y arquitectura ya estabilizadas.

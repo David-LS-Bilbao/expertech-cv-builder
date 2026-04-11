@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/projects-visualization` cerrada a nivel funcional y siguiente paso enfocado en `feat/login-screen`
+Fase actual: cierre funcional de `feat/login-screen` y consolidación arquitectónica del arranque de la app
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage`, formulario funcional de perfil conectado al estado, una preview recruiter-friendly sincronizada en tiempo real, una integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, y un bloque de proyectos ya conectado a la preview como cards dinámicas orientadas a recruiters.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview y una arquitectura ya separada por capas para reducir la responsabilidad de `app.js`.
 
 ## Objetivo del MVP
 
@@ -34,7 +34,7 @@ Fuera de alcance en esta fase:
 - HTML5
 - CSS3
 - JavaScript
-- arquitectura modular por capas simples: `ui`, `services`, `models`, `utils`
+- arquitectura modular por capas simples: `application`, `ui`, `services`, `models`, `utils`
 - Git y GitHub como flujo de control de versiones
 
 ## Estructura actual del proyecto
@@ -51,6 +51,7 @@ Fuera de alcance en esta fase:
 |   |-- git_guia_practica.md
 |   `-- roadmap.md
 |-- js/
+|   |-- application/
 |   |-- models/
 |   |-- services/
 |   |-- ui/
@@ -73,6 +74,14 @@ Fuera de alcance en esta fase:
 - [Guía práctica de Git](./docs/git_guia_practica.md)
 - [Notas de arquitectura](./docs/architecture-notes.md)
 - [Roadmap operativo](./docs/roadmap.md)
+
+Documentación viva recomendada para seguir el estado real del repositorio:
+
+- `README.md`
+- `docs/roadmap.md`
+- `docs/evidencias.md`
+
+La hoja de ruta larga de `docs/EXPERTECH_CV_hoja_de_ruta.md` se mantiene como referencia estratégica del proyecto, no como fuente operativa principal del día a día.
 
 ## Flujo Git del proyecto
 
@@ -128,6 +137,45 @@ Comportamiento actual disponible:
 - priorización de proyectos marcados como `featured` cuando existen
 - visualización de nombre, descripción, stack y enlaces dentro de cards de proyecto
 - empty-state específico cuando no hay proyectos visibles en la preview
+- pantalla de acceso con tabs de `login/register`
+- registro local con email + contraseña y creación automática de sesión
+- login local con email + contraseña
+- persistencia de usuarios y sesión en `localStorage`
+- restauración de sesión al recargar la aplicación
+- logout visible y funcional desde la app autenticada
+- botones visibles de Google y GitHub solo como preparación visual del siguiente MVP
+- mensajes informativos en esos botones, sin OAuth real ni autenticación externa implementada
+
+## Flujo actual del usuario
+
+1. entra en la pantalla de acceso
+2. crea una cuenta local o inicia sesión con email y contraseña
+3. la sesión se restaura automáticamente si sigue existiendo en `localStorage`
+4. una vez autenticado, accede a la app principal del CV
+5. puede editar perfil, conectar GitHub, seleccionar repositorios y ver proyectos en la preview
+
+## Arquitectura actual
+
+La arquitectura actual ya no concentra toda la orquestación en `app.js`.
+
+- `js/app.js`: entry point mínimo y composition root
+- `js/application/AppRuntime.js`: coordina auth, sesión, arranque global y logout
+- `js/application/AuthenticatedCVApp.js`: coordina la app autenticada, el estado del CV y la sincronización entre módulos
+- `js/services/`: persistencia del CV, auth local MVP y servicios externos como GitHub
+- `js/ui/`: controladores UI y templates reutilizables
+
+Templates UI ya extraídos del HTML principal:
+
+- `js/ui/AuthScreenTemplate.js`
+- `js/ui/PreviewTemplate.js`
+- `js/ui/GitHubBlockTemplate.js`
+
+Esto deja `index.html` más cerca de un shell base y hace más clara la separación entre:
+
+- auth / sesión
+- estado del CV
+- integración GitHub
+- render visual
 
 ## Roadmap resumido del MVP
 
@@ -147,21 +195,29 @@ Comportamiento actual disponible:
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/login-screen`.
+La siguiente fase natural del proyecto es `feat/github-project-sources`.
 
-Su objetivo será preparar una pantalla de acceso clara y una base de identidad de usuario dentro del producto, sin obligar todavía a resolver autenticación externa compleja ni OAuth.
+Su objetivo será ampliar la integración GitHub para manejar mejor orígenes de proyecto, atribución y casos más allá del owner principal, sin prometer todavía OAuth real ni autenticación externa completa.
 
 ## Nota de desarrollo
 
-Las features `feat/github-integration` y `feat/projects-visualization` ya dejan resuelta la integración pública básica con GitHub y la representación visual recruiter-friendly de los proyectos dentro del alcance MVP. La selección de repositorios sigue siendo manual y el flujo manual del perfil continúa como base segura. Siguen fuera de esta fase la autenticación OAuth, la gestión de múltiples cuentas, las colaboraciones, los repositorios privados y la validación avanzada de autoría o atribución.
+Las features `feat/github-integration`, `feat/projects-visualization` y `feat/login-screen` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub y representación visual recruiter-friendly de los proyectos. La selección de repositorios sigue siendo manual y el flujo manual del perfil continúa como base segura.
+
+Limitaciones actuales importantes:
+
+- la auth actual es local y orientada a demo, no auth real de producción
+- las contraseñas se guardan en `localStorage` en texto plano como limitación explícita de este MVP
+- Google y GitHub no implementan OAuth real todavía
+- no hay backend ni PostgreSQL en esta fase
+- no existe aislamiento real por usuario para el estado del CV
+- no hay validación avanzada de autoría o atribución en proyectos GitHub
 
 Orden recomendado a partir del estado actual:
 
-1. `feat/login-screen`
-2. `feat/github-project-sources`
-3. `feat/export-pdf-qr`
-4. `feat/polish-accessibility`
-5. `feat/documentacion-final`
+1. `feat/github-project-sources`
+2. `feat/export-pdf-qr`
+3. `feat/polish-accessibility`
+4. `feat/documentacion-final`
 
 ## Autor
 
