@@ -22,6 +22,8 @@ export function createPrintCVRenderer({
   summarySelector = "#print-cv-summary",
   projectsSectionSelector = "#print-cv-projects-section",
   projectsListSelector = "#print-cv-projects-list",
+  contactSelector = "#print-cv-contact",
+  skillsSelector = "#print-cv-skills",
   initialCVState,
 } = {}) {
   let currentCVState = createPortfolioCV(initialCVState);
@@ -32,17 +34,26 @@ export function createPrintCVRenderer({
     renderPrintCVTemplate(printRootElement);
   }
 
+  const avatarElement = document.querySelector("#print-cv-avatar");
+  const avatarPlaceholder = document.querySelector("#print-cv-avatar-placeholder");
+
   const fullNameElement = document.querySelector(fullNameSelector);
   const headlineElement = document.querySelector(headlineSelector);
   const summaryElement = document.querySelector(summarySelector);
   const projectsSectionElement = document.querySelector(projectsSectionSelector);
   const projectsListElement = document.querySelector(projectsListSelector);
+  const contactElement = document.querySelector(contactSelector);
+  const skillsElement = document.querySelector(skillsSelector);
 
   if (!fullNameElement || !headlineElement || !summaryElement || !projectsListElement) {
     console.error(
       "No se pudo inicializar PrintCVRenderer: faltan nodos de la vista exportable."
     );
     return null;
+  }
+
+  function formatCleanUrl(url) {
+    return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
   }
 
   function getDisplayValue(value, fallback) {
@@ -129,11 +140,11 @@ export function createPrintCVRenderer({
     const parts = [];
 
     if (repoUrl) {
-      parts.push(`<a href="${repoUrl}" target="_blank" rel="noopener noreferrer">Repositorio</a>`);
+      parts.push(`Repo: <a href="${repoUrl}" target="_blank" rel="noopener noreferrer">${formatCleanUrl(repoUrl)}</a>`);
     }
 
     if (demoUrl) {
-      parts.push(`<a href="${demoUrl}" target="_blank" rel="noopener noreferrer">Demo</a>`);
+      parts.push(`Live: <a href="${demoUrl}" target="_blank" rel="noopener noreferrer">${formatCleanUrl(demoUrl)}</a>`);
     }
 
     linksElement.innerHTML = parts.join(" · ");
@@ -147,10 +158,13 @@ export function createPrintCVRenderer({
 
     const titleElement = document.createElement("h3");
     titleElement.className = "print-cv-project-name";
-    titleElement.textContent = getDisplayValue(
-      projectData.name,
-      PRINT_CV_FALLBACKS.projectName
-    );
+    
+    const projectName = getDisplayValue(projectData.name, PRINT_CV_FALLBACKS.projectName);
+    const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
+    const normalizedStack = stack.map((item) => String(item ?? "").trim()).filter(Boolean);
+    const stackSnippet = normalizedStack.length > 0 ? ` [${normalizedStack.join(", ")}]` : "";
+    
+    titleElement.textContent = `${projectName}${stackSnippet}`;
 
     const descriptionElement = document.createElement("p");
     descriptionElement.className = "print-cv-project-description";
@@ -167,11 +181,6 @@ export function createPrintCVRenderer({
       itemElement.appendChild(sourceElement);
     }
 
-    const stackElement = createProjectStack(projectData);
-    if (stackElement) {
-      itemElement.appendChild(stackElement);
-    }
-
     const linksElement = createProjectLinks(projectData);
     if (linksElement) {
       itemElement.appendChild(linksElement);
@@ -181,6 +190,25 @@ export function createPrintCVRenderer({
   }
 
   function renderProfile(profileData = {}) {
+    // Manejo del avatar
+    // Si no han sincronizado con la API o subido foto, GitHub sirve fotos puras 
+    // añadiendo .png al nombre de su usuario. ¡Magia!
+    const fallbackGithubPic = profileData.githubUsername 
+      ? `https://github.com/${profileData.githubUsername}.png` 
+      : "";
+
+    const avatarSrc = profileData.avatarBase64 || profileData.avatarUrl || fallbackGithubPic;
+    
+    if (avatarSrc && avatarElement && avatarPlaceholder) {
+      avatarElement.src = avatarSrc;
+      avatarElement.style.display = "";
+      avatarPlaceholder.style.display = "none";
+    } else if (avatarElement && avatarPlaceholder) {
+      avatarElement.src = "";
+      avatarElement.style.display = "none";
+      avatarPlaceholder.style.display = "";
+    }
+
     fullNameElement.textContent = getDisplayValue(
       profileData.fullName,
       PRINT_CV_FALLBACKS.fullName
@@ -195,6 +223,32 @@ export function createPrintCVRenderer({
       profileData.summary,
       PRINT_CV_FALLBACKS.summary
     );
+
+    if (contactElement) {
+      const contactLinks = [];
+      if (profileData.email) {
+        contactLinks.push(`<a href="mailto:${profileData.email}">${profileData.email}</a>`);
+      }
+      if (profileData.githubUsername) {
+        contactLinks.push(`<a href="https://github.com/${profileData.githubUsername}" target="_blank">github.com/${profileData.githubUsername}</a>`);
+      }
+      if (profileData.linkedinUrl) {
+        contactLinks.push(`<a href="${profileData.linkedinUrl}" target="_blank">${formatCleanUrl(profileData.linkedinUrl)}</a>`);
+      }
+      if (profileData.location) {
+        contactLinks.push(`<span>${profileData.location}</span>`);
+      }
+      contactElement.innerHTML = contactLinks.join("");
+    }
+
+    if (skillsElement) {
+      const skills = Array.isArray(profileData.skills) ? profileData.skills : [];
+      if (skills.length > 0) {
+        skillsElement.innerHTML = `<ul>${skills.map(s => `<li>${String(s).trim()}</li>`).join("")}</ul>`;
+      } else {
+        skillsElement.innerHTML = "<p>Sin habilidades especificadas.</p>";
+      }
+    }
   }
 
   function renderProjects(projects = []) {

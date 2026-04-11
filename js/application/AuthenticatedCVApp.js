@@ -117,6 +117,7 @@ export function createAuthenticatedCVApp({
       fullName: profile.fullName || githubProfile.name || "",
       summary: profile.summary || githubProfile.bio || "",
       location: profile.location || githubProfile.location || "",
+      avatarUrl: githubProfile.avatarUrl || profile.avatarUrl || "",
     };
 
     return createPortfolioCV({

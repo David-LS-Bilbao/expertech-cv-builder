@@ -13,6 +13,8 @@ export function createCandidateProfile(data = {}) {
     location: data.location ?? "",
     linkedinUrl: data.linkedinUrl ?? "",
     githubUsername: data.githubUsername ?? "",
+    avatarUrl: data.avatarUrl ?? "",
+    avatarBase64: data.avatarBase64 ?? "",
     skills: Array.isArray(data.skills) ? data.skills : [],
   };
 }
