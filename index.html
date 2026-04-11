@@ -215,13 +215,11 @@
                   role="status"
                 ></p>
 
-                <!-- Reutilizamos la clase de acciones ya existente para mantener consistencia visual. -->
                 <div class="profile-form-actions github-form-actions">
                   <button type="submit" class="btn btn-primary">Buscar perfil</button>
                 </div>
               </form>
 
-              <!-- Estado inicial del bloque GitHub. -->
               <div id="github-empty-state" class="empty-state">
                 <p class="empty-state-title">Todavía no has cargado un perfil de GitHub.</p>
                 <p class="empty-state-text">
@@ -231,8 +229,6 @@
                 </p>
               </div>
 
-              <!-- Resultado del perfil público de GitHub.
-                   Se deja oculto hasta que JS tenga datos reales. -->
               <section
                 id="github-profile-result"
                 class="github-profile-result"
@@ -275,8 +271,6 @@
                 </article>
               </section>
 
-              <!-- Lista de repositorios candidatos.
-                   Aquí renderizaremos repos para selección manual. -->
               <section
                 id="github-repositories-section"
                 class="github-repositories-section"
@@ -304,8 +298,6 @@
                 ></div>
               </section>
 
-              <!-- Zona para repositorios seleccionados manualmente.
-                   Refleja la selección actual y sirve como base persistida para el CV. -->
               <section
                 id="github-selected-repositories-section"
                 class="github-selected-repositories-section"
@@ -422,14 +414,41 @@
                   </ul>
                 </section>
 
-                <section class="preview-section" aria-labelledby="preview-projects-title">
-                  <h3 id="preview-projects-title" class="preview-section-title">
-                    Proyectos visibles
-                  </h3>
-                  <ul class="preview-list">
-                    <li>EXPERTECH CV</li>
-                    <li>Proyecto portfolio placeholder</li>
-                  </ul>
+                <!-- Bloque de proyectos de la preview.
+                     Ya no deja contenido hardcodeado dentro del listado.
+                     El render dinámico se hará desde PreviewRenderer.js. -->
+                <section
+                  class="preview-section preview-projects-section"
+                  aria-labelledby="preview-projects-title"
+                >
+                  <div class="preview-section-heading">
+                    <h3 id="preview-projects-title" class="preview-section-title">
+                      Proyectos destacados
+                    </h3>
+                    <p class="preview-section-text">
+                      Selección visible de proyectos orientada a lectura rápida para recruiters.
+                    </p>
+                  </div>
+
+                  <div
+                    id="preview-projects-empty-state"
+                    class="empty-state empty-state-preview-projects"
+                    hidden
+                  >
+                    <p class="empty-state-title">
+                      Todavía no hay proyectos destacados visibles.
+                    </p>
+                    <p class="empty-state-text">
+                      Cuando selecciones o guardes proyectos en el CV, aparecerán aquí con su
+                      nombre, descripción, stack y enlaces disponibles.
+                    </p>
+                  </div>
+
+                  <div
+                    id="preview-projects-list"
+                    class="preview-projects-list"
+                    aria-live="polite"
+                  ></div>
                 </section>
 
                 <div
