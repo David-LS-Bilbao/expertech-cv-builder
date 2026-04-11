@@ -240,6 +240,12 @@ export function createProfileEditor({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Actualiza visualmente el nombre del archivo en la UI
+    const fileNameElement = formElement.querySelector("#avatarFile-name");
+    if (fileNameElement) {
+      fileNameElement.textContent = file.name;
+    }
+
     // Feedback rápido para imágenes muy pesadas
     showFeedback("Redimensionando imagen...", "info");
 

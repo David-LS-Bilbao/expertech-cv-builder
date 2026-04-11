@@ -111,14 +111,24 @@
                   </div>
 
                   <div class="form-field">
-                    <label for="avatarFile">Foto de perfil (Opcional)</label>
-                    <input
-                      type="file"
-                      id="avatarFile"
-                      name="avatarFile"
-                      accept="image/*"
-                    />
-                    <small style="color: #64748b; font-size: 0.8rem;">O cargará la de GitHub automáticamente</small>
+                    <label>Foto de perfil (Opcional)</label>
+                    <div class="file-upload-wrapper">
+                      <input
+                        type="file"
+                        id="avatarFile"
+                        name="avatarFile"
+                        accept="image/*"
+                        class="sr-only"
+                      />
+                      <label for="avatarFile" class="btn btn-secondary file-upload-button">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                        </svg>
+                        Seleccionar imagen
+                      </label>
+                      <span id="avatarFile-name" class="file-upload-name">Ningún archivo...</span>
+                    </div>
+                    <small style="color: #64748b; font-size: 0.8rem; margin-top: 5px; display: block;">O cargará la de GitHub automáticamente</small>
                   </div>
 
                   <div class="form-field">
