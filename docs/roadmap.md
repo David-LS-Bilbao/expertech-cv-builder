@@ -4,35 +4,38 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa
 
-- `feat/live-preview`
+- `feat/editor-profile`
 
 Objetivo actual:
-- reflejar en tiempo real los cambios del editor en la preview
-- conectar el perfil persistido con la vista previa recruiter-friendly
-- mantener separación clara entre UI, estado y render
-- preparar la base para siguientes bloques dinámicos del CV
+- permitir edición manual real de los datos principales del CV
+- conectar formulario y estado persistido
+- preparar la base para reflejar cambios en la preview
+- mantener una estructura simple y evolutiva
 
 ## Siguientes features previstas
 
-1. `feat/github-integration`
+1. `feat/live-preview`
+   - reflejar cambios en tiempo real en la vista del CV
+
+2. `feat/github-integration`
    - obtener datos básicos desde GitHub API
 
-2. `feat/projects-visualization`
+3. `feat/projects-visualization`
    - mejorar lectura y visualización de proyectos
 
-3. `feat/export-pdf-qr`
+4. `feat/export-pdf-qr`
    - preparar salida PDF resumen y acceso mediante QR
 
-4. `feat/polish-accessibility`
+5. `feat/polish-accessibility`
    - pulido visual, estados UX y accesibilidad básica
 
 ## Feature cerrada recientemente
 
-- `feat/editor-profile`
-  - formulario de perfil ya implementado
-  - guardado conectado al estado persistido
-  - rehidratación al recargar ya validada
-  - feedback visual de guardado ya disponible
+- `feat/local-storage`
+  - persistencia mínima en navegador ya implementada
+  - recuperación del estado al recargar ya resuelta
+  - servicio dedicado de almacenamiento ya creado
+  - base lista para conectar edición real
 
 ## Regla de trabajo
 
