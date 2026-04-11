@@ -4,6 +4,11 @@
 
 Esta hoja de ruta define el plan de ejecución de **EXPERTECH CV** como proyecto del módulo de JavaScript del bootcamp y como base evolutiva de la iniciativa **EXPERTECH**.
 
+Nota documental:
+
+- este archivo se mantiene como hoja de ruta amplia y referencia estratégica
+- para el estado operativo real del repositorio conviene usar primero `README.md`, `docs/roadmap.md` y `docs/evidencias.md`
+
 La visión global del producto es:
 
 - **EXPERTECH CV**: generador de currículum web interactivo para perfiles tech.
