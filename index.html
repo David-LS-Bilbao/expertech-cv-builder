@@ -13,7 +13,18 @@
   </head>
 
   <body>
-    <div class="app-shell">
+    <!-- Root vacío del auth screen.
+         AuthScreenTemplate.js inyectará aquí el markup real de login/register. -->
+    <section
+      id="auth-screen"
+      class="auth-screen"
+      aria-label="Pantalla de acceso"
+    ></section>
+
+    <!-- Contenedor principal de la app autenticada.
+         Empieza oculto por defecto.
+         app.js + AuthScreen.js decidirán cuándo mostrarlo. -->
+    <div id="app-shell-authenticated" class="app-shell" hidden>
       <header class="app-header">
         <div class="brand-block">
           <p class="brand-kicker">EXPERTECH</p>
@@ -24,7 +35,18 @@
         </div>
 
         <div class="header-actions">
+          <!-- Acción existente del MVP -->
           <button type="button" class="btn btn-secondary">Guardar borrador</button>
+
+          <!-- Logout del MVP local -->
+          <button
+            type="button"
+            id="logout-button"
+            class="btn btn-secondary"
+            aria-label="Cerrar sesión y volver a la pantalla de acceso"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
@@ -414,9 +436,6 @@
                   </ul>
                 </section>
 
-                <!-- Bloque de proyectos de la preview.
-                     Ya no deja contenido hardcodeado dentro del listado.
-                     El render dinámico se hará desde PreviewRenderer.js. -->
                 <section
                   class="preview-section preview-projects-section"
                   aria-labelledby="preview-projects-title"
