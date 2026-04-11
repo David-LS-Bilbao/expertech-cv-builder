@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: `feat/editor-profile` cerrada y pendiente de integración en `dev`
+Fase actual: `feat/local-storage` cerrada y pendiente de integración en `dev`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial, persistencia en `localStorage` y un primer formulario funcional de perfil conectado al estado. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un flujo real de edición y guardado del perfil.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, estilos separados en `reset.css` y `main.css`, una base JavaScript con modelo de dominio inicial y un primer servicio de persistencia en `localStorage` conectado desde `js/app.js`. La base actual ya muestra una pantalla principal con `header`, `hero`, acciones rápidas, columna de edición, columna de preview y acciones finales, además de un estado inicial del CV preparado para guardarse y recuperarse.
 
 ## Objetivo del MVP
 
@@ -112,9 +112,6 @@ Comportamiento actual disponible:
 - persistencia básica del CV en `localStorage`
 - recuperación del CV guardado al volver a cargar la app
 - utilidades mínimas de depuración expuestas en `window.cvStorageDebug`
-- formulario de perfil funcional en la columna de edición
-- rehidratación del formulario al recargar la app
-- feedback visual de guardado tras enviar el formulario
 
 ## Roadmap resumido del MVP
 
@@ -131,13 +128,13 @@ Comportamiento actual disponible:
 
 ## Siguiente feature prevista
 
-La siguiente fase natural del proyecto es `feat/live-preview`.
+La siguiente fase natural del proyecto es `feat/editor-profile`.
 
-Su objetivo será reflejar en la preview los cambios del perfil en tiempo real, conectar mejor la experiencia editor + vista previa y dejar la base preparada para los siguientes bloques dinámicos del CV.
+Su objetivo será permitir edición manual real de los datos del perfil, conectar el formulario con el estado persistido y dejar lista la base para reflejar cambios en la preview.
 
 ## Nota de desarrollo
 
-La feature `feat/editor-profile` ya ha dejado resuelta la edición manual del perfil con persistencia y rehidratación, pero todavía no conecta la preview en tiempo real ni cubre edición de proyectos, integración con GitHub, exportación PDF o una revisión profunda de accesibilidad.
+La feature `feat/local-storage` ya ha dejado resuelta la persistencia mínima del estado sin entrar todavía en formularios funcionales, render dinámico completo ni sincronización con la UI real. Siguen fuera de alcance en este punto la integración con GitHub, la exportación PDF y una revisión profunda de accesibilidad.
 
 ## Autor
 
