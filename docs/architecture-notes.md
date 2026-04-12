@@ -53,6 +53,10 @@ La arquitectura ya no está en fase de preparación inicial. El proyecto funcion
   - consulta perfil y repos públicos
   - devuelve datos ya normalizados para la UI
 
+- `js/services/JobOffersService.js`
+  - expone búsqueda de ofertas en dos modos: `proxy` y `mock`
+  - mantiene fallback controlado a mock cuando la llamada real falla
+
 - `js/ui/PreviewRenderer.js`
   - renderiza perfil y proyectos desde `cvState`
   - muestra trazabilidad mínima del origen GitHub cuando existe
@@ -61,6 +65,14 @@ La arquitectura ya no está en fase de preparación inicial. El proyecto funcion
   - reutiliza el mismo contrato de datos del CV para la demo pública
   - alimenta hero, metadatos visibles y documento central sin depender del editor
 
+- `js/ui/JobSearchIntegration.js` + `js/ui/JobSearchBlockTemplate.js`
+  - inyectan y controlan el bloque de búsqueda de empleo en la app autenticada
+  - gestionan estados de UI de búsqueda (loading, éxito, vacío y error)
+
+- `server/server.js` + `server/services/JoobleProxyService.js`
+  - base de proxy local para ocultar credenciales de proveedor de empleo
+  - estado actual: MVP inicial, integración real aún no estable
+
 ## Riesgos a vigilar
 
 - mezclar en una misma feature auth, GitHub y exportación
@@ -68,3 +80,4 @@ La arquitectura ya no está en fase de preparación inicial. El proyecto funcion
 - romper compatibilidad con proyectos ya persistidos en `localStorage`
 - ampliar GitHub hacia múltiples cuentas o colaboraciones sin definir antes el contrato de datos que lo soporte
 - mezclar la demo pública estática con la lógica del editor en lugar de mantener un runtime separado
+- dar por cerrada la integración real de ofertas cuando aún depende de fallback mock

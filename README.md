@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: post-merge de `feat/github-pages-public-preview`, ya integrada en `dev`
+Fase actual: `feat/infojobs-search-proxy-mvp` en progreso
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión y una demo pública estática (`public.html`) desacoplada de `localStorage`, preparada para evolucionar a publicación real con GitHub Pages.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión con QR y una demo pública ya publicada en GitHub Pages. Además, la rama actual incorpora un primer bloque de búsqueda de empleo con proxy local y fallback a mock mientras se estabiliza la integración real.
 
 ## Objetivo del MVP
 
@@ -207,7 +207,7 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 10. `feat/github-project-sources`: ampliar fuentes GitHub y atribución de proyectos
 11. `feat/export-pdf-qr`: exportación PDF con vista específica de impresión
 12. `feat/github-pages-public-preview`: demo pública estática preparada para GitHub Pages
-13. `feat/infojobs-search-proxy-mvp`: buscador de ofertas con integración real y proxy mínimo
+13. `feat/infojobs-search-proxy-mvp`: buscador de ofertas con proxy local y fallback mock
 14. `feat/polish-accessibility` o `feat/visual-polish-final`: pulido final, estados UX y accesibilidad
 15. `feat/documentacion-final`: cierre documental final del proyecto
 
@@ -225,8 +225,6 @@ Este bloque ya deja resuelto:
 
 Sigue quedando fuera de este cierre:
 
-- publicación real ya servida en GitHub Pages
-- QR funcional apuntando a una URL pública estable
 - backend y base de datos
 - sharing multiusuario real
 
@@ -243,12 +241,12 @@ Limitaciones actuales importantes:
 - no existe aislamiento real por usuario para el estado del CV
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
 - no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
-- `public.html` ya usa un snapshot estático y no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
-- el QR sigue pendiente hasta que exista una URL pública estable
+- la búsqueda de empleo actual sigue en fase MVP con fallback a mock
+- el proxy local de Jooble está en base funcional inicial, pero no estable para producción
 
 Orden recomendado a partir del estado actual:
 
-1. `feat/infojobs-search-proxy-mvp`
+1. terminar y estabilizar `feat/infojobs-search-proxy-mvp`
 2. `feat/polish-accessibility` o `feat/visual-polish-final`
 3. `feat/documentacion-final`
 
@@ -256,7 +254,7 @@ Siguiente feature recomendada tras este cierre:
 
 - `feat/infojobs-search-proxy-mvp`
 - objetivo: incorporar un buscador de ofertas con una integración real y útil dentro del portfolio
-- alcance: integración con API de empleo, priorizando InfoJobs si encaja, y proxy mínimo o función serverless si la API requiere secreto
+- alcance actual: proxy local mínimo orientado a Jooble + fallback a mock cuando la API real no responde
 - fuera de alcance: backend completo, base de datos y panel recruiter real
 
 ## Autor
