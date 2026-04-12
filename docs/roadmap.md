@@ -2,14 +2,14 @@
 
 Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
-## Feature activa en la rama actual
+## Última feature cerrada
 
 - `feat/github-pages-public-preview`
 
-Objetivo actual:
-- simular una URL pública real del CV mediante GitHub Pages
+Objetivo cubierto:
+- simular una base pública real del CV con una demo estática preparada para GitHub Pages
 - desacoplar la demo pública de la dependencia directa del `localStorage` local
-- generar un QR de demostración que apunte a la URL publicada
+- dejar una base clara para una futura URL publicada y un QR funcional
 - mantener esta fase dentro de frontend/demo estática
 - no abrir todavía backend serio ni base de datos
 
@@ -25,7 +25,7 @@ Objetivo actual:
 - soporte de avatar híbrido
 - `public.html` como vista local adicional preparada para futura publicación compartible
 
-## Siguiente feature prevista tras esta rama
+## Siguiente feature prevista
 
 - `feat/infojobs-search-proxy-mvp`
 
@@ -45,7 +45,7 @@ Objetivo siguiente:
   - `public.html` como vista local adicional preparada para compartirse más adelante
   - preparación del terreno para una futura publicación pública real con GitHub Pages y QR
 
-## Avance actual dentro de la feature activa
+## Resultado principal del cierre reciente
 
 - `feat/github-pages-public-preview`
   - `public.html` ya desacoplada del `localStorage` del editor
@@ -88,10 +88,9 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. `feat/github-pages-public-preview`
-2. `feat/infojobs-search-proxy-mvp`
-3. `feat/polish-accessibility` o `feat/visual-polish-final`
-4. `feat/documentacion-final`
+1. `feat/infojobs-search-proxy-mvp`
+2. `feat/polish-accessibility` o `feat/visual-polish-final`
+3. `feat/documentacion-final`
 
 ## Fase siguiente
 

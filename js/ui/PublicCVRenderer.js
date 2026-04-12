@@ -8,6 +8,8 @@ import { createPreviewRenderer } from "./PreviewRenderer.js";
  */
 export function createPublicCVRenderer({
   rootSelector = "#public-cv-root",
+  publicContextSelector = ".public-context",
+  publicDocumentCaptionSelector = ".public-document-caption",
   pageEyebrowSelector = "#public-page-eyebrow",
   pageTitleSelector = "#public-page-title",
   pageDescriptionSelector = "#public-page-description",
@@ -49,20 +51,62 @@ export function createPublicCVRenderer({
     return normalizedValue || fallback;
   }
 
-  function countVisibleProjects(projects = []) {
+  function isRenderableProject(projectData = {}) {
+    const name = String(projectData.name ?? "").trim();
+    const description = String(projectData.description ?? "").trim();
+    const repoUrl = String(projectData.repoUrl ?? "").trim();
+    const demoUrl = String(projectData.demoUrl ?? "").trim();
+    const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
+
+    return Boolean(name || description || repoUrl || demoUrl || stack.length > 0);
+  }
+
+  function getVisibleProjects(projects = []) {
     if (!Array.isArray(projects)) {
-      return 0;
+      return [];
     }
 
-    return projects.filter((projectData = {}) => {
-      const name = String(projectData.name ?? "").trim();
-      const description = String(projectData.description ?? "").trim();
-      const repoUrl = String(projectData.repoUrl ?? "").trim();
-      const demoUrl = String(projectData.demoUrl ?? "").trim();
-      const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
+    const renderableProjects = projects.filter((projectData) =>
+      isRenderableProject(projectData)
+    );
 
-      return Boolean(name || description || repoUrl || demoUrl || stack.length > 0);
-    }).length;
+    const featuredProjects = renderableProjects.filter((projectData) =>
+      Boolean(projectData.featured)
+    );
+
+    return featuredProjects.length > 0 ? featuredProjects : renderableProjects;
+  }
+
+  function getProfileInitials(profileData = {}) {
+    const fullName = String(profileData.fullName ?? "").trim();
+
+    if (!fullName) {
+      return "CV";
+    }
+
+    const initials = fullName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("");
+
+    return initials || "CV";
+  }
+
+  function setPublicChromeVisibility(isVisible) {
+    const publicContextElement = document.querySelector(publicContextSelector);
+    const publicDocumentCaptionElement = document.querySelector(
+      publicDocumentCaptionSelector
+    );
+
+    if (publicContextElement) {
+      publicContextElement.hidden = !isVisible;
+    }
+
+    if (publicDocumentCaptionElement) {
+      publicDocumentCaptionElement.hidden = !isVisible;
+    }
   }
 
   function getSkillIconUrl(skillLabel = "") {
@@ -144,7 +188,7 @@ export function createPublicCVRenderer({
   function renderPublicPageChrome(cvState = {}) {
     const normalizedCV = createPortfolioCV(cvState);
     const profile = normalizedCV.profile ?? {};
-    const visibleProjectsCount = countVisibleProjects(normalizedCV.projects);
+    const visibleProjectsCount = getVisibleProjects(normalizedCV.projects).length;
 
     const pageEyebrowElement = document.querySelector(pageEyebrowSelector);
     const pageTitleElement = document.querySelector(pageTitleSelector);
@@ -161,6 +205,8 @@ export function createPublicCVRenderer({
       documentCaptionTextSelector
     );
 
+    setPublicChromeVisibility(true);
+
     if (pageEyebrowElement) {
       pageEyebrowElement.textContent = profile.location
         ? `Perfil público · ${profile.location}`
@@ -174,6 +220,7 @@ export function createPublicCVRenderer({
     const avatarSrc = String(
       profile.avatarBase64 || profile.avatarUrl || fallbackGithubAvatar || ""
     ).trim();
+    const avatarInitials = getProfileInitials(profile);
 
     if (avatarElement && avatarPlaceholderElement) {
       if (avatarSrc) {
@@ -185,6 +232,8 @@ export function createPublicCVRenderer({
         avatarElement.hidden = true;
         avatarPlaceholderElement.hidden = false;
       }
+
+      avatarPlaceholderElement.textContent = avatarInitials;
     }
 
     if (pageTitleElement) {
@@ -254,10 +303,38 @@ export function createPublicCVRenderer({
     message = "No se ha podido cargar el contenido público del CV.",
   } = {}) {
     const root = getRootElement();
+    const pageEyebrowElement = document.querySelector(pageEyebrowSelector);
+    const pageTitleElement = document.querySelector(pageTitleSelector);
+    const pageDescriptionElement = document.querySelector(pageDescriptionSelector);
+    const avatarElement = document.querySelector(avatarSelector);
+    const avatarPlaceholderElement = document.querySelector(
+      avatarPlaceholderSelector
+    );
 
     if (!root) {
       console.error("No se encontró el contenedor para la vista pública.");
       return;
+    }
+
+    setPublicChromeVisibility(false);
+
+    if (pageEyebrowElement) {
+      pageEyebrowElement.textContent = "Vista pública no disponible";
+    }
+
+    if (pageTitleElement) {
+      pageTitleElement.textContent = "No se ha podido cargar el CV público";
+    }
+
+    if (pageDescriptionElement) {
+      pageDescriptionElement.textContent = message;
+    }
+
+    if (avatarElement && avatarPlaceholderElement) {
+      avatarElement.src = "";
+      avatarElement.hidden = true;
+      avatarPlaceholderElement.hidden = false;
+      avatarPlaceholderElement.textContent = "CV";
     }
 
     document.title = "Perfil Profesional | Expertech CV";
