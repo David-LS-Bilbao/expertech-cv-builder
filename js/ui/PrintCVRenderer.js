@@ -15,6 +15,10 @@ const PRINT_CV_FALLBACKS = {
   projectDescription: "Descripción pendiente de completar.",
 };
 
+const DEFAULT_PUBLIC_PORTFOLIO_URL =
+  "https://david-ls-bilbao.github.io/expertech-cv-builder/public.html";
+const QR_IMAGE_PROVIDER_URL = "https://api.qrserver.com/v1/create-qr-code/";
+
 export function createPrintCVRenderer({
   printRootSelector = "#print-cv-root",
   fullNameSelector = "#print-cv-full-name",
@@ -44,6 +48,9 @@ export function createPrintCVRenderer({
   const projectsListElement = document.querySelector(projectsListSelector);
   const contactElement = document.querySelector(contactSelector);
   const skillsElement = document.querySelector(skillsSelector);
+  const qrImageElement = document.querySelector("#print-cv-qr-image");
+  const qrPlaceholderElement = document.querySelector("#print-cv-qr-placeholder");
+  const portfolioUrlElement = document.querySelector("#print-cv-portfolio-url");
 
   if (!fullNameElement || !headlineElement || !summaryElement || !projectsListElement) {
     console.error(
@@ -54,6 +61,68 @@ export function createPrintCVRenderer({
 
   function formatCleanUrl(url) {
     return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+  }
+
+  function resolvePublicPortfolioUrl() {
+    const isGitHubPages = String(window.location.hostname || "").endsWith(
+      "github.io"
+    );
+    const firstPathSegment = String(window.location.pathname || "")
+      .split("/")
+      .filter(Boolean)[0];
+
+    if (isGitHubPages && firstPathSegment) {
+      return `${window.location.origin}/${firstPathSegment}/public.html`;
+    }
+
+    return DEFAULT_PUBLIC_PORTFOLIO_URL;
+  }
+
+  function getQrImageUrl(targetUrl) {
+    const queryParams = new URLSearchParams({
+      size: "220x220",
+      format: "png",
+      qzone: "1",
+      data: targetUrl,
+    });
+
+    return `${QR_IMAGE_PROVIDER_URL}?${queryParams.toString()}`;
+  }
+
+  function renderPortfolioQr() {
+    const publicPortfolioUrl = resolvePublicPortfolioUrl();
+
+    if (portfolioUrlElement) {
+      portfolioUrlElement.href = publicPortfolioUrl;
+      portfolioUrlElement.textContent = formatCleanUrl(publicPortfolioUrl);
+    }
+
+    if (!qrImageElement) {
+      return;
+    }
+
+    qrImageElement.style.display = "none";
+    qrImageElement.alt = `Código QR del portafolio: ${publicPortfolioUrl}`;
+    qrImageElement.onload = null;
+    qrImageElement.onerror = null;
+
+    qrImageElement.onload = () => {
+      qrImageElement.style.display = "block";
+
+      if (qrPlaceholderElement) {
+        qrPlaceholderElement.style.display = "none";
+      }
+    };
+
+    qrImageElement.onerror = () => {
+      qrImageElement.style.display = "none";
+
+      if (qrPlaceholderElement) {
+        qrPlaceholderElement.style.display = "flex";
+      }
+    };
+
+    qrImageElement.src = getQrImageUrl(publicPortfolioUrl);
   }
 
   function getDisplayValue(value, fallback) {
@@ -274,6 +343,7 @@ export function createPrintCVRenderer({
   }
 
   function render() {
+    renderPortfolioQr();
     renderProfile(currentCVState.profile);
     renderProjects(currentCVState.projects);
   }
