@@ -1,7 +1,7 @@
 // Template del bloque de Búsqueda de Empleo del editor.
 // Responsabilidades:
 // 1. centralizar el markup del bloque de ofertas de empleo.
-// 2. inyectarlo dinámicamente en el editor, específicamente después del bloque de GitHub.
+// 2. inyectarlo dinámicamente debajo de la preview del CV.
 // 3. no contener lógica de negocio, solo markup e inserción DOM.
 
 export function getJobSearchBlockTemplateMarkup() {
@@ -11,11 +11,11 @@ export function getJobSearchBlockTemplateMarkup() {
         <div class="block-heading-top">
           <h3 id="job-search-block-title" class="block-title">Búsqueda de Empleo</h3>
           <span id="job-search-status-badge" class="status-badge status-badge-muted">
-            Desconectado
+            Listo
           </span>
         </div>
         <p class="block-text">
-          Busca ofertas relevantes para tu perfil técnico. El listado mostrado usa datos simulados (Mock) en esta fase.
+          Busca ofertas relevantes para tu perfil técnico y revisa oportunidades de forma rápida.
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export function getJobSearchBlockTemplateMarkup() {
       <div id="job-search-empty-state" class="empty-state">
         <p class="empty-state-title">Aún no has buscado ofertas.</p>
         <p class="empty-state-text">
-          Introduce una palabra clave para ver oportunidades profesionales (usa "sinresultados" o "error-test" para validar otros estados).
+          Introduce una palabra clave y, si quieres, una ubicación para ver oportunidades profesionales.
         </p>
       </div>
 
@@ -75,7 +75,7 @@ export function getJobSearchBlockTemplateMarkup() {
         <div class="block-heading">
           <div class="block-heading-top">
             <h4 id="job-search-results-title" class="block-title">
-              Ofertas de empleo candidatas
+              Oportunidades encontradas
             </h4>
             <span id="job-search-results-count" class="status-badge status-badge-muted">
               0 encontradas
@@ -93,15 +93,15 @@ export function getJobSearchBlockTemplateMarkup() {
   `;
 }
 
-// Renderiza dinámicamente el bloque de empleo después del bloque HTML de GitHub
+// Renderiza dinámicamente el bloque de empleo debajo de la preview
 // para no modificar directamente index.html
 export function renderJobSearchBlockTemplate() {
-  const GITHUB_BLOCK_ROOT_SELECTOR = "#github-block-root";
-  const targetElement = document.querySelector(GITHUB_BLOCK_ROOT_SELECTOR);
+  const PREVIEW_PANEL_ROOT_SELECTOR = "#preview-panel-root";
+  const targetElement = document.querySelector(PREVIEW_PANEL_ROOT_SELECTOR);
 
   if (!targetElement) {
     console.error(
-      "No se pudo inyectar JobSearchBlockTemplate: no existe el contenedor de GitHub."
+      "No se pudo inyectar JobSearchBlockTemplate: no existe el contenedor de preview."
     );
     return null;
   }

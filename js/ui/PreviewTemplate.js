@@ -25,7 +25,7 @@ export function getPreviewTemplateMarkup() {
         <p class="section-kicker">Preview</p>
         <h2 id="preview-panel-title" class="section-title">Vista previa del CV</h2>
         <p class="section-text">
-          Vista previa recruiter-friendly conectada al perfil y actualizada en tiempo real.
+          Revisa cómo verá tu perfil una persona reclutadora en tiempo real.
         </p>
       </div>
 
@@ -39,8 +39,8 @@ export function getPreviewTemplateMarkup() {
           <section class="preview-section" aria-labelledby="preview-summary-title">
             <h3 id="preview-summary-title" class="preview-section-title">Resumen</h3>
             <p id="preview-summary">
-              Perfil tech con foco en desarrollo frontend, proyectos prácticos y
-              presentación clara para procesos de selección.
+              Perfil profesional orientado a producto, ejecución técnica y
+              comunicación clara del valor aportado.
             </p>
           </section>
 
@@ -65,7 +65,7 @@ export function getPreviewTemplateMarkup() {
                 Proyectos destacados
               </h3>
               <p class="preview-section-text">
-                Selección visible de proyectos orientada a lectura rápida para recruiters.
+                Selección de proyectos para mostrar impacto técnico y resultados.
               </p>
             </div>
 
@@ -75,11 +75,11 @@ export function getPreviewTemplateMarkup() {
               hidden
             >
               <p class="empty-state-title">
-                Todavía no hay proyectos destacados visibles.
+                Todavía no hay proyectos destacados.
               </p>
               <p class="empty-state-text">
-                Cuando selecciones o guardes proyectos en el CV, aparecerán aquí con su
-                nombre, descripción, stack y enlaces disponibles.
+                Cuando selecciones repositorios, aparecerán aquí con su descripción,
+                stack y enlaces.
               </p>
             </div>
 

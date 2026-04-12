@@ -13,7 +13,7 @@ Objetivo actual:
 
 Estado real actual:
 - todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, y Búsqueda de empleo) están resueltas arquitectónicamente
-- pendiente hacer un pase final de calidad general
+- la fase activa está en cierre visual/documental para preparar PR a `dev` y después a `main`
 
 ## Última feature cerrada
 
@@ -42,8 +42,15 @@ Objetivo cubierto:
 - `feat/polish-accessibility` o `feat/visual-polish-final`
 
 Objetivo siguiente:
-- cerrar pulido visual, estados UX y accesibilidad base tras estabilizar el buscador de empleo
+- cerrar pulido visual, estados UX y accesibilidad base
+- dejar documentación y checklist de release listos para PR
 - mantener el alcance en frontend MVP sin reabrir arquitectura
+
+## Validación técnica reciente (Jooble)
+
+- API key validada con respuesta real `HTTP 200` desde el proxy local
+- configuración esperada de entorno en `server/.env` (`JOOBLE_API_KEY=...`)
+- comportamiento de respaldo confirmado: si falta credencial, el backend responde `503` y el frontend degrada a mock
 
 ## Avance reciente dentro de la feature cerrada más reciente
 
@@ -97,9 +104,9 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. estabilizar y cerrar `feat/infojobs-search-proxy-mvp`
-2. `feat/polish-accessibility` o `feat/visual-polish-final`
-3. `feat/documentacion-final`
+1. cerrar `feat/visual-polish-final` con documentación al día
+2. abrir PR `feat/visual-polish-final` -> `dev`
+3. tras validar `dev`, abrir PR `dev` -> `main`
 
 ## Fase siguiente
 
