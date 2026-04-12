@@ -36,8 +36,23 @@ export function getPrintCVTemplateMarkup() {
 
             <section class="print-cv-qr-section">
               <div class="print-cv-qr-container">
-                <div class="print-cv-qr-placeholder">QR</div>
-                <p>Mi portafolio digital</p>
+                <img
+                  id="print-cv-qr-image"
+                  class="print-cv-qr-image"
+                  src=""
+                  alt="Código QR del portafolio"
+                />
+                <div id="print-cv-qr-placeholder" class="print-cv-qr-placeholder">QR</div>
+                <p class="print-cv-qr-caption">Mi portafolio digital</p>
+                <a
+                  id="print-cv-portfolio-url"
+                  class="print-cv-portfolio-url"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  github.io
+                </a>
               </div>
             </section>
           </div>
