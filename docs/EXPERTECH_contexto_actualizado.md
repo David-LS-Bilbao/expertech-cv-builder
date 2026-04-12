@@ -13,9 +13,9 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Proyecto:** EXPERTECH CV  
 **Marca paraguas:** EXPERTECH  
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
-**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado, exportación PDF más cuidada y una demo pública estática modular ya preparada para evolucionar a GitHub Pages.
+**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado, exportación PDF con QR y demo pública desplegada en GitHub Pages. La rama actual añade un bloque de búsqueda de empleo con proxy local y fallback a mock.
 
-Según la base actual del repositorio, `feat/github-pages-public-preview` ya quedó integrada en `dev`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF y una demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
+Según la base actual del repositorio, `feat/github-pages-public-preview` ya quedó integrada en `dev` y el despliegue en GitHub Pages está activo. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF con QR y demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
 
 ---
 
@@ -111,11 +111,9 @@ Según la base actual del repositorio, `feat/github-pages-public-preview` ya que
 ## 3. Qué NO está resuelto todavía
 
 A día de hoy siguen fuera de alcance o pendientes:
-
-- QR al CV
 - accesibilidad más profunda
 - auth real o segura de producción
-- backend
+- backend completo
 - base de datos
 - múltiples cuentas GitHub
 - atribución avanzada de autoría o colaboración
@@ -150,7 +148,7 @@ Ese documento se conserva solo como:
 El `README.md` debe reflejar:
 - `feat/github-pages-public-preview` ya integrada en `dev`
 - `feat/export-pdf-qr` ya cerrada funcionalmente
-- que `public.html` ya no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
+- que `public.html` ya no depende del `localStorage` del editor y ya está desplegada en GitHub Pages como demo estática
 
 ### Roadmap
 `docs/roadmap.md` puede quedar desalineado en algunos momentos respecto al README o al estado real del repo.
@@ -164,7 +162,27 @@ Antes de abrir cada nuevo chat de feature:
 
 ---
 
-## 6. Última feature cerrada
+## 6. Feature activa actual
+
+## `feat/infojobs-search-proxy-mvp`
+
+### Objetivo funcional
+Añadir un buscador de ofertas útil dentro de la app autenticada con un proxy local mínimo y fallback a mock, sin abrir backend completo.
+
+### Estado actual del slice
+- bloque de búsqueda de empleo visible en la UI
+- servicio frontend de búsqueda creado
+- proxy local migrado a Jooble
+- fallback a mock funcionando cuando falla la integración real
+- integración real aún no estable (pendiente revisión posterior)
+
+### Qué no debe incluir esta fase
+- backend completo
+- base de datos
+- autenticación externa para portales de empleo
+- lógica avanzada de matching/candidaturas
+
+## 7. Última feature cerrada
 
 ## `feat/github-pages-public-preview`
 
@@ -194,9 +212,8 @@ Simular una URL pública real del CV mediante una página estática modular, des
 - proyectos destacados visibles y alineados con el CV demo
 
 ### Qué sigue pendiente fuera de este cierre
-- despliegue real en GitHub Pages
-- URL pública estable
-- QR funcional apuntando a esa URL
+- publicación multiusuario real
+- backend y persistencia compartida
 
 ### Qué no debería incluir
 - OAuth o login GitHub
@@ -206,7 +223,7 @@ Simular una URL pública real del CV mediante una página estática modular, des
 
 ---
 
-## 7. Riesgos actuales del proyecto
+## 8. Riesgos actuales del proyecto
 
 ### Riesgo 1
 Mezclar demasiadas responsabilidades en una sola feature.
@@ -224,26 +241,24 @@ Hacer visualizaciones bonitas pero poco útiles para recruiters.
 **Mitigación:** priorizar lectura rápida, claridad y valor comunicativo.
 
 ### Riesgo 4
-Confundir la demo pública estática con una publicación real multiusuario.
+Confundir la demo pública estática ya desplegada con una publicación real multiusuario.
 
 **Mitigación:** mantener claro que esta fase usa snapshot estático y no persistencia compartida.
 
 ---
 
-## 8. Orden recomendado a partir del cierre de esta rama
+## 9. Orden recomendado a partir del estado actual
 
-1. `feat/infojobs-search-proxy-mvp`
+1. estabilizar y cerrar `feat/infojobs-search-proxy-mvp`
 2. `feat/polish-accessibility` o `feat/visual-polish-final`
 3. `feat/documentacion-final`
 
-### Siguiente feature sugerida
+### Siguiente feature sugerida tras cerrar la activa
 
-**`feat/infojobs-search-proxy-mvp`**
+**`feat/polish-accessibility` o `feat/visual-polish-final`**
 
 Objetivo:
-- añadir un buscador de ofertas como último bloque funcional grande de esta fase
-- integrar una API real de empleo, priorizando InfoJobs si encaja
-- proteger credenciales con proxy mínimo o función serverless si hace falta
+- cerrar UX, accesibilidad básica y pulido visual final del MVP
 
 Fuera de alcance:
 - backend completo
@@ -252,7 +267,7 @@ Fuera de alcance:
 
 ---
 
-## 9. Qué pasar a los próximos chats de feature
+## 10. Qué pasar a los próximos chats de feature
 
 ### Contexto principal
 - URL del repo
@@ -269,7 +284,7 @@ Fuera de alcance:
 
 ---
 
-## 10. Decisión operativa
+## 11. Decisión operativa
 
 A partir de ahora, este documento debe servir como:
 
@@ -282,7 +297,7 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 
 ---
 
-## 11. Resumen corto para apertura de chats
+## 12. Resumen corto para apertura de chats
 
 **EXPERTECH CV** ya dispone de:
 - auth local básica para MVP
@@ -294,11 +309,12 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 - integración pública básica con GitHub
 - visualización recruiter-friendly de proyectos
 - trazabilidad mínima del origen de proyectos GitHub
-- exportación PDF con vista de impresión específica
+- exportación PDF con vista de impresión específica y QR
 - demo pública estática desacoplada del `localStorage` del editor
+- despliegue activo en GitHub Pages
 
-La siguiente feature natural pasa a ser:
+La feature actual pasa a ser:
 
 **`feat/infojobs-search-proxy-mvp`**
 
-porque la demo pública estática ya quedó integrada en `dev` y el siguiente bloque funcional acordado es añadir valor de producto con una integración real de ofertas, sin abrir todavía backend completo ni base de datos.
+con un estado MVP funcional parcial (proxy local + fallback mock) y pendiente de estabilización antes de abrir el bloque de pulido final.

@@ -212,3 +212,25 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya dispone de una demo pública estática, modular y coherente visualmente, con datos propios del CV y preparada para pasar a una URL pública real mediante GitHub Pages.
 - Validación: comprobación sintáctica con `node --check js/public.js`, `node --check js/application/PublicPageRuntime.js`, `node --check js/services/PublicCVDataService.js` y `node --check js/ui/PublicCVRenderer.js`; revisión manual del hero, avatar, tecnologías con iconos y proyectos visibles en `public.html`.
 - Próximo paso: abrir PR de `feat/github-pages-public-preview` contra `dev`, revisar el diff final y, tras el merge, activar GitHub Pages y preparar el QR apuntando a la URL publicada.
+
+### [2026-04-12] Cierre funcional de `feat/jooble-search-proxy-mvp` (Integración proxy real)
+
+- Objetivo: implementar el bloque de búsqueda de empleo conectado a una API real (Jooble) a través de un proxy local, sin exponer credenciales en el frontend y con soporte total a degradación elegante (Fallback Mode).
+- Trabajo realizado: se iteró sobre la base de la feature de InfoJobs para apuntar definitivamente al backend de Jooble. Se consolidó el proxy Express en `server/server.js`, y durante las pruebas se depuró un error 403 modificando la URL correcta hacia `es.jooble.org`. Adicionalmente, se escribió una lógica robusta en el Frontend (`JobSearchIntegration.js` y `JobOffersService.js`) que logra atrapar cualquier caída de la API devolviendo resultados de Mock locales acompañados de un Warning en UI debajo del botón, para que el usuario nunca perciba una rotura total.
+- Trabajo realizado por el usuario: validación iterativa del entorno local, inyección de la llave Jooble en .env, comprobación del flujo real (Status 200) tras las correcciones de dominio.
+- Trabajo realizado por Codex: migración completa de la lógica desde InfoJobs a Jooble, investigación y fix del error de WAF cambiando a dominio regional `es.jooble.org`, flexibilización del CORS local, creación del sistema de degradación elegante y actualización de la bitácora técnica.
+- Archivos afectados: `js/application/AuthenticatedCVApp.js`, `js/ui/JobSearchBlockTemplate.js`, `js/ui/JobSearchIntegration.js`, `js/services/JobOffersService.js`, `server/server.js`, `server/services/JoobleProxyService.js`, `server/README.md`, `server/.env.example`, `server/package.json`, `.gitignore`, `README.md`, `docs/roadmap.md` y `docs/evidencias.md`.
+- Resultado: el buscador web es capaz de alimentarse en 100% de datos reales desde una API remota a través de un backend local actuando de proxy ciego. Si el backend falla o la Key caduca, la UI resiste de forma autónoma degradando al escenario estático Mock con su propio aviso visual en color naranja, permitiendo demostrar en la práctica el principio Clean Architecture de separación de responsabilidades.
+- Validación: ejecución en el servidor local de Node.js mediante fetch real a la API, recibiendo payload `{ jobs: [...] }`. Validado en local que el click sobre un link redirige exitosamente a la oferta de su origen.
+- Próximo paso: cerrar PR de la feature `feat/jooble-search-proxy-mvp` sobre `dev` y mover el foco de desarrollo hacia las próximas piezas, como la generación final del CV (Exportar PDF) que clausura el MVP.
+
+### [2026-04-13] Cierre documental y checklist de release (`feat/visual-polish-final`)
+
+- Objetivo: dejar la documentación viva alineada con el estado real del repositorio para cerrar la feature actual y preparar el flujo de PR hacia `dev` y después `main`.
+- Trabajo realizado: se actualizó `README.md` para reflejar que la fase activa es `feat/visual-polish-final`, que Jooble ya está integrado mediante proxy local y que el orden de cierre recomendado es PR de feature a `dev` y luego `dev` a `main`. También se actualizó `docs/roadmap.md` con el estado operativo real del cierre.
+- Trabajo realizado por el usuario: corrección del entorno local de Jooble y validación funcional del flujo de búsqueda con credencial real en `.env`.
+- Trabajo realizado por Codex: comprobación del flujo completo de validación de Jooble en local (modo fallback sin credencial y modo real con `HTTP 200`), y actualización documental para cierre de sprint.
+- Archivos afectados: `README.md`, `docs/roadmap.md` y `docs/evidencias.md`.
+- Resultado: documentación consistente con la rama activa y con una ruta de release clara para cerrar la fase sin ambigüedades.
+- Validación: revisión manual de coherencia entre ramas/estado real y contenido documental, más verificación técnica de Jooble vía endpoint local `/api/jobs/search`.
+- Próximo paso: commit de documentación, push de `feat/visual-polish-final`, PR hacia `dev`, validación rápida en `dev` y PR final de `dev` hacia `main`.

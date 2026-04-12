@@ -18,11 +18,13 @@ import { createProfileEditor } from "../ui/ProfileEditor.js";
 import { createPreviewRenderer } from "../ui/PreviewRenderer.js";
 import { createPrintCVRenderer } from "../ui/PrintCVRenderer.js";
 import { createGitHubIntegration } from "../ui/GitHubIntegration.js";
+import { createJobSearchIntegration } from "../ui/JobSearchIntegration.js";
 import { saveCV, loadCV, hasStoredCV } from "../services/CVStorageService.js";
 
 // Prefijo para identificar proyectos creados desde repositorios GitHub.
 // Esto nos permite reemplazar solo esos proyectos sin tocar los manuales.
 const GITHUB_PROJECT_ID_PREFIX = "github-repo-";
+const THEME_STORAGE_KEY = "expertech-theme";
 
 // Factory principal de la app autenticada.
 export function createAuthenticatedCVApp({
@@ -39,44 +41,28 @@ export function createAuthenticatedCVApp({
   let printCVRenderer = null;
   let githubIntegration = null;
   let exportPdfButtonElement = null;
+  let themeToggleButtonElement = null;
+  let activeTheme = "light";
 
   // Evita inicializar dos veces la misma app autenticada.
   let isInitialized = false;
 
-  // Crea un estado demo solo la primera vez si no existe nada en localStorage.
-  // Esto mantiene el comportamiento actual del MVP.
+  // Crea el estado inicial vacío la primera vez si no existe nada en localStorage.
+  // Regla actual:
+  // - no se precargan datos personales,
+  // - el formulario debe arrancar vacío con placeholders.
   function seedInitialCVState() {
     const initialCVState = createInitialCVState();
 
-    const demoCVState = {
-      ...initialCVState,
-      profile: {
-        ...initialCVState.profile,
-        fullName: "David López Sotelo",
-        headline: "Frontend Developer",
-        summary:
-          "Perfil tech en construcción con foco en JavaScript y proyectos prácticos.",
-        email: "david@example.com",
-        location: "Bilbao, España",
-        linkedinUrl: "https://www.linkedin.com/in/david-lopez-sotelo",
-        githubUsername: "David-LS-Bilbao",
-        skills: ["HTML", "CSS", "JavaScript"],
-      },
-      // Dejamos el perfil demo, pero no sembramos proyectos.
-      // Así el bloque de proyectos refleja de forma honesta si todavía
-      // no hay selección GitHub ni proyectos manuales reales.
-      projects: [],
-    };
+    const savedCV = saveCV(initialCVState);
 
-    const savedCV = saveCV(demoCVState);
-
-    console.log("Se ha creado un estado demo inicial:", savedCV);
+    console.log("Se ha creado un estado inicial vacío:", savedCV);
 
     return savedCV;
   }
 
   // Carga el estado del CV.
-  // Si no existe nada aún, siembra el demo inicial.
+  // Si no existe nada aún, siembra el estado inicial vacío.
   function bootstrapCVState() {
     const hasExistingCV = hasStoredCV();
 
@@ -235,11 +221,71 @@ export function createAuthenticatedCVApp({
     }
   }
 
+  function getStoredThemePreference() {
+    try {
+      const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+      return storedTheme === "dark" ? "dark" : "light";
+    } catch (error) {
+      console.warn("No se pudo leer la preferencia de tema:", error);
+      return "light";
+    }
+  }
+
+  function persistThemePreference(theme) {
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (error) {
+      console.warn("No se pudo guardar la preferencia de tema:", error);
+    }
+  }
+
+  function syncThemeToggleButton() {
+    if (!themeToggleButtonElement) {
+      return;
+    }
+
+    const isDark = activeTheme === "dark";
+    const nextLabel = isDark ? "Modo claro" : "Modo oscuro";
+
+    themeToggleButtonElement.setAttribute("aria-pressed", String(isDark));
+    themeToggleButtonElement.setAttribute("aria-label", `Activar ${nextLabel.toLowerCase()}`);
+
+    const labelElement = themeToggleButtonElement.querySelector(".theme-toggle-label");
+    if (labelElement) {
+      labelElement.textContent = nextLabel;
+    }
+  }
+
+  function applyTheme(nextTheme) {
+    activeTheme = nextTheme === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", activeTheme);
+    syncThemeToggleButton();
+  }
+
+  function bindThemeToggleButton() {
+    const button = document.querySelector("#dark-mode-toggle");
+
+    if (!button || themeToggleButtonElement === button) {
+      return;
+    }
+
+    themeToggleButtonElement = button;
+    syncThemeToggleButton();
+
+    themeToggleButtonElement.addEventListener("click", () => {
+      const nextTheme = activeTheme === "dark" ? "light" : "dark";
+      applyTheme(nextTheme);
+      persistThemePreference(nextTheme);
+    });
+  }
+
   // Inicializa la app autenticada una sola vez.
   function init() {
     if (isInitialized) {
       return getPublicApi();
     }
+
+    applyTheme(getStoredThemePreference());
 
     // 1. Cargamos el estado inicial del CV.
     cvState = bootstrapCVState();
@@ -302,6 +348,12 @@ export function createAuthenticatedCVApp({
       githubIntegration.init();
     }
 
+    // 4.b Inicializamos el buscador de empleo (Mock honesto, sin afectar cvState por ahora)
+    const jobSearchIntegration = createJobSearchIntegration();
+    if (jobSearchIntegration) {
+      jobSearchIntegration.init();
+    }
+
     // 5. Creamos el editor del perfil.
     const createdProfileEditor = createProfileEditor({
       formSelector: profileFormSelector,
@@ -332,6 +384,7 @@ export function createAuthenticatedCVApp({
     profileEditor = createdProfileEditor;
     profileEditor.init();
     bindExportPdfButton();
+    bindThemeToggleButton();
 
     isInitialized = true;
 

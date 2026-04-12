@@ -2,16 +2,28 @@
 
 Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
+## Feature activa en la rama actual
+
+- `feat/polish-accessibility` o `feat/visual-polish-final`
+
+Objetivo actual:
+- cerrar pulido visual, revisar estados UX, accesibilidad base
+- consolidar la calidad del código, microcopias y diseño final post-integraciones
+- mantener todo esto dentro del frontend MVP sin abrir arquitectura
+
+Estado real actual:
+- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, y Búsqueda de empleo) están resueltas arquitectónicamente
+- la fase activa está en cierre visual/documental para preparar PR a `dev` y después a `main`
+
 ## Última feature cerrada
 
-- `feat/github-pages-public-preview`
+- `feat/jooble-search-proxy-mvp`
 
 Objetivo cubierto:
-- simular una base pública real del CV con una demo estática preparada para GitHub Pages
-- desacoplar la demo pública de la dependencia directa del `localStorage` local
-- dejar una base clara para una futura URL publicada y un QR funcional
-- mantener esta fase dentro de frontend/demo estática
-- no abrir todavía backend serio ni base de datos
+- añadir un buscador de ofertas en la app autenticada.
+- conectar el frontend a un backend proxy local (Express Server).
+- consumir la API pública real de Jooble, manteniendo las API Keys completamente ocultas del navegador web.
+- aplicar el patrón "Graceful Degradation": en caso de fallo, WAF o límite alcanzado en la API real, el frontend atrapa el error devuelto por la Request silenciosamente e inyecta respuestas "Mock" o clonadas añadiendo un aviso de color naranja debajo de la solicitud para que el sistema del portfolio nunca ceda la experiencia web principal de cara al usuario final.
 
 ## Consolidación arquitectónica reciente
 
@@ -27,14 +39,18 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- `feat/infojobs-search-proxy-mvp`
+- `feat/polish-accessibility` o `feat/visual-polish-final`
 
 Objetivo siguiente:
-- añadir un buscador de ofertas de empleo dentro del proyecto como última feature funcional de esta fase
-- integrar una API real de ofertas de trabajo, priorizando InfoJobs si resulta viable
-- proteger credenciales mediante un proxy mínimo o función serverless si la API elegida requiere secreto
-- mantener esta feature como bloque funcional separado del backend serio de la siguiente fase
-- aportar valor visual y de producto a la demo final del proyecto
+- cerrar pulido visual, estados UX y accesibilidad base
+- dejar documentación y checklist de release listos para PR
+- mantener el alcance en frontend MVP sin reabrir arquitectura
+
+## Validación técnica reciente (Jooble)
+
+- API key validada con respuesta real `HTTP 200` desde el proxy local
+- configuración esperada de entorno en `server/.env` (`JOOBLE_API_KEY=...`)
+- comportamiento de respaldo confirmado: si falta credencial, el backend responde `503` y el frontend degrada a mock
 
 ## Avance reciente dentro de la feature cerrada más reciente
 
@@ -88,9 +104,9 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. `feat/infojobs-search-proxy-mvp`
-2. `feat/polish-accessibility` o `feat/visual-polish-final`
-3. `feat/documentacion-final`
+1. cerrar `feat/visual-polish-final` con documentación al día
+2. abrir PR `feat/visual-polish-final` -> `dev`
+3. tras validar `dev`, abrir PR `dev` -> `main`
 
 ## Fase siguiente
 

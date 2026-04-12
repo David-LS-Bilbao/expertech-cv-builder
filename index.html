@@ -6,7 +6,7 @@
     <title>EXPERTECH CV</title>
     <meta
       name="description"
-      content="EXPERTECH CV, MVP JavaScript para crear un currículum web interactivo orientado a recruiters."
+      content="EXPERTECH CV, aplicación para crear un currículum web orientado a recruiters tech."
     />
     <link rel="stylesheet" href="./styles/reset.css" />
     <link rel="stylesheet" href="./styles/main.css" />
@@ -25,60 +25,89 @@
          Empieza oculto por defecto.
          AppRuntime + AuthScreen deciden cuándo mostrarlo. -->
     <div id="app-shell-authenticated" class="app-shell" hidden>
-      <header class="app-header">
-        <div class="brand-block">
-          <p class="brand-kicker">EXPERTECH</p>
-          <h1 class="brand-title">CV Builder</h1>
-          <p class="brand-tagline">
-            Crea un currículum web claro, visual y orientado a recruiters tech.
+      <section class="dashboard-hero-banner" aria-label="Introducción del dashboard">
+        <header class="app-header">
+          <div id="welcome-block" class="brand-block">
+            <h1 class="brand-title">EXPERTECH</h1>
+            <p class="brand-tagline">
+              CV Builder
+            </p>
+          </div>
+
+          <div class="header-actions">
+            <button
+              type="button"
+              id="logout-button"
+              class="btn btn-secondary"
+              aria-label="Cerrar sesión y volver a la pantalla de acceso"
+            >
+              Cerrar sesión
+            </button>
+            <button
+              type="button"
+              id="dark-mode-toggle"
+              class="btn btn-secondary theme-toggle-button"
+              aria-label="Activar modo oscuro"
+              aria-pressed="false"
+            >
+              <svg
+                class="theme-icon theme-icon-moon"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 3a7 7 0 1 0 9 9 9 9 0 1 1-9-9z"></path>
+              </svg>
+              <svg
+                class="theme-icon theme-icon-sun"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+              </svg>
+              <span class="theme-toggle-label">Modo oscuro</span>
+            </button>
+          </div>
+        </header>
+
+        <section id="dashboard-hero-card" class="hero" aria-labelledby="hero-title">
+          <h2 id="hero-title">Panel principal de tu CV profesional</h2>
+          <p class="hero-text">
+            Edita tu perfil, conecta GitHub y revisa la vista previa en tiempo
+            real desde un único espacio de trabajo.
           </p>
-        </div>
-
-        <div class="header-actions">
-          <button type="button" class="btn btn-secondary">Guardar borrador</button>
-
-          <button
-            type="button"
-            id="logout-button"
-            class="btn btn-secondary"
-            aria-label="Cerrar sesión y volver a la pantalla de acceso"
-          >
-            Cerrar sesión
-          </button>
-        </div>
-      </header>
+        </section>
+      </section>
 
       <main class="app-main">
-        <section class="hero" aria-labelledby="hero-title">
-          <p class="section-kicker">Editor + preview</p>
-          <h2 id="hero-title">Construye tu CV tech desde una sola pantalla</h2>
-          <p class="hero-text">
-            Organiza tu perfil, prepara tus proyectos y revisa una vista previa
-            resumida del CV desde una única interfaz.
-          </p>
-          <p class="helper-note">
-            La base actual ya permite editar el perfil, guardar cambios y
-            visualizar una preview conectada en tiempo real.
-          </p>
-        </section>
-
-        <section class="quick-actions" aria-labelledby="quick-actions-title">
-          <h2 id="quick-actions-title" class="section-title">Acciones rápidas</h2>
-
-          <div class="quick-actions-list">
-            <button type="button" class="btn btn-primary">Completar perfil</button>
-            <button type="button" class="btn btn-secondary">Conectar GitHub</button>
-            <button type="button" class="btn btn-secondary">Revisar preview</button>
-          </div>
-        </section>
-
         <section class="workspace" aria-label="Zona principal de trabajo">
           <section class="editor-panel" aria-labelledby="editor-panel-title">
             <div class="panel-heading">
               <p class="section-kicker">Editor</p>
               <h2 id="editor-panel-title" class="section-title">Bloques del CV</h2>
               <p class="section-text">
-                Estructura base del contenido editable para el MVP inicial.
+                Edita tu información profesional y mantén el contenido listo para compartir.
               </p>
             </div>
 
@@ -105,7 +134,7 @@
                       type="text"
                       id="fullName"
                       name="fullName"
-                      placeholder="Ej. David López Sotelo"
+                      placeholder="Ej. Ana García"
                       autocomplete="name"
                     />
                   </div>
@@ -137,7 +166,7 @@
                       type="text"
                       id="headline"
                       name="headline"
-                      placeholder="Ej. Frontend Developer"
+                      placeholder="Ej. Desarrollador Frontend"
                       autocomplete="organization-title"
                     />
                   </div>
@@ -169,7 +198,7 @@
                       type="text"
                       id="location"
                       name="location"
-                      placeholder="Ej. Bilbao, España"
+                      placeholder="Ej. Madrid, España"
                       autocomplete="address-level2"
                     />
                   </div>
@@ -191,7 +220,7 @@
                       type="text"
                       id="githubUsername"
                       name="githubUsername"
-                      placeholder="Ej. David-LS-Bilbao"
+                      placeholder="Ej. tu-usuario-github"
                       autocomplete="username"
                     />
                   </div>
@@ -210,8 +239,8 @@
               </form>
 
               <p class="helper-note">
-                El formulario actualiza la vista previa en tiempo real y permite guardar los
-                cambios del perfil en localStorage.
+                La vista previa se actualiza al instante. Usa "Guardar perfil"
+                para conservar los cambios.
               </p>
             </article>
 
@@ -219,49 +248,6 @@
                  GitHubBlockTemplate.js inyecta aquí el markup base.
                  GitHubIntegration.js lo usa después para el comportamiento real. -->
             <div id="github-block-root"></div>
-
-            <article class="editor-block" aria-labelledby="projects-block-title">
-              <div class="block-heading">
-                <div class="block-heading-top">
-                  <h3 id="projects-block-title" class="block-title">Proyectos destacados</h3>
-                  <span class="status-badge status-badge-muted">Pendiente visualización</span>
-                </div>
-                <p class="block-text">
-                  La selección ya se gestiona desde GitHub; este bloque consolidará su
-                  visualización en la siguiente iteración.
-                </p>
-              </div>
-
-              <div class="empty-state">
-                <p class="empty-state-title">La selección actual se gestiona en el bloque GitHub.</p>
-                <p class="empty-state-text">
-                  Cuando se trabaje la visualización de proyectos, aquí se reflejarán de forma más
-                  clara los repositorios ya seleccionados.
-                </p>
-              </div>
-            </article>
-
-            <article class="editor-block" aria-labelledby="skills-block-title">
-              <div class="block-heading">
-                <div class="block-heading-top">
-                  <h3 id="skills-block-title" class="block-title">Skills / stack</h3>
-                  <span class="status-badge">Pendiente</span>
-                </div>
-                <p class="block-text">
-                  Tecnologías y herramientas principales para lectura rápida.
-                </p>
-              </div>
-
-              <div class="block-placeholder">
-                <p>HTML · CSS · JavaScript</p>
-                <p>Git · GitHub · Responsive Design</p>
-                <p>APIs · UI básica · Accesibilidad inicial</p>
-              </div>
-
-              <p class="helper-note">
-                Añade aquí las tecnologías clave que quieres que un recruiter vea primero.
-              </p>
-            </article>
           </section>
 
           <!-- Root vacío de preview.
@@ -276,17 +262,16 @@
         </section>
 
         <section class="final-actions" aria-labelledby="final-actions-title">
-          <h2 id="final-actions-title" class="section-title">Acciones finales</h2>
+          <h2 id="final-actions-title" class="section-title">Acciones del CV</h2>
           <p class="section-text">
-            Base visual preparada para guardar, exportar y compartir en futuras iteraciones.
+            Exporta tu CV en PDF o abre su vista previa pública local.
           </p>
 
           <div class="final-actions-list">
-            <button type="button" class="btn btn-primary">Guardar CV</button>
             <button
               type="button"
               id="export-pdf-button"
-              class="btn btn-secondary"
+              class="btn btn-primary"
             >
               Exportar PDF
             </button>
@@ -295,7 +280,7 @@
               id="view-public-button"
               class="btn btn-secondary"
             >
-              Ver Demo Pública
+              Ver vista previa pública
             </button>
           </div>
         </section>

@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: post-merge de `feat/github-pages-public-preview`, ya integrada en `dev`
+Fase actual: `feat/visual-polish-final` en cierre
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión y una demo pública estática (`public.html`) desacoplada de `localStorage`, preparada para evolucionar a publicación real con GitHub Pages.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión con QR y una demo pública ya publicada en GitHub Pages. Además, el bloque de búsqueda de empleo ya está conectado a Jooble mediante proxy local con degradación a mock cuando falla la API.
 
 ## Objetivo del MVP
 
@@ -207,32 +207,29 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 10. `feat/github-project-sources`: ampliar fuentes GitHub y atribución de proyectos
 11. `feat/export-pdf-qr`: exportación PDF con vista específica de impresión
 12. `feat/github-pages-public-preview`: demo pública estática preparada para GitHub Pages
-13. `feat/infojobs-search-proxy-mvp`: buscador de ofertas con integración real y proxy mínimo
+13. `feat/jooble-search-proxy-mvp`: buscador de ofertas con proxy local y fallback mock
 14. `feat/polish-accessibility` o `feat/visual-polish-final`: pulido final, estados UX y accesibilidad
 15. `feat/documentacion-final`: cierre documental final del proyecto
 
 ## Última feature cerrada
 
-La última feature cerrada funcionalmente en `dev` es `feat/github-pages-public-preview`.
+La última feature cerrada funcionalmente en `dev` es `feat/jooble-search-proxy-mvp`.
 
 Este bloque ya deja resuelto:
 
-- `public.html` ya no depende del `localStorage` del mismo navegador
-- la demo pública se alimenta desde `data/public-cv.json`
-- existe un runtime público modular (`js/public.js` + `js/application/PublicPageRuntime.js`)
-- la hero pública reutiliza nombre, titular, resumen y avatar del snapshot del CV
-- la demo pública ya muestra proyectos destacados y una card específica de tecnologías
+- buscador de empleo en app autenticada conectado a proxy backend local
+- integración real con Jooble (`es.jooble.org`) sin exponer API key en frontend
+- degradación elegante a resultados mock si falla el backend o la API externa
+- validación de entorno con `JOOBLE_API_KEY` en `server/.env`
 
 Sigue quedando fuera de este cierre:
 
-- publicación real ya servida en GitHub Pages
-- QR funcional apuntando a una URL pública estable
 - backend y base de datos
 - sharing multiusuario real
 
 ## Nota de desarrollo
 
-Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen`, `feat/github-project-sources` y `feat/export-pdf-qr` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub, representación recruiter-friendly de los proyectos, trazabilidad mínima del origen importado, avatar híbrido y exportación PDF útil. Sobre esa base, `feat/github-pages-public-preview` se centra en convertir la vista pública en una demo estática modular y preparada para una futura publicación real sin introducir todavía backend ni base de datos.
+Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen`, `feat/github-project-sources`, `feat/export-pdf-qr`, `feat/github-pages-public-preview` y `feat/jooble-search-proxy-mvp` dejan ya una base MVP sólida: auth local de demostración, integración pública con GitHub, representación recruiter-friendly de proyectos, trazabilidad mínima del origen importado, avatar híbrido, exportación PDF útil, demo pública estática y buscador de empleo con proxy local seguro.
 
 Limitaciones actuales importantes:
 
@@ -240,23 +237,22 @@ Limitaciones actuales importantes:
 - las contraseñas se guardan en `localStorage` en texto plano como limitación explícita de este MVP
 - Google y GitHub no implementan OAuth real todavía
 - no hay backend ni PostgreSQL en esta fase
-- no existe aislamiento real por usuario para el estado del CV
+- existe aislamiento básico por sesión local para el estado del CV, pero no persistencia multiusuario real
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
 - no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
-- `public.html` ya usa un snapshot estático y no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
-- el QR sigue pendiente hasta que exista una URL pública estable
+- la búsqueda de empleo se apoya en proxy local Jooble y mantiene fallback a mock como protección UX
+- el proxy local de Jooble está validado para entorno local, pero no es backend de producción
 
 Orden recomendado a partir del estado actual:
 
-1. `feat/infojobs-search-proxy-mvp`
-2. `feat/polish-accessibility` o `feat/visual-polish-final`
-3. `feat/documentacion-final`
+1. cerrar `feat/visual-polish-final` con documentación y checklist de release
+2. abrir PR `feat/visual-polish-final` -> `dev`
+3. tras validar `dev`, abrir PR `dev` -> `main`
 
 Siguiente feature recomendada tras este cierre:
 
-- `feat/infojobs-search-proxy-mvp`
-- objetivo: incorporar un buscador de ofertas con una integración real y útil dentro del portfolio
-- alcance: integración con API de empleo, priorizando InfoJobs si encaja, y proxy mínimo o función serverless si la API requiere secreto
+- `feat/documentacion-final` (opcional si decides separar el cierre de release)
+- objetivo: consolidar memoria técnica, capturas y checklist final del MVP
 - fuera de alcance: backend completo, base de datos y panel recruiter real
 
 ## Autor

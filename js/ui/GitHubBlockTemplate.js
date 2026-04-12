@@ -25,8 +25,8 @@ export function getGitHubBlockTemplateMarkup() {
           </span>
         </div>
         <p class="block-text">
-          Busca un perfil público de GitHub para enriquecer el CV y seleccionar
-          repositorios destacados manualmente.
+          Conecta un perfil público de GitHub para completar tu información y
+          seleccionar repositorios que quieras destacar.
         </p>
       </div>
 
@@ -63,11 +63,10 @@ export function getGitHubBlockTemplateMarkup() {
       </form>
 
       <div id="github-empty-state" class="empty-state">
-        <p class="empty-state-title">Todavía no has cargado un perfil de GitHub.</p>
+        <p class="empty-state-title">Aún no has cargado un perfil de GitHub.</p>
         <p class="empty-state-text">
-          Introduce un username público para traer datos básicos del perfil y revisar
-          repositorios candidatos. Si la API falla, el formulario manual del CV seguirá
-          funcionando como base segura.
+          Introduce un usuario público para traer datos del perfil y revisar
+          repositorios candidatos para tu CV.
         </p>
       </div>
 
@@ -159,8 +158,7 @@ export function getGitHubBlockTemplateMarkup() {
             </span>
           </div>
           <p class="block-text">
-            Esta selección ya se guarda como base para los proyectos del CV y prepara su
-            visualización posterior.
+            Esta selección se usa para construir la sección de proyectos del CV.
           </p>
         </div>
 
@@ -172,9 +170,7 @@ export function getGitHubBlockTemplateMarkup() {
       </section>
 
       <p class="helper-note">
-        La selección de repositorios es manual y, en este MVP, todavía no se valida
-        autoría o colaboración avanzada; si GitHub falla, el flujo manual sigue siendo la
-        base segura.
+        Mantén una selección breve y relevante para que el CV sea más claro al primer vistazo.
       </p>
     </article>
   `;
