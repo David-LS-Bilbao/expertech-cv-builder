@@ -18,6 +18,7 @@ import { createProfileEditor } from "../ui/ProfileEditor.js";
 import { createPreviewRenderer } from "../ui/PreviewRenderer.js";
 import { createPrintCVRenderer } from "../ui/PrintCVRenderer.js";
 import { createGitHubIntegration } from "../ui/GitHubIntegration.js";
+import { createJobSearchIntegration } from "../ui/JobSearchIntegration.js";
 import { saveCV, loadCV, hasStoredCV } from "../services/CVStorageService.js";
 
 // Prefijo para identificar proyectos creados desde repositorios GitHub.
@@ -300,6 +301,12 @@ export function createAuthenticatedCVApp({
     } else {
       githubIntegration = createdGitHubIntegration;
       githubIntegration.init();
+    }
+
+    // 4.b Inicializamos el buscador de empleo (Mock honesto, sin afectar cvState por ahora)
+    const jobSearchIntegration = createJobSearchIntegration();
+    if (jobSearchIntegration) {
+      jobSearchIntegration.init();
     }
 
     // 5. Creamos el editor del perfil.
