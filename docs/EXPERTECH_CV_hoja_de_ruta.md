@@ -410,6 +410,16 @@ El usuario puede generar un CV corto presentable con acceso a la versión web.
 ### Objetivo
 Simular una publicación pública real del CV sin backend ni base de datos.
 
+### Estado actual
+La base de esta feature ya está construida en forma de demo pública estática:
+- `public.html`
+- `js/public.js`
+- `js/application/PublicPageRuntime.js`
+- `js/services/PublicCVDataService.js`
+- `data/public-cv.json`
+
+Queda pendiente el cierre con despliegue real en GitHub Pages y QR apuntando a esa URL.
+
 ### Alcance
 - despliegue estático en GitHub Pages
 - datos públicos de demo preparados para esa versión

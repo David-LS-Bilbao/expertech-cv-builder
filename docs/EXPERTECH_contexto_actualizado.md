@@ -13,9 +13,9 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Proyecto:** EXPERTECH CV  
 **Marca paraguas:** EXPERTECH  
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
-**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado y una primera salida de impresión más cuidada para exportación.
+**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado, exportación PDF más cuidada y una demo pública estática modular ya preparada para evolucionar a GitHub Pages.
 
-Según la base actual del repositorio, la rama activa pasa a ser `feat/export-pdf-qr`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido y una vista local adicional (`public.html`) preparada para una futura publicación compartible.
+Según la base actual del repositorio, la rama activa pasa a ser `feat/github-pages-public-preview`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF y una demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
 
 ---
 
@@ -112,7 +112,6 @@ Según la base actual del repositorio, la rama activa pasa a ser `feat/export-pd
 
 A día de hoy siguen fuera de alcance o pendientes:
 
-- exportación PDF
 - QR al CV
 - accesibilidad más profunda
 - auth real o segura de producción
@@ -149,9 +148,9 @@ Ese documento se conserva solo como:
 
 ### README
 El `README.md` debe reflejar:
-- `feat/export-pdf-qr` como rama activa
-- la auth local MVP ya cerrada
-- que `public.html` es una vista local adicional, no una URL pública real todavía
+- `feat/github-pages-public-preview` como rama activa
+- `feat/export-pdf-qr` ya cerrada funcionalmente
+- que `public.html` ya no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
 
 ### Roadmap
 `docs/roadmap.md` puede quedar desalineado en algunos momentos respecto al README o al estado real del repo.
@@ -167,7 +166,7 @@ Antes de abrir cada nuevo chat de feature:
 
 ## 6. Feature activa recomendada
 
-## `feat/export-pdf-qr`
+## `feat/github-pages-public-preview`
 
 ### Motivo
 La arquitectura ya permite:
@@ -178,24 +177,26 @@ La arquitectura ya permite:
 - seleccionar repositorios
 - persistir proyectos
 - representarlos visualmente en la preview
-- preparar una salida de impresión específica
-- mostrar una vista local adicional del CV
+- exportar una versión PDF específica
+- mostrar una demo pública separada del editor
 
-Por tanto, el trabajo actual ya no consiste en construir login básico ni en ampliar la trazabilidad GitHub, sino en **cerrar una salida PDF más presentable y dejar preparada una vista local adicional del CV sin mezclar todavía backend, base de datos ni publicación real**.
+Por tanto, el trabajo actual ya no consiste en construir login básico ni en ampliar la trazabilidad GitHub, sino en **cerrar una demo pública estática preparada para GitHub Pages sin mezclar todavía backend, base de datos ni publicación multiusuario real**.
 
 ### Objetivo funcional
-Permitir una exportación más clara para recruiters y dejar lista una vista local separada que más adelante pueda evolucionar a experiencia compartible cuando exista persistencia/publicación real fuera de `localStorage`.
+Simular una URL pública real del CV mediante una página estática modular, desacoplada del `localStorage` del editor y preparada para una futura publicación en GitHub Pages.
 
 ### Qué ya cubre en su slice actual
-- renderer específico de impresión
-- sincronización del borrador visible con la exportación PDF
-- soporte de avatar híbrido con imagen local optimizada y fallback GitHub
-- `public.html` como vista local adicional apoyada en el estado persistido del navegador
+- `public.html` como demo pública separada del editor
+- snapshot estático en `data/public-cv.json`
+- runtime específico con `js/public.js` y `js/application/PublicPageRuntime.js`
+- hero pública con nombre, titular, resumen y avatar
+- card lateral de tecnologías con iconos
+- proyectos destacados visibles y alineados con el CV demo
 
 ### Qué sigue pendiente dentro del área
-- QR funcional
-- publicación real del CV para terceros
-- persistencia compartible fuera de `localStorage`
+- despliegue real en GitHub Pages
+- URL pública estable
+- QR funcional apuntando a esa URL
 
 ### Qué no debería incluir
 - OAuth o login GitHub
@@ -223,32 +224,32 @@ Hacer visualizaciones bonitas pero poco útiles para recruiters.
 **Mitigación:** priorizar lectura rápida, claridad y valor comunicativo.
 
 ### Riesgo 4
-Romper persistencia o selección GitHub al tocar proyectos.
+Confundir la demo pública estática con una publicación real multiusuario.
 
-**Mitigación:** la siguiente feature debe apoyarse en el estado actual, no reinventarlo.
+**Mitigación:** mantener claro que esta fase usa snapshot estático y no persistencia compartida.
 
 ---
 
 ## 8. Orden recomendado a partir del cierre de esta rama
 
-1. cerrar `feat/export-pdf-qr`
-2. `feat/github-pages-public-preview`
-3. `feat/polish-accessibility`
+1. cerrar `feat/github-pages-public-preview`
+2. `feat/infojobs-search-proxy-mvp`
+3. `feat/polish-accessibility` o `feat/visual-polish-final`
 4. `feat/documentacion-final`
 
 ### Siguiente feature sugerida
 
-**`feat/github-pages-public-preview`**
+**`feat/infojobs-search-proxy-mvp`**
 
 Objetivo:
-- simular una URL pública real del CV usando GitHub Pages
-- desacoplar esa demo pública del `localStorage` local
-- generar un QR de demostración apuntando a la URL publicada
+- añadir un buscador de ofertas como último bloque funcional grande de esta fase
+- integrar una API real de empleo, priorizando InfoJobs si encaja
+- proteger credenciales con proxy mínimo o función serverless si hace falta
 
 Fuera de alcance:
-- backend
+- backend completo
 - base de datos
-- publicación real multiusuario
+- publicación multiusuario real
 
 ---
 
@@ -294,11 +295,11 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 - integración pública básica con GitHub
 - visualización recruiter-friendly de proyectos
 - trazabilidad mínima del origen de proyectos GitHub
-- exportación PDF inicial con vista de impresión específica
-- vista local adicional del CV preparada para compartirse más adelante
+- exportación PDF con vista de impresión específica
+- demo pública estática desacoplada del `localStorage` del editor
 
 La rama activa natural sigue siendo:
 
-**`feat/export-pdf-qr`**
+**`feat/github-pages-public-preview`**
 
-porque ahora toca cerrar de forma limpia la salida de exportación y dejar bien acotada la futura transición hacia una publicación compartible cuando exista base de datos.
+porque ahora toca cerrar de forma limpia la demo pública estática, preparar el paso a GitHub Pages y dejar lista la futura URL compartible antes de abrir la siguiente feature funcional.

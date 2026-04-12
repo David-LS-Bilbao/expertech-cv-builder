@@ -4,13 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/export-pdf-qr`
+- `feat/github-pages-public-preview`
 
 Objetivo actual:
-- preparar una salida PDF breve y más presentable del CV
-- mantener sincronizada la exportación con el borrador visible
-- dejar una vista local adicional (`public.html`) preparada para compartirse más adelante
-- no mezclar todavía backend ni publicación real
+- simular una URL pública real del CV mediante GitHub Pages
+- desacoplar la demo pública de la dependencia directa del `localStorage` local
+- generar un QR de demostración que apunte a la URL publicada
+- mantener esta fase dentro de frontend/demo estática
+- no abrir todavía backend serio ni base de datos
 
 ## Consolidación arquitectónica reciente
 
@@ -20,25 +21,52 @@ Objetivo actual:
 - templates UI extraídos desde `index.html`
 - `index.html` más cercano a shell base que a archivo monolítico
 - separación más clara entre auth, sesión, estado del CV, integración GitHub y sincronización de UI
+- renderer específico para impresión PDF
+- soporte de avatar híbrido
+- `public.html` como vista local adicional preparada para futura publicación compartible
 
 ## Siguiente feature prevista tras esta rama
 
-- `feat/github-pages-public-preview`
+- `feat/infojobs-search-proxy-mvp`
 
 Objetivo siguiente:
-- simular una URL pública real desplegando una versión estática en GitHub Pages
-- preparar una experiencia pública demo separada del `localStorage` local
-- generar un QR de demostración que apunte a la URL publicada en GitHub Pages
+- añadir un buscador de ofertas de empleo dentro del proyecto como última feature funcional de esta fase
+- integrar una API real de ofertas de trabajo, priorizando InfoJobs si resulta viable
+- proteger credenciales mediante un proxy mínimo o función serverless si la API elegida requiere secreto
+- mantener esta feature como bloque funcional separado del backend serio de la siguiente fase
+- aportar valor visual y de producto a la demo final del proyecto
 
-## Avance reciente dentro de la feature activa
+## Avance reciente dentro de la feature cerrada más reciente
 
 - `feat/export-pdf-qr`
-  - nueva vista de impresión con layout más limpio para exportación
+  - nueva vista específica de impresión para exportación PDF
   - sincronización del renderer de impresión con el borrador actual del editor
   - soporte de avatar híbrido con subida local optimizada y fallback GitHub
   - `public.html` como vista local adicional preparada para compartirse más adelante
+  - preparación del terreno para una futura publicación pública real con GitHub Pages y QR
+
+## Avance actual dentro de la feature activa
+
+- `feat/github-pages-public-preview`
+  - `public.html` ya desacoplada del `localStorage` del editor
+  - snapshot público estático en `data/public-cv.json`
+  - runtime público modular con `js/public.js` y `js/application/PublicPageRuntime.js`
+  - hero pública conectada a datos reales del CV demo
+  - avatar visible, tecnologías con iconos y proyectos destacados en una página más cercana a una demo pública real
 
 ## Feature cerrada recientemente
+
+- `feat/export-pdf-qr`
+  - nueva vista específica de impresión para exportación PDF
+  - sincronización del renderer de impresión con el borrador actual del editor
+  - soporte de avatar híbrido con subida local optimizada y fallback GitHub
+  - preparación del terreno para una futura publicación pública real con GitHub Pages y QR
+
+- `feat/github-project-sources`
+  - persistencia de metadatos mínimos del origen de proyectos importados desde GitHub
+  - señal visual compacta del origen del proyecto en la preview
+  - compatibilidad con proyectos manuales y con estado persistido existente
+  - limpieza del proyecto demo legado para que el empty-state de proyectos sea coherente
 
 - `feat/login-screen`
   - auth local básica para MVP con email + contraseña
@@ -58,13 +86,30 @@ Objetivo siguiente:
   - selección manual de repositorios destacados conectada al estado del CV
   - persistencia de `githubUsername` y proyectos GitHub para rehidratación coherente en el MVP
 
-## Fuera Deliberadamente
+## Orden funcional acordado para esta fase
+
+1. `feat/github-pages-public-preview`
+2. `feat/infojobs-search-proxy-mvp`
+3. `feat/polish-accessibility` o `feat/visual-polish-final`
+4. `feat/documentacion-final`
+
+## Fase siguiente
+
+- backend serio
+- base de datos
+- publicación real multiusuario
+- integraciones más ricas
+
+## Fuera deliberadamente en la fase actual
 
 - la auth actual del MVP no es auth real ni segura para producción
-- no hay backend ni PostgreSQL en esta fase
+- no hay backend serio ni PostgreSQL en esta fase
 - Google y GitHub no implementan OAuth real todavía
-- `feat/export-pdf-qr` no ofrece todavía URL pública real ni QR funcional
-- no hay backend ni persistencia compartible fuera de `localStorage`
+- `feat/github-pages-public-preview` no debe abrir todavía persistencia real compartida ni publicación multiusuario
+- la feature de buscador de empleo no debe convertirse todavía en backend completo
+- si la API de empleo elegida requiere secreto, solo se permitirá un proxy mínimo o función serverless, no una arquitectura backend completa
+- no hay base de datos ni persistencia compartible real fuera de `localStorage` en esta fase
+- las integraciones externas más ricas quedan para la siguiente etapa del proyecto
 
 ## Regla de trabajo
 
