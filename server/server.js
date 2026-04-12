@@ -1,26 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { searchInfoJobsProxy } from './services/InfoJobsProxyService.js';
+import { searchJoobleProxy } from './services/JoobleProxyService.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Restringir CORS al entorno local predecible (Live Server, Vite, etc.)
-const corsOptions = {
-  origin: [
-    'http://localhost:5500', 
-    'http://127.0.0.1:5500',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:5173'
-  ],
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
+// Permitimos todos los orígenes locales temporalmente para el MVP
+app.use(cors());
 app.use(express.json());
 
 app.get('/api/jobs/search', async (req, res) => {
@@ -31,7 +20,7 @@ app.get('/api/jobs/search', async (req, res) => {
   }
 
   try {
-    const results = await searchInfoJobsProxy({ keyword, location });
+    const results = await searchJoobleProxy({ keyword, location });
     res.json(results);
   } catch (err) {
     console.error('[Proxy Error]', err.message);
@@ -40,19 +29,19 @@ app.get('/api/jobs/search', async (req, res) => {
     if (err.message === 'CREDENTIALS_MISSING') {
       return res.status(503).json({
         error: 'Servicio no disponible',
-        message: 'El proxy está funcionando, pero faltan las credenciales reales de InfoJobs en .env'
+        message: 'El proxy está funcionando, pero falta JOOBLE_API_KEY en .env'
       });
     }
 
-    res.status(500).json({ error: 'Error interno en el proxy' });
+    res.status(500).json({ error: err.message || 'Error interno en el proxy' });
   }
 });
 
 app.listen(PORT, () => {
-  const mode = (process.env.INFOJOBS_CLIENT_ID && process.env.INFOJOBS_CLIENT_SECRET)
-    ? 'Preparado para API Real'
-    : 'Modo Fallback (Sin credenciales)';
+  const mode = process.env.JOOBLE_API_KEY
+    ? 'Preparado para API Real (Jooble)'
+    : 'Modo Fallback (Sin credencial)';
 
-  console.log(`[InfoJobs Proxy] Servidor levantado en http://localhost:${PORT}`);
-  console.log(`[InfoJobs Proxy] Estado: ${mode}`);
+  console.log(`[Jooble Proxy] Servidor levantado en http://localhost:${PORT}`);
+  console.log(`[Jooble Proxy] Estado: ${mode}`);
 });

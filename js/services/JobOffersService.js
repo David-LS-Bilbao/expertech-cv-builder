@@ -5,7 +5,7 @@
 
 const CONFIG = {
   // Cambia a 'proxy' o 'mock' según el entorno local que estés probando.
-  mode: 'mock', 
+  mode: 'proxy', 
   proxyUrl: 'http://localhost:3001/api/jobs/search'
 };
 
@@ -29,9 +29,9 @@ async function fetchFromProxy({ keyword, location }) {
       errorData.message = `HTTP Error ${response.status}`;
     }
     
-    // Si el proxy responde con un estado 503 (fallback sin credenciales de InfoJobs)
+    // Si el proxy responde con un estado 503 (fallback sin credenciales de Jooble)
     if (response.status === 503) {
-      throw new Error("El servicio Proxy no tiene configuradas las llaves reales de InfoJobs.");
+      throw new Error("El servicio Proxy no tiene configuradas las llaves reales de Jooble.");
     }
     
     throw new Error(errorData.error || errorData.message || "Error al conectar con el proxy.");
@@ -95,7 +95,14 @@ export async function searchOffers({ keyword, location = "" }) {
   }
 
   if (CONFIG.mode === 'proxy') {
-    return fetchFromProxy({ keyword, location });
+    try {
+      return await fetchFromProxy({ keyword, location });
+    } catch (err) {
+      console.warn("Proxy falló, devolviendo mock data. Error:", err.message);
+      const mockResults = await fetchFromMock({ keyword, location });
+      mockResults._fallbackWarning = err.message;
+      return mockResults;
+    }
   }
 
   return fetchFromMock({ keyword, location });

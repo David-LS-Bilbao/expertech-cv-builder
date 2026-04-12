@@ -2,6 +2,22 @@
 
 Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
+## Feature activa en la rama actual
+
+- `feat/infojobs-search-proxy-mvp`
+
+Objetivo actual:
+- añadir un buscador de ofertas en la app autenticada
+- conectar frontend con un proxy local mínimo
+- mantener fallback a mock cuando la API real no está disponible
+- no abrir backend completo ni base de datos en esta fase
+
+Estado real actual:
+- bloque de búsqueda ya integrado en UI
+- servicio frontend de ofertas ya creado
+- proxy local base ya creado y migrado a Jooble
+- integración real todavía no estable (se mantiene fallback a mock)
+
 ## Última feature cerrada
 
 - `feat/github-pages-public-preview`
@@ -27,14 +43,11 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- `feat/infojobs-search-proxy-mvp`
+- `feat/polish-accessibility` o `feat/visual-polish-final`
 
 Objetivo siguiente:
-- añadir un buscador de ofertas de empleo dentro del proyecto como última feature funcional de esta fase
-- integrar una API real de ofertas de trabajo, priorizando InfoJobs si resulta viable
-- proteger credenciales mediante un proxy mínimo o función serverless si la API elegida requiere secreto
-- mantener esta feature como bloque funcional separado del backend serio de la siguiente fase
-- aportar valor visual y de producto a la demo final del proyecto
+- cerrar pulido visual, estados UX y accesibilidad base tras estabilizar el buscador de empleo
+- mantener el alcance en frontend MVP sin reabrir arquitectura
 
 ## Avance reciente dentro de la feature cerrada más reciente
 
@@ -88,7 +101,7 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. `feat/infojobs-search-proxy-mvp`
+1. estabilizar y cerrar `feat/infojobs-search-proxy-mvp`
 2. `feat/polish-accessibility` o `feat/visual-polish-final`
 3. `feat/documentacion-final`
 

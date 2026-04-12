@@ -16,4 +16,7 @@ Thumbs.db
 # Posibles salidas de build futuras
 dist/
 .vscode/
-tatus
+
+# Entornos locales y secretos
+server/.env
+server/node_modules/

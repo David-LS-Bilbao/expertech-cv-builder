@@ -212,3 +212,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya dispone de una demo pública estática, modular y coherente visualmente, con datos propios del CV y preparada para pasar a una URL pública real mediante GitHub Pages.
 - Validación: comprobación sintáctica con `node --check js/public.js`, `node --check js/application/PublicPageRuntime.js`, `node --check js/services/PublicCVDataService.js` y `node --check js/ui/PublicCVRenderer.js`; revisión manual del hero, avatar, tecnologías con iconos y proyectos visibles en `public.html`.
 - Próximo paso: abrir PR de `feat/github-pages-public-preview` contra `dev`, revisar el diff final y, tras el merge, activar GitHub Pages y preparar el QR apuntando a la URL publicada.
+
+### [2026-04-12] Avance funcional de `feat/infojobs-search-proxy-mvp` (migrado a Jooble)
+
+- Objetivo: iniciar el bloque de búsqueda de empleo con una integración realista sin exponer credenciales en frontend.
+- Trabajo realizado: se añadió un bloque UI de búsqueda en la app autenticada, se creó un servicio frontend para consultar ofertas y se montó un mini backend local (`server/`) como proxy. Durante la iteración, la base del proxy se migró de InfoJobs a Jooble.
+- Trabajo realizado por el usuario: implementación de la base del proxy local Jooble y ajustes del bloque de búsqueda en frontend.
+- Trabajo realizado por Codex: revisión de cierre parcial, hardening mínimo del render para evitar inyección por `innerHTML`, protección de secretos en `.gitignore` y mejora de estados visuales de badge en la UI.
+- Archivos afectados: `js/application/AuthenticatedCVApp.js`, `js/ui/JobSearchBlockTemplate.js`, `js/ui/JobSearchIntegration.js`, `js/services/JobOffersService.js`, `server/server.js`, `server/services/JoobleProxyService.js`, `server/README.md`, `server/.env.example`, `server/package.json`, `.gitignore`, `styles/main.css`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md`, `docs/EXPERTECH_contexto_actualizado.md` y `docs/architecture-notes.md`.
+- Resultado: el buscador ya está integrado y usable en modo MVP con fallback a mock, pero la integración real con Jooble aún no está estable.
+- Validación: comprobación sintáctica con `node --check` en `js/ui/JobSearchIntegration.js`, `js/services/JobOffersService.js`, `server/server.js` y `server/services/JoobleProxyService.js`; revisión manual de estados `buscando`, `resultados`, `sin resultados` y `error`.
+- Próximo paso: cerrar PR de este avance a `dev`, y dejar la revisión técnica de la llamada real a Jooble para una iteración específica posterior.

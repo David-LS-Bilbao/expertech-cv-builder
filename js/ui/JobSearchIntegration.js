@@ -67,6 +67,9 @@ export function createJobSearchIntegration() {
         showEmptyResults();
       } else {
         showResults(results);
+        if (results._fallbackWarning) {
+          showWarning(`API temporalmente no disponible (${results._fallbackWarning}). Mostrando datos simulados.`);
+        }
       }
     } catch (error) {
       showError(error.message || "Ocurrió un error inesperado al buscar ofertas.");
@@ -105,6 +108,14 @@ export function createJobSearchIntegration() {
     elements.submitBtn.disabled = false;
   }
 
+  function showWarning(msg) {
+    elements.feedback.textContent = msg;
+    elements.feedback.hidden = false;
+    elements.feedback.classList.remove("form-feedback-success");
+    // Aviso visible pero menos crítico que el error total que corta la ejecución
+    elements.feedback.style.color = "var(--color-warn, #f59e0b)";
+  }
+
   function showEmptyResults() {
     elements.feedback.textContent = "";
     elements.feedback.hidden = true;
@@ -132,19 +143,70 @@ export function createJobSearchIntegration() {
     elements.resultsSection.hidden = false;
     elements.resultsCount.textContent = `${results.length} listadas`;
 
-    elements.resultsList.innerHTML = results.map(job => `
-      <article class="preview-card" style="margin-bottom: 0.75rem;">
-        <header class="preview-card-header" style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.25rem;">
-          <h5 class="preview-name" style="margin: 0; font-size: 1rem;">${job.title}</h5>
-          <p class="preview-role" style="margin: 0; font-size: 0.85rem; color: var(--color-text-light, #64748b);">
-            <strong>${job.company}</strong> · ${job.location}
-          </p>
-        </header>
-        <div class="preview-card-body" style="margin-top: 0.5rem;">
-          <a href="${job.link}" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; text-decoration: none;" target="_blank" rel="noopener noreferrer">Ver detalle</a>
-        </div>
-      </article>
-    `).join("");
+    const fragment = document.createDocumentFragment();
+
+    results.forEach((job) => {
+      const card = document.createElement("article");
+      card.className = "preview-card";
+      card.style.marginBottom = "0.75rem";
+
+      const header = document.createElement("header");
+      header.className = "preview-card-header";
+      header.style.display = "flex";
+      header.style.flexDirection = "column";
+      header.style.alignItems = "flex-start";
+      header.style.gap = "0.25rem";
+
+      const title = document.createElement("h5");
+      title.className = "preview-name";
+      title.style.margin = "0";
+      title.style.fontSize = "1rem";
+      title.textContent = String(job.title ?? "Oferta sin título");
+
+      const meta = document.createElement("p");
+      meta.className = "preview-role";
+      meta.style.margin = "0";
+      meta.style.fontSize = "0.85rem";
+      meta.style.color = "var(--color-text-light, #64748b)";
+
+      const company = document.createElement("strong");
+      company.textContent = String(job.company ?? "Empresa no disponible");
+
+      const locationText = document.createTextNode(
+        ` · ${String(job.location ?? "Ubicación no disponible")}`
+      );
+
+      meta.appendChild(company);
+      meta.appendChild(locationText);
+
+      header.appendChild(title);
+      header.appendChild(meta);
+
+      const body = document.createElement("div");
+      body.className = "preview-card-body";
+      body.style.marginTop = "0.5rem";
+
+      const link = document.createElement("a");
+      link.className = "btn btn-secondary";
+      link.style.padding = "0.25rem 0.5rem";
+      link.style.fontSize = "0.75rem";
+      link.style.textDecoration = "none";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+
+      const safeLink = String(job.link ?? "").trim();
+      link.href = safeLink || "#";
+      link.textContent = "Ver detalle";
+
+      body.appendChild(link);
+      card.appendChild(header);
+      card.appendChild(body);
+
+      fragment.appendChild(card);
+    });
+
+    elements.resultsList.innerHTML = "";
+    elements.resultsList.appendChild(fragment);
 
     elements.submitBtn.disabled = false;
   }

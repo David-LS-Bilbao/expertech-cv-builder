@@ -1,7 +1,7 @@
-# InfoJobs Local Proxy Server
+# Jooble Local Proxy Server
 
 Este es el micro-backend local para probar la búsqueda de ofertas desde el entorno del frontend.
-Su objetivo es esconder el _Client ID_ y _Client Secret_ para que el frontend nunca exponga esas claves al ejecutarse.
+Su objetivo es esconder la _API KEY_ de Jooble para que el frontend nunca exponga la clave al ejecutarse.
 
 ## Cómo arrancarlo
 
@@ -17,18 +17,17 @@ Su objetivo es esconder el _Client ID_ y _Client Secret_ para que el frontend nu
 
 ## Variables de Entorno
 
-Si todavía no existen llaves válidas, el proxy arranca en modo _Fallback_ controlado. 
-Cuando obtengas las credenciales, primero haz una copia de `.env.example` en formato local y renómbralo a `.env`:
+Si todavía no existe una llave válida, el proxy arranca en modo _Fallback_ controlado. 
+Cuando obtengas la credencial de Jooble, primero haz una copia de `.env.example` y renómbralo a `.env`:
 
 \`\`\`env
-INFOJOBS_CLIENT_ID=tus_credenciales
-INFOJOBS_CLIENT_SECRET=tu_secreto
+JOOBLE_API_KEY=tu_api_key_aqui
 \`\`\`
 
 ## Cómo alternar entre Proxy y Mock en el Frontend
 
-Si no configuras las variables, el Frontend devolverá un error avisando que faltan claves, y se le dejará al Proxy actuar.
-Por seguridad y velocidad mientras estemos sin ellas, el Front utiliza Mocks.
+Si no configuras la variable, el Frontend devolverá un error avisando que falta la llave, y se le dejará al Proxy actuar.
+Por seguridad y velocidad mientras probamos la UI, el Front utiliza Mocks.
 
 Para probar la conexión real frente a este proxy:
 1. Dirígete a `js/services/JobOffersService.js`.
@@ -39,4 +38,4 @@ Para probar la conexión real frente a este proxy:
      proxyUrl: 'http://localhost:3001/api/jobs/search'
    };
    \`\`\`
-3. Verás en el frontend una tarjeta simulada (`[PROXY] Oferta traída a través de backend: ...`) o un error honesto si las var de entorno no han sido rellenadas en `.env` (estado _Fallback (Sin credenciales)_).
+3. Verás en el frontend una tarjeta simulada (`[JOOBLE API PROXY] Oferta traída a través de backend: ...`) o un error honesto si las var de entorno no han sido rellenadas en `.env`.
