@@ -1251,7 +1251,8 @@ ul {
   .hero,
   .editor-panel,
   .final-actions,
-  .preview-panel {
+  .preview-panel,
+  #job-search-root {
     display: none !important;
   }
 
