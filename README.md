@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: post-merge de `feat/github-pages-public-preview`, ya integrada en `dev`
+Fase actual: post-despliegue de `feat/github-pages-public-preview` y cierre del QR del CV exportable
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión y una demo pública estática (`public.html`) desacoplada de `localStorage`, preparada para evolucionar a publicación real con GitHub Pages.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión, QR funcional dentro del PDF y una demo pública ya publicada en GitHub Pages mediante `public.html` y `data/public-cv.json`.
 
 ## Objetivo del MVP
 
@@ -160,6 +160,8 @@ Comportamiento actual disponible:
 - sistema de avatar híbrido (subida de imagen local con resize por canvas o lectura desde GitHub)
 - demo pública estática (`public.html`) alimentada por `data/public-cv.json`
 - runtime público modular para desacoplar la demo del `localStorage` del editor
+- vista pública ya desplegada en GitHub Pages
+- QR real integrado en la exportación PDF apuntando a la versión pública del CV
 
 ## Flujo actual del usuario
 
@@ -213,7 +215,7 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 
 ## Última feature cerrada
 
-La última feature cerrada funcionalmente en `dev` es `feat/github-pages-public-preview`.
+La última feature cerrada funcionalmente es `feat/github-pages-public-preview`, ya llevada a una URL pública real mediante GitHub Pages.
 
 Este bloque ya deja resuelto:
 
@@ -222,11 +224,11 @@ Este bloque ya deja resuelto:
 - existe un runtime público modular (`js/public.js` + `js/application/PublicPageRuntime.js`)
 - la hero pública reutiliza nombre, titular, resumen y avatar del snapshot del CV
 - la demo pública ya muestra proyectos destacados y una card específica de tecnologías
+- la demo pública ya está accesible en GitHub Pages
+- el PDF ya incorpora un QR real hacia la versión pública del CV
 
 Sigue quedando fuera de este cierre:
 
-- publicación real ya servida en GitHub Pages
-- QR funcional apuntando a una URL pública estable
 - backend y base de datos
 - sharing multiusuario real
 
@@ -243,8 +245,9 @@ Limitaciones actuales importantes:
 - no existe aislamiento real por usuario para el estado del CV
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
 - no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
-- `public.html` ya usa un snapshot estático y no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
-- el QR sigue pendiente hasta que exista una URL pública estable
+- `public.html` usa un snapshot estático y no depende del `localStorage` del editor
+- la URL pública actual está pensada como demo estática, no como publicación multiusuario con persistencia real
+- el QR actual apunta a la demo pública desplegada, no a un backend ni a un perfil compartido con datos en tiempo real
 
 Orden recomendado a partir del estado actual:
 

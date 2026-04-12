@@ -61,6 +61,10 @@ La arquitectura ya no está en fase de preparación inicial. El proyecto funcion
   - reutiliza el mismo contrato de datos del CV para la demo pública
   - alimenta hero, metadatos visibles y documento central sin depender del editor
 
+- `js/ui/PrintCVRenderer.js` y `js/ui/PrintCVTemplate.js`
+  - mantienen una vista específica para exportación PDF
+  - integran un QR real hacia la demo pública desplegada
+
 ## Riesgos a vigilar
 
 - mezclar en una misma feature auth, GitHub y exportación

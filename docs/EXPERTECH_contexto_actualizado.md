@@ -13,9 +13,9 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Proyecto:** EXPERTECH CV  
 **Marca paraguas:** EXPERTECH  
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
-**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado, exportación PDF más cuidada y una demo pública estática modular ya preparada para evolucionar a GitHub Pages.
+**Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado, exportación PDF más cuidada, QR integrado en el PDF y una demo pública estática modular ya desplegada en GitHub Pages.
 
-Según la base actual del repositorio, `feat/github-pages-public-preview` ya quedó integrada en `dev`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF y una demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
+Según la base actual del repositorio, `feat/github-pages-public-preview` ya quedó integrada en `dev` y su cierre operativo ya incluye despliegue en GitHub Pages. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF, QR funcional y una demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
 
 ---
 
@@ -112,7 +112,6 @@ Según la base actual del repositorio, `feat/github-pages-public-preview` ya que
 
 A día de hoy siguen fuera de alcance o pendientes:
 
-- QR al CV
 - accesibilidad más profunda
 - auth real o segura de producción
 - backend
@@ -150,7 +149,7 @@ Ese documento se conserva solo como:
 El `README.md` debe reflejar:
 - `feat/github-pages-public-preview` ya integrada en `dev`
 - `feat/export-pdf-qr` ya cerrada funcionalmente
-- que `public.html` ya no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
+- que `public.html` ya no depende del `localStorage` del editor y ya está publicada en GitHub Pages como demo estática
 
 ### Roadmap
 `docs/roadmap.md` puede quedar desalineado en algunos momentos respecto al README o al estado real del repo.
@@ -194,9 +193,9 @@ Simular una URL pública real del CV mediante una página estática modular, des
 - proyectos destacados visibles y alineados con el CV demo
 
 ### Qué sigue pendiente fuera de este cierre
-- despliegue real en GitHub Pages
-- URL pública estable
-- QR funcional apuntando a esa URL
+- backend real
+- base de datos
+- publicación multiusuario
 
 ### Qué no debería incluir
 - OAuth o login GitHub
@@ -224,7 +223,7 @@ Hacer visualizaciones bonitas pero poco útiles para recruiters.
 **Mitigación:** priorizar lectura rápida, claridad y valor comunicativo.
 
 ### Riesgo 4
-Confundir la demo pública estática con una publicación real multiusuario.
+Confundir la demo pública estática ya desplegada con una publicación real multiusuario.
 
 **Mitigación:** mantener claro que esta fase usa snapshot estático y no persistencia compartida.
 

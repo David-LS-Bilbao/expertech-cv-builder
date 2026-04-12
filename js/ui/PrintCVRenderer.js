@@ -15,6 +15,9 @@ const PRINT_CV_FALLBACKS = {
   projectDescription: "Descripción pendiente de completar.",
 };
 
+const PUBLIC_CV_URL =
+  "https://david-ls-bilbao.github.io/expertech-cv-builder/public.html";
+
 export function createPrintCVRenderer({
   printRootSelector = "#print-cv-root",
   fullNameSelector = "#print-cv-full-name",
@@ -44,6 +47,7 @@ export function createPrintCVRenderer({
   const projectsListElement = document.querySelector(projectsListSelector);
   const contactElement = document.querySelector(contactSelector);
   const skillsElement = document.querySelector(skillsSelector);
+  const qrUrlElement = document.querySelector("#print-cv-qr-url");
 
   if (!fullNameElement || !headlineElement || !summaryElement || !projectsListElement) {
     console.error(
@@ -248,6 +252,10 @@ export function createPrintCVRenderer({
       } else {
         skillsElement.innerHTML = "<p>Sin habilidades especificadas.</p>";
       }
+    }
+
+    if (qrUrlElement) {
+      qrUrlElement.textContent = formatCleanUrl(PUBLIC_CV_URL);
     }
   }
 

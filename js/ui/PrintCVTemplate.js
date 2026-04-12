@@ -36,8 +36,15 @@ export function getPrintCVTemplateMarkup() {
 
             <section class="print-cv-qr-section">
               <div class="print-cv-qr-container">
-                <div class="print-cv-qr-placeholder">QR</div>
-                <p>Mi portafolio digital</p>
+                <img
+                  id="print-cv-qr-image"
+                  class="print-cv-qr-image"
+                  src="./assets/images/expertech-cv-public-qr.svg"
+                  alt="QR para abrir la versión pública del CV"
+                />
+                <p class="print-cv-qr-title">Versión pública del CV</p>
+                <p class="print-cv-qr-text">Escanea para abrirla online.</p>
+                <p id="print-cv-qr-url" class="print-cv-qr-url"></p>
               </div>
             </section>
           </div>

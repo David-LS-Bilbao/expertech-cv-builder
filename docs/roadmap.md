@@ -9,7 +9,7 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 Objetivo cubierto:
 - simular una base pública real del CV con una demo estática preparada para GitHub Pages
 - desacoplar la demo pública de la dependencia directa del `localStorage` local
-- dejar una base clara para una futura URL publicada y un QR funcional
+- dejar una URL pública real y un QR funcional integrados en el cierre
 - mantener esta fase dentro de frontend/demo estática
 - no abrir todavía backend serio ni base de datos
 
@@ -53,6 +53,8 @@ Objetivo siguiente:
   - runtime público modular con `js/public.js` y `js/application/PublicPageRuntime.js`
   - hero pública conectada a datos reales del CV demo
   - avatar visible, tecnologías con iconos y proyectos destacados en una página más cercana a una demo pública real
+  - despliegue activo en GitHub Pages
+  - QR real integrado en la exportación PDF hacia la versión pública del CV
 
 ## Feature cerrada recientemente
 

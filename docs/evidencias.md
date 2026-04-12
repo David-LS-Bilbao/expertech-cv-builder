@@ -212,3 +212,14 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya dispone de una demo pública estática, modular y coherente visualmente, con datos propios del CV y preparada para pasar a una URL pública real mediante GitHub Pages.
 - Validación: comprobación sintáctica con `node --check js/public.js`, `node --check js/application/PublicPageRuntime.js`, `node --check js/services/PublicCVDataService.js` y `node --check js/ui/PublicCVRenderer.js`; revisión manual del hero, avatar, tecnologías con iconos y proyectos visibles en `public.html`.
 - Próximo paso: abrir PR de `feat/github-pages-public-preview` contra `dev`, revisar el diff final y, tras el merge, activar GitHub Pages y preparar el QR apuntando a la URL publicada.
+
+### [2026-04-12] Activación de GitHub Pages e integración del QR en el PDF
+
+- Objetivo: cerrar el bloque público del CV con una URL real de demo y un acceso rápido desde la exportación PDF.
+- Trabajo realizado: se activó GitHub Pages para servir la app principal y la versión pública del CV, se validó `public.html` sobre la URL publicada y se integró un QR SVG real en la vista print-only del PDF apuntando a `https://david-ls-bilbao.github.io/expertech-cv-builder/public.html`.
+- Trabajo realizado por el usuario: generación del asset `assets/images/expertech-cv-public-qr.svg`, validación visual del QR dentro del PDF y comprobación manual del despliegue publicado.
+- Trabajo realizado por Codex: integración del QR en `PrintCVTemplate.js`, render de la URL pública en `PrintCVRenderer.js`, ajuste del bloque print-only en `styles/main.css` y alineación documental del cierre.
+- Archivos afectados: `assets/images/expertech-cv-public-qr.svg`, `js/ui/PrintCVTemplate.js`, `js/ui/PrintCVRenderer.js`, `styles/main.css`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md`, `docs/EXPERTECH_contexto_actualizado.md` y `docs/architecture-notes.md`.
+- Resultado: el proyecto ya dispone de una demo pública real servida por GitHub Pages y de una exportación PDF que incluye un QR funcional hacia esa versión pública del CV.
+- Validación: comprobación sintáctica con `node --check js/ui/PrintCVTemplate.js` y `node --check js/ui/PrintCVRenderer.js`; revisión manual del PDF y del QR; validación manual de las rutas `https://david-ls-bilbao.github.io/expertech-cv-builder/` y `https://david-ls-bilbao.github.io/expertech-cv-builder/public.html`.
+- Próximo paso: integrar este cierre en `dev` y arrancar `feat/infojobs-search-proxy-mvp`.
