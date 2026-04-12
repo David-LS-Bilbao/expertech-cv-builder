@@ -2,18 +2,18 @@
   "profile": {
     "fullName": "David López Sotelo",
     "headline": "Frontend Developer",
-    "summary": "Perfil tech en construcción con foco en JavaScript, producto digital y proyectos prácticos orientados a una lectura clara para recruiters.",
-    "email": "david@example.com",
+    "summary": "Perfil tech junior con foco en JavaScript, producto digital y proyectos prácticos orientados a una lectura clara para recruiters. Interés en frontend, experiencia de usuario y evolución progresiva hacia arquitecturas más ordenadas.",
+    "email": "",
     "location": "Bilbao, España",
     "linkedinUrl": "https://www.linkedin.com/in/david-lopez-sotelo",
     "githubUsername": "David-LS-Bilbao",
-    "skills": ["HTML", "CSS", "JavaScript"]
+    "skills": ["HTML", "CSS", "JavaScript", "Git", "GitHub"]
   },
   "projects": [
     {
       "id": "github-repo-1",
       "name": "expertech-cv-builder",
-      "description": "MVP frontend para crear, enriquecer y presentar un CV técnico con edición local, preview reactiva e integración pública básica con GitHub.",
+      "description": "MVP frontend para crear, enriquecer y presentar un CV técnico con edición local, preview reactiva, exportación PDF y preparación de una vista pública compartible.",
       "repoUrl": "https://github.com/David-LS-Bilbao/expertech-cv-builder",
       "stack": ["JavaScript"],
       "featured": true,
@@ -30,7 +30,7 @@
     {
       "id": "github-repo-2",
       "name": "davlos-control-plane",
-      "description": "Exploración de arquitectura frontend y organización modular aplicada a una experiencia técnica más robusta y mantenible.",
+      "description": "Exploración de organización modular y estructura técnica aplicada a una base de frontend más mantenible, con foco en separación de responsabilidades y escalabilidad gradual.",
       "repoUrl": "https://github.com/David-LS-Bilbao/davlos-control-plane",
       "stack": ["Python"],
       "featured": true,
@@ -43,11 +43,45 @@
       "sourceOwnerType": "User",
       "sourceImportedAt": "2026-04-12T12:05:00.000Z",
       "sourceRelation": "owner"
+    },
+    {
+      "id": "github-repo-3",
+      "name": "obsi-claw-AI_agent",
+      "description": "Prueba práctica orientada a automatización y agentes, pensada para explorar flujos de trabajo guiados, iteración técnica y construcción incremental de producto.",
+      "repoUrl": "https://github.com/David-LS-Bilbao/obsi-claw-AI_agent",
+      "stack": ["Python"],
+      "featured": true,
+      "sourceProvider": "github",
+      "sourceRepositoryId": "3",
+      "sourceRepositoryName": "obsi-claw-AI_agent",
+      "sourceRepositoryFullName": "David-LS-Bilbao/obsi-claw-AI_agent",
+      "sourceRepositoryUrl": "https://github.com/David-LS-Bilbao/obsi-claw-AI_agent",
+      "sourceOwnerLogin": "David-LS-Bilbao",
+      "sourceOwnerType": "User",
+      "sourceImportedAt": "2026-04-12T12:08:00.000Z",
+      "sourceRelation": "owner"
+    },
+    {
+      "id": "github-repo-4",
+      "name": "H2O-please",
+      "description": "Proyecto experimental con enfoque práctico para seguir consolidando fundamentos de desarrollo, lectura de código y presentación clara de entregables técnicos.",
+      "repoUrl": "https://github.com/David-LS-Bilbao/H2O-please",
+      "stack": ["JavaScript"],
+      "featured": true,
+      "sourceProvider": "github",
+      "sourceRepositoryId": "4",
+      "sourceRepositoryName": "H2O-please",
+      "sourceRepositoryFullName": "David-LS-Bilbao/H2O-please",
+      "sourceRepositoryUrl": "https://github.com/David-LS-Bilbao/H2O-please",
+      "sourceOwnerLogin": "David-LS-Bilbao",
+      "sourceOwnerType": "User",
+      "sourceImportedAt": "2026-04-12T12:10:00.000Z",
+      "sourceRelation": "owner"
     }
   ],
   "meta": {
     "version": 1,
-    "lastUpdated": "2026-04-12T12:10:00.000Z",
+    "lastUpdated": "2026-04-12T13:00:00.000Z",
     "isDraft": false
   }
 }
