@@ -36,9 +36,18 @@ La arquitectura ya no está en fase de preparación inicial. El proyecto funcion
   - sincroniza editor, preview y bloque GitHub
   - transforma repositorios seleccionados en proyectos persistidos
 
+- `js/application/PublicPageRuntime.js`
+  - coordina la demo pública estática
+  - carga un snapshot público del CV
+  - mantiene `public.html` libre de lógica inline
+
 - `js/services/CVStorageService.js`
   - guarda y carga el CV desde `localStorage`
   - normaliza el estado y sanea datos demo legacy cuando corresponde
+
+- `js/services/PublicCVDataService.js`
+  - carga el snapshot público desde `data/public-cv.json`
+  - desacopla la demo pública del `localStorage` del editor
 
 - `js/services/GitHubProfileService.js`
   - consulta perfil y repos públicos
@@ -48,9 +57,14 @@ La arquitectura ya no está en fase de preparación inicial. El proyecto funcion
   - renderiza perfil y proyectos desde `cvState`
   - muestra trazabilidad mínima del origen GitHub cuando existe
 
+- `js/ui/PublicCVRenderer.js`
+  - reutiliza el mismo contrato de datos del CV para la demo pública
+  - alimenta hero, metadatos visibles y documento central sin depender del editor
+
 ## Riesgos a vigilar
 
 - mezclar en una misma feature auth, GitHub y exportación
 - hacer crecer demasiado `AuthenticatedCVApp.js` sin extraer coordinación cuando de verdad haga falta
 - romper compatibilidad con proyectos ya persistidos en `localStorage`
 - ampliar GitHub hacia múltiples cuentas o colaboraciones sin definir antes el contrato de datos que lo soporte
+- mezclar la demo pública estática con la lógica del editor en lugar de mantener un runtime separado

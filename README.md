@@ -6,9 +6,9 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: avance funcional de `feat/export-pdf-qr` sobre la base ya cerrada de `feat/github-project-sources`
+Fase actual: cierre funcional de `feat/github-pages-public-preview` sobre la base ya cerrada de `feat/export-pdf-qr`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en la vista de impresión y una vista local adicional (`public.html`) preparada para compartirse más adelante cuando exista persistencia/publicación real fuera de `localStorage`.
+En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión y una demo pública estática (`public.html`) desacoplada de `localStorage`, preparada para evolucionar a publicación real con GitHub Pages.
 
 ## Objetivo del MVP
 
@@ -62,8 +62,11 @@ Fuera de alcance en esta fase:
 |   |-- main.css
 |   |-- reset.css
 |   `-- README.md
+|-- data/
+|   `-- public-cv.json
 |-- AGENTS.md
 |-- index.html
+|-- public.html
 `-- README.md
 ```
 
@@ -149,7 +152,8 @@ Comportamiento actual disponible:
 - botones visibles de Google y GitHub solo como preparación visual del siguiente MVP
 - mensajes informativos en esos botones, sin OAuth real ni autenticación externa implementada
 - sistema de avatar híbrido (subida de imagen local con resize por canvas o lectura desde GitHub)
-- página interactiva de vista local (`public.html`) preparada para una futura publicación compartible
+- demo pública estática (`public.html`) alimentada por `data/public-cv.json`
+- runtime público modular para desacoplar la demo del `localStorage` del editor
 
 ## Flujo actual del usuario
 
@@ -166,6 +170,7 @@ La arquitectura actual ya no concentra toda la orquestación en `app.js`.
 - `js/app.js`: entry point mínimo y composition root
 - `js/application/AppRuntime.js`: coordina auth, sesión, arranque global y logout
 - `js/application/AuthenticatedCVApp.js`: coordina la app autenticada, el estado del CV y la sincronización entre módulos
+- `js/application/PublicPageRuntime.js`: coordina la demo pública estática del CV
 - `js/services/`: persistencia del CV, auth local MVP y servicios externos como GitHub
 - `js/ui/`: controladores UI y templates reutilizables
 
@@ -194,32 +199,34 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 8. `feat/projects-visualization`: mejorar lectura y visualización de proyectos seleccionados
 9. `feat/login-screen`: preparar una pantalla de acceso y base de identidad de usuario
 10. `feat/github-project-sources`: ampliar fuentes GitHub y atribución de proyectos
-11. `feat/export-pdf-qr`: exportación resumida y acceso por QR
-12. `feat/github-pages-public-preview`: simulación pública estática en GitHub Pages
-13. `feat/polish-accessibility`: pulido final, estados UX y accesibilidad
-14. `feat/documentacion-final`: cierre documental final del proyecto
+11. `feat/export-pdf-qr`: exportación PDF con vista específica de impresión
+12. `feat/github-pages-public-preview`: demo pública estática preparada para GitHub Pages
+13. `feat/infojobs-search-proxy-mvp`: buscador de ofertas con integración real y proxy mínimo
+14. `feat/polish-accessibility` o `feat/visual-polish-final`: pulido final, estados UX y accesibilidad
+15. `feat/documentacion-final`: cierre documental final del proyecto
 
 ## Feature activa
 
-La rama de trabajo actual es `feat/export-pdf-qr`.
+La rama de trabajo actual es `feat/github-pages-public-preview`.
 
-En esta fase ya se ha dejado resuelta una primera mejora útil:
+En esta fase ya se ha dejado resuelto este bloque funcional:
 
-- existe una vista específica de impresión para exportar una versión más limpia del CV
-- el PDF usa ya el mismo borrador visible que la preview, también antes de guardar
-- el perfil admite avatar híbrido con subida local optimizada y fallback a GitHub
-- `public.html` permite revisar una vista local adicional del CV con el mismo estado guardado
+- `public.html` ya no depende del `localStorage` del mismo navegador
+- la demo pública se alimenta desde `data/public-cv.json`
+- existe un runtime público modular (`js/public.js` + `js/application/PublicPageRuntime.js`)
+- la hero pública reutiliza nombre, titular, resumen y avatar del snapshot del CV
+- la demo pública ya muestra proyectos destacados y una card específica de tecnologías
 
 Todavía queda fuera de esta rama:
 
-- generación real de QR
-- URL pública realmente compartible para terceros
+- publicación real ya servida en GitHub Pages
+- QR funcional apuntando a una URL pública estable
 - backend y base de datos
-- OAuth real
+- sharing multiusuario real
 
 ## Nota de desarrollo
 
-Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen` y `feat/github-project-sources` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub, representación visual recruiter-friendly de los proyectos y trazabilidad mínima del origen importado. Sobre esa base, `feat/export-pdf-qr` está centrada en una salida de impresión más presentable y en preparar una vista local adicional del CV sin introducir todavía publicación real, backend ni persistencia compartible.
+Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen`, `feat/github-project-sources` y `feat/export-pdf-qr` ya dejan resuelta una base MVP con auth local de demostración, integración pública básica con GitHub, representación recruiter-friendly de los proyectos, trazabilidad mínima del origen importado, avatar híbrido y exportación PDF útil. Sobre esa base, `feat/github-pages-public-preview` se centra en convertir la vista pública en una demo estática modular y preparada para una futura publicación real sin introducir todavía backend ni base de datos.
 
 Limitaciones actuales importantes:
 
@@ -230,22 +237,22 @@ Limitaciones actuales importantes:
 - no existe aislamiento real por usuario para el estado del CV
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
 - no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
-- `public.html` depende del `localStorage` del mismo navegador y no es una URL pública real todavía
-- el QR sigue siendo una preparación visual, no una funcionalidad cerrada
+- `public.html` ya usa un snapshot estático y no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
+- el QR sigue pendiente hasta que exista una URL pública estable
 
 Orden recomendado a partir del estado actual:
 
-1. cerrar `feat/export-pdf-qr`
-2. `feat/github-pages-public-preview`
-3. `feat/polish-accessibility`
+1. cerrar `feat/github-pages-public-preview`
+2. `feat/infojobs-search-proxy-mvp`
+3. `feat/polish-accessibility` o `feat/visual-polish-final`
 4. `feat/documentacion-final`
 
 Siguiente feature recomendada tras cerrar esta rama:
 
-- `feat/github-pages-public-preview`
-- objetivo: simular una URL pública real desplegando una versión estática en GitHub Pages
-- alcance: publicación estática de demo, lectura de datos públicos preparados para esa demo y QR apuntando a la URL de GitHub Pages
-- fuera de alcance: backend, base de datos, publicación multiusuario real
+- `feat/infojobs-search-proxy-mvp`
+- objetivo: incorporar un buscador de ofertas con una integración real y útil dentro del portfolio
+- alcance: integración con API de empleo, priorizando InfoJobs si encaja, y proxy mínimo o función serverless si la API requiere secreto
+- fuera de alcance: backend completo, base de datos y panel recruiter real
 
 ## Autor
 

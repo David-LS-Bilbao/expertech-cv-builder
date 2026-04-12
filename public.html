@@ -144,6 +144,55 @@
         backdrop-filter: blur(18px);
       }
 
+      .public-hero-main {
+        display: grid;
+        gap: 1.1rem;
+        align-items: center;
+      }
+
+      .public-avatar-shell {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 7rem;
+        height: 7rem;
+        border-radius: 1.8rem;
+        background: rgba(255, 255, 255, 0.84);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.1);
+        overflow: hidden;
+        order: 2;
+      }
+
+      .public-hero-copy {
+        order: 1;
+      }
+
+      .public-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .public-avatar-placeholder {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        color: var(--public-accent);
+        font-size: 1.45rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: linear-gradient(
+          135deg,
+          rgba(166, 29, 36, 0.08),
+          rgba(59, 130, 246, 0.08)
+        );
+      }
+
       .public-eyebrow {
         margin: 0;
         color: var(--public-accent);
@@ -226,6 +275,40 @@
         gap: 0.55rem;
       }
 
+      .public-skills-list {
+        margin: 0.95rem 0 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .public-skill-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.75rem 0.85rem;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(15, 23, 42, 0.06);
+      }
+
+      .public-skill-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .public-skill-label {
+        color: var(--public-ink);
+        font-weight: 700;
+      }
+
+      .public-skill-text-only {
+        color: var(--public-soft);
+        font-size: 0.92rem;
+      }
+
       .public-document {
         position: relative;
         width: 100%;
@@ -305,6 +388,10 @@
         background: linear-gradient(180deg, #fbfdff, #f8fafc);
       }
 
+      #public-cv-root [aria-labelledby="preview-skills-title"] {
+        display: none;
+      }
+
       .public-footer {
         margin-top: 2.5rem;
         padding: 1.25rem 0 0;
@@ -322,6 +409,18 @@
         .public-context {
           position: sticky;
           top: 1.5rem;
+        }
+
+        .public-hero-main {
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 1.5rem;
+        }
+
+        .public-avatar-shell {
+          width: 10.5rem;
+          height: 10.5rem;
+          border-radius: 2.2rem;
+          justify-self: end;
         }
       }
 
@@ -362,40 +461,48 @@
         </div>
 
         <section class="public-hero" aria-labelledby="public-page-title">
-          <p class="public-eyebrow">Vista local del CV</p>
-          <h1 id="public-page-title" class="public-title">
-            Una simulación cercana de la página pública final.
-          </h1>
-          <p class="public-description">
-            Esta versión te permite revisar cómo se sentirá el CV cuando exista una
-            publicación real compartible. El contenido sigue saliendo del estado local
-            actual, pero la presentación ya busca un aspecto más editorial, claro y profesional.
-          </p>
+          <div class="public-hero-main">
+            <div class="public-avatar-shell" aria-hidden="true">
+              <img
+                id="public-page-avatar"
+                class="public-avatar"
+                src=""
+                alt="Foto de perfil pública"
+                hidden
+              />
+              <div id="public-page-avatar-placeholder" class="public-avatar-placeholder">
+                DL
+              </div>
+            </div>
+
+            <div class="public-hero-copy">
+              <p id="public-page-eyebrow" class="public-eyebrow">Perfil público</p>
+              <h1 id="public-page-title" class="public-title">
+                David López Sotelo
+              </h1>
+              <p id="public-page-description" class="public-description">
+                Frontend Developer con foco en JavaScript, producto digital y proyectos
+                prácticos presentados con una lectura clara y profesional.
+              </p>
+            </div>
+          </div>
         </section>
       </header>
 
       <section class="public-stage" aria-label="Vista pública del CV">
         <aside class="public-context">
           <section class="public-status-card">
-            <span class="public-status-label">Modo local</span>
-            <h2>Preparada para una futura publicación real</h2>
-            <p>
-              Esta página ya funciona como escaparate visual del CV, pero todavía depende
-              del mismo navegador y del mismo <code>localStorage</code>.
-            </p>
+            <span class="public-status-label">Perfil visible</span>
+            <h2 id="public-status-title">Frontend Developer</h2>
+            <p id="public-status-text">Bilbao, España · GitHub: David-LS-Bilbao</p>
           </section>
 
           <section class="public-note-card">
-            <h2>Qué estamos simulando aquí</h2>
-            <p>
-              La estructura, el ritmo visual y la lectura general de una página pública
-              terminada, sin introducir todavía backend ni base de datos.
+            <h2 id="public-note-title">Tecnologías</h2>
+            <p id="public-note-text">
+              Stack visible del perfil con tecnologías y herramientas principales.
             </p>
-            <ul>
-              <li>Jerarquía visual más propia de una página real</li>
-              <li>Documento central más protagonista</li>
-              <li>Marco visual útil para revisar antes del cierre final</li>
-            </ul>
+            <ul id="public-skills-list" class="public-skills-list"></ul>
           </section>
         </aside>
 
@@ -403,7 +510,7 @@
           <div class="public-document-frame">
             <div class="public-document-caption">
               <p><strong>Documento principal</strong> con lectura pensada para recruiter.</p>
-              <p>Visualización local previa a una futura publicación compartible.</p>
+              <p id="public-document-caption-text">Perfil y proyectos seleccionados para revisión pública.</p>
             </div>
             <div id="public-cv-root"></div>
           </div>
@@ -411,19 +518,10 @@
       </section>
 
       <footer class="public-footer">
-        EXPERTECH CV · Vista local de presentación previa a publicación real
+        EXPERTECH CV · Página pública del perfil
       </footer>
     </main>
 
-    <script type="module">
-      import { createPublicCVRenderer } from "./js/ui/PublicCVRenderer.js";
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const renderer = createPublicCVRenderer({
-          rootSelector: "#public-cv-root"
-        });
-        renderer.init();
-      });
-    </script>
+    <script type="module" src="./js/public.js"></script>
   </body>
 </html>
