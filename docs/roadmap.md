@@ -4,30 +4,26 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/infojobs-search-proxy-mvp`
+- `feat/polish-accessibility` o `feat/visual-polish-final`
 
 Objetivo actual:
-- añadir un buscador de ofertas en la app autenticada
-- conectar frontend con un proxy local mínimo
-- mantener fallback a mock cuando la API real no está disponible
-- no abrir backend completo ni base de datos en esta fase
+- cerrar pulido visual, revisar estados UX, accesibilidad base
+- consolidar la calidad del código, microcopias y diseño final post-integraciones
+- mantener todo esto dentro del frontend MVP sin abrir arquitectura
 
 Estado real actual:
-- bloque de búsqueda ya integrado en UI
-- servicio frontend de ofertas ya creado
-- proxy local base ya creado y migrado a Jooble
-- integración real todavía no estable (se mantiene fallback a mock)
+- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, y Búsqueda de empleo) están resueltas arquitectónicamente
+- pendiente hacer un pase final de calidad general
 
 ## Última feature cerrada
 
-- `feat/github-pages-public-preview`
+- `feat/jooble-search-proxy-mvp`
 
 Objetivo cubierto:
-- simular una base pública real del CV con una demo estática preparada para GitHub Pages
-- desacoplar la demo pública de la dependencia directa del `localStorage` local
-- dejar una base clara para una futura URL publicada y un QR funcional
-- mantener esta fase dentro de frontend/demo estática
-- no abrir todavía backend serio ni base de datos
+- añadir un buscador de ofertas en la app autenticada.
+- conectar el frontend a un backend proxy local (Express Server).
+- consumir la API pública real de Jooble, manteniendo las API Keys completamente ocultas del navegador web.
+- aplicar el patrón "Graceful Degradation": en caso de fallo, WAF o límite alcanzado en la API real, el frontend atrapa el error devuelto por la Request silenciosamente e inyecta respuestas "Mock" o clonadas añadiendo un aviso de color naranja debajo de la solicitud para que el sistema del portfolio nunca ceda la experiencia web principal de cara al usuario final.
 
 ## Consolidación arquitectónica reciente
 

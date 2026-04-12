@@ -12,8 +12,7 @@ export async function searchJoobleProxy({ keyword, location }) {
   }
 
   try {
-    // Retornamos al endpoint global, que es el oficial de su documentación base.
-    const url = `https://jooble.org/api/${apiKey}`;
+    const url = `https://es.jooble.org/api/${apiKey}`;
     
     // Payload de Jooble
     const payload = {
