@@ -1,12 +1,49 @@
 // Servicio para abstraer el origen de datos de ofertas de empleo.
 // Responsabilidad: exponer un contrato consistente para búsqueda de ofertas.
-// Actualmente usa un Mock Provider honesto para el MVP.
+// Soporta dos modos: "mock" y "proxy".
+// Por defecto se encuentra en modo "mock" ya que no disponemos de proxy backend con credenciales.
 
-export async function searchOffers({ keyword, location = "" }) {
-  if (!keyword || keyword.trim() === "") {
-    throw new Error("La palabra clave es obligatoria.");
+const CONFIG = {
+  // Cambia a 'proxy' o 'mock' según el entorno local que estés probando.
+  mode: 'mock', 
+  proxyUrl: 'http://localhost:3001/api/jobs/search'
+};
+
+/**
+ * Petición al servidor local (Proxy).
+ */
+async function fetchFromProxy({ keyword, location }) {
+  const urlParams = new URLSearchParams({ keyword });
+  if (location) {
+    urlParams.append('location', location);
   }
 
+  const endpoint = `${CONFIG.proxyUrl}?${urlParams.toString()}`;
+  const response = await fetch(endpoint);
+
+  if (!response.ok) {
+    let errorData = {};
+    try {
+      errorData = await response.json();
+    } catch {
+      errorData.message = `HTTP Error ${response.status}`;
+    }
+    
+    // Si el proxy responde con un estado 503 (fallback sin credenciales de InfoJobs)
+    if (response.status === 503) {
+      throw new Error("El servicio Proxy no tiene configuradas las llaves reales de InfoJobs.");
+    }
+    
+    throw new Error(errorData.error || errorData.message || "Error al conectar con el proxy.");
+  }
+
+  return await response.json();
+}
+
+/**
+ * Petición al sistema simulado original (Mock).
+ */
+async function fetchFromMock({ keyword, location }) {
   const normalizedKeyword = keyword.trim().toLowerCase();
 
   // Simulamos latencia de red (mock provider)
@@ -49,4 +86,17 @@ export async function searchOffers({ keyword, location = "" }) {
       link: "#"
     }
   ];
+}
+
+
+export async function searchOffers({ keyword, location = "" }) {
+  if (!keyword || keyword.trim() === "") {
+    throw new Error("La palabra clave es obligatoria.");
+  }
+
+  if (CONFIG.mode === 'proxy') {
+    return fetchFromProxy({ keyword, location });
+  }
+
+  return fetchFromMock({ keyword, location });
 }
