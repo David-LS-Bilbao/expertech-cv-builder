@@ -15,3 +15,5 @@ Thumbs.db
 
 # Posibles salidas de build futuras
 dist/
+.vscode/
+tatus
