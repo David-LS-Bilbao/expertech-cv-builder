@@ -27,5 +27,18 @@ export function createProject(data = {}) {
     // Indica si el proyecto está marcado como destacado.
     // Se fuerza a booleano para mantener consistencia.
     featured: Boolean(data.featured),
+
+    // Metadatos mínimos del origen del proyecto.
+    // En este MVP sirven para mantener trazabilidad básica
+    // sin abrir todavía verificación avanzada de autoría.
+    sourceProvider: data.sourceProvider ?? "",
+    sourceRepositoryId: data.sourceRepositoryId ?? "",
+    sourceRepositoryName: data.sourceRepositoryName ?? "",
+    sourceRepositoryFullName: data.sourceRepositoryFullName ?? "",
+    sourceRepositoryUrl: data.sourceRepositoryUrl ?? "",
+    sourceOwnerLogin: data.sourceOwnerLogin ?? "",
+    sourceOwnerType: data.sourceOwnerType ?? "",
+    sourceImportedAt: data.sourceImportedAt ?? "",
+    sourceRelation: data.sourceRelation ?? "",
   };
 }

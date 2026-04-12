@@ -13,7 +13,18 @@
   </head>
 
   <body>
-    <div class="app-shell">
+    <!-- Root vacío del auth screen.
+         AuthScreenTemplate.js inyecta aquí el markup real de login/register. -->
+    <section
+      id="auth-screen"
+      class="auth-screen"
+      aria-label="Pantalla de acceso"
+    ></section>
+
+    <!-- Contenedor principal de la app autenticada.
+         Empieza oculto por defecto.
+         AppRuntime + AuthScreen deciden cuándo mostrarlo. -->
+    <div id="app-shell-authenticated" class="app-shell" hidden>
       <header class="app-header">
         <div class="brand-block">
           <p class="brand-kicker">EXPERTECH</p>
@@ -25,6 +36,15 @@
 
         <div class="header-actions">
           <button type="button" class="btn btn-secondary">Guardar borrador</button>
+
+          <button
+            type="button"
+            id="logout-button"
+            class="btn btn-secondary"
+            aria-label="Cerrar sesión y volver a la pantalla de acceso"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
@@ -34,11 +54,11 @@
           <h2 id="hero-title">Construye tu CV tech desde una sola pantalla</h2>
           <p class="hero-text">
             Organiza tu perfil, prepara tus proyectos y revisa una vista previa
-            resumida antes de conectar la lógica del MVP.
+            resumida del CV desde una única interfaz.
           </p>
           <p class="helper-note">
-            Esta base visual está pensada para crecer después con formularios,
-            GitHub API y render dinámico.
+            La base actual ya permite editar el perfil, guardar cambios y
+            visualizar una preview conectada en tiempo real.
           </p>
         </section>
 
@@ -66,58 +86,157 @@
               <div class="block-heading">
                 <div class="block-heading-top">
                   <h3 id="profile-block-title" class="block-title">Perfil profesional</h3>
-                  <span class="status-badge">Base inicial</span>
+                  <span class="status-badge">Editable</span>
                 </div>
                 <p class="block-text">
                   Datos principales del candidato: nombre, rol, resumen y enlaces clave.
                 </p>
               </div>
 
-              <div class="block-placeholder">
-                <p>Nombre y apellidos</p>
-                <p>Frontend Developer · JavaScript · React</p>
-                <p>Resumen profesional breve orientado a recruiter.</p>
-              </div>
+              <form
+                id="profile-form"
+                class="profile-form"
+                aria-label="Formulario de perfil profesional"
+              >
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="fullName">Nombre y apellidos</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      placeholder="Ej. David López Sotelo"
+                      autocomplete="name"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label>Foto de perfil (Opcional)</label>
+                    <div class="file-upload-wrapper">
+                      <input
+                        type="file"
+                        id="avatarFile"
+                        name="avatarFile"
+                        accept="image/*"
+                        class="sr-only"
+                      />
+                      <label for="avatarFile" class="btn btn-secondary file-upload-button">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                        </svg>
+                        Seleccionar imagen
+                      </label>
+                      <span id="avatarFile-name" class="file-upload-name">Ningún archivo...</span>
+                    </div>
+                    <small style="color: #64748b; font-size: 0.8rem; margin-top: 5px; display: block;">O cargará la de GitHub automáticamente</small>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="headline">Titular profesional</label>
+                    <input
+                      type="text"
+                      id="headline"
+                      name="headline"
+                      placeholder="Ej. Frontend Developer"
+                      autocomplete="organization-title"
+                    />
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="summary">Resumen profesional</label>
+                    <textarea
+                      id="summary"
+                      name="summary"
+                      rows="5"
+                      placeholder="Cuéntale a un recruiter quién eres, qué sabes hacer y qué tipo de perfil aportas."
+                    ></textarea>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Ej. nombre@email.com"
+                      autocomplete="email"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="location">Ubicación</label>
+                    <input
+                      type="text"
+                      id="location"
+                      name="location"
+                      placeholder="Ej. Bilbao, España"
+                      autocomplete="address-level2"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="linkedinUrl">LinkedIn</label>
+                    <input
+                      type="url"
+                      id="linkedinUrl"
+                      name="linkedinUrl"
+                      placeholder="https://www.linkedin.com/in/tu-perfil"
+                      autocomplete="url"
+                    />
+                  </div>
+
+                  <div class="form-field">
+                    <label for="githubUsername">Usuario de GitHub</label>
+                    <input
+                      type="text"
+                      id="githubUsername"
+                      name="githubUsername"
+                      placeholder="Ej. David-LS-Bilbao"
+                      autocomplete="username"
+                    />
+                  </div>
+                </div>
+
+                <p
+                  id="profile-form-feedback"
+                  class="form-feedback"
+                  aria-live="polite"
+                  role="status"
+                ></p>
+
+                <div class="profile-form-actions">
+                  <button type="submit" class="btn btn-primary">Guardar perfil</button>
+                </div>
+              </form>
 
               <p class="helper-note">
-                Aquí conectaremos después la edición del perfil y los datos principales del CV.
+                El formulario actualiza la vista previa en tiempo real y permite guardar los
+                cambios del perfil en localStorage.
               </p>
             </article>
 
-            <article class="editor-block" aria-labelledby="github-block-title">
-              <div class="block-heading">
-                <div class="block-heading-top">
-                  <h3 id="github-block-title" class="block-title">Conexión GitHub</h3>
-                  <span class="status-badge status-badge-muted">Sin conectar</span>
-                </div>
-                <p class="block-text">
-                  Zona reservada para importar perfil público y repositorios destacados.
-                </p>
-              </div>
-
-              <div class="empty-state">
-                <p class="empty-state-title">Todavía no has conectado una cuenta de GitHub.</p>
-                <p class="empty-state-text">
-                  En una feature posterior aquí mostraremos avatar, bio y lista de repos públicos.
-                </p>
-              </div>
-            </article>
+            <!-- Root vacío del bloque GitHub.
+                 GitHubBlockTemplate.js inyecta aquí el markup base.
+                 GitHubIntegration.js lo usa después para el comportamiento real. -->
+            <div id="github-block-root"></div>
 
             <article class="editor-block" aria-labelledby="projects-block-title">
               <div class="block-heading">
                 <div class="block-heading-top">
                   <h3 id="projects-block-title" class="block-title">Proyectos destacados</h3>
-                  <span class="status-badge status-badge-muted">0 seleccionados</span>
+                  <span class="status-badge status-badge-muted">Pendiente visualización</span>
                 </div>
                 <p class="block-text">
-                  Selección visual de proyectos relevantes para enseñar experiencia práctica.
+                  La selección ya se gestiona desde GitHub; este bloque consolidará su
+                  visualización en la siguiente iteración.
                 </p>
               </div>
 
               <div class="empty-state">
-                <p class="empty-state-title">Aún no hay proyectos seleccionados para mostrar.</p>
+                <p class="empty-state-title">La selección actual se gestiona en el bloque GitHub.</p>
                 <p class="empty-state-text">
-                  Este bloque servirá para destacar repositorios útiles para recruiters.
+                  Cuando se trabaje la visualización de proyectos, aquí se reflejarán de forma más
+                  clara los repositorios ya seleccionados.
                 </p>
               </div>
             </article>
@@ -145,59 +264,15 @@
             </article>
           </section>
 
-          <aside class="preview-panel" aria-labelledby="preview-panel-title">
-            <div class="panel-heading">
-              <p class="section-kicker">Preview</p>
-              <h2 id="preview-panel-title" class="section-title">Vista previa del CV</h2>
-              <p class="section-text">
-                Resumen recruiter-friendly del contenido que después será dinámico.
-              </p>
-            </div>
+          <!-- Root vacío de preview.
+               PreviewTemplate.js inyecta aquí el markup base del panel preview.
+               PreviewRenderer.js lo utiliza después para pintar datos reales. -->
+          <div id="preview-panel-root"></div>
 
-            <article class="preview-card">
-              <header class="preview-card-header">
-                <p class="preview-name">Nombre Apellido</p>
-                <p class="preview-role">Frontend Developer</p>
-              </header>
-
-              <div class="preview-card-body">
-                <section class="preview-section" aria-labelledby="preview-summary-title">
-                  <h3 id="preview-summary-title" class="preview-section-title">Resumen</h3>
-                  <p>
-                    Perfil tech con foco en desarrollo frontend, proyectos prácticos y
-                    presentación clara para procesos de selección.
-                  </p>
-                </section>
-
-                <section class="preview-section" aria-labelledby="preview-skills-title">
-                  <h3 id="preview-skills-title" class="preview-section-title">Skills clave</h3>
-                  <ul class="preview-list">
-                    <li>HTML5 y CSS3</li>
-                    <li>JavaScript</li>
-                    <li>Responsive design</li>
-                    <li>Git y GitHub</li>
-                  </ul>
-                </section>
-
-                <section class="preview-section" aria-labelledby="preview-projects-title">
-                  <h3 id="preview-projects-title" class="preview-section-title">
-                    Proyectos visibles
-                  </h3>
-                  <ul class="preview-list">
-                    <li>EXPERTECH CV</li>
-                    <li>Proyecto portfolio placeholder</li>
-                  </ul>
-                </section>
-
-                <div class="empty-state empty-state-preview">
-                  <p class="empty-state-title">Vista previa estática del layout base.</p>
-                  <p class="empty-state-text">
-                    En la feature de live preview esta tarjeta reflejará cambios reales del editor.
-                  </p>
-                </div>
-              </div>
-            </article>
-          </aside>
+          <!-- Root vacío de la versión exportable.
+               PrintCVTemplate.js inyecta aquí el markup print-only del CV.
+               PrintCVRenderer.js lo pinta con el mismo estado del CV. -->
+          <div id="print-cv-root" class="print-cv-root" aria-hidden="true"></div>
         </section>
 
         <section class="final-actions" aria-labelledby="final-actions-title">
@@ -208,8 +283,20 @@
 
           <div class="final-actions-list">
             <button type="button" class="btn btn-primary">Guardar CV</button>
-            <button type="button" class="btn btn-secondary">Exportar PDF</button>
-            <button type="button" class="btn btn-secondary">Compartir perfil</button>
+            <button
+              type="button"
+              id="export-pdf-button"
+              class="btn btn-secondary"
+            >
+              Exportar PDF
+            </button>
+            <button
+              type="button"
+              id="view-public-button"
+              class="btn btn-secondary"
+            >
+              Ver Demo Pública
+            </button>
           </div>
         </section>
       </main>
