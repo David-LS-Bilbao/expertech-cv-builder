@@ -362,14 +362,14 @@
         </div>
 
         <section class="public-hero" aria-labelledby="public-page-title">
-          <p class="public-eyebrow">Vista local del CV</p>
+          <p class="public-eyebrow">Demo pública del CV</p>
           <h1 id="public-page-title" class="public-title">
-            Una simulación cercana de la página pública final.
+            Una versión estática lista para convertirse en página pública real.
           </h1>
           <p class="public-description">
-            Esta versión te permite revisar cómo se sentirá el CV cuando exista una
-            publicación real compartible. El contenido sigue saliendo del estado local
-            actual, pero la presentación ya busca un aspecto más editorial, claro y profesional.
+            Esta versión te permite revisar cómo se sentirá el CV cuando se publique
+            fuera de la app principal. El contenido ya no depende del navegador local
+            y se sirve como una demo estática preparada para GitHub Pages.
           </p>
         </section>
       </header>
@@ -377,11 +377,12 @@
       <section class="public-stage" aria-label="Vista pública del CV">
         <aside class="public-context">
           <section class="public-status-card">
-            <span class="public-status-label">Modo local</span>
-            <h2>Preparada para una futura publicación real</h2>
+            <span class="public-status-label">Modo público demo</span>
+            <h2>Preparada para una publicación estática en GitHub Pages</h2>
             <p>
-              Esta página ya funciona como escaparate visual del CV, pero todavía depende
-              del mismo navegador y del mismo <code>localStorage</code>.
+              Esta página ya funciona como escaparate público de demostración y se apoya
+              en un dataset estático del propio repositorio, sin depender de
+              <code>localStorage</code>.
             </p>
           </section>
 
@@ -389,12 +390,12 @@
             <h2>Qué estamos simulando aquí</h2>
             <p>
               La estructura, el ritmo visual y la lectura general de una página pública
-              terminada, sin introducir todavía backend ni base de datos.
+              compartible, sin introducir todavía backend ni base de datos.
             </p>
             <ul>
-              <li>Jerarquía visual más propia de una página real</li>
+              <li>Fuente de datos estática y versionable</li>
               <li>Documento central más protagonista</li>
-              <li>Marco visual útil para revisar antes del cierre final</li>
+              <li>Base clara para un futuro QR con URL real</li>
             </ul>
           </section>
         </aside>
@@ -403,7 +404,7 @@
           <div class="public-document-frame">
             <div class="public-document-caption">
               <p><strong>Documento principal</strong> con lectura pensada para recruiter.</p>
-              <p>Visualización local previa a una futura publicación compartible.</p>
+              <p>Visualización pública demo servida desde un snapshot estático.</p>
             </div>
             <div id="public-cv-root"></div>
           </div>
@@ -411,19 +412,10 @@
       </section>
 
       <footer class="public-footer">
-        EXPERTECH CV · Vista local de presentación previa a publicación real
+        EXPERTECH CV · Demo pública estática preparada para publicación real
       </footer>
     </main>
 
-    <script type="module">
-      import { createPublicCVRenderer } from "./js/ui/PublicCVRenderer.js";
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const renderer = createPublicCVRenderer({
-          rootSelector: "#public-cv-root"
-        });
-        renderer.init();
-      });
-    </script>
+    <script type="module" src="./js/public.js"></script>
   </body>
 </html>

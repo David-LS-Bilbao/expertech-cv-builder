@@ -1,16 +1,19 @@
 import { createPortfolioCV } from "../models/PortfolioCV.js";
-import { loadCV, hasStoredCV } from "../services/CVStorageService.js";
 import { createPreviewRenderer } from "./PreviewRenderer.js";
 
 /**
  * PublicCVRenderer
- * Se encarga de cargar los datos del CV desde el almacenamiento local
- * y renderizarlos simulando la vista previa interna de la aplicación.
+ * Se encarga de renderizar la demo pública del CV
+ * a partir de un estado ya cargado por la capa superior.
  */
 export function createPublicCVRenderer({
   rootSelector = "#public-cv-root"
 } = {}) {
   let cvRenderer = null;
+
+  function getRootElement() {
+    return document.querySelector(rootSelector);
+  }
 
   function updateDocumentTitle(cvState = {}) {
     const normalizedCV = createPortfolioCV(cvState);
@@ -21,31 +24,38 @@ export function createPublicCVRenderer({
       : "Perfil Profesional | Expertech CV";
   }
 
-  function init() {
-    const root = document.querySelector(rootSelector);
+  function renderUnavailableState({
+    title = "La vista pública todavía no está disponible",
+    message = "No se ha podido cargar el contenido público del CV.",
+  } = {}) {
+    const root = getRootElement();
+
     if (!root) {
       console.error("No se encontró el contenedor para la vista pública.");
       return;
     }
 
-    if (!hasStoredCV()) {
-      root.innerHTML = `
-        <article class="preview-card">
-          <div class="preview-card-body">
-            <section class="preview-section">
-              <h2 class="preview-section-title">Todavía no hay un CV listo para mostrar</h2>
-              <p>
-                Crea o guarda primero tu perfil en la aplicación principal y después vuelve
-                a esta vista para revisarlo con aspecto de página pública.
-              </p>
-            </section>
-          </div>
-        </article>
-      `;
+    document.title = "Perfil Profesional | Expertech CV";
+    root.innerHTML = `
+      <article class="preview-card">
+        <div class="preview-card-body">
+          <section class="preview-section">
+            <h2 class="preview-section-title">${title}</h2>
+            <p>${message}</p>
+          </section>
+        </div>
+      </article>
+    `;
+  }
+
+  function init(initialCVState = {}) {
+    const root = getRootElement();
+    if (!root) {
+      console.error("No se encontró el contenedor para la vista pública.");
       return;
     }
 
-    const cvData = loadCV();
+    const cvData = createPortfolioCV(initialCVState);
     updateDocumentTitle(cvData);
 
     cvRenderer = createPreviewRenderer({
@@ -55,9 +65,25 @@ export function createPublicCVRenderer({
 
     if (cvRenderer) {
       cvRenderer.init();
-      console.log("Vista pública renderizada con éxito usando PreviewRenderer.");
+      console.log("Vista pública demo renderizada con éxito.");
     }
   }
 
-  return { init };
+  function updateCVState(nextCVState = {}) {
+    const cvData = createPortfolioCV(nextCVState);
+    updateDocumentTitle(cvData);
+
+    if (!cvRenderer) {
+      init(cvData);
+      return;
+    }
+
+    cvRenderer.updateCVState(cvData);
+  }
+
+  return {
+    init,
+    updateCVState,
+    renderUnavailableState,
+  };
 }
