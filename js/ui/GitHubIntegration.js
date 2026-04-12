@@ -275,8 +275,12 @@ export function createGitHubIntegration({
 
     const description = document.createElement("p");
     description.className = "empty-state-text";
-    description.textContent =
-      repository.description || "Este repositorio público no tiene descripción.";
+    const repositoryDescription = String(repository.description ?? "").trim();
+    description.textContent = repositoryDescription || "Sin descripción";
+
+    if (!repositoryDescription) {
+      description.classList.add("is-muted-description");
+    }
 
     const meta = document.createElement("p");
     meta.className = "empty-state-text";
@@ -354,8 +358,12 @@ export function createGitHubIntegration({
 
     const description = document.createElement("p");
     description.className = "empty-state-text";
-    description.textContent =
-      repository.description || "Repositorio seleccionado sin descripción pública.";
+    const selectedRepositoryDescription = String(repository.description ?? "").trim();
+    description.textContent = selectedRepositoryDescription || "Sin descripción";
+
+    if (!selectedRepositoryDescription) {
+      description.classList.add("is-muted-description");
+    }
 
     const actions = document.createElement("div");
     actions.className = "profile-form-actions";
