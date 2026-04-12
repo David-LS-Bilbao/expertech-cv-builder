@@ -87,10 +87,13 @@ export function createProfileEditor({
     );
 
     // Mezclamos con el perfil actual para no perder propiedades
-    // que esta feature todavía no edita, como phone o skills.
+    // que esta feature todavía no edita, como phone o skills,
+    // ni variables de estado asíncronas como avatarBase64.
     return createCandidateProfile({
       ...currentCVState.profile,
       ...rawProfileData,
+      avatarBase64: currentCVState.profile.avatarBase64,
+      avatarUrl: currentCVState.profile.avatarUrl
     });
   }
 
@@ -232,6 +235,57 @@ export function createProfileEditor({
     }
   }
 
+  // Redimensiona y codifica la imagen usando canvas para ahorrar espacio
+  function handleAvatarChange(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Actualiza visualmente el nombre del archivo en la UI
+    const fileNameElement = formElement.querySelector("#avatarFile-name");
+    if (fileNameElement) {
+      fileNameElement.textContent = file.name;
+    }
+
+    // Feedback rápido para imágenes muy pesadas
+    showFeedback("Redimensionando imagen...", "info");
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const MAX_SIZE = 300;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height && width > MAX_SIZE) {
+          height *= MAX_SIZE / width;
+          width = MAX_SIZE;
+        } else if (height > MAX_SIZE) {
+          width *= MAX_SIZE / height;
+          height = MAX_SIZE;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Actualizamos directo en el currentCVState
+        currentCVState.profile.avatarBase64 = canvas.toDataURL("image/jpeg", 0.85);
+        showFeedback("Imagen capturada y lista para guardar.");
+        emitLiveChange();
+      };
+
+      img.onerror = () => {
+        showFeedback("Error procesando imagen.", "error");
+      };
+
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   // Inicializa el editor:
   // - rellena el formulario
   // - limpia feedback inicial
@@ -239,8 +293,15 @@ export function createProfileEditor({
   function init() {
     fillForm(currentCVState.profile);
     clearFeedback();
+
+    // El 'input' asume cambios de texto
     formElement.addEventListener("input", handleInput);
     formElement.addEventListener("submit", handleSubmit);
+
+    const avatarInput = formElement.querySelector("#avatarFile");
+    if (avatarInput) {
+      avatarInput.addEventListener("change", handleAvatarChange);
+    }
   }
 
   // Permite desmontar los listeners si en el futuro hiciera falta.
@@ -248,6 +309,11 @@ export function createProfileEditor({
     clearFeedbackTimeout();
     formElement.removeEventListener("input", handleInput);
     formElement.removeEventListener("submit", handleSubmit);
+
+    const avatarInput = formElement.querySelector("#avatarFile");
+    if (avatarInput) {
+      avatarInput.removeEventListener("change", handleAvatarChange);
+    }
   }
 
   // Permite actualizar el editor desde fuera con un nuevo estado.

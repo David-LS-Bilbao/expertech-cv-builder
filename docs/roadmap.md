@@ -2,37 +2,113 @@
 
 Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
-## Feature activa
+## Última feature cerrada
 
-- `feat/live-preview`
+- `feat/github-pages-public-preview`
 
-Objetivo actual:
-- reflejar en tiempo real los cambios del editor en la preview
-- conectar el perfil persistido con la vista previa recruiter-friendly
-- mantener separación clara entre UI, estado y render
-- preparar la base para siguientes bloques dinámicos del CV
+Objetivo cubierto:
+- simular una base pública real del CV con una demo estática preparada para GitHub Pages
+- desacoplar la demo pública de la dependencia directa del `localStorage` local
+- dejar una base clara para una futura URL publicada y un QR funcional
+- mantener esta fase dentro de frontend/demo estática
+- no abrir todavía backend serio ni base de datos
 
-## Siguientes features previstas
+## Consolidación arquitectónica reciente
 
-1. `feat/github-integration`
-   - obtener datos básicos desde GitHub API
+- nueva capa `js/application/`
+- `js/application/AppRuntime.js` como runtime global
+- `js/application/AuthenticatedCVApp.js` para la app autenticada
+- templates UI extraídos desde `index.html`
+- `index.html` más cercano a shell base que a archivo monolítico
+- separación más clara entre auth, sesión, estado del CV, integración GitHub y sincronización de UI
+- renderer específico para impresión PDF
+- soporte de avatar híbrido
+- `public.html` como vista local adicional preparada para futura publicación compartible
 
-2. `feat/projects-visualization`
-   - mejorar lectura y visualización de proyectos
+## Siguiente feature prevista
 
-3. `feat/export-pdf-qr`
-   - preparar salida PDF resumen y acceso mediante QR
+- `feat/infojobs-search-proxy-mvp`
 
-4. `feat/polish-accessibility`
-   - pulido visual, estados UX y accesibilidad básica
+Objetivo siguiente:
+- añadir un buscador de ofertas de empleo dentro del proyecto como última feature funcional de esta fase
+- integrar una API real de ofertas de trabajo, priorizando InfoJobs si resulta viable
+- proteger credenciales mediante un proxy mínimo o función serverless si la API elegida requiere secreto
+- mantener esta feature como bloque funcional separado del backend serio de la siguiente fase
+- aportar valor visual y de producto a la demo final del proyecto
+
+## Avance reciente dentro de la feature cerrada más reciente
+
+- `feat/export-pdf-qr`
+  - nueva vista específica de impresión para exportación PDF
+  - sincronización del renderer de impresión con el borrador actual del editor
+  - soporte de avatar híbrido con subida local optimizada y fallback GitHub
+  - `public.html` como vista local adicional preparada para compartirse más adelante
+  - preparación del terreno para una futura publicación pública real con GitHub Pages y QR
+
+## Resultado principal del cierre reciente
+
+- `feat/github-pages-public-preview`
+  - `public.html` ya desacoplada del `localStorage` del editor
+  - snapshot público estático en `data/public-cv.json`
+  - runtime público modular con `js/public.js` y `js/application/PublicPageRuntime.js`
+  - hero pública conectada a datos reales del CV demo
+  - avatar visible, tecnologías con iconos y proyectos destacados en una página más cercana a una demo pública real
 
 ## Feature cerrada recientemente
 
-- `feat/editor-profile`
-  - formulario de perfil ya implementado
-  - guardado conectado al estado persistido
-  - rehidratación al recargar ya validada
-  - feedback visual de guardado ya disponible
+- `feat/export-pdf-qr`
+  - nueva vista específica de impresión para exportación PDF
+  - sincronización del renderer de impresión con el borrador actual del editor
+  - soporte de avatar híbrido con subida local optimizada y fallback GitHub
+  - preparación del terreno para una futura publicación pública real con GitHub Pages y QR
+
+- `feat/github-project-sources`
+  - persistencia de metadatos mínimos del origen de proyectos importados desde GitHub
+  - señal visual compacta del origen del proyecto en la preview
+  - compatibilidad con proyectos manuales y con estado persistido existente
+  - limpieza del proyecto demo legado para que el empty-state de proyectos sea coherente
+
+- `feat/login-screen`
+  - auth local básica para MVP con email + contraseña
+  - sesión persistida y restaurada desde `localStorage`
+  - logout funcional y acceso social todavía no implementado
+  - consolidación de `app.js` como composition root mínimo
+
+- `feat/projects-visualization`
+  - preview de proyectos conectada a `cvState.projects`
+  - cards con nombre, descripción, stack y enlaces visibles
+  - priorización de proyectos `featured` y empty-state específico
+  - separación limpia entre datos, selección GitHub y render visual
+
+- `feat/github-integration`
+  - consulta pública de perfil y repositorios desde GitHub API
+  - render de perfil GitHub con badge de estado, feedback y fallback manual
+  - selección manual de repositorios destacados conectada al estado del CV
+  - persistencia de `githubUsername` y proyectos GitHub para rehidratación coherente en el MVP
+
+## Orden funcional acordado para esta fase
+
+1. `feat/infojobs-search-proxy-mvp`
+2. `feat/polish-accessibility` o `feat/visual-polish-final`
+3. `feat/documentacion-final`
+
+## Fase siguiente
+
+- backend serio
+- base de datos
+- publicación real multiusuario
+- integraciones más ricas
+
+## Fuera deliberadamente en la fase actual
+
+- la auth actual del MVP no es auth real ni segura para producción
+- no hay backend serio ni PostgreSQL en esta fase
+- Google y GitHub no implementan OAuth real todavía
+- `feat/github-pages-public-preview` no debe abrir todavía persistencia real compartida ni publicación multiusuario
+- la feature de buscador de empleo no debe convertirse todavía en backend completo
+- si la API de empleo elegida requiere secreto, solo se permitirá un proxy mínimo o función serverless, no una arquitectura backend completa
+- no hay base de datos ni persistencia compartible real fuera de `localStorage` en esta fase
+- las integraciones externas más ricas quedan para la siguiente etapa del proyecto
 
 ## Regla de trabajo
 

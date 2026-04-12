@@ -2,36 +2,69 @@
 
 ## Estado arquitectónico actual
 
-El proyecto se encuentra en una fase de preparación. La arquitectura todavía es simple, pero ya está organizada para crecer de forma modular.
+La arquitectura ya no está en fase de preparación inicial. El proyecto funciona como un MVP frontend modular con auth local de demostración, estado persistido del CV, integración pública básica con GitHub y una capa visual separada por templates y renderizadores.
 
-## Estructura base prevista
+## Estructura actual
 
-- `index.html`: punto de entrada principal
-- `styles/reset.css`: normalización visual mínima
-- `styles/main.css`: estilos base del proyecto
-- `js/app.js`: punto de entrada JavaScript
-- `js/models/`: futuros modelos de datos
-- `js/services/`: futuros servicios como persistencia o integración externa
-- `js/ui/`: futura lógica de interfaz y render
+- `index.html`: shell base de la aplicación
+- `styles/reset.css`: normalización visual
+- `styles/main.css`: estilos globales y componentes visuales
+- `js/app.js`: entry point mínimo y composition root
+- `js/application/`: runtime global y coordinación de la app autenticada
+- `js/models/`: factories y normalización del contrato de datos
+- `js/services/`: persistencia local, auth MVP e integración GitHub
+- `js/ui/`: controladores UI y templates reutilizables
 - `js/utils/`: utilidades compartidas
 
-## Decisiones actuales
+## Decisiones vigentes
 
-- empezar con una base estática simple antes de introducir lógica compleja
-- separar estilos de reseteo y estilos principales desde el inicio
-- mantener JavaScript en un punto de entrada único mientras el proyecto está arrancando
-- reservar carpetas por responsabilidad para facilitar la evolución del MVP
+- mantener `app.js` lo más pequeño posible
+- separar auth/sesión de la app autenticada
+- centralizar la normalización del estado en `models`
+- dejar GitHub como integración pública, sin OAuth ni backend en esta fase
+- conservar compatibilidad con `localStorage` al introducir nuevos campos en proyectos
+- proteger proyectos manuales reales cuando se mezclan con proyectos importados desde GitHub
 
-## Siguiente decisión arquitectónica relevante
+## Piezas clave de la arquitectura actual
 
-La siguiente feature debería definir la estructura visual principal de la aplicación y preparar la separación entre:
+- `js/application/AppRuntime.js`
+  - decide si se muestra auth o app autenticada
+  - restaura sesión y gestiona logout
 
-- zona de edición
-- zona de vista previa
-- componentes visuales base
+- `js/application/AuthenticatedCVApp.js`
+  - coordina el estado del CV
+  - sincroniza editor, preview y bloque GitHub
+  - transforma repositorios seleccionados en proyectos persistidos
+
+- `js/application/PublicPageRuntime.js`
+  - coordina la demo pública estática
+  - carga un snapshot público del CV
+  - mantiene `public.html` libre de lógica inline
+
+- `js/services/CVStorageService.js`
+  - guarda y carga el CV desde `localStorage`
+  - normaliza el estado y sanea datos demo legacy cuando corresponde
+
+- `js/services/PublicCVDataService.js`
+  - carga el snapshot público desde `data/public-cv.json`
+  - desacopla la demo pública del `localStorage` del editor
+
+- `js/services/GitHubProfileService.js`
+  - consulta perfil y repos públicos
+  - devuelve datos ya normalizados para la UI
+
+- `js/ui/PreviewRenderer.js`
+  - renderiza perfil y proyectos desde `cvState`
+  - muestra trazabilidad mínima del origen GitHub cuando existe
+
+- `js/ui/PublicCVRenderer.js`
+  - reutiliza el mismo contrato de datos del CV para la demo pública
+  - alimenta hero, metadatos visibles y documento central sin depender del editor
 
 ## Riesgos a vigilar
 
-- mezclar demasiado pronto lógica de datos y presentación
-- sobrediseñar la arquitectura antes de tener la UI base
-- duplicar responsabilidades entre `ui`, `services` y `utils`
+- mezclar en una misma feature auth, GitHub y exportación
+- hacer crecer demasiado `AuthenticatedCVApp.js` sin extraer coordinación cuando de verdad haga falta
+- romper compatibilidad con proyectos ya persistidos en `localStorage`
+- ampliar GitHub hacia múltiples cuentas o colaboraciones sin definir antes el contrato de datos que lo soporte
+- mezclar la demo pública estática con la lógica del editor en lugar de mantener un runtime separado

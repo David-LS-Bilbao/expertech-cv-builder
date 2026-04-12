@@ -136,3 +136,79 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el proyecto ya permite editar manualmente el perfil principal del candidato, guardar los cambios en `localStorage` y rehidratar el formulario al recargar, dejando una base clara para conectar la preview en la siguiente feature.
 - Validación: revisión manual del código, verificación de nombres de campos entre HTML y JS, comprobación sintáctica con `node --check` y confirmación de que el feedback visual permanece oculto cuando está vacío.
 - Próximo paso: arrancar `feat/live-preview` para reflejar en tiempo real los cambios del perfil en la vista previa del CV.
+
+### [2026-04-11] Cierre de la feature `feat/live-preview`
+
+- Objetivo: conectar la edición del perfil con una vista previa recruiter-friendly que responda en tiempo real sin romper la persistencia existente.
+- Trabajo realizado: se creó `PreviewRenderer.js` para renderizar nombre, titular y resumen del perfil, se amplió `ProfileEditor.js` para emitir cambios mientras el usuario escribe, y se conectó `js/app.js` para mantener sincronizados editor, preview y `localStorage` sin mezclar responsabilidades.
+- Trabajo realizado por el usuario: implementación del renderizador de preview, conexión del flujo `editor -> estado -> preview`, ajuste del HTML de la tarjeta de vista previa y validación manual del comportamiento durante escritura y guardado.
+- Trabajo realizado por Codex: revisión del cierre funcional de la feature, comprobación de coherencia entre módulos y actualización de la documentación del proyecto para dejar el estado del MVP alineado con lo ya implementado.
+- Archivos afectados: `index.html`, `js/ui/PreviewRenderer.js`, `js/ui/ProfileEditor.js`, `js/app.js`, `README.md`, `docs/roadmap.md` y `docs/evidencias.md`.
+- Resultado: el proyecto ya muestra en la preview los datos principales del perfil en tiempo real, mantiene fallbacks cuando faltan campos y conserva el flujo de guardado sobre `localStorage` como fuente persistente.
+- Validación: revisión manual del código y del flujo de interfaz, comprobación de sincronización entre editor y preview, y validación sintáctica con `node --check` de `js/app.js`, `js/ui/ProfileEditor.js` y `js/ui/PreviewRenderer.js`.
+- Próximo paso: arrancar `feat/github-integration` para consultar datos públicos básicos desde GitHub sin sustituir la edición manual ya disponible.
+
+### [2026-04-11] Cierre de la feature `feat/github-integration`
+
+- Objetivo: enriquecer el CV con una integración pública básica de GitHub sin romper el flujo manual ya existente del perfil.
+- Trabajo realizado: se añadió un bloque independiente para búsqueda de usuario GitHub, se creó `GitHubProfileService.js` para consultar perfil y repositorios públicos, se implementó `GitHubIntegration.js` para renderizar perfil, candidatos y selección manual, y se conectó `js/app.js` para persistir `githubUsername` y proyectos derivados de repositorios seleccionados dentro del estado actual del CV.
+- Trabajo realizado por el usuario: implementación del bloque GitHub en HTML y CSS, construcción del servicio y del módulo UI, validación manual del flujo de búsqueda y selección, y cierre del ajuste visual del empty-state para que responda correctamente al atributo `hidden`.
+- Trabajo realizado por Codex: auditoría del flujo de carga y rehidratación, identificación de la causa raíz del empty-state visible, aplicación del fix mínimo en estilos, revisión de coherencia visual de la feature y actualización de la documentación de cierre.
+- Archivos afectados: `index.html`, `styles/main.css`, `js/app.js`, `js/ui/GitHubIntegration.js`, `js/services/GitHubProfileService.js`, `README.md`, `docs/roadmap.md` y `docs/evidencias.md`.
+- Resultado: el proyecto ya puede consultar datos públicos de GitHub, mostrar perfil y repositorios candidatos, permitir selección manual de repos destacados, persistir esa selección dentro del estado del CV y rehidratar el bloque de forma coherente dentro del alcance MVP actual.
+- Validación: revisión manual del flujo UI, comprobación de que el empty-state GitHub se oculta tras una carga correcta, confirmación de que el badge cambia a `Conectado`, validación del fallback manual cuando la API falla y verificación sintáctica con `node --check` de `js/app.js`, `js/ui/GitHubIntegration.js` y `js/services/GitHubProfileService.js`.
+- Próximo paso: arrancar `feat/projects-visualization` para representar de forma más clara en el CV los proyectos ya seleccionados y mejorar la lectura recruiter-friendly del portfolio.
+- Orden posterior recomendado: `feat/login-screen` para preparar identidad de usuario sin autenticación externa compleja, `feat/github-project-sources` para ampliar orígenes y atribución de proyectos GitHub, y después `feat/export-pdf-qr`, `feat/polish-accessibility` y `feat/documentacion-final`.
+
+### [2026-04-11] Cierre de la feature `feat/projects-visualization`
+
+- Objetivo: mejorar la lectura y visualización de proyectos dentro del CV, aprovechando la selección GitHub ya persistida como base del bloque de proyectos.
+- Trabajo realizado: se adaptó la preview para incluir un contenedor dinámico de proyectos, se amplió `PreviewRenderer.js` para renderizar cards desde `cvState.projects`, se priorizaron proyectos marcados como `featured`, se añadió un empty-state específico y se incorporaron estilos para nombre, descripción, stack y enlaces.
+- Trabajo realizado por el usuario: implementación y validación visual del bloque de proyectos en la preview, revisión manual del resultado recruiter-friendly y comprobación de que la selección GitHub ya persistida se refleja correctamente en el CV.
+- Trabajo realizado por Codex: revisión del estado real de la base tras la integración completa de GitHub en `dev`, validación de que la preview ya no dependía de contenido estático, comprobación del cumplimiento de objetivos de la feature y actualización de la documentación de cierre.
+- Archivos afectados: `index.html`, `styles/main.css`, `js/ui/PreviewRenderer.js`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md` y `docs/EXPERTECH_contexto_actualizado.md`.
+- Resultado: el proyecto ya representa proyectos destacados dentro de la preview con una presentación más clara para recruiters, reutilizando el estado persistido del CV y manteniendo separación limpia entre datos, selección GitHub y render visual.
+- Validación: revisión visual manual de la preview con varios proyectos, comprobación de cards con nombre, descripción, stack y enlaces, verificación del empty-state específico y comprobación sintáctica con `node --check js/ui/PreviewRenderer.js`.
+- Próximo paso: arrancar `feat/login-screen` para preparar una pantalla de acceso clara y una base de identidad de usuario sin introducir todavía autenticación externa compleja.
+
+### [2026-04-11] Cierre funcional de `feat/login-screen` y consolidación del runtime
+
+- Objetivo: añadir una pantalla de acceso `login/register` para el MVP, introducir una capa básica de identidad local y reducir la responsabilidad de `app.js` mediante una organización más clara de la aplicación.
+- Trabajo realizado: se implementó una auth local básica con registro y login por email + contraseña, persistencia de usuarios y sesión en `localStorage`, restauración automática de sesión al recargar y logout visible dentro de la app autenticada. Además, se extrajeron templates de UI para auth, preview y bloque GitHub, se creó la carpeta `js/application/` y se movió la orquestación principal a `AppRuntime.js` y `AuthenticatedCVApp.js`.
+- Trabajo realizado por el usuario: implementación del flujo `login/register/logout`, refactor del arranque general de la app, extracción de templates reutilizables y adaptación de los módulos existentes para trabajar con roots más limpios en `index.html`.
+- Trabajo realizado por Codex: auditoría del estado real de la rama, detección de incoherencias documentales frente al código, validación mínima de sintaxis de los nuevos módulos y actualización de la documentación viva del proyecto para reflejar el estado actual del MVP.
+- Archivos afectados: `index.html`, `js/app.js`, `js/application/AppRuntime.js`, `js/application/AuthenticatedCVApp.js`, `js/services/AuthStorageService.js`, `js/ui/AuthScreen.js`, `js/ui/AuthScreenTemplate.js`, `js/ui/PreviewTemplate.js`, `js/ui/GitHubBlockTemplate.js`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md` y `docs/EXPERTECH_contexto_actualizado.md`.
+- Resultado: el proyecto ya obliga a pasar por una pantalla de acceso local antes de entrar a la app principal, mantiene sesión activa entre recargas, conserva el flujo del CV una vez autenticado y presenta una arquitectura más clara para evolucionar después hacia backend y PostgreSQL.
+- Validación: lectura del flujo implementado en runtime y auth, verificación de que Google y GitHub solo muestran mensajes informativos en esta fase, y comprobación sintáctica con `node --check` de `js/app.js`, `js/application/AppRuntime.js`, `js/application/AuthenticatedCVApp.js`, `js/ui/AuthScreen.js` y `js/services/AuthStorageService.js`.
+- Próximo paso: arrancar `feat/github-project-sources` para ampliar la atribución y el origen de proyectos GitHub sin mezclar todavía OAuth real ni backend.
+
+### [2026-04-11] Avance funcional de `feat/github-project-sources`
+
+- Objetivo: añadir trazabilidad mínima a los proyectos importados desde GitHub y evitar la confusión del proyecto demo legado en la preview.
+- Trabajo realizado: se amplió la normalización de repositorios GitHub para conservar datos básicos de origen, se extendió el modelo `Project` con metadatos mínimos de trazabilidad, se adaptó la transformación GitHub -> proyectos del CV para persistir ese origen, se añadió una línea visual compacta de origen en la preview y se retiró la siembra de proyectos demo nuevos. Además, se incorporó una limpieza de migración en `CVStorageService` para eliminar el proyecto demo legado `EXPERTECH CV` cuando coincide exactamente con la semilla antigua.
+- Trabajo realizado por el usuario: validación visual de la línea de origen en la preview, confirmación de que los proyectos manuales siguen diferenciándose de los importados y comprobación manual del comportamiento al seleccionar y deseleccionar repositorios desde el bloque GitHub.
+- Trabajo realizado por Codex: auditoría del flujo de estado para distinguir dato demo de bug real, implementación del fix mínimo sobre el estado inicial y `localStorage`, refuerzo del fallback visual de origen y validación sintáctica de los módulos tocados.
+- Archivos afectados: `js/services/GitHubProfileService.js`, `js/models/Project.js`, `js/application/AuthenticatedCVApp.js`, `js/ui/PreviewRenderer.js`, `js/services/CVStorageService.js`, `styles/main.css`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md`, `docs/EXPERTECH_contexto_actualizado.md` y `docs/architecture-notes.md`.
+- Resultado: los proyectos importados desde GitHub ya conservan una trazabilidad básica visible en la preview, los proyectos manuales siguen protegidos y el bloque de proyectos vuelve al empty-state cuando no hay proyectos reales ni selección GitHub activa.
+- Validación: revisión manual de la preview con proyectos GitHub y manuales, comprobación de que al deseleccionar todos los repos ya no queda el proyecto demo `EXPERTECH CV`, y comprobación sintáctica con `node --check` de `js/services/GitHubProfileService.js`, `js/application/AuthenticatedCVApp.js`, `js/ui/PreviewRenderer.js` y `js/services/CVStorageService.js`.
+- Próximo paso: arrancar `feat/export-pdf-qr` o iterar sobre el perfil híbrido.
+
+### [2026-04-12] Implementación de Avatar Híbrido y Vista Local Web
+
+- Objetivo: añadir soporte para avatares (sincronizados desde GitHub o subidos localmente con resize por canvas) y crear una vista local adicional (`public.html`) preparada para una futura publicación compartible.
+- Trabajo realizado: se implementó un sistema híbrido que prioriza imágenes subidas localmente (redimensionadas vía canvas para no saturar `localStorage`), luego URL manual externa y finalmente de GitHub. También se creó `public.html` con su respectivo `PublicCVRenderer.js` reutilizando el motor de `PreviewRenderer` para montar una versión navegable y responsiva idéntica a la vista previa del dashboard, apoyada en el mismo estado persistido del navegador.
+- Archivos afectados: `index.html`, `public.html`, `styles/main.css`, `js/application/AuthenticatedCVApp.js`, `js/models/CandidateProfile.js`, `js/ui/ProfileEditor.js`, `js/ui/PublicCVRenderer.js`.
+- Resultado: el usuario puede elegir cómo gestionar su avatar y revisar su CV desde una vista local separada, útil para preparar una futura experiencia compartible cuando exista persistencia/publicación real fuera de `localStorage`.
+- Validación: comprobada la sincronización correcta de la imagen local redimensionada en el preview interactivo y la correcta renderización visual del `public.html` utilizando el mismo estilo base de previsualización.
+- Próximo paso: cerrar `feat/export-pdf-qr` y abrir `feat/github-pages-public-preview` para simular una publicación real con GitHub Pages y QR de demo sin mezclar todavía backend ni base de datos.
+
+### [2026-04-12] Cierre funcional de `feat/github-pages-public-preview`
+
+- Objetivo: transformar la vista pública local en una demo estática preparada para evolucionar a GitHub Pages sin depender del `localStorage` del editor.
+- Trabajo realizado: se creó un runtime público modular con `js/public.js` y `js/application/PublicPageRuntime.js`, se añadió `js/services/PublicCVDataService.js` para cargar un snapshot estático desde `data/public-cv.json` y se adaptó `PublicCVRenderer.js` para renderizar la demo pública a partir de ese estado. Además, se pulió `public.html` para que la página se sintiera más cercana a una publicación real: avatar visible, hero más limpia, card propia de tecnologías con iconos y documento central sin helper copy de app.
+- Trabajo realizado por el usuario: revisión visual iterativa de la demo pública, validación del encaje del avatar, ajuste del contenido del snapshot público y decisión de orientar la siguiente fase hacia una publicación real con GitHub Pages.
+- Trabajo realizado por Codex: desacople de la demo respecto a `localStorage`, creación de la capa modular pública, preparación del snapshot `public-cv.json`, pulido de copy y jerarquía visual, y alineación de la documentación viva con el nuevo estado del proyecto.
+- Archivos afectados: `public.html`, `index.html`, `js/public.js`, `js/application/PublicPageRuntime.js`, `js/services/PublicCVDataService.js`, `js/ui/PublicCVRenderer.js`, `data/public-cv.json`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md`, `docs/EXPERTECH_contexto_actualizado.md` y `docs/architecture-notes.md`.
+- Resultado: el proyecto ya dispone de una demo pública estática, modular y coherente visualmente, con datos propios del CV y preparada para pasar a una URL pública real mediante GitHub Pages.
+- Validación: comprobación sintáctica con `node --check js/public.js`, `node --check js/application/PublicPageRuntime.js`, `node --check js/services/PublicCVDataService.js` y `node --check js/ui/PublicCVRenderer.js`; revisión manual del hero, avatar, tecnologías con iconos y proyectos visibles en `public.html`.
+- Próximo paso: abrir PR de `feat/github-pages-public-preview` contra `dev`, revisar el diff final y, tras el merge, activar GitHub Pages y preparar el QR apuntando a la URL publicada.
