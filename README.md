@@ -6,7 +6,7 @@
 
 Estado actual: `Bootcamp JavaScript MVP`
 
-Fase actual: cierre funcional de `feat/github-pages-public-preview` sobre la base ya cerrada de `feat/export-pdf-qr`
+Fase actual: post-merge de `feat/github-pages-public-preview`, ya integrada en `dev`
 
 En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión y una demo pública estática (`public.html`) desacoplada de `localStorage`, preparada para evolucionar a publicación real con GitHub Pages.
 
@@ -111,6 +111,12 @@ La base actual es estática. Para revisarla en local puedes:
 - abrir `index.html` directamente en el navegador
 - o usar una extensión como Live Server en VS Code si quieres recarga automática
 
+Importante para la demo pública:
+
+- `public.html` carga `data/public-cv.json` mediante `fetch()`
+- por eso debe validarse con servidor estático, Live Server o GitHub Pages
+- abrir `public.html` con `file://` puede fallar aunque el código esté correcto
+
 Comportamiento actual disponible:
 
 - carga de una pantalla principal ya maquetada
@@ -205,11 +211,11 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 14. `feat/polish-accessibility` o `feat/visual-polish-final`: pulido final, estados UX y accesibilidad
 15. `feat/documentacion-final`: cierre documental final del proyecto
 
-## Feature activa
+## Última feature cerrada
 
-La rama de trabajo actual es `feat/github-pages-public-preview`.
+La última feature cerrada funcionalmente en `dev` es `feat/github-pages-public-preview`.
 
-En esta fase ya se ha dejado resuelto este bloque funcional:
+Este bloque ya deja resuelto:
 
 - `public.html` ya no depende del `localStorage` del mismo navegador
 - la demo pública se alimenta desde `data/public-cv.json`
@@ -217,7 +223,7 @@ En esta fase ya se ha dejado resuelto este bloque funcional:
 - la hero pública reutiliza nombre, titular, resumen y avatar del snapshot del CV
 - la demo pública ya muestra proyectos destacados y una card específica de tecnologías
 
-Todavía queda fuera de esta rama:
+Sigue quedando fuera de este cierre:
 
 - publicación real ya servida en GitHub Pages
 - QR funcional apuntando a una URL pública estable
@@ -242,12 +248,11 @@ Limitaciones actuales importantes:
 
 Orden recomendado a partir del estado actual:
 
-1. cerrar `feat/github-pages-public-preview`
-2. `feat/infojobs-search-proxy-mvp`
-3. `feat/polish-accessibility` o `feat/visual-polish-final`
-4. `feat/documentacion-final`
+1. `feat/infojobs-search-proxy-mvp`
+2. `feat/polish-accessibility` o `feat/visual-polish-final`
+3. `feat/documentacion-final`
 
-Siguiente feature recomendada tras cerrar esta rama:
+Siguiente feature recomendada tras este cierre:
 
 - `feat/infojobs-search-proxy-mvp`
 - objetivo: incorporar un buscador de ofertas con una integración real y útil dentro del portfolio

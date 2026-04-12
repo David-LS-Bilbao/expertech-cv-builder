@@ -15,7 +15,7 @@ Su función es reflejar el **estado real y actual** del proyecto, evitando contr
 **Tipo de proyecto actual:** MVP frontend en JavaScript para bootcamp  
 **Estado actual:** base funcional del CV ya construida, con auth local básica para MVP, perfil editable, preview reactiva, integración pública básica con GitHub, visualización dinámica de proyectos, trazabilidad mínima del origen importado, exportación PDF más cuidada y una demo pública estática modular ya preparada para evolucionar a GitHub Pages.
 
-Según la base actual del repositorio, la rama activa pasa a ser `feat/github-pages-public-preview`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF y una demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
+Según la base actual del repositorio, `feat/github-pages-public-preview` ya quedó integrada en `dev`. El proyecto ya cuenta con layout real, auth local de demostración, persistencia en `localStorage`, formulario funcional del perfil, preview sincronizada, enriquecimiento del CV con datos públicos de GitHub, render recruiter-friendly de proyectos seleccionados, avatar híbrido, exportación PDF y una demo pública desacoplada del `localStorage` del editor mediante `public.html`, `js/public.js` y `data/public-cv.json`.
 
 ---
 
@@ -148,7 +148,7 @@ Ese documento se conserva solo como:
 
 ### README
 El `README.md` debe reflejar:
-- `feat/github-pages-public-preview` como rama activa
+- `feat/github-pages-public-preview` ya integrada en `dev`
 - `feat/export-pdf-qr` ya cerrada funcionalmente
 - que `public.html` ya no depende del `localStorage` del editor, pero todavía no está desplegada en una URL pública real
 
@@ -164,7 +164,7 @@ Antes de abrir cada nuevo chat de feature:
 
 ---
 
-## 6. Feature activa recomendada
+## 6. Última feature cerrada
 
 ## `feat/github-pages-public-preview`
 
@@ -180,7 +180,7 @@ La arquitectura ya permite:
 - exportar una versión PDF específica
 - mostrar una demo pública separada del editor
 
-Por tanto, el trabajo actual ya no consiste en construir login básico ni en ampliar la trazabilidad GitHub, sino en **cerrar una demo pública estática preparada para GitHub Pages sin mezclar todavía backend, base de datos ni publicación multiusuario real**.
+Por tanto, el trabajo actual ya no consiste en construir login básico ni en ampliar la trazabilidad GitHub, sino en **dejar cerrada una demo pública estática preparada para GitHub Pages sin mezclar todavía backend, base de datos ni publicación multiusuario real**.
 
 ### Objetivo funcional
 Simular una URL pública real del CV mediante una página estática modular, desacoplada del `localStorage` del editor y preparada para una futura publicación en GitHub Pages.
@@ -193,7 +193,7 @@ Simular una URL pública real del CV mediante una página estática modular, des
 - card lateral de tecnologías con iconos
 - proyectos destacados visibles y alineados con el CV demo
 
-### Qué sigue pendiente dentro del área
+### Qué sigue pendiente fuera de este cierre
 - despliegue real en GitHub Pages
 - URL pública estable
 - QR funcional apuntando a esa URL
@@ -232,10 +232,9 @@ Confundir la demo pública estática con una publicación real multiusuario.
 
 ## 8. Orden recomendado a partir del cierre de esta rama
 
-1. cerrar `feat/github-pages-public-preview`
-2. `feat/infojobs-search-proxy-mvp`
-3. `feat/polish-accessibility` o `feat/visual-polish-final`
-4. `feat/documentacion-final`
+1. `feat/infojobs-search-proxy-mvp`
+2. `feat/polish-accessibility` o `feat/visual-polish-final`
+3. `feat/documentacion-final`
 
 ### Siguiente feature sugerida
 
@@ -298,8 +297,8 @@ No sustituye a la documentación viva del repositorio, pero sí evita depender d
 - exportación PDF con vista de impresión específica
 - demo pública estática desacoplada del `localStorage` del editor
 
-La rama activa natural sigue siendo:
+La siguiente feature natural pasa a ser:
 
-**`feat/github-pages-public-preview`**
+**`feat/infojobs-search-proxy-mvp`**
 
-porque ahora toca cerrar de forma limpia la demo pública estática, preparar el paso a GitHub Pages y dejar lista la futura URL compartible antes de abrir la siguiente feature funcional.
+porque la demo pública estática ya quedó integrada en `dev` y el siguiente bloque funcional acordado es añadir valor de producto con una integración real de ofertas, sin abrir todavía backend completo ni base de datos.
