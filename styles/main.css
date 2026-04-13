@@ -66,6 +66,12 @@ body {
   color: var(--color-text);
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -337,10 +343,25 @@ ul {
 
 @media (max-width: 767px) {
   .dashboard-hero-banner {
-    width: calc(100% - 1rem);
+    width: 100%;
     margin: 0.75rem auto 1.25rem;
     padding: 0.75rem;
     border-radius: 12px;
+    overflow: visible;
+  }
+
+  .dashboard-hero-banner .app-header {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dashboard-hero-banner .brand-title {
+    font-size: clamp(1.6rem, 9vw, 2.2rem);
+    letter-spacing: 0.04em;
+  }
+
+  .dashboard-hero-banner .brand-tagline {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
   }
 
   .app-main {
@@ -355,13 +376,29 @@ ul {
   .header-actions {
     width: 100%;
     align-items: stretch;
+    min-width: 0;
   }
 
   .header-actions .btn,
   .theme-toggle-button {
     width: 100%;
     min-width: 0;
+    max-width: 100%;
     justify-content: center;
+  }
+
+  .theme-toggle-label {
+    white-space: normal;
+  }
+
+  .app-shell,
+  .app-main,
+  .workspace,
+  .editor-panel,
+  .preview-panel,
+  .final-actions {
+    max-width: 100%;
+    min-width: 0;
   }
 
   .preview-panel {
