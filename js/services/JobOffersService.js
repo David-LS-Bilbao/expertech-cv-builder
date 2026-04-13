@@ -4,10 +4,34 @@
 // Por defecto se encuentra en modo "mock" ya que no disponemos de proxy backend con credenciales.
 
 const CONFIG = {
-  // Cambia a 'proxy' o 'mock' según el entorno local que estés probando.
-  mode: 'proxy', 
-  proxyUrl: 'http://localhost:3001/api/jobs/search'
+  // Modo base para entorno local de desarrollo.
+  // En despliegue estático (ej. GitHub Pages) degradamos automáticamente a mock.
+  mode: "proxy",
+  proxyUrl: "http://localhost:3001/api/jobs/search",
 };
+
+function isLocalRuntime() {
+  const hostname = String(window.location.hostname || "").toLowerCase();
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "[::1]"
+  );
+}
+
+function resolveRuntimeMode() {
+  if (CONFIG.mode === "mock") {
+    return "mock";
+  }
+
+  // En despliegue estático no existe proxy local, así que usamos mock
+  // para evitar errores de red al usuario final.
+  if (!isLocalRuntime()) {
+    return "mock";
+  }
+
+  return "proxy";
+}
 
 /**
  * Petición al servidor local (Proxy).
@@ -94,7 +118,9 @@ export async function searchOffers({ keyword, location = "" }) {
     throw new Error("La palabra clave es obligatoria.");
   }
 
-  if (CONFIG.mode === 'proxy') {
+  const runtimeMode = resolveRuntimeMode();
+
+  if (runtimeMode === "proxy") {
     try {
       return await fetchFromProxy({ keyword, location });
     } catch (err) {
@@ -105,5 +131,8 @@ export async function searchOffers({ keyword, location = "" }) {
     }
   }
 
-  return fetchFromMock({ keyword, location });
+  const mockResults = await fetchFromMock({ keyword, location });
+  mockResults._fallbackWarning =
+    "Despliegue estático detectado: mostrando datos mock (sin backend proxy).";
+  return mockResults;
 }
