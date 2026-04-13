@@ -335,6 +335,55 @@ ul {
   gap: 3rem;
 }
 
+@media (max-width: 767px) {
+  .dashboard-hero-banner {
+    width: calc(100% - 1rem);
+    margin: 0.75rem auto 1.25rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .app-main {
+    gap: var(--space-2);
+  }
+
+  .workspace {
+    padding: 0 0.75rem;
+    gap: 1.5rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .header-actions .btn,
+  .theme-toggle-button {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .preview-panel {
+    padding: var(--space-2);
+  }
+
+  .preview-panel > .preview-card {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .github-repositories-list,
+  .github-selected-repositories-list {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .auth-screen {
+    padding: var(--space-3) 0.75rem;
+  }
+}
+
 .editor-panel,
 .preview-panel {
   display: grid;
