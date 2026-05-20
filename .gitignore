@@ -21,5 +21,6 @@ dist/
 server/.env
 server/node_modules/
 
-.claude
+# Configuración local de Claude
+.claude/
 
