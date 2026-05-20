@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EXPERTECH CV - Job Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .job-card-shadow {
+            box-shadow: 0px 4px 12px rgba(15, 23, 42, 0.05);
+        }
+        .match-gradient {
+            background: linear-gradient(90deg, #0ea5e9 0%, #6cf8bb 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#e2e7ff",
+                      "primary-fixed-dim": "#89ceff",
+                      "primary-container": "#0ea5e9",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#6cf8bb",
+                      "primary": "#006591",
+                      "on-primary-container": "#003751",
+                      "on-tertiary-fixed-variant": "#92002a",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#ff697b",
+                      "surface-bright": "#faf8ff",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#89ceff",
+                      "on-primary-fixed-variant": "#004c6e",
+                      "inverse-surface": "#283044",
+                      "on-primary-fixed": "#001e2f",
+                      "on-surface-variant": "#3e4850",
+                      "inverse-on-surface": "#eef0ff",
+                      "primary-fixed": "#c9e6ff",
+                      "outline-variant": "#bec8d2",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-secondary-fixed-variant": "#005236",
+                      "surface-tint": "#006591",
+                      "on-surface": "#131b2e",
+                      "surface-variant": "#dae2fd",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-dim": "#d2d9f4",
+                      "background": "#faf8ff",
+                      "on-background": "#131b2e",
+                      "secondary": "#006c49",
+                      "secondary-fixed-dim": "#4edea3",
+                      "tertiary-fixed": "#ffdadb",
+                      "surface-container-highest": "#dae2fd",
+                      "tertiary": "#bc0b3b",
+                      "on-secondary-fixed": "#002113",
+                      "outline": "#6e7881",
+                      "surface-container": "#eaedff",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#00714d",
+                      "tertiary-fixed-dim": "#ffb2b7",
+                      "on-tertiary-container": "#6c001d",
+                      "surface": "#faf8ff",
+                      "on-tertiary-fixed": "#40000d",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter-mobile": "16px",
+                      "margin-mobile": "20px",
+                      "section-gap": "80px",
+                      "base": "8px",
+                      "margin-desktop": "48px",
+                      "gutter-desktop": "24px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface shadow-sm sticky top-0 z-50 h-20 flex items-center">
+<div class="flex justify-between items-center w-full px-margin-desktop max-w-7xl mx-auto h-20">
+<div class="font-headline-md text-headline-md font-extrabold text-on-surface">EXPERTECH CV</div>
+<nav class="hidden md:flex space-x-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Product</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Templates</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Resources</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary active:scale-95 duration-100">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md text-label-md active:scale-95 duration-100">Get Started</button>
+</div>
+</div>
+</header>
+<div class="flex max-w-7xl mx-auto min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col w-64 p-6 space-y-8 bg-surface-container-low sticky top-20 h-[calc(100vh-80px)]">
+<div class="space-y-4">
+<div class="flex items-center space-x-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">JD</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-bold">John Doe</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Tech Professional</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">edit_document</span>
+<span class="font-label-md text-label-md">CV Editor</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-primary font-bold bg-surface-container-high rounded-lg translate-x-1 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">local_offer</span>
+<span class="font-label-md text-label-md">Offers</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-label-md text-label-md">Public View</span>
+</a>
+</nav>
+</div>
+<div class="pt-8 mt-auto border-t border-outline-variant space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<div class="mt-6 px-4">
+<button class="w-full bg-tertiary-container text-on-tertiary-container font-label-md text-label-md py-3 rounded-lg hover:opacity-90 transition-opacity">Upgrade to Pro</button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 px-4 md:px-margin-desktop py-8 bg-background">
+<!-- Search & Filters Bar -->
+<section class="mb-10 space-y-6">
+<div class="bg-white p-4 rounded-xl job-card-shadow flex flex-col md:flex-row gap-4 border border-outline-variant">
+<div class="flex-1 flex items-center px-4 bg-surface rounded-lg border border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md text-body-md py-3 px-3" placeholder="Job title, keywords, or company" type="text"/>
+</div>
+<div class="flex-1 flex items-center px-4 bg-surface rounded-lg border border-outline-variant focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-outline">location_on</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md text-body-md py-3 px-3" placeholder="Location" type="text"/>
+</div>
+<div class="md:w-48 flex items-center px-4 bg-surface rounded-lg border border-outline-variant focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-outline">work</span>
+<select class="w-full bg-transparent border-none focus:ring-0 font-body-md text-body-md py-3 px-3 cursor-pointer appearance-none">
+<option>Any Type</option>
+<option>Remote</option>
+<option>On-site</option>
+<option>Hybrid</option>
+</select>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-lg font-label-md text-label-md hover:shadow-lg transition-all active:scale-95">Find Jobs</button>
+</div>
+<!-- Chips Filters -->
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2 rounded-full border border-primary bg-primary-container/10 text-primary font-label-md text-label-md hover:bg-primary-container/20 transition-all">Frontend</button>
+<button class="px-5 py-2 rounded-full border border-outline-variant bg-white text-on-surface-variant font-label-md text-label-md hover:border-primary hover:text-primary transition-all">Backend</button>
+<button class="px-5 py-2 rounded-full border border-outline-variant bg-white text-on-surface-variant font-label-md text-label-md hover:border-primary hover:text-primary transition-all">Full Stack</button>
+<button class="px-5 py-2 rounded-full border border-outline-variant bg-white text-on-surface-variant font-label-md text-label-md hover:border-primary hover:text-primary transition-all">Junior</button>
+<button class="px-5 py-2 rounded-full border border-outline-variant bg-white text-on-surface-variant font-label-md text-label-md hover:border-primary hover:text-primary transition-all">Senior</button>
+</div>
+</section>
+<!-- Results Section -->
+<div class="space-y-6">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">Recommended for you</h2>
+<p class="font-label-sm text-label-sm text-outline">Showing 245 jobs</p>
+</div>
+<!-- Job Card 1 -->
+<article class="bg-white p-6 rounded-xl job-card-shadow border border-outline-variant hover:border-primary/50 transition-all group flex flex-col md:flex-row gap-6 items-start">
+<div class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center p-2 shrink-0 overflow-hidden">
+<img alt="Company Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0Of5bvFcAXbZaNwhML0hOydPTo2weGniFKe1yEk9sfoSRPyRObx6oZc9SHqAPB1w7pW66gGo2QD7DCl9S_OBAQ0fGmUN0jS3R0-VZsy7YyIp8cust1JkAx02y3cIXbrIyfa_CJfakIut0MszLTwztNO79dm2iOKoMB3-VR4hu1UhSavo5qP5KN1B8jmpsR1LAt-KVBB7h-Et-3NWbxFVxjPkwAS3_rOHc617odPj9_xx74EQuRboVT3gPeeQ6GdE50wZMeRHcYg"/>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Senior React Developer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium">TechFlow Systems • San Francisco, CA (Remote)</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="px-3 py-1 bg-secondary-container/20 text-secondary font-label-sm text-label-sm rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    94% Match
+                                </div>
+<p class="font-label-sm text-label-sm text-outline">2 hours ago</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">React</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">TypeScript</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">Next.js</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">Tailwind CSS</span>
+</div>
+</div>
+<div class="w-full md:w-auto self-stretch flex flex-col justify-between items-end gap-4">
+<div class="font-headline-md text-headline-md text-primary font-bold">$140k - $180k</div>
+<button class="w-full md:w-auto bg-primary text-on-primary px-8 py-3 rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors">Ver oferta</button>
+</div>
+</article>
+<!-- Job Card 2 -->
+<article class="bg-white p-6 rounded-xl job-card-shadow border border-outline-variant hover:border-primary/50 transition-all group flex flex-col md:flex-row gap-6 items-start">
+<div class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center p-2 shrink-0 overflow-hidden">
+<img alt="Company Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5I62BwqNxXxh_UczuV5987pKYRnqmlrcxkmMZHvEHlyTp3xC5A8US3JQUsiMH_sqyWBfDt1T22MZwiz8yUbcQLP6_kRY2aRuFuWZh-IKV-TzcPEI704cZrr9-mkqJDLyNuDvXzYXnMP0pfkMpPFl4Ecb5eAMbHX2bf22f2Rnilr3tYWRkhGQG7wbhvOct47puzkh9QC8mL8WBGKlB8JwVjw5h_mGkT2O41neYsWfOWTNMz_-MmDQpX7yMoJGFsP5jBrjeklAySQ"/>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Full Stack Engineer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium">Cortex AI • New York, NY (Hybrid)</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="px-3 py-1 bg-primary-container/10 text-primary font-label-sm text-label-sm rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    82% Match
+                                </div>
+<p class="font-label-sm text-label-sm text-outline">5 hours ago</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">Node.js</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">Python</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">PostgreSQL</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">AWS</span>
+</div>
+</div>
+<div class="w-full md:w-auto self-stretch flex flex-col justify-between items-end gap-4">
+<div class="font-headline-md text-headline-md text-primary font-bold">$120k - $160k</div>
+<button class="w-full md:w-auto bg-primary text-on-primary px-8 py-3 rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors">Ver oferta</button>
+</div>
+</article>
+<!-- Job Card 3 (Featured/Urgent) -->
+<article class="bg-primary/5 p-6 rounded-xl job-card-shadow border border-primary/30 hover:border-primary transition-all group flex flex-col md:flex-row gap-6 items-start relative overflow-hidden">
+<div class="absolute top-0 right-0 px-4 py-1 bg-primary text-white text-[10px] uppercase font-bold tracking-widest rounded-bl-lg">Promoted</div>
+<div class="w-16 h-16 rounded-xl bg-surface flex items-center justify-center p-2 shrink-0 overflow-hidden border border-outline-variant">
+<img alt="Company Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxbWFjrZSpD3oZ2G2hzZYD3S4IU1OKy58ZVtLw_M1MgsmCQ1pfwlKthsCXSs9D95VOFdsl8Q1s3qz8VPqT-kwvbq4sJC8Qinsh_kjWUdXsnpRbuwhZ2LGZ-LjQpmuDkWU_BROn1Hj2cVcNjtSretBJHFuqQbyT5ErUwjHRJC_Gzunb-oDayXwxVwVVHVgjq6Eyj2NazfSVoUT6xdq29moKDmbL3i49i9Qhc7e0ARK0xxswwg3DSa03M4SjBIAKeG_Efj_g8IW4-w"/>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Frontend Lead (Design Systems)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium">CloudPeak Dynamics • Remote</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="px-3 py-1 bg-secondary-container/40 text-secondary font-label-sm text-label-sm rounded-full flex items-center gap-1 border border-secondary/20">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    98% Match
+                                </div>
+<p class="font-label-sm text-label-sm text-outline">Just now</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3 py-1 bg-white text-on-surface-variant rounded border border-outline-variant font-label-sm text-label-sm">Figma</span>
+<span class="px-3 py-1 bg-white text-on-surface-variant rounded border border-outline-variant font-label-sm text-label-sm">React</span>
+<span class="px-3 py-1 bg-white text-on-surface-variant rounded border border-outline-variant font-label-sm text-label-sm">Storybook</span>
+</div>
+</div>
+<div class="w-full md:w-auto self-stretch flex flex-col justify-between items-end gap-4">
+<div class="font-headline-md text-headline-md text-primary font-bold">$160k - $210k</div>
+<button class="w-full md:w-auto bg-primary text-on-primary px-8 py-3 rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-sm">Ver oferta</button>
+</div>
+</article>
+<!-- Job Card 4 -->
+<article class="bg-white p-6 rounded-xl job-card-shadow border border-outline-variant hover:border-primary/50 transition-all group flex flex-col md:flex-row gap-6 items-start">
+<div class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center p-2 shrink-0 overflow-hidden">
+<img alt="Company Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-bMQRpsVKxI9d10U2izvSZnvPyD53_iOG15xDS8uToSE0ysEchFJUJDviRm5mMf9sXvpGTPSnuJweAblCJwtqnhphdPvxgqKezbFLoBHg4Qw0fiwS03xnYRKlJcsqbo3R2yW3R7NDH3uXjdURcKSc8E2O4JgjE4rfIDrL9qKrdyDYPbMk2ntpvn66jHZuMi_6St1lRJw6i7E1bxkTRAnG1X0OVKO7KQ_BV8XysAs3JvOQ38y3rLiXpldqxf167bxDox4LEVUSBw"/>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Junior Frontend Developer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium">EduTech Pro • Austin, TX (On-site)</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="px-3 py-1 bg-tertiary-container/10 text-tertiary font-label-sm text-label-sm rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    65% Match
+                                </div>
+<p class="font-label-sm text-label-sm text-outline">1 day ago</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">HTML/CSS</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">JavaScript</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface-variant rounded font-label-sm text-label-sm">Git</span>
+</div>
+</div>
+<div class="w-full md:w-auto self-stretch flex flex-col justify-between items-end gap-4">
+<div class="font-headline-md text-headline-md text-primary font-bold">$70k - $90k</div>
+<button class="w-full md:w-auto bg-primary text-on-primary px-8 py-3 rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors">Ver oferta</button>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">3</button>
+<span class="px-2 text-outline">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">12</button>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-highest mt-20">
+<div class="max-w-7xl mx-auto px-margin-desktop py-12 flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">EXPERTECH CV</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Cookies</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 EXPERTECH CV. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('scale-[1.005]');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('scale-[1.005]');
+            });
+        });
+    </script>
+</body></html>

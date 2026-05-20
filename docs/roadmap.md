@@ -4,18 +4,48 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/polish-accessibility` o `feat/visual-polish-final`
+- `chore/reconcile-main-before-v2`
 
 Objetivo actual:
-- cerrar pulido visual, revisar estados UX, accesibilidad base
-- consolidar la calidad del código, microcopias y diseño final post-integraciones
-- mantener todo esto dentro del frontend MVP sin abrir arquitectura
+- Fase 0 del plan V2: reconciliar `main ↔ dev` y dejar la baseline estable antes de arrancar la Fase 2 (scaffold React + TypeScript)
+- actualizar este roadmap para reflejar el estado real del proyecto
+- auditoría de los patrones peligrosos del plan V2 sección 4 (todos limpios — ver más abajo)
+- abrir PR `chore/reconcile-main-before-v2 → dev` y luego PR `dev → main` con tag `mvp-baseline-pre-v2`
+
+## Bloque de hardening y cierre documental (mayo 2026)
 
 Estado real actual:
-- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, y Búsqueda de empleo) están resueltas arquitectónicamente
-- la fase activa está en cierre visual/documental para preparar PR a `dev` y después a `main`
+- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, Búsqueda de empleo) están resueltas arquitectónicamente
+- bloque de hardening cerrado sobre `dev` con PRs #22 a #30
+- bloque documental V2 cerrado sobre `dev` con PRs #31 a #33
+- sanitización de seguridad adicional con PR #34
+- pendiente: promocionar el conjunto a `main` (Fase 0 del plan V2, rama activa)
+
+Ramas cerradas en este bloque:
+- `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
+- `chore/remove-claude-local-settings` (#23/#24): ignorar settings locales del asistente
+- `fix/jobs-proxy-contract-and-security` (#25): endurecer el contrato y la seguridad del proxy de empleo
+- `security/remove-exposed-jooble-key-and-local-docs` (#26): retirada de docs locales con API key expuesta
+- `fix/storage-fallback-and-quota-handling` (#27): `SafeStorageService` con fallback `localStorage → sessionStorage → memoria` y límites de avatar
+- `security/remove-reintroduced-local-docs` (#28): limpieza secundaria de docs reintroducidos
+- `refactor/extract-project-rendering-utils` (#29): extracción de `js/utils/projects.js` y consumo desde los tres renderers
+- `chore/add-gitattributes-line-endings` (#30): `.gitattributes` conservador con `eol=lf` para archivos de texto
+- `docs/add-v2-react-backend-docker-plan` (#31): plan técnico explícito de la migración a V2 + README alineado
+- `fix/remove-merge-conflict-from-job-offers-service` (#32): eliminar conflicto de merge pendiente en el servicio de ofertas
+- `docs/add-v2-stitch-mockups-anexo` (#33): anexo de bocetos Stitch, mockups versionados y prompt de arranque
+- `security/sanitize-reintroduced-jooble-key` (#34): sanitización de la API key de Jooble reintroducida por error en `docs/memoria/`
 
 ## Última feature cerrada
+
+- `security/sanitize-reintroduced-jooble-key` (#34)
+
+Objetivo cubierto:
+- detectar y sanitizar la API key real de Jooble reintroducida por error en `docs/memoria/features/feature-jobs-proxy-security.md:396` por el commit `727f9e0`
+- sustituir el UUID real por el placeholder `YOUR_REAL_KEY_HERE`, coherente con el resto del documento
+- cero impacto en código de la app; cambio acotado a un único archivo de documentación
+- cierra la brecha de seguridad que el PR #26 y el PR #28 habían dejado parcialmente abierta
+
+## Feature anterior cerrada
 
 - `feat/jooble-search-proxy-mvp`
 
@@ -39,12 +69,14 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- `feat/polish-accessibility` o `feat/visual-polish-final`
+- PR `chore/reconcile-main-before-v2` → `dev` (esta misma rama, roadmap actualizado)
+- PR `dev` → `main` con tag `mvp-baseline-pre-v2` para cerrar Fase 0 del plan V2
+- comenzar Fase 2: `feat/v2-react-ts-scaffold` (scaffold Vite + React + TypeScript en carpeta separada del legacy)
 
 Objetivo siguiente:
-- cerrar pulido visual, estados UX y accesibilidad base
-- dejar documentación y checklist de release listos para PR
-- mantener el alcance en frontend MVP sin reabrir arquitectura
+- dejar `main` y `dev` en el mismo commit saneado (baseline estable pre-V2)
+- verificar que los patrones peligrosos del plan V2 sección 4 están limpios antes del merge a `main` (auditado en esta rama — resultado: todos limpios)
+- arrancar el scaffold React + TypeScript sin arrastrar deuda de la divergencia `main ↔ dev`
 
 ## Validación técnica reciente (Jooble)
 
@@ -104,9 +136,23 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. cerrar `feat/visual-polish-final` con documentación al día
-2. abrir PR `feat/visual-polish-final` -> `dev`
-3. tras validar `dev`, abrir PR `dev` -> `main`
+1. cerrar `chore/reconcile-main-before-v2` con roadmap al día ← rama activa
+2. abrir PR `chore/reconcile-main-before-v2` → `dev`
+3. tras validar `dev`, abrir PR `dev` → `main` con tag `mvp-baseline-pre-v2`
+4. comenzar Fase 2 del plan V2: `feat/v2-react-ts-scaffold`
+
+## Auditoría pre-baseline (plan V2 sección 4 · realizada 2026-05-21)
+
+Verificación de los patrones peligrosos del bloque de hardening antes de promocionar a `main`:
+
+- ✅ `localhost:3001` hardcodeado en frontend: no encontrado
+- ✅ `_fallbackWarning` mutado sobre arrays: no encontrado
+- ✅ `app.use(cors())` abierto sin allowlist: no encontrado (configuración explícita en `server/server.js:21`)
+- ✅ secretos o API keys en archivos trackeados: no encontrados (sanitizado en PR #34)
+- ✅ archivos `.env` reales trackeados: no encontrados
+- ✅ documentación local con datos sensibles reintroducida: no encontrada
+
+Resultado: baseline apta para promoción a `main`.
 
 ## Fase siguiente
 

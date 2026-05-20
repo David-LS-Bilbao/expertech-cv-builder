@@ -30,6 +30,12 @@ const PROFILE_FORM_FIELDS = [
 // Tiempo en milisegundos antes de ocultar el feedback automáticamente.
 const FEEDBACK_HIDE_DELAY = 2500;
 
+// Límites de tamaño de avatar para evitar QuotaExceededError en localStorage.
+// Estos límites son conservadores: localStorage típicamente es 5-10MB por origen,
+// pero el CV contiene más datos (perfil, proyectos, etc).
+const MAX_AVATAR_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB de imagen
+const MAX_AVATAR_BASE64_LENGTH = 600_000; // ~450 KB base64 (más conservador que tamaño raw)
+
 // Crea el editor de perfil.
 // Recibe:
 // - formSelector: selector del formulario
@@ -240,6 +246,14 @@ export function createProfileEditor({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Validación 1: Tamaño del archivo raw
+    if (file.size > MAX_AVATAR_FILE_SIZE_BYTES) {
+      showFeedback("La imagen es demasiado grande. Usa una imagen de máximo 2 MB.", "error");
+      // Limpiar input para permitir reseleccionar
+      event.target.value = "";
+      return;
+    }
+
     // Actualiza visualmente el nombre del archivo en la UI
     const fileNameElement = formElement.querySelector("#avatarFile-name");
     if (fileNameElement) {
@@ -271,8 +285,16 @@ export function createProfileEditor({
         canvas.height = height;
         ctx.drawImage(img, 0, 0, width, height);
 
+        // Validación 2: Tamaño del base64 después de optimizar
+        const nextAvatarBase64 = canvas.toDataURL("image/jpeg", 0.85);
+
+        if (nextAvatarBase64.length > MAX_AVATAR_BASE64_LENGTH) {
+          showFeedback("La imagen sigue siendo demasiado pesada tras optimizarla. Usa una imagen más pequeña.", "error");
+          return;
+        }
+
         // Actualizamos directo en el currentCVState
-        currentCVState.profile.avatarBase64 = canvas.toDataURL("image/jpeg", 0.85);
+        currentCVState.profile.avatarBase64 = nextAvatarBase64;
         showFeedback("Imagen capturada y lista para guardar.");
         emitLiveChange();
       };

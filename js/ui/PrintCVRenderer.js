@@ -6,6 +6,7 @@
 
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { renderPrintCVTemplate } from "./PrintCVTemplate.js";
+import { getVisibleProjects } from "../utils/projects.js";
 
 const PRINT_CV_FALLBACKS = {
   fullName: "Nombre Apellido",
@@ -130,31 +131,6 @@ export function createPrintCVRenderer({
     return normalizedValue || fallback;
   }
 
-  function isRenderableProject(projectData = {}) {
-    const name = String(projectData.name ?? "").trim();
-    const description = String(projectData.description ?? "").trim();
-    const repoUrl = String(projectData.repoUrl ?? "").trim();
-    const demoUrl = String(projectData.demoUrl ?? "").trim();
-    const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
-
-    return Boolean(name || description || repoUrl || demoUrl || stack.length > 0);
-  }
-
-  function getVisibleProjects(projects = []) {
-    if (!Array.isArray(projects)) {
-      return [];
-    }
-
-    const renderableProjects = projects.filter((project) =>
-      isRenderableProject(project)
-    );
-
-    const featuredProjects = renderableProjects.filter(
-      (project) => Boolean(project.featured)
-    );
-
-    return featuredProjects.length > 0 ? featuredProjects : renderableProjects;
-  }
 
   function createProjectSource(projectData = {}) {
     const sourceProvider = String(projectData.sourceProvider ?? "").trim();

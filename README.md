@@ -4,11 +4,13 @@
 
 ## Estado del proyecto
 
-Estado actual: `Bootcamp JavaScript MVP`
+Estado actual: `MVP legacy vanilla JS saneado + plan V2 documentado`
 
-Fase actual: `feat/visual-polish-final` en cierre
+Fase actual: `docs/add-v2-react-backend-docker-plan`
 
-En este punto el repositorio ya cuenta con una maqueta visual real y navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage`, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub), exportación PDF basada en una vista específica de impresión con QR y una demo pública ya publicada en GitHub Pages. Además, el bloque de búsqueda de empleo ya está conectado a Jooble mediante proxy local con degradación a mock cuando falla la API.
+El MVP legacy en vanilla JS está completo y, además, se ha cerrado un bloque de hardening sobre `dev` (PRs #22 a #30) que ha estabilizado listeners, securizado el proxy de empleo, añadido fallback de storage, retirado documentación local con secretos, extraído utilidades comunes de proyectos y añadido `.gitattributes`. Sobre esta baseline, el proyecto entra ahora en una fase **documental** previa a V2: este repositorio contiene un plan explícito de migración a React + TypeScript, backend real con APIs, base de datos PostgreSQL, Dockerización y preparación de despliegue. Ningún cambio de código de V2 se ha implementado todavía: queda pendiente reconciliar `main ↔ dev` antes de arrancar las fases V2.
+
+El comportamiento funcional del MVP sigue intacto: maqueta visual navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage` con fallback automático a `sessionStorage` o memoria, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub) con límites de tamaño para evitar `QuotaExceededError`, exportación PDF basada en una vista específica de impresión con QR y una demo pública estática. Además, el bloque de búsqueda de empleo está conectado a Jooble mediante proxy local con degradación a mock cuando falla la API, contrato estable `{ results, fallbackWarning, source }` y URL del proxy parametrizable (sin `localhost:3001` hardcodeado en el frontend).
 
 ## Objetivo del MVP
 
@@ -44,26 +46,37 @@ Fuera de alcance en esta fase:
 |-- assets/
 |   |-- icons/
 |   `-- images/
+|-- data/
+|   `-- public-cv.json
 |-- docs/
+|   |-- docs_V2/
 |   |-- architecture-notes.md
 |   |-- evidencias.md
 |   |-- EXPERTECH_CV_hoja_de_ruta.md
 |   |-- git_guia_practica.md
-|   `-- roadmap.md
+|   |-- roadmap.md
+|   `-- v2-react-backend-docker-plan.md
 |-- js/
 |   |-- application/
 |   |-- models/
 |   |-- services/
+|   |   `-- SafeStorageService.js
 |   |-- ui/
 |   |-- utils/
+|   |   `-- projects.js
 |   |-- README.md
-|   `-- app.js
+|   |-- app.js
+|   `-- public.js
+|-- server/
+|   |-- services/
+|   |-- README.md
+|   |-- package.json
+|   `-- server.js
 |-- styles/
 |   |-- main.css
 |   |-- reset.css
 |   `-- README.md
-|-- data/
-|   `-- public-cv.json
+|-- .gitattributes
 |-- AGENTS.md
 |-- index.html
 |-- public.html
@@ -77,12 +90,14 @@ Fuera de alcance en esta fase:
 - [Guía práctica de Git](./docs/git_guia_practica.md)
 - [Notas de arquitectura](./docs/architecture-notes.md)
 - [Roadmap operativo](./docs/roadmap.md)
+- [Plan V2 · React + TypeScript + Backend + Docker](./docs/v2-react-backend-docker-plan.md)
 
 Documentación viva recomendada para seguir el estado real del repositorio:
 
 - `README.md`
 - `docs/roadmap.md`
 - `docs/evidencias.md`
+- `docs/v2-react-backend-docker-plan.md` para entender la dirección estratégica hacia V2
 
 La hoja de ruta larga de `docs/EXPERTECH_CV_hoja_de_ruta.md` se mantiene como referencia estratégica del proyecto, no como fuente operativa principal del día a día.
 
@@ -208,35 +223,44 @@ Esto deja `index.html` más cerca de un shell base y hace más clara la separaci
 11. `feat/export-pdf-qr`: exportación PDF con vista específica de impresión
 12. `feat/github-pages-public-preview`: demo pública estática preparada para GitHub Pages
 13. `feat/jooble-search-proxy-mvp`: buscador de ofertas con proxy local y fallback mock
-14. `feat/polish-accessibility` o `feat/visual-polish-final`: pulido final, estados UX y accesibilidad
-15. `feat/documentacion-final`: cierre documental final del proyecto
+14. Bloque de hardening sobre `dev` (PRs #22 a #30): listeners estables, proxy de jobs endurecido, fallback de storage, retirada de docs con secretos, refactor de utilidades de proyectos y `.gitattributes`
+15. `docs/add-v2-react-backend-docker-plan`: contrato técnico de migración a V2
 
-## Última feature cerrada
+## Bloque de hardening cerrado sobre `dev`
 
-La última feature cerrada funcionalmente en `dev` es `feat/jooble-search-proxy-mvp`.
+Estado funcional adicional consolidado a partir del MVP base:
 
-Este bloque ya deja resuelto:
+- PR #22 `fix/stabilize-authenticated-app-listeners`: separación limpia de listeners y soporte de re-login sin duplicar bindings
+- PR #23/#24 limpieza de `.claude/` local en el repo
+- PR #25 `fix/jobs-proxy-contract-and-security`: contrato estable de `JobOffersService`, eliminación de `_fallbackWarning` sobre arrays, supresión de `localhost:3001` hardcodeado en frontend, CORS configurable y rate limit en el backend
+- PR #26 `security/remove-exposed-jooble-key-and-local-docs`: retirada de documentación local con API key
+- PR #27 `fix/storage-fallback-and-quota-handling`: `SafeStorageService` con fallback `localStorage → sessionStorage → memoria` y límites de avatar en `ProfileEditor`
+- PR #28 limpieza secundaria de docs locales reintroducidas
+- PR #29 `refactor/extract-project-rendering-utils`: extracción de `isRenderableProject` y `getVisibleProjects` a `js/utils/projects.js` como única fuente de verdad
+- PR #30 `chore/add-gitattributes-line-endings`: `.gitattributes` conservador y documentación viva al día
 
-- buscador de empleo en app autenticada conectado a proxy backend local
-- integración real con Jooble (`es.jooble.org`) sin exponer API key en frontend
-- degradación elegante a resultados mock si falla el backend o la API externa
-- validación de entorno con `JOOBLE_API_KEY` en `server/.env`
+## Última feature documental
+
+La última feature documental abierta sobre `dev` es `docs/add-v2-react-backend-docker-plan`, que añade el plan técnico explícito de la V2 del proyecto: migración a React + TypeScript, backend real con APIs, base de datos PostgreSQL, Dockerización y preparación de despliegue.
 
 Sigue quedando fuera de este cierre:
 
-- backend y base de datos
-- sharing multiusuario real
+- implementación real de cualquier fase V2
+- backend serio con autenticación de producción
+- base de datos y persistencia multiusuario
+- Dockerización del stack
+- despliegue real
 
 ## Nota de desarrollo
 
-Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen`, `feat/github-project-sources`, `feat/export-pdf-qr`, `feat/github-pages-public-preview` y `feat/jooble-search-proxy-mvp` dejan ya una base MVP sólida: auth local de demostración, integración pública con GitHub, representación recruiter-friendly de proyectos, trazabilidad mínima del origen importado, avatar híbrido, exportación PDF útil, demo pública estática y buscador de empleo con proxy local seguro.
+Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen`, `feat/github-project-sources`, `feat/export-pdf-qr`, `feat/github-pages-public-preview` y `feat/jooble-search-proxy-mvp` dejan una base MVP sólida que el bloque de hardening posterior ha endurecido en estabilidad, seguridad y limpieza: auth local de demostración, integración pública con GitHub, representación recruiter-friendly de proyectos, trazabilidad mínima del origen importado, avatar híbrido con límites, exportación PDF útil, demo pública estática y buscador de empleo con proxy local seguro y contrato estable.
 
 Limitaciones actuales importantes:
 
 - la auth actual es local y orientada a demo, no auth real de producción
 - las contraseñas se guardan en `localStorage` en texto plano como limitación explícita de este MVP
 - Google y GitHub no implementan OAuth real todavía
-- no hay backend ni PostgreSQL en esta fase
+- no hay backend serio ni base de datos PostgreSQL en esta fase: el `server/` actual es solo un proxy local mínimo para la búsqueda de empleo
 - existe aislamiento básico por sesión local para el estado del CV, pero no persistencia multiusuario real
 - no hay validación avanzada de autoría o atribución en proyectos GitHub
 - no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
@@ -245,15 +269,21 @@ Limitaciones actuales importantes:
 
 Orden recomendado a partir del estado actual:
 
-1. cerrar `feat/visual-polish-final` con documentación y checklist de release
-2. abrir PR `feat/visual-polish-final` -> `dev`
-3. tras validar `dev`, abrir PR `dev` -> `main`
+1. mergear el PR documental `docs/add-v2-react-backend-docker-plan` a `dev`
+2. abrir rama `chore/reconcile-main-before-v2` para reconciliar la divergencia `main ↔ dev` y promocionar el MVP saneado a `main`
+3. comenzar la Fase 2 del plan V2 (`feat/v2-react-ts-scaffold`) sobre la baseline ya alineada
 
-Siguiente feature recomendada tras este cierre:
+Siguiente bloque de trabajo según el plan V2:
 
-- `feat/documentacion-final` (opcional si decides separar el cierre de release)
-- objetivo: consolidar memoria técnica, capturas y checklist final del MVP
-- fuera de alcance: backend completo, base de datos y panel recruiter real
+- `feat/v2-react-ts-scaffold`: scaffold inicial de Vite + React + TypeScript conviviendo con el legacy
+- `feat/v2-domain-models-and-storage`: migración del dominio del CV a TypeScript
+- `feat/v2-react-auth-and-editor-shell`: portado incremental de la UI
+- `feat/v2-backend-api-foundation`: backend real en TypeScript con endpoints mínimos
+- `feat/v2-database-persistence`: PostgreSQL y aislamiento por usuario
+- `feat/v2-docker-compose-local`: Dockerización del stack
+- `feat/v2-deployment-readiness`: build reproducible, variables dev/prod y checklist de seguridad pre-deploy
+
+Cada fase se ejecuta en su rama, con PR contra `dev` y validación mínima documentada. Consulta `docs/v2-react-backend-docker-plan.md` para el detalle completo.
 
 ## Autor
 
