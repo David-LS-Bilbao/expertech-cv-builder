@@ -1,6 +1,6 @@
 // Servicio de autenticación local para el MVP.
 // Responsabilidades de este módulo:
-// 1. guardar y cargar usuarios registrados desde localStorage,
+// 1. guardar y cargar usuarios registrados desde storage seguro,
 // 2. registrar usuarios locales con email y contraseña,
 // 3. iniciar sesión local con email y contraseña,
 // 4. guardar y recuperar la sesión activa,
@@ -11,18 +11,17 @@
 // - no es una solución segura para producción,
 // - se deja así solo como base rápida preparada para escalar más adelante
 //   a backend + PostgreSQL + auth real.
+// - usa SafeStorageService para fallback localStorage → sessionStorage → memoria
+
+import { getSafeStorage } from "./SafeStorageService.js";
 
 const AUTH_USERS_STORAGE_KEY = "expertech-auth-users";
 const AUTH_SESSION_STORAGE_KEY = "expertech-auth-session";
 
-// Devuelve una referencia segura a localStorage.
-// Si no existe, lanzamos un error claro.
+// Devuelve un objeto compatible con Storage API.
+// Fallback automático: localStorage → sessionStorage → memoria.
 function getStorage() {
-  if (!globalThis.localStorage) {
-    throw new Error("localStorage no está disponible en este entorno.");
-  }
-
-  return globalThis.localStorage;
+  return getSafeStorage();
 }
 
 // Genera un id simple para este MVP.
@@ -122,7 +121,11 @@ export function saveUsers(users = []) {
     ? users.map((user) => createLocalUserRecord(user))
     : [];
 
-  storage.setItem(AUTH_USERS_STORAGE_KEY, JSON.stringify(normalizedUsers));
+  try {
+    storage.setItem(AUTH_USERS_STORAGE_KEY, JSON.stringify(normalizedUsers));
+  } catch (err) {
+    console.error("[AuthStorage] Error al guardar usuarios:", err.message);
+  }
 
   return normalizedUsers;
 }
@@ -147,7 +150,11 @@ export function saveSession(sessionData = {}) {
   const storage = getStorage();
   const normalizedSession = createSessionRecord(sessionData);
 
-  storage.setItem(AUTH_SESSION_STORAGE_KEY, JSON.stringify(normalizedSession));
+  try {
+    storage.setItem(AUTH_SESSION_STORAGE_KEY, JSON.stringify(normalizedSession));
+  } catch (err) {
+    console.error("[AuthStorage] Error al guardar sesión:", err.message);
+  }
 
   return normalizedSession;
 }
