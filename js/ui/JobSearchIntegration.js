@@ -62,13 +62,13 @@ export function createJobSearchIntegration() {
     showLoading();
 
     try {
-      const results = await searchOffers({ keyword, location });
-      if (results.length === 0) {
+      const response = await searchOffers({ keyword, location });
+      if (response.results.length === 0) {
         showEmptyResults();
       } else {
-        showResults(results);
-        if (results._fallbackWarning) {
-          showWarning(`API temporalmente no disponible (${results._fallbackWarning}). Mostrando datos simulados.`);
+        showResults(response.results);
+        if (response.fallbackWarning) {
+          showWarning(`Fuente: ${response.source} — ${response.fallbackWarning}`);
         }
       }
     } catch (error) {
