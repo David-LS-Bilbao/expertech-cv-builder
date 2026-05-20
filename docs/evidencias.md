@@ -256,3 +256,20 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Resultado: el repo dispone de una política explícita de finales de línea para futuras contribuciones cross-plataforma, y la documentación viva refleja el estado real post-hardening.
 - Validación: revisión manual del contenido de `.gitattributes` y del estado de `git status` para confirmar que no se commitean cambios masivos de EOL en archivos ya existentes.
 - Próximo paso: PR de `chore/add-gitattributes-line-endings` a `dev`, y posteriormente PR `dev → main` con el bloque completo de hardening cerrado.
+
+### [2026-05-21] Cierre Fases 2, 3 y 4 de V2 y pulido documental post-Fase 4
+
+- Objetivo: cerrar el primer bloque de implementación V2 (Fases 2, 3 y 4) y dejar el repositorio con documentación coherente antes de arrancar el backend (Fase 5).
+- Trabajo realizado:
+  - **PR #37 (`feat/v2-react-ts-scaffold`)**: scaffold inicial Vite 8 + React 19 + TypeScript 6 en `apps/web/`. Estructura `src/app|components|features|lib|styles`. Scripts `dev`, `build`, `preview`, `typecheck`, `lint`. Pantalla mínima EXPERTECH CV V2. Verificado: 16 módulos, 333ms.
+  - **PR #38 (`feat/v2-domain-models-and-storage`)**: modelos TypeScript de dominio (`CandidateProfile`, `Project`, `CVMeta`, `PortfolioCV`) en `src/lib/domain/`. `SafeStorageService` con fallback `localStorage → sessionStorage → memoria`. `CVStorageService` con `save/load/reset/hasStoredCV`. Verificado: 20 módulos, 83ms.
+  - **PR #39 (`feat/v2-react-auth-and-editor-shell`)**: auth local React con tabs login/registro, layout autenticado dos columnas (editor + preview), `ProfileForm` con guardado explícito, `CVPreview` con `getVisibleProjects`. Port TypeScript de `AuthStorageService`. Verificado: 28 módulos, 86ms.
+  - **`chore/v2-fase-4-docs-and-polish`** (esta rama): `lang="es"` y `<title>EXPERTECH CV V2</title>` en `apps/web/index.html`; sustitución del README genérico de Vite por README propio del proyecto; actualización de `docs/roadmap.md` con Fases 2/3/4 cerradas, limitaciones temporales y siguiente paso; esta entrada en `docs/evidencias.md`.
+- Archivos afectados: `apps/web/index.html`, `apps/web/README.md`, `docs/roadmap.md`, `docs/evidencias.md`.
+- Resultado: frontend V2 funcional (register → login → editar perfil → ver preview), documentación coherente con el estado real del repositorio y limitaciones temporales explícitas antes del backend.
+- Validación:
+  - `npm run typecheck` — 0 errores (TypeScript 6, `noUnusedLocals`, `noUnusedParameters`)
+  - `npm run lint` — 0 warnings (ESLint 10 flat config)
+  - `npm run build` — build limpio, 28 módulos
+  - `git diff --name-only` — solo archivos dentro de los permitidos por la micro-rama
+- Próximo paso: `feat/v2-backend-api-foundation` — backend TypeScript en `apps/api/` con endpoints mínimos (`/health`, `/auth/*`, `/cvs/me`, `/jobs/search`) sin base de datos todavía.
