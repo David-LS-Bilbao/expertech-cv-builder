@@ -189,6 +189,17 @@ export function createAuthenticatedCVApp({
     }
   }
 
+  // Refresca el estado del CV desde la sesión activa sin volver a montar módulos.
+  // Responsabilidad: cuando un nuevo usuario inicia sesión tras logout,
+  // cargar su CV desde localStorage sin recrear PreviewRenderer, ProfileEditor, etc.
+  // Esto evita listeners duplicados y permite re-login seguro.
+  function refreshCVStateFromActiveSession() {
+    cvState = bootstrapCVState();
+    console.log("CV refrescado de la sesión activa:", cvState);
+    syncUIWithCVState(cvState);
+    return cvState;
+  }
+
   // Conecta el botón visible de exportación con la impresión del navegador.
   // Para este MVP:
   // - reutilizamos la preview actual,
@@ -211,14 +222,30 @@ export function createAuthenticatedCVApp({
 
       window.print();
     });
+  }
 
-    // Botón Vista Pública
+  // Conecta el botón de Vista Pública de forma independiente.
+  // Responsabilidad: abrir la demo pública en una pestaña nueva.
+  // No depende de bindExportPdfButton.
+  function bindViewPublicButton() {
     const viewPublicButton = document.querySelector("#view-public-button");
-    if (viewPublicButton) {
-      viewPublicButton.addEventListener("click", () => {
-        window.open("./public.html", "_blank");
-      });
+
+    if (!viewPublicButton) {
+      return;
     }
+
+    viewPublicButton.addEventListener("click", () => {
+      window.open("./public.html", "_blank");
+    });
+  }
+
+  // Agrupa todos los binding de acciones de la app autenticada.
+  // Responsabilidad: coordinar la enumeración completa de listeners sin acoplamiento.
+  // Cada binding chequea su propio botón independientemente.
+  function bindAuthenticatedAppActions() {
+    bindExportPdfButton();
+    bindViewPublicButton();
+    bindThemeToggleButton();
   }
 
   function getStoredThemePreference() {
@@ -280,8 +307,11 @@ export function createAuthenticatedCVApp({
   }
 
   // Inicializa la app autenticada una sola vez.
+  // En sucesivos logins (tras logout), refresca el CV de la sesión activa sin recrear módulos.
   function init() {
     if (isInitialized) {
+      // Usuario ya dentro o re-login tras logout: refresca CV sin volver a montar módulos
+      refreshCVStateFromActiveSession();
       return getPublicApi();
     }
 
@@ -383,8 +413,7 @@ export function createAuthenticatedCVApp({
 
     profileEditor = createdProfileEditor;
     profileEditor.init();
-    bindExportPdfButton();
-    bindThemeToggleButton();
+    bindAuthenticatedAppActions();
 
     isInitialized = true;
 
