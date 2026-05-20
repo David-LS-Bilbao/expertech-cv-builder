@@ -109,6 +109,12 @@ Rama: `docs/define-v2-react-backend-docker-roadmap`.
 Tareas:
 
 - consolidar este documento como referencia única del plan V2;
+- mantener anexos visuales y de sistema de diseño junto a este plan,
+  como
+  [`v2-stitch-mockups-anexo.md`](./v2-stitch-mockups-anexo.md), que
+  evalúa los bocetos de Google Stitch en
+  `docs/memoria/stitch_expertech_cv_tech_platform/` como referencia
+  para Fase 4;
 - actualizar `docs/roadmap.md` si procede para enlazar V2 y dejar
   claro que el legacy vanilla JS queda como baseline mientras se
   ejecutan las fases siguientes;

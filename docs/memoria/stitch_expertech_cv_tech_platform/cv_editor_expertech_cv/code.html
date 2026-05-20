@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CV Editor | EXPERTECH CV</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#e2e7ff",
+                      "primary-fixed-dim": "#89ceff",
+                      "primary-container": "#0ea5e9",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#6cf8bb",
+                      "primary": "#006591",
+                      "on-primary-container": "#003751",
+                      "on-tertiary-fixed-variant": "#92002a",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#ff697b",
+                      "surface-bright": "#faf8ff",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#89ceff",
+                      "on-primary-fixed-variant": "#004c6e",
+                      "inverse-surface": "#283044",
+                      "on-primary-fixed": "#001e2f",
+                      "on-surface-variant": "#3e4850",
+                      "inverse-on-surface": "#eef0ff",
+                      "primary-fixed": "#c9e6ff",
+                      "outline-variant": "#bec8d2",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-secondary-fixed-variant": "#005236",
+                      "surface-tint": "#006591",
+                      "on-surface": "#131b2e",
+                      "surface-variant": "#dae2fd",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-dim": "#d2d9f4",
+                      "background": "#faf8ff",
+                      "on-background": "#131b2e",
+                      "secondary": "#006c49",
+                      "secondary-fixed-dim": "#4edea3",
+                      "tertiary-fixed": "#ffdadb",
+                      "surface-container-highest": "#dae2fd",
+                      "tertiary": "#bc0b3b",
+                      "on-secondary-fixed": "#002113",
+                      "outline": "#6e7881",
+                      "surface-container": "#eaedff",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#00714d",
+                      "tertiary-fixed-dim": "#ffb2b7",
+                      "on-tertiary-container": "#6c001d",
+                      "surface": "#faf8ff",
+                      "on-tertiary-fixed": "#40000d",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter-mobile": "16px",
+                      "margin-mobile": "20px",
+                      "section-gap": "80px",
+                      "base": "8px",
+                      "margin-desktop": "48px",
+                      "gutter-desktop": "24px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .cv-preview-container {
+            box-shadow: 0px 4px 12px rgba(15, 23, 42, 0.05);
+            border: 1px solid #E2E8F0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bec8d2;
+            border-radius: 10px;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+        .accordion-open .accordion-content {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- Top Navigation -->
+<header class="bg-surface dark:bg-on-background shadow-sm docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-margin-desktop max-w-7xl mx-auto h-20">
+<div class="font-headline-md text-headline-md font-bold text-on-surface dark:text-surface-bright">EXPERTECH CV</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-label-md text-label-md" href="#">Product</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-label-md text-label-md" href="#">Templates</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-label-md text-label-md" href="#">Pricing</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 font-label-md text-label-md" href="#">Resources</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-label-md text-label-md px-4 py-2 hover:bg-surface-container rounded-lg transition-all">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all shadow-sm">Get Started</button>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- Side Navigation (Left Static) -->
+<aside class="hidden lg:flex flex-col h-[calc(100vh-80px)] w-64 bg-surface-container-low dark:bg-on-background p-6 space-y-4 fixed left-0 top-20">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Alex Tech</p>
+<p class="text-xs text-on-surface-variant">Tech Professional</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-inverse-surface rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-primary dark:text-primary-fixed-dim font-bold bg-surface-container-high dark:bg-surface-variant rounded-lg translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="edit_document">edit_document</span>
+<span class="font-label-md text-label-md">CV Editor</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-inverse-surface rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+<span class="font-label-md text-label-md">GitHub</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-inverse-surface rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_offer">local_offer</span>
+<span class="font-label-md text-label-md">Offers</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-inverse-surface rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-label-md text-label-md">Public View</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/30">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-container rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<div class="mt-4 p-4 bg-tertiary-container/10 border border-tertiary-container/30 rounded-xl">
+<p class="text-xs font-bold text-tertiary-container mb-2">PRO PLAN</p>
+<p class="text-xs text-on-surface-variant mb-3">Unlock all templates</p>
+<button class="w-full py-2 bg-tertiary text-white text-xs font-bold rounded-lg hover:opacity-90">Upgrade to Pro</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 bg-background min-h-screen">
+<!-- Topbar Contextual Action -->
+<div class="bg-white border-b border-outline-variant/20 px-8 py-4 flex flex-col md:flex-row md:items-center justify-between sticky top-20 z-40">
+<div class="flex-1 max-w-md">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-medium text-on-surface-variant">Completeness: 85%</span>
+<span class="text-xs text-primary font-bold">Almost there!</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] transition-all duration-1000"></div>
+</div>
+</div>
+<div class="flex gap-4 mt-4 md:mt-0">
+<button class="px-6 py-2 border border-outline-variant text-on-surface font-label-md rounded-lg hover:bg-surface-container transition-all">Preview PDF</button>
+<button class="px-8 py-2 bg-primary text-white font-label-md rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all">Guardar cambios</button>
+</div>
+</div>
+<div class="p-8 max-w-[1400px] mx-auto grid grid-cols-1 xl:grid-cols-12 gap-gutter-desktop">
+<!-- Left Column: Form Editor -->
+<div class="xl:col-span-7 space-y-6">
+<!-- Section: Profile -->
+<section class="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden accordion-open">
+<button class="w-full flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors" onclick="toggleAccordion(this)">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Personal Information</h3>
+</div>
+<span class="material-symbols-outlined transition-transform duration-300">expand_more</span>
+</button>
+<div class="accordion-content p-6 pt-0">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+<div class="md:col-span-2 flex items-center gap-6 pb-6 border-b border-outline-variant/10">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full bg-surface-container border-2 border-dashed border-outline flex items-center justify-center overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged tech specialist with a confident smile, wearing a modern charcoal blazer. The background is a clean, softly blurred office setting with cool blue and white tones, matching a professional SaaS corporate aesthetic. High-key natural lighting illuminates the face, emphasizing trust and technical expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs9Ad73DWSaE0tb8-xuaGE3k7dK-RUaYKJ8QohHoRr1c-2w5tFZ69ZKnTN9m579NMToQdIG6g7YUqWK5H72xCnl80VcW1yRtJuJx2sBYq_dEhzHmJJzAxunsXomapv7ZjhJcSN5mE4LFtxZkt5a5_UUOb5l_ExaojPKgfk_940QOG6cdGL4Uri0tuxr1RWqAH43MV4Fzk8ECul-bnGg-x5MWqGLAY8C4JoeIXtx_9CvibNQpuVFxAuXhmldUJ4O3Q7ns0p_VVCRw"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white">photo_camera</span>
+</div>
+</div>
+<button class="absolute -bottom-2 -right-2 bg-primary text-white p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Profile Picture</h4>
+<p class="text-sm text-on-surface-variant">Recommended: Square image, max 2MB.</p>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Full Name</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all" type="text" value="Alexander Tech"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Professional Title</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all" placeholder="e.g. Senior Software Architect" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Email Address</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all" type="email" value="alex@expertech.com"/>
+</div>
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Phone Number</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all" type="tel" value="+1 (555) 000-0000"/>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Professional Summary</label>
+<textarea class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary-container focus:border-primary outline-none transition-all resize-none" placeholder="Briefly describe your career goals and achievements..." rows="4"></textarea>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Experience -->
+<section class="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
+<button class="w-full flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors" onclick="toggleAccordion(this)">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined">work</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Professional Experience</h3>
+</div>
+<span class="material-symbols-outlined transition-transform duration-300">expand_more</span>
+</button>
+<div class="accordion-content p-6 pt-0">
+<div class="space-y-8 mt-4">
+<!-- Entry 1 -->
+<div class="relative pl-6 border-l-2 border-outline-variant/30">
+<div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-white"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">Job Title</label>
+<input class="w-full bg-surface-container-lowest border-transparent focus:border-primary rounded-lg px-3 py-2 text-on-surface font-medium transition-all" type="text" value="Lead Full Stack Developer"/>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">Company</label>
+<input class="w-full bg-surface-container-lowest border-transparent focus:border-primary rounded-lg px-3 py-2 text-on-surface font-medium transition-all" type="text" value="Innovatech Systems"/>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">Start Date</label>
+<input class="w-full bg-surface-container-lowest border-transparent focus:border-primary rounded-lg px-3 py-2 text-sm transition-all" type="date" value="2021-03-01"/>
+</div>
+<div class="space-y-1">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">End Date</label>
+<div class="flex gap-3 items-center">
+<input class="w-full bg-surface-container-lowest border-transparent focus:border-primary rounded-lg px-3 py-2 text-sm transition-all" type="date" value="2024-01-01"/>
+<label class="flex items-center gap-2 whitespace-nowrap cursor-pointer">
+<input class="rounded text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="text-xs font-medium">Present</span>
+</label>
+</div>
+</div>
+<div class="md:col-span-2 space-y-1">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider">Achievements &amp; Responsibilities</label>
+<textarea class="w-full bg-surface-container-lowest border-transparent focus:border-primary rounded-lg px-3 py-2 text-sm transition-all resize-none" rows="3">Led a team of 12 developers to rebuild the core SaaS platform...</textarea>
+</div>
+</div>
+<button class="mt-4 flex items-center gap-1 text-error text-xs font-bold hover:underline">
+<span class="material-symbols-outlined text-sm">delete</span>
+                                        Remove Entry
+                                    </button>
+</div>
+<button class="w-full py-4 border-2 border-dashed border-outline-variant/30 rounded-xl flex items-center justify-center gap-2 text-on-surface-variant hover:bg-surface-container-low hover:border-primary/30 transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-md text-label-md">Add Experience</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section: Skills -->
+<section class="bg-white rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
+<button class="w-full flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors" onclick="toggleAccordion(this)">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Technical Skills</h3>
+</div>
+<span class="material-symbols-outlined transition-transform duration-300">expand_more</span>
+</button>
+<div class="accordion-content p-6 pt-0">
+<div class="mt-4 space-y-6">
+<div class="flex flex-wrap gap-2">
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium">
+                                        TypeScript
+                                        <button class="hover:text-error"><span class="material-symbols-outlined text-xs">close</span></button>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium">
+                                        React.js
+                                        <button class="hover:text-error"><span class="material-symbols-outlined text-xs">close</span></button>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium">
+                                        Node.js
+                                        <button class="hover:text-error"><span class="material-symbols-outlined text-xs">close</span></button>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium">
+                                        AWS Cloud
+                                        <button class="hover:text-error"><span class="material-symbols-outlined text-xs">close</span></button>
+</div>
+<div class="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium">
+                                        PostgreSQL
+                                        <button class="hover:text-error"><span class="material-symbols-outlined text-xs">close</span></button>
+</div>
+</div>
+<div class="relative">
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Add a skill (e.g. Docker, Python)" type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-3.5 text-outline">search</span>
+<button class="absolute right-3 top-2.5 px-3 py-1 bg-primary text-white rounded text-xs font-bold">Add</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Real-time Preview -->
+<div class="xl:col-span-5 relative">
+<div class="sticky top-44 transition-all duration-300">
+<div class="mb-4 flex items-center justify-between">
+<h4 class="text-sm font-bold text-on-surface-variant uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                Live Preview
+                            </h4>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-white border border-outline-variant/30 hover:shadow-md transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">zoom_in</span>
+</button>
+<button class="p-2 rounded-lg bg-white border border-outline-variant/30 hover:shadow-md transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">download</span>
+</button>
+</div>
+</div>
+<!-- Paper Simulation -->
+<div class="cv-preview-container bg-white w-full aspect-[1/1.414] origin-top overflow-hidden rounded shadow-2xl relative p-12">
+<!-- Paper Texture Effect -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]"></div>
+<!-- CV Document Mockup -->
+<div class="relative z-10">
+<div class="flex justify-between items-start border-b-2 border-primary pb-8">
+<div class="space-y-1">
+<h1 class="text-3xl font-bold text-on-background tracking-tight">ALEXANDER TECH</h1>
+<p class="text-primary font-bold tracking-wide">SENIOR SOFTWARE ARCHITECT</p>
+<div class="flex gap-4 text-[10px] text-on-surface-variant pt-2 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">mail</span> alex@expertech.com</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">phone</span> +1 (555) 000-0000</span>
+</div>
+</div>
+<div class="w-20 h-20 rounded-full border-4 border-surface-container bg-surface overflow-hidden">
+<img alt="Preview Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ_Y4s4-zcV3NeRxyWGrh_7DNnxDJwwOW4W9XxVUpTYQD7TU15g9A3Egi34jZNg9XgfDoQESScxzZkoudqwShPpp7ESh9qfSNR8Oup1j8AdRRhOJUwaxSqv1Xc9Ld-Whd0_nVXSNu29Osi3A87q0u3QZdCqRx-cWIO-t3UlGOsffpJmMQcx8gj8pqufA7XVe0Gq9OtjTWwBhq0FL3wCad9tBsvRVmU5rEiuDpBy8KvcI8X6UUWESW7KF4BMSTcMWnqkC-UFH0Oqg"/>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-8 py-8">
+<!-- Sidebar of CV -->
+<div class="col-span-1 space-y-6">
+<div class="space-y-2">
+<h2 class="text-xs font-extrabold text-on-surface uppercase border-b border-outline-variant pb-1">Skills</h2>
+<div class="flex flex-wrap gap-1 pt-1">
+<span class="text-[9px] bg-surface-container px-2 py-0.5 rounded font-bold">TypeScript</span>
+<span class="text-[9px] bg-surface-container px-2 py-0.5 rounded font-bold">React.js</span>
+<span class="text-[9px] bg-surface-container px-2 py-0.5 rounded font-bold">AWS</span>
+<span class="text-[9px] bg-surface-container px-2 py-0.5 rounded font-bold">PostgreSQL</span>
+</div>
+</div>
+<div class="space-y-2">
+<h2 class="text-xs font-extrabold text-on-surface uppercase border-b border-outline-variant pb-1">Education</h2>
+<div class="space-y-2 pt-1">
+<div>
+<p class="text-[10px] font-bold">M.S. Computer Science</p>
+<p class="text-[9px] text-on-surface-variant italic">Stanford University</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Body of CV -->
+<div class="col-span-2 space-y-6">
+<div class="space-y-2">
+<h2 class="text-xs font-extrabold text-on-surface uppercase border-b border-outline-variant pb-1">Summary</h2>
+<p class="text-[10px] text-on-surface-variant leading-relaxed">
+                                                Strategic and results-driven Software Architect with over 10 years of experience in building scalable cloud infrastructures and leading high-performance engineering teams.
+                                            </p>
+</div>
+<div class="space-y-4">
+<h2 class="text-xs font-extrabold text-on-surface uppercase border-b border-outline-variant pb-1">Experience</h2>
+<div class="space-y-3">
+<div>
+<div class="flex justify-between items-baseline">
+<p class="text-[10px] font-bold">Lead Full Stack Developer</p>
+<p class="text-[8px] text-on-surface-variant">2021 — PRESENT</p>
+</div>
+<p class="text-[9px] text-primary font-bold">Innovatech Systems</p>
+<p class="text-[9px] text-on-surface-variant leading-relaxed mt-1">
+                                                        • Designed and implemented microservices architecture using Node.js.<br/>
+                                                        • Reduced server costs by 40% through AWS Lambda optimization.<br/>
+                                                        • Managed a diverse team of 12 frontend and backend engineers.
+                                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-on-background py-12 border-t border-outline-variant/20 mt-section-gap relative z-50">
+<div class="max-w-7xl mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="text-on-surface font-headline-md text-headline-md font-bold mb-4 md:mb-0">EXPERTECH CV</div>
+<div class="flex flex-wrap justify-center gap-6 mb-4 md:mb-0">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Cookies</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<p class="text-on-surface-variant font-body-md text-label-sm">© 2024 EXPERTECH CV. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        function toggleAccordion(button) {
+            const section = button.closest('section');
+            const icon = button.querySelector('span:last-child');
+            
+            // Close others if desired - opting for multi-open for better editing experience
+            // document.querySelectorAll('section').forEach(s => {
+            //     if (s !== section) s.classList.remove('accordion-open');
+            // });
+
+            section.classList.toggle('accordion-open');
+            
+            if(section.classList.contains('accordion-open')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Initialize first section open
+        document.querySelectorAll('section').forEach((section, index) => {
+            const icon = section.querySelector('button span:last-child');
+            if(section.classList.contains('accordion-open')) {
+                icon.style.transform = 'rotate(180deg)';
+            }
+        });
+
+        // Simple parallax effect for preview container
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const preview = document.querySelector('.cv-preview-container');
+            if (preview) {
+                // Subtle rotation effect on scroll
+                // preview.style.transform = `perspective(1000px) rotateY(${scrolled * 0.01}deg)`;
+            }
+        });
+    </script>
+</body></html>

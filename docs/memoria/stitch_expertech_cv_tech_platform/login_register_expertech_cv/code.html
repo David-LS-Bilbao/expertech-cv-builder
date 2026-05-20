@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EXPERTECH CV - Acceso Profesionales</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#e2e7ff",
+                    "primary-fixed-dim": "#89ceff",
+                    "primary-container": "#0ea5e9",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#6cf8bb",
+                    "primary": "#006591",
+                    "on-primary-container": "#003751",
+                    "on-tertiary-fixed-variant": "#92002a",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#ff697b",
+                    "surface-bright": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#89ceff",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "inverse-surface": "#283044",
+                    "on-primary-fixed": "#001e2f",
+                    "on-surface-variant": "#3e4850",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary-fixed": "#c9e6ff",
+                    "outline-variant": "#bec8d2",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-tint": "#006591",
+                    "on-surface": "#131b2e",
+                    "surface-variant": "#dae2fd",
+                    "surface-container-low": "#f2f3ff",
+                    "surface-dim": "#d2d9f4",
+                    "background": "#faf8ff",
+                    "on-background": "#131b2e",
+                    "secondary": "#006c49",
+                    "secondary-fixed-dim": "#4edea3",
+                    "tertiary-fixed": "#ffdadb",
+                    "surface-container-highest": "#dae2fd",
+                    "tertiary": "#bc0b3b",
+                    "on-secondary-fixed": "#002113",
+                    "outline": "#6e7881",
+                    "surface-container": "#eaedff",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#00714d",
+                    "tertiary-fixed-dim": "#ffb2b7",
+                    "on-tertiary-container": "#6c001d",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed": "#40000d",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter-mobile": "16px",
+                    "margin-mobile": "20px",
+                    "section-gap": "80px",
+                    "base": "8px",
+                    "margin-desktop": "48px",
+                    "gutter-desktop": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .auth-card-shadow {
+            box-shadow: 0px 12px 24px rgba(15, 23, 42, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<main class="flex flex-col md:flex-row min-h-screen">
+<!-- Left Side: Visual Panel -->
+<section class="hidden md:flex relative w-1/2 bg-on-background overflow-hidden items-center justify-center p-margin-desktop">
+<!-- Background Image -->
+<div class="absolute inset-0 z-0">
+<img alt="Professional Tech Environment" class="w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity" data-alt="A futuristic professional technology workspace featuring high-end computer monitors displaying lines of code and data visualizations. The lighting is cold and cinematic with electric blue highlights against a deep charcoal background. The atmosphere is sophisticated and quiet, representing the pinnacle of software engineering excellence. The style is hyper-modern and minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBouerP2NRUWaP3VxjTeB2jzoImOsjBaeVSilmNOd7TVqAfRB7TCUOxEHIss2R2s-w-gQd0OXWHfpftCCLNoyTh1cG90XAvgIhrdjrOMlrPAlIYIeOgkwN1QCEeT31zHCOwmizlCLtxtyuPa3U7PK9rGxn7HExLg7tmY6bbeLOx_qNxEVCEs5Ah686m71qhidwvp9ZKodRtdzSboZnav2IcNHIQVLzRCPDQmm6p-qlXAQfLVKo4I5UqGePmWd5bPZUVe5tbM2cVCQ"/>
+<!-- Decorative Gradients -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/40 via-transparent to-on-background"></div>
+</div>
+<!-- Content -->
+<div class="relative z-10 max-w-lg text-white">
+<div class="mb-10">
+<span class="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary-fixed-dim font-label-md text-label-md mb-6 border border-primary/30">
+                        The Technical Edge
+                    </span>
+<h1 class="font-headline-xl text-headline-xl mb-6 tracking-tight">
+                        Eleva tu carrera al siguiente nivel técnico.
+                    </h1>
+<p class="font-body-lg text-body-lg text-outline-variant mb-12 leading-relaxed">
+                        Diseñado por y para expertos en tecnología. Crea currículums que superan algoritmos y captan la atención de los mejores reclutadores.
+                    </p>
+</div>
+<!-- Bento-ish Stats/Features -->
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-effect p-6 rounded-xl">
+<span class="material-symbols-outlined text-primary-fixed-dim mb-2" style="font-variation-settings: 'FILL' 1;">speed</span>
+<h3 class="font-headline-md text-headline-md text-white">10x</h3>
+<p class="font-label-sm text-label-sm text-outline-variant">Más rápido</p>
+</div>
+<div class="glass-effect p-6 rounded-xl">
+<span class="material-symbols-outlined text-primary-fixed-dim mb-2" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h3 class="font-headline-md text-headline-md text-white">Top 1%</h3>
+<p class="font-label-sm text-label-sm text-outline-variant">Plantillas Pro</p>
+</div>
+</div>
+</div>
+<!-- Branding Anchor -->
+<div class="absolute bottom-12 left-12 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-white tracking-wider">EXPERTECH CV</span>
+</div>
+</section>
+<!-- Right Side: Clean Card Auth -->
+<section class="flex-1 flex items-center justify-center p-margin-mobile md:p-margin-desktop bg-surface">
+<div class="w-full max-w-md">
+<!-- Mobile Branding -->
+<div class="flex items-center gap-2 mb-10 md:hidden">
+<span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-headline-md text-headline-md-mobile font-bold text-on-surface">EXPERTECH CV</span>
+</div>
+<div class="bg-white rounded-xl auth-card-shadow p-8 border border-outline-variant/30">
+<!-- Form Header & Tabs -->
+<div class="flex border-b border-outline-variant/20 mb-8">
+<button class="flex-1 pb-4 text-center font-label-md text-label-md text-primary border-b-2 border-primary transition-all duration-200" id="tab-login" onclick="switchTab('login')">
+                            Iniciar sesión
+                        </button>
+<button class="flex-1 pb-4 text-center font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all duration-200" id="tab-register" onclick="switchTab('register')">
+                            Crear cuenta
+                        </button>
+</div>
+<div id="auth-content">
+<!-- Heading -->
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2" id="auth-title">Bienvenido de nuevo</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8" id="auth-subtitle">Ingresa tus credenciales para acceder a tu panel.</p>
+<!-- Error State (Hidden by default) -->
+<div class="hidden mb-6 p-4 rounded-lg bg-error-container text-on-error-container flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300" id="alert-error">
+<span class="material-symbols-outlined text-[20px]">error</span>
+<p class="font-label-md text-label-md">Las credenciales no coinciden con nuestros registros.</p>
+</div>
+<!-- Success State (Hidden by default) -->
+<div class="hidden mb-6 p-4 rounded-lg bg-secondary-container/30 text-on-secondary-container flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300" id="alert-success">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<p class="font-label-md text-label-md">¡Cuenta creada con éxito! Redirigiendo...</p>
+</div>
+<!-- Form -->
+<form class="space-y-6" id="auth-form" onsubmit="handleSubmit(event)">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Correo electrónico</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-white text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" id="email" placeholder="ejemplo@tech.com" required="" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="font-label-md text-label-md text-on-surface" for="password">Contraseña</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline" href="#" id="forgot-password">¿Olvidaste tu contraseña?</a>
+</div>
+<div class="relative">
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-white text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-white rounded-lg font-label-md text-label-md font-bold hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20" id="submit-btn" type="submit">
+<span id="btn-text">Continuar</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/30"></div>
+</div>
+<div class="relative flex justify-center text-label-sm font-label-sm">
+<span class="bg-white px-4 text-on-surface-variant uppercase tracking-widest">O continuar con</span>
+</div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 px-4 py-3 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa2OyaipRLrytpbaue-SNsE_lTU5JbGNZ6k44ffyoLVskvDI5uSsTl756e0_rNETHAkr7RUCS80xjzrXwTHZCicyfjg6zmQ_fLyOXshimfhUIAENAiWPL7OpFZ073vFFXfdj5JVpbFPTodkXHJbSSB_hi0VMg-CxbZ1dvFWsCo4Yf4tfp-UqnZ9IxPmruMuzly3R_U3I5MgQf4P8rZEQ9xlaVaCQU0QpK9jq6CaXlrLfmsxsypFTEBjbf4ptVug41X0GFxehKDfA"/>
+<span class="font-label-md text-label-md text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 px-4 py-3 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+<span class="font-label-md text-label-md text-on-surface">GitHub</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 text-on-surface-variant font-label-sm text-label-sm">
+<p>© 2024 EXPERTECH CV. Reservados todos los derechos.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="hover:text-primary transition-colors" href="#">Términos</a>
+<a class="hover:text-primary transition-colors" href="#">Soporte</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+        let currentMode = 'login';
+
+        function switchTab(mode) {
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const forgotPass = document.getElementById('forgot-password');
+            const btnText = document.getElementById('btn-text');
+            const alertError = document.getElementById('alert-error');
+            const alertSuccess = document.getElementById('alert-success');
+
+            alertError.classList.add('hidden');
+            alertSuccess.classList.add('hidden');
+
+            if (mode === 'login') {
+                currentMode = 'login';
+                tabLogin.classList.add('text-primary', 'border-primary');
+                tabLogin.classList.remove('text-on-surface-variant');
+                tabRegister.classList.remove('text-primary', 'border-primary');
+                tabRegister.classList.add('text-on-surface-variant');
+                
+                title.innerText = 'Bienvenido de nuevo';
+                subtitle.innerText = 'Ingresa tus credenciales para acceder a tu panel.';
+                forgotPass.classList.remove('hidden');
+                btnText.innerText = 'Iniciar Sesión';
+            } else {
+                currentMode = 'register';
+                tabRegister.classList.add('text-primary', 'border-primary');
+                tabRegister.classList.remove('text-on-surface-variant');
+                tabLogin.classList.remove('text-primary', 'border-primary');
+                tabLogin.classList.add('text-on-surface-variant');
+
+                title.innerText = 'Impulsa tu carrera';
+                subtitle.innerText = 'Regístrate y comienza a construir tu CV hoy mismo.';
+                forgotPass.classList.add('hidden');
+                btnText.innerText = 'Crear mi cuenta';
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const email = document.getElementById('email').value;
+            const alertError = document.getElementById('alert-error');
+            const alertSuccess = document.getElementById('alert-success');
+
+            // Visual feedback
+            btn.classList.add('opacity-50', 'pointer-events-none');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Cargando...';
+
+            setTimeout(() => {
+                btn.classList.remove('opacity-50', 'pointer-events-none');
+                btn.innerHTML = `<span>${currentMode === 'login' ? 'Iniciar Sesión' : 'Crear mi cuenta'}</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span>`;
+                
+                // Simulation logic
+                if (email.includes('error')) {
+                    alertError.classList.remove('hidden');
+                    alertSuccess.classList.add('hidden');
+                } else {
+                    alertSuccess.classList.remove('hidden');
+                    alertError.classList.add('hidden');
+                    // Mock redirect
+                    setTimeout(() => {
+                        console.log('Redirecting to dashboard...');
+                    }, 1500);
+                }
+            }, 1200);
+        }
+    </script>
+</body></html>
