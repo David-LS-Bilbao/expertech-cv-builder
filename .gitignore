@@ -24,3 +24,5 @@ server/node_modules/
 # Configuración local de Claude
 .claude/
 
+# Documentación local generada por asistentes
+docs/docs_V2/
