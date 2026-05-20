@@ -20,3 +20,6 @@ dist/
 # Entornos locales y secretos
 server/.env
 server/node_modules/
+
+.claude
+
