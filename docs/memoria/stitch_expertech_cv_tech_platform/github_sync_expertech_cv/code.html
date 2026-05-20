@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GitHub Connection | EXPERTECH CV</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#e2e7ff",
+                    "primary-fixed-dim": "#89ceff",
+                    "primary-container": "#0ea5e9",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#6cf8bb",
+                    "primary": "#006591",
+                    "on-primary-container": "#003751",
+                    "on-tertiary-fixed-variant": "#92002a",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#ff697b",
+                    "surface-bright": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#89ceff",
+                    "on-primary-fixed-variant": "#004c6e",
+                    "inverse-surface": "#283044",
+                    "on-primary-fixed": "#001e2f",
+                    "on-surface-variant": "#3e4850",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary-fixed": "#c9e6ff",
+                    "outline-variant": "#bec8d2",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-tint": "#006591",
+                    "on-surface": "#131b2e",
+                    "surface-variant": "#dae2fd",
+                    "surface-container-low": "#f2f3ff",
+                    "surface-dim": "#d2d9f4",
+                    "background": "#faf8ff",
+                    "on-background": "#131b2e",
+                    "secondary": "#006c49",
+                    "secondary-fixed-dim": "#4edea3",
+                    "tertiary-fixed": "#ffdadb",
+                    "surface-container-highest": "#dae2fd",
+                    "tertiary": "#bc0b3b",
+                    "on-secondary-fixed": "#002113",
+                    "outline": "#6e7881",
+                    "surface-container": "#eaedff",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#00714d",
+                    "tertiary-fixed-dim": "#ffb2b7",
+                    "on-tertiary-container": "#6c001d",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed": "#40000d",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter-mobile": "16px",
+                    "margin-mobile": "20px",
+                    "section-gap": "80px",
+                    "base": "8px",
+                    "margin-desktop": "48px",
+                    "gutter-desktop": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 12px rgba(15, 23, 42, 0.05);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low flex flex-col p-6 space-y-4 z-50">
+<div class="mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ExpertTech Dashboard</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Tech Professional</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-all duration-200 rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                Profile
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-all duration-200 rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="edit_document">edit_document</span>
+                CV Editor
+            </a>
+<!-- Active Tab: GitHub -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold bg-surface-container-high rounded-lg font-label-md text-label-md translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+                GitHub
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-all duration-200 rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="local_offer">local_offer</span>
+                Offers
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-all duration-200 rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                Public View
+            </a>
+</nav>
+<div class="pt-4 border-t border-outline-variant/30 space-y-1">
+<div class="bg-primary text-on-primary p-4 rounded-xl mb-4 text-center cursor-pointer hover:opacity-90 transition-opacity">
+<span class="font-label-md text-label-md">Upgrade to Pro</span>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-all duration-200 rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container transition-all duration-200 rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Support
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 h-screen flex overflow-hidden">
+<!-- Center Panel: Search & Repo Grid -->
+<div class="flex-grow flex flex-col h-full bg-background overflow-y-auto hide-scrollbar border-r border-outline-variant/20">
+<!-- Header/Search Bar -->
+<div class="sticky top-0 bg-background/80 backdrop-blur-md z-10 px-margin-desktop py-8">
+<div class="max-w-4xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Connect your GitHub</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Import your best projects directly into your technical resume.</p>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-white border border-outline-variant rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-body-md text-body-md shadow-sm" id="github-search" placeholder="Enter your GitHub username..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all" onclick="handleSearch()">Search</button>
+</div>
+</div>
+</div>
+<!-- Content Area -->
+<div class="px-margin-desktop pb-section-gap" id="main-content-display">
+<!-- Empty State -->
+<div class="flex flex-col items-center justify-center py-24 text-center" id="empty-state">
+<div class="w-64 h-64 mb-8 relative">
+<div class="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
+<img alt="Illustration" class="w-48 h-48 mx-auto relative z-10" data-alt="A clean, minimalist 3D isometric illustration of a sleek glowing GitHub Octocat logo floating in a digital void. The scene is illuminated by soft volumetric blue light, creating a professional tech-focused atmosphere. The background is a soft off-white gradient, adhering to a modern SaaS light-mode aesthetic with sharp, clean lines and elegant depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnzF4kpiFlr47tLnDuELQFriMN0gU0oIxV6ByOFNiSaIIx_-_WGuTFG5-lXqVrKAp-SwL8sOxDYk_DyCOJQqCWnPFUWTlQC4lRw0FRsbAYoMB-2lqnAq_KLASgVOty6hBhtR0O8Kgrvy_JPhsmBiMv1Sf80kYr1dk_sTPIvJPRT-XQdxVB7wkGcT7wJMUu2HFI3zvN6aI--QeEVX7A7lGNwvhgvBL-BLuhmoqtMnYAvqQxXZrL8iQzO5FE53tpC0Rky3lbVAZa1w"/>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Ready to showcase your code?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Search for your GitHub profile to start selecting the repositories you want to feature on your ExpertTech CV.</p>
+</div>
+<!-- Result Profile (Hidden by default) -->
+<div class="hidden animate-in fade-in slide-in-from-bottom-4 duration-700" id="results-state">
+<!-- Profile Card -->
+<div class="bg-white rounded-2xl p-8 mb-12 flex items-start gap-8 border border-outline-variant custom-shadow">
+<div class="relative">
+<img class="w-32 h-32 rounded-2xl object-cover ring-4 ring-primary/5" data-alt="A high-quality professional portrait of a software engineer in a modern tech office environment. The lighting is bright and natural, coming from large windows. The style is sharp and corporate-minimalist, with a soft-focus background of a collaborative workspace. The engineer has a confident, approachable expression, fitting a premium SaaS profile image." id="user-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOSliAXMQl2CPTz0L_BaYG6UhWZyMAoKZP66wlBG7DGAH2krw5z01YVMfZ9wCt6Ofu4MqsOjCb_KM92LnpjDK4zLMYo9eAcvPxKekgwujA-uC2BA4rmVmsQ2qVlXSy8UG5DqKl0Bt0kKrdiCCFx023JhdXNg84u79FU-xXhrGvpVQX8jUR5rdw6TzUqZZiHgS-70jkFHW0s6RHfl4JUZzgfZGXLmEna_J8eVvu3sHNpKlv66P_xJOl9GmllF52A0R3iWAI1k_qWA"/>
+<div class="absolute -bottom-2 -right-2 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified">verified</span>
+                                Tech Pro
+                            </div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface" id="user-name">Alex Rivera</h3>
+<p class="font-body-md text-body-md text-primary font-medium" id="user-handle">@arivera_dev</p>
+</div>
+<div class="flex gap-4">
+<div class="text-center">
+<div class="font-headline-md text-headline-md text-on-surface" id="user-repos">42</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Repos</div>
+</div>
+<div class="text-center">
+<div class="font-headline-md text-headline-md text-on-surface" id="user-followers">1.2k</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Followers</div>
+</div>
+</div>
+</div>
+<p class="mt-4 font-body-md text-body-md text-on-surface-variant max-w-2xl leading-relaxed" id="user-bio">Full-stack architect specializing in distributed systems and cloud-native solutions. Building the future of scalable web infrastructures.</p>
+</div>
+</div>
+<!-- Repo Grid -->
+<h4 class="font-headline-md text-headline-md text-on-surface mb-6">Available Repositories</h4>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter-desktop" id="repo-grid">
+<!-- Repo Card Template (Rendered via JS) -->
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Panel: Selected Repositories -->
+<aside class="w-96 h-full bg-surface-container-lowest p-8 flex flex-col shrink-0">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-md text-headline-md text-on-surface">CV Selection</h3>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm" id="selection-count">0/4</span>
+</div>
+<div class="flex-grow space-y-4 overflow-y-auto pr-2 hide-scrollbar" id="selected-repos-list">
+<div class="flex flex-col items-center justify-center h-48 text-center border-2 border-dashed border-outline-variant rounded-2xl px-6" id="no-selection-msg">
+<span class="material-symbols-outlined text-outline mb-3 text-4xl" data-icon="bookmark_add">bookmark_add</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Select up to 4 repositories to highlight on your CV.</p>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+                    Sync Selection to CV
+                </button>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant mt-4">Selected projects will appear in your "Experience" section.</p>
+</div>
+</aside>
+</main>
+<script>
+        const mockRepos = [
+            { id: 1, name: "NeuralCompute-API", desc: "High-performance distributed computing engine built with Rust and gRPC.", lang: "Rust", stars: 1240, color: "bg-orange-500" },
+            { id: 2, name: "Quantum-React-Dashboard", desc: "Experimental UI framework for visualizing complex data streams in real-time.", lang: "TypeScript", stars: 840, color: "bg-blue-500" },
+            { id: 3, name: "EdgeDB-Adapter", desc: "Native database adapter for serverless edge functions with built-in caching.", lang: "Go", stars: 520, color: "bg-cyan-500" },
+            { id: 4, name: "Expertech-UI-System", desc: "Enterprise design system components for high-fidelity technical dashboards.", lang: "TypeScript", stars: 2100, color: "bg-blue-500" },
+            { id: 5, name: "Fast-ML-Pipeline", desc: "Automated machine learning pipelines for quick deployment of inference models.", lang: "Python", stars: 432, color: "bg-indigo-500" },
+            { id: 6, name: "Auth-Secure-Module", desc: "Zero-knowledge proof authentication module for secure enterprise portals.", lang: "C++", stars: 156, color: "bg-pink-500" }
+        ];
+
+        let selectedRepos = [];
+
+        function handleSearch() {
+            const input = document.getElementById('github-search').value;
+            if (!input) return;
+
+            // Simulate loading
+            const btn = document.querySelector('button[onclick="handleSearch()"]');
+            btn.innerHTML = `<span class="animate-spin material-symbols-outlined">sync</span>`;
+            
+            setTimeout(() => {
+                document.getElementById('empty-state').classList.add('hidden');
+                document.getElementById('results-state').classList.remove('hidden');
+                btn.innerText = 'Search';
+                renderRepos();
+            }, 800);
+        }
+
+        function renderRepos() {
+            const grid = document.getElementById('repo-grid');
+            grid.innerHTML = mockRepos.map(repo => `
+                <div class="bg-white p-6 rounded-2xl border border-outline-variant hover:border-primary transition-all custom-shadow group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary" data-icon="folder_open">folder_open</span>
+                            <h5 class="font-headline-md text-[18px] text-on-surface font-semibold group-hover:text-primary transition-colors">${repo.name}</h5>
+                        </div>
+                        <div class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+                            ${repo.stars >= 1000 ? (repo.stars / 1000).toFixed(1) + 'k' : repo.stars}
+                        </div>
+                    </div>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">${repo.desc}</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full ${repo.color}"></div>
+                                <span class="font-label-sm text-label-sm text-on-surface-variant">${repo.lang}</span>
+                            </div>
+                        </div>
+                        <button onclick="toggleHighlight(${repo.id})" id="btn-${repo.id}" class="px-4 py-2 rounded-lg font-label-md text-label-md border border-primary text-primary hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+                            Destacar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleHighlight(id) {
+            const repo = mockRepos.find(r => r.id === id);
+            const index = selectedRepos.findIndex(r => r.id === id);
+
+            if (index > -1) {
+                selectedRepos.splice(index, 1);
+            } else {
+                if (selectedRepos.length >= 4) {
+                    alert("You can only highlight up to 4 repositories.");
+                    return;
+                }
+                selectedRepos.push(repo);
+            }
+
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            const list = document.getElementById('selected-repos-list');
+            const count = document.getElementById('selection-count');
+            const noSelection = document.getElementById('no-selection-msg');
+
+            count.innerText = `${selectedRepos.length}/4`;
+
+            if (selectedRepos.length === 0) {
+                noSelection.classList.remove('hidden');
+                list.querySelectorAll('.repo-item').forEach(el => el.remove());
+            } else {
+                noSelection.classList.add('hidden');
+                list.querySelectorAll('.repo-item').forEach(el => el.remove());
+                
+                selectedRepos.forEach(repo => {
+                    const div = document.createElement('div');
+                    div.className = "repo-item bg-white p-4 rounded-xl border border-outline-variant flex items-center justify-between group animate-in slide-in-from-right-4 duration-300";
+                    div.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-10 ${repo.color} rounded-full"></div>
+                            <div>
+                                <h6 class="font-label-md text-label-md text-on-surface font-semibold">${repo.name}</h6>
+                                <p class="font-label-sm text-label-sm text-on-surface-variant">${repo.lang}</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleHighlight(${repo.id})" class="text-outline hover:text-error transition-colors">
+                            <span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+                        </button>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+
+            // Update buttons in grid
+            mockRepos.forEach(repo => {
+                const btn = document.getElementById(`btn-${repo.id}`);
+                if (btn) {
+                    if (selectedRepos.find(r => r.id === repo.id)) {
+                        btn.innerText = 'Selected';
+                        btn.classList.add('bg-primary', 'text-on-primary');
+                        btn.classList.remove('text-primary');
+                    } else {
+                        btn.innerText = 'Destacar';
+                        btn.classList.remove('bg-primary', 'text-on-primary');
+                        btn.classList.add('text-primary');
+                    }
+                }
+            });
+        }
+    </script>
+</body></html>

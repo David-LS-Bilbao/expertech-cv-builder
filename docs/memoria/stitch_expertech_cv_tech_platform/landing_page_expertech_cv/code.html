@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EXPERTECH CV - El CV definitivo para perfiles Tech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e2e7ff",
+                        "primary-fixed-dim": "#89ceff",
+                        "primary-container": "#0ea5e9",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#6cf8bb",
+                        "primary": "#006591",
+                        "on-primary-container": "#003751",
+                        "on-tertiary-fixed-variant": "#92002a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#ff697b",
+                        "surface-bright": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#89ceff",
+                        "on-primary-fixed-variant": "#004c6e",
+                        "inverse-surface": "#283044",
+                        "on-primary-fixed": "#001e2f",
+                        "on-surface-variant": "#3e4850",
+                        "inverse-on-surface": "#eef0ff",
+                        "primary-fixed": "#c9e6ff",
+                        "outline-variant": "#bec8d2",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-tint": "#006591",
+                        "on-surface": "#131b2e",
+                        "surface-variant": "#dae2fd",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-dim": "#d2d9f4",
+                        "background": "#faf8ff",
+                        "on-background": "#131b2e",
+                        "secondary": "#006c49",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary-fixed": "#ffdadb",
+                        "surface-container-highest": "#dae2fd",
+                        "tertiary": "#bc0b3b",
+                        "on-secondary-fixed": "#002113",
+                        "outline": "#6e7881",
+                        "surface-container": "#eaedff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "tertiary-fixed-dim": "#ffb2b7",
+                        "on-tertiary-container": "#6c001d",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed": "#40000d",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter-mobile": "16px",
+                        "margin-mobile": "20px",
+                        "section-gap": "80px",
+                        "base": "8px",
+                        "margin-desktop": "48px",
+                        "gutter-desktop": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(19, 27, 46, 0.85), rgba(19, 27, 46, 0.95));
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="bg-surface shadow-sm sticky top-0 z-50 h-20 flex items-center w-full px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-center w-full max-w-7xl mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">EXPERTECH CV</div>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Producto</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Templates</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Resources</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="font-label-md text-label-md text-on-surface-variant px-4 py-2 hover:bg-surface-container rounded-lg transition-all active:scale-95 duration-100">Sign In</button>
+<button class="font-label-md text-label-md bg-primary text-on-primary px-6 py-2 rounded-lg shadow-sm hover:opacity-90 transition-all active:scale-95 duration-100">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative min-h-[85vh] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Modern office workspace with tech professionals collaborating" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAryCVgucX9QbseFFltkc9Ahp6SfdyMDqDOBYgG1hYmO-k6vAMvwYF2zYY8yWhwPRg1aC0GjG_6HMXkjmOM4H3rd-Nt9dzj_JyNoazY2C4I5t9rl4GpJqhKPJ49ocAa4C0lNoEcfa3eIra0uFeL-AaQZFS1xYMLYkuKQU-L4y6uXqISqdvgoP9PyuksylZoekfu4zqnYmvjO5Xu3NwWzqbD5fv1o43AfLhbMS2pc-pRsXVGEudRVNo4cuE5UeVde2C_dgsJQUE5VA"/>
+<div class="absolute inset-0 hero-overlay"></div>
+</div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="text-white space-y-6">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm tracking-wider uppercase">Beta de acceso anticipado</span>
+<h1 class="font-headline-xl text-headline-xl text-white">EXPERTECH CV</h1>
+<p class="font-body-lg text-body-lg text-white/80 max-w-lg">
+                        Crea un CV web, conecta GitHub y encuentra oportunidades tech desde una sola plataforma profesional diseñada para ingenieros.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="px-8 py-4 bg-primary-container text-white font-label-md text-label-md rounded-xl shadow-lg hover:shadow-primary-container/20 transition-all flex items-center justify-center gap-2">
+                            Crear mi CV <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="px-8 py-4 glass-card text-white font-label-md text-label-md rounded-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                            Ver demo pública <span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="hidden lg:block relative">
+<div class="glass-card p-4 rounded-2xl shadow-2xl relative z-20 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+<img alt="CV Web Interface" class="rounded-lg shadow-inner w-full" data-alt="A clean and professional software engineer portfolio website displayed on a high-resolution laptop screen. The design features a dark mode interface with neon blue accents, showcasing a clean typography layout, a list of technical skills, and a prominent GitHub activity graph. The setting is a minimalist, well-lit desk with a cup of coffee and a high-end mechanical keyboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8v_-mPfNoJr--sfkpFgVfLsVLQvxN8eitarL9xnWjBeTxSGcdH40v9Rqo7v4k7MJT7fupD7QnREeGQJWj-XyTOpuW6HM0OTU2tyDVzbz44fRypzjl9z8yqUyI6mLu98O7v6kZLx7B-BJ7SFAxVnl0nJnbbFG0cB1KwpL2NfAlC7m02ddePNdff0lEv95HfYlLh-bOeCM3YFcbmSu8QLKr2Tj1OysIgnSyQ8KY3KcIHSyTXGxO-XMb5XEhBJDTeKYUuejWR_BKMQ"/>
+</div>
+<!-- Floating Integration Card -->
+<div class="absolute -bottom-8 -left-8 glass-card p-6 rounded-xl shadow-xl z-30 flex items-center gap-4 animate-bounce">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+<img alt="GitHub Logo" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsYvTyCc_AH8M7_RH-Jzc36kcNigI0-rKyjF00cXm9rhni-knVkVfYZNsIjEKe6HuK8iHCM3xwxr5PUDebEdZav0WJaTluw7xrMYCqy0tdgL7cyoMHocGkxYhcXkNygeMn8hwZX1rfRAA__xYOliASevPkt5m2PQaXAAtt0qr4cHeuPVzdmM1ZUbkQQS6OCnRv4u4ulzhBGhqbFBCKAvJ_OMGYSaCDk4S9OzXAqhw2tMdpjwpbP8Amp_xUO3Duiz5zcJpQpGV4eg"/>
+</div>
+<div>
+<p class="text-white font-label-md text-label-md">GitHub Sincronizado</p>
+<p class="text-white/60 text-xs">Repositorios actualizados</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Benefits Section -->
+<section class="py-section-gap bg-surface">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Diseñado por y para desarrolladores</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Olvídate de los PDF estáticos. Tu carrera es dinámica, tu CV debería serlo también.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="p-8 rounded-2xl border border-outline-variant hover:border-primary transition-all group">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">code</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Editor Code-Ready</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Inserta bloques de código, diagramas de arquitectura y links directos a tus PRs más importantes.</p>
+</div>
+<div class="p-8 rounded-2xl border border-outline-variant hover:border-primary transition-all group">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">GitHub Integration</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Sincroniza tus commits, lenguajes más usados y contribuciones automáticamente en tu perfil público.</p>
+</div>
+<div class="p-8 rounded-2xl border border-outline-variant hover:border-primary transition-all group">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined">ads_click</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Job Matching AI</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Nuestro algoritmo te conecta con ofertas que realmente encajan con tu stack tecnológico real.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Section: GitHub & Features -->
+<section class="py-section-gap bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="bento-grid">
+<!-- Large Highlight -->
+<div class="col-span-12 lg:col-span-8 bg-white p-10 rounded-3xl shadow-sm border border-outline-variant flex flex-col justify-between overflow-hidden relative">
+<div class="max-w-md relative z-10">
+<h3 class="font-headline-lg text-headline-lg mb-4">Sincronización Total con GitHub</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Convierte tus repositorios en una carta de presentación interactiva. Mostramos tus métricas reales de desarrollo para que los reclutadores vean tu potencial.</p>
+<ul class="space-y-3 font-label-md text-label-md text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">check_circle</span> Top Languages auto-detect</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">check_circle</span> Gráfico de contribuciones real-time</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">check_circle</span> Destaca tus mejores Open Source PRs</li>
+</ul>
+</div>
+<div class="absolute right-0 bottom-0 top-0 w-1/2 hidden md:block">
+<img alt="GitHub Analytics Visualization" class="absolute inset-0 w-full h-full object-cover" data-alt="A highly detailed close-up of a dark mode software dashboard displaying a vibrant GitHub activity heatmap with various shades of green squares. The interface is clean and modern, featuring thin lines and crisp typography. The lighting is focused and soft, creating a high-tech atmosphere that emphasizes data visualization and professional software engineering metrics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuW49Fo4Xj0CI8PSBCBcPfjwxk_9kpmEru3dE9hsCNsyx6x4TqVJBRX3Gqha--rGAmeitVAUbgyn5x9a_Xa0fstR3hDgqsn82-gVW5h1bYASldEOjsPHeonUR1mrbUD2h_XpF0ipIelCqkfXRUjFHkNG5rxfd9JY2ZTLln552hVUy-LQaTH0c3HAFi3lXgRk4rfTiJHMMHDWDKxs5Dm83UhGn4uTR3p35oDT62FD-gU74-D98-2QN4tugUrg5vXCP9ATHfcoDrLA"/>
+</div>
+</div>
+<!-- Side Small Card -->
+<div class="col-span-12 md:col-span-6 lg:col-span-4 bg-primary p-10 rounded-3xl text-white flex flex-col justify-center text-center">
+<span class="material-symbols-outlined text-5xl mb-6">rocket_launch</span>
+<h3 class="font-headline-md text-headline-md mb-2">Despega tu carrera</h3>
+<p class="font-body-md text-body-md text-white/80">Accede a ofertas exclusivas de startups unicornio y Big Tech que buscan talento verificado.</p>
+</div>
+<!-- Another Small Card -->
+<div class="col-span-12 md:col-span-6 lg:col-span-4 bg-secondary-container p-10 rounded-3xl text-on-secondary-container">
+<h3 class="font-headline-md text-headline-md mb-4">Templates Tech-Ready</h3>
+<p class="font-body-md text-body-md mb-6">Diseños minimalistas optimizados para sistemas ATS y visualización web perfecta en cualquier dispositivo.</p>
+<button class="font-label-md text-label-md flex items-center gap-2 group">Explorar plantillas <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">east</span></button>
+</div>
+<!-- Horizontal Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-variant p-10 rounded-3xl flex items-center gap-8 overflow-hidden">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md mb-2">Editor Colaborativo</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Recibe feedback de mentores o compañeros directamente sobre tu CV web con nuestro sistema de comentarios.</p>
+</div>
+<div class="hidden sm:block w-1/3">
+<div class="p-4 bg-white rounded-xl shadow-lg border border-outline-variant transform rotate-6">
+<div class="flex gap-2 mb-2">
+<div class="w-3 h-3 rounded-full bg-red-400"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+<div class="w-3 h-3 rounded-full bg-green-400"></div>
+</div>
+<div class="h-2 w-full bg-surface-container rounded mb-2"></div>
+<div class="h-2 w-2/3 bg-surface-container rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-section-gap bg-surface">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<h2 class="font-headline-lg text-headline-lg mb-4">Planes para cada etapa</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Desde el estudiante que busca su primer job hasta el Senior Lead refinando su marca personal.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+<!-- Free Plan -->
+<div class="p-10 rounded-3xl border border-outline-variant flex flex-col h-full bg-white">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Gratis</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="font-headline-xl text-headline-xl">$0</span>
+<span class="text-on-surface-variant">/siempre</span>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">done</span> 1 CV Web Personalizado
+                        </li>
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">done</span> Conexión con GitHub (Básico)
+                        </li>
+<li class="flex items-center gap-3 font-body-md text-body-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">done</span> Exportar a PDF (Marca de agua)
+                        </li>
+</ul>
+<button class="w-full py-4 rounded-xl border border-primary text-primary font-label-md text-label-md hover:bg-primary/5 transition-colors">Empezar ahora</button>
+</div>
+<!-- Pro Plan -->
+<div class="p-10 rounded-3xl bg-on-background text-white flex flex-col h-full relative overflow-hidden shadow-2xl">
+<div class="absolute top-6 right-6 px-3 py-1 bg-primary-container text-on-primary-container rounded-full font-label-sm text-label-sm">RECOMENDADO</div>
+<h3 class="font-label-md text-label-md text-white/60 uppercase tracking-widest mb-2">Pro / MVP</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="font-headline-xl text-headline-xl">$12</span>
+<span class="text-white/60">/mes</span>
+</div>
+<ul class="space-y-4 mb-10 flex-grow">
+<li class="flex items-center gap-3 font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-fixed-dim">done</span> CVs Web Ilimitados
+                        </li>
+<li class="flex items-center gap-3 font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-fixed-dim">done</span> Analíticas de visitas en tiempo real
+                        </li>
+<li class="flex items-center gap-3 font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-fixed-dim">done</span> Dominio personalizado (tu-nombre.dev)
+                        </li>
+<li class="flex items-center gap-3 font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-fixed-dim">done</span> AI Tailoring para cada oferta
+                        </li>
+</ul>
+<button class="w-full py-4 rounded-xl bg-primary-container text-white font-label-md text-label-md hover:opacity-90 transition-opacity">Suscribirme a Pro</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-section-gap bg-surface-container-highest">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-lg text-headline-lg text-center mb-16">Lo que dicen otros devs</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="p-8 bg-white rounded-2xl shadow-sm">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Carlos M. Profile" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCif4goR2e6CUvCULUgniPa3tgeg7JtfLbTOIJebe5G71f6N8hbMMWrmZYroHPcqiWcVWF59Hy0iixuFnIjNITBRVAIwtDFjYIZ4VXZRaJaB78zUuQzOqiGtaDyZKB_01RhzKB0gc4aMaG3a7A0-1KFAmmogxd7LvtM-xMkMfDVLfXIOf-sVP8eHMGrLOzKsxVQ0ZCDpGbCxidGPzWzd11cxF7kTXm9SeogwAqZ31c1Jwu_wtCf1YppulFfbWBFg_GREHzIeANnvQ"/>
+<div>
+<p class="font-label-md text-label-md">Carlos M.</p>
+<p class="text-xs text-on-surface-variant">Frontend Dev @ Globant</p>
+</div>
+</div>
+<p class="font-body-md text-body-md italic text-on-surface-variant">"La integración con GitHub me ahorró horas actualizando mi stack. Conseguí 3 entrevistas en la primera semana."</p>
+</div>
+<div class="p-8 bg-white rounded-2xl shadow-sm">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Elena R. Profile" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQuk0oVCzi_2on2naV49kE_ekQ9V4RiO742jGUjbDQRwekJyXN0uZUfwfkpyDTXX7JIOQy2fDJ0-Co1okyOyegwSDVaKle0useiCXLd6_J12qL7zCtIBvhrbPEUIAXXSy7e2RFwko0edQsZAe83kz9GSnnbrpnqozToqvX1keJxJaNivC36NiZ9be4ynzbTIXnr1TyicypVhw0vqx4rIDvzIGKHKELfNpVLddM9nFilsXWzntY5V9WdGeKcWlfJKOB5w-5z-dnqg"/>
+<div>
+<p class="font-label-md text-label-md">Elena R.</p>
+<p class="text-xs text-on-surface-variant">SRE @ Datadog</p>
+</div>
+</div>
+<p class="font-body-md text-body-md italic text-on-surface-variant">"Buscaba algo limpio y profesional que no fuera el típico PDF de Canva. ExperTech CV dio justo en el clavo."</p>
+</div>
+<div class="p-8 bg-white rounded-2xl shadow-sm">
+<div class="flex items-center gap-4 mb-6">
+<img alt="David L. Profile" class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU3W00G2Bo_NWs4hMBrefkTyfMCCFHcWpGUqTMupQzSinmwkCmWxAgQg6rfxak31cyaKt4pQTSECVAHmly4SFgjbwJM4ZatA4uR-T40PTctsBstAcXBgXDEPUYzXUyO8GN0sGP94FZwvtZEqp_xSb-WQxMHLqRyf1qN6HaVgnHSAUtwwbungKTCZ6hPZ-A6EFev-pkr01e9Tt6kFZeFu7tVIP30X1DqXQEmU_eSTO7xMKlWmzTDnbN0JiRsuJOoqgKnnVmkNnjrQ"/>
+<div>
+<p class="font-label-md text-label-md">David L.</p>
+<p class="text-xs text-on-surface-variant">Backend Engineer</p>
+</div>
+</div>
+<p class="font-body-md text-body-md italic text-on-surface-variant">"El Job Matching AI me sugirió una posición de la que no tenía ni idea y resultó ser mi match perfecto."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-highest py-12 border-t border-outline-variant">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-center gap-base mb-8">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">EXPERTECH CV</div>
+<div class="flex gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Cookies</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">© 2024 EXPERTECH CV. All rights reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">language</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">alternate_email</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- FAB for quick action -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined">add</span>
+</button>
+</body></html>
