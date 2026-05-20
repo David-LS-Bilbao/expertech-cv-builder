@@ -1,5 +1,6 @@
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { createPreviewRenderer } from "./PreviewRenderer.js";
+import { getVisibleProjects } from "../utils/projects.js";
 
 /**
  * PublicCVRenderer
@@ -51,31 +52,6 @@ export function createPublicCVRenderer({
     return normalizedValue || fallback;
   }
 
-  function isRenderableProject(projectData = {}) {
-    const name = String(projectData.name ?? "").trim();
-    const description = String(projectData.description ?? "").trim();
-    const repoUrl = String(projectData.repoUrl ?? "").trim();
-    const demoUrl = String(projectData.demoUrl ?? "").trim();
-    const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
-
-    return Boolean(name || description || repoUrl || demoUrl || stack.length > 0);
-  }
-
-  function getVisibleProjects(projects = []) {
-    if (!Array.isArray(projects)) {
-      return [];
-    }
-
-    const renderableProjects = projects.filter((projectData) =>
-      isRenderableProject(projectData)
-    );
-
-    const featuredProjects = renderableProjects.filter((projectData) =>
-      Boolean(projectData.featured)
-    );
-
-    return featuredProjects.length > 0 ? featuredProjects : renderableProjects;
-  }
 
   function getProfileInitials(profileData = {}) {
     const fullName = String(profileData.fullName ?? "").trim();
