@@ -5,18 +5,28 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "prisma": "^6.19.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^24.12.3",

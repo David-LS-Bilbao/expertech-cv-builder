@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import type { Session } from '../../lib/auth/types'
-import { loginUser, registerUser } from '../../lib/auth/AuthStorageService'
+import type { PublicUser } from '../../lib/api/client'
+import { ApiError, api } from '../../lib/api/client'
 
 type Tab = 'login' | 'register'
 type Feedback = { message: string; type: 'error' | 'info' } | null
 
 interface Props {
-  onAuthSuccess: (session: Session) => void
+  onAuthSuccess: (user: PublicUser, token: string) => void | Promise<void>
 }
 
 export function AuthScreen({ onAuthSuccess }: Props) {
   const [tab, setTab] = useState<Tab>('login')
+  const [submitting, setSubmitting] = useState(false)
 
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
@@ -30,28 +31,40 @@ export function AuthScreen({ onAuthSuccess }: Props) {
     setSocialMsg(null)
   }
 
-  function handleLogin(e: React.FormEvent) {
-    e.preventDefault()
-    setLoginFeedback(null)
-    const result = loginUser(loginEmail, loginPassword)
-    if (!result.ok) {
-      setLoginFeedback({ message: result.error, type: 'error' })
-      return
-    }
-    setLoginFeedback({ message: 'Sesión iniciada correctamente.', type: 'info' })
-    onAuthSuccess(result.session)
+  function describeError(err: unknown): string {
+    if (err instanceof ApiError) return err.message
+    if (err instanceof Error) return `Error de conexión: ${err.message}`
+    return 'Error desconocido.'
   }
 
-  function handleRegister(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault()
+    setLoginFeedback(null)
+    setSubmitting(true)
+    try {
+      const { user, session } = await api.auth.login(loginEmail, loginPassword)
+      setLoginFeedback({ message: 'Sesión iniciada correctamente.', type: 'info' })
+      await onAuthSuccess(user, session.token)
+    } catch (err) {
+      setLoginFeedback({ message: describeError(err), type: 'error' })
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
     setRegFeedback(null)
-    const result = registerUser(regName, regEmail, regPassword)
-    if (!result.ok) {
-      setRegFeedback({ message: result.error, type: 'error' })
-      return
+    setSubmitting(true)
+    try {
+      const { user, session } = await api.auth.register(regName, regEmail, regPassword)
+      setRegFeedback({ message: 'Cuenta creada correctamente.', type: 'info' })
+      await onAuthSuccess(user, session.token)
+    } catch (err) {
+      setRegFeedback({ message: describeError(err), type: 'error' })
+    } finally {
+      setSubmitting(false)
     }
-    setRegFeedback({ message: 'Cuenta creada correctamente.', type: 'info' })
-    onAuthSuccess(result.session)
   }
 
   return (
@@ -85,26 +98,14 @@ export function AuthScreen({ onAuthSuccess }: Props) {
             )}
             <div className="form-field">
               <label htmlFor="login-email">Email</label>
-              <input
-                id="login-email"
-                type="email"
-                autoComplete="email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-              />
+              <input id="login-email" type="email" autoComplete="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
             </div>
             <div className="form-field">
               <label htmlFor="login-password">Contraseña</label>
-              <input
-                id="login-password"
-                type="password"
-                autoComplete="current-password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-              />
+              <input id="login-password" type="password" autoComplete="current-password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
             </div>
-            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-              Entrar
+            <button type="submit" className="btn btn-primary" disabled={submitting} style={{ width: '100%' }}>
+              {submitting ? 'Entrando…' : 'Entrar'}
             </button>
           </form>
         )}
@@ -116,39 +117,21 @@ export function AuthScreen({ onAuthSuccess }: Props) {
             )}
             <div className="form-field">
               <label htmlFor="reg-name">Nombre visible</label>
-              <input
-                id="reg-name"
-                type="text"
-                autoComplete="name"
-                value={regName}
-                onChange={(e) => setRegName(e.target.value)}
-              />
+              <input id="reg-name" type="text" autoComplete="name" value={regName} onChange={(e) => setRegName(e.target.value)} />
             </div>
             <div className="form-field">
               <label htmlFor="reg-email">Email</label>
-              <input
-                id="reg-email"
-                type="email"
-                autoComplete="email"
-                value={regEmail}
-                onChange={(e) => setRegEmail(e.target.value)}
-              />
+              <input id="reg-email" type="email" autoComplete="email" value={regEmail} onChange={(e) => setRegEmail(e.target.value)} />
             </div>
             <div className="form-field">
               <label htmlFor="reg-password">Contraseña</label>
-              <input
-                id="reg-password"
-                type="password"
-                autoComplete="new-password"
-                value={regPassword}
-                onChange={(e) => setRegPassword(e.target.value)}
-              />
+              <input id="reg-password" type="password" autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} />
             </div>
-            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-              Crear cuenta
+            <button type="submit" className="btn btn-primary" disabled={submitting} style={{ width: '100%' }}>
+              {submitting ? 'Creando…' : 'Crear cuenta'}
             </button>
             <p className="auth-mvp-note">
-              ⚠️ Auth local de demo. Contraseña guardada en texto plano. No usar datos reales.
+              Auth contra backend real con bcrypt. Datos en PostgreSQL aislados por usuario.
             </p>
           </form>
         )}
@@ -158,14 +141,14 @@ export function AuthScreen({ onAuthSuccess }: Props) {
           <button
             type="button"
             className="btn btn-ghost"
-            onClick={() => setSocialMsg('El acceso con Google llegará en el siguiente MVP con autenticación real.')}
+            onClick={() => setSocialMsg('El acceso con Google llegará en una fase posterior con OAuth real.')}
           >
             Continuar con Google
           </button>
           <button
             type="button"
             className="btn btn-ghost"
-            onClick={() => setSocialMsg('El acceso con GitHub llegará en el siguiente MVP con autenticación real.')}
+            onClick={() => setSocialMsg('El acceso con GitHub llegará en una fase posterior con OAuth real.')}
           >
             Continuar con GitHub
           </button>

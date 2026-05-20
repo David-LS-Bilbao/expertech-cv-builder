@@ -1,0 +1,57 @@
+// Prisma schema for EXPERTECH CV V2 backend (Fase 6).
+// Persistencia multiusuario en PostgreSQL. Aislamiento garantizado a nivel
+// de aplicación (todas las queries filtran por ownerId / userId).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(cuid())
+  email          String         @unique
+  hashedPassword String
+  displayName    String
+  provider       String         @default("local")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  cv             CV?
+  publicProfile  PublicProfile?
+  sessions       Session[]
+}
+
+model CV {
+  id        String   @id @default(cuid())
+  ownerId   String   @unique
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  // CandidateProfile, Project[] y CVMeta serializados como JSON.
+  // Mantienen la misma shape que el frontend (apps/web/src/lib/domain/types.ts).
+  profile   Json
+  projects  Json
+  meta      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PublicProfile {
+  id        String   @id @default(cuid())
+  ownerId   String   @unique
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  slug      String   @unique
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  token     String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loggedAt  DateTime @default(now())
+
+  @@index([userId])
+}

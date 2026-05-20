@@ -17,8 +17,10 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Fase 2 | Scaffold Vite + React + TypeScript | #37 |
 | Fase 3 | Modelos de dominio y storage TypeScript | #38 |
 | Fase 4 | Auth local, editor de perfil y preview del CV | #39 |
+| Fase 5 | Backend API en `apps/api/` + cliente HTTP | #41 |
+| Fase 6 | Persistencia real (PostgreSQL + Prisma) y rewire frontend al backend | — |
 
-**Siguiente fase:** `feat/v2-backend-api-foundation` — backend TypeScript con endpoints mínimos.
+**Siguiente fase:** `feat/v2-docker-compose-local` — Dockerizar frontend y backend para `docker compose up` completo.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -37,31 +39,33 @@ npm run lint      # linting con ESLint
 src/
 ├── app/                  # componente raíz (App.tsx)
 ├── features/
-│   ├── auth/             # AuthScreen (login/registro)
+│   ├── auth/             # AuthScreen (login/registro contra backend)
 │   └── cv/               # AuthenticatedShell, ProfileForm, CVPreview
 ├── lib/
-│   ├── auth/             # AuthStorageService, tipos de sesión
+│   ├── api/              # cliente HTTP (fetch wrapper + token) — VITE_API_URL
 │   ├── domain/           # tipos PortfolioCV, Project, CandidateProfile + factories
-│   ├── storage/          # SafeStorageService, CVStorageService
 │   └── utils/            # isRenderableProject, getVisibleProjects
 └── styles/               # index.css (reset + layout + componentes)
 ```
 
-## Limitaciones temporales (antes del backend)
+## Variables de entorno
 
-- **Auth local de demo**: contraseñas guardadas en texto plano en `localStorage`.
-  No usar con datos reales. No apta para producción.
-- **CV no aislado por usuario**: la clave de storage es fija (`expertech-cv:v2`).
-  Pasa a ser session-scoped cuando se porte auth al backend (Fase 5).
+`apps/web/.env.example` define `VITE_API_URL` (default: `http://localhost:3002`).
+Copiar a `.env.local` si necesitas apuntar a otro backend.
+
+## Limitaciones temporales
+
+- **Sesiones gestionadas con Bearer token**: el token vive en `localStorage`
+  (`expertech-auth-token`). Migración a cookies httpOnly llega en Fase 8.
 - **Preview sincronizada al guardar**: la preview del CV se actualiza al pulsar
   "Guardar perfil", no mientras se escribe campo a campo.
-- **Jooble y proxy local son legacy temporal**: el buscador de empleo sigue
-  operando desde el servidor Express del legacy. Se sustituirá o rotará
-  cuando exista un backend serio (Fase 5).
+- **Jooble y proxy legacy** en `server/server.js` (puerto 3001) siguen
+  operativos para el legacy. El frontend V2 consume `/jobs/search` del nuevo
+  backend (`apps/api/`, puerto 3002).
 - **Sin GitHub OAuth real**: los botones de acceso social muestran un mensaje
-  informativo. OAuth real llega con el backend.
+  informativo. OAuth real llega en una fase posterior.
 - **Sin exportación PDF**: disponible en el legacy; no portada todavía a V2.
-- **Sin integración GitHub en editor**: disponible en el legacy; pendiente de Fase 4+.
+- **Sin integración GitHub en editor**: disponible en el legacy; pendiente.
 
 ## Relación con el legacy
 
