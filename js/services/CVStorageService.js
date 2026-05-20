@@ -1,22 +1,22 @@
-// Servicio de persistencia del CV en localStorage.
+// Servicio de persistencia del CV en storage seguro.
 // Centraliza guardar, cargar y resetear el estado del CV
 // sin mezclar esta lógica con los modelos ni con la UI.
+// Usa SafeStorageService para fallback localStorage → sessionStorage → memoria.
 
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { createInitialCVState } from "../models/createInitialCVState.js";
 import { loadSession } from "./AuthStorageService.js";
+import { getSafeStorage } from "./SafeStorageService.js";
 
 // Prefijo base de almacenamiento para el CV.
 // En versiones antiguas se usaba una única clave global.
 const CV_STORAGE_KEY_PREFIX = "expertech-cv";
 const LEGACY_CV_STORAGE_KEY = CV_STORAGE_KEY_PREFIX;
 
+// Devuelve un objeto compatible con Storage API.
+// Fallback automático: localStorage → sessionStorage → memoria.
 function getStorage() {
-  if (!globalThis.localStorage) {
-    throw new Error("localStorage no está disponible en este entorno.");
-  }
-
-  return globalThis.localStorage;
+  return getSafeStorage();
 }
 
 function normalizeText(value = "") {
@@ -200,7 +200,8 @@ export function hasStoredCV() {
   return storedCV !== null;
 }
 
-// Guarda el estado completo del CV en localStorage.
+// Guarda el estado completo del CV en storage seguro.
+// Maneja QuotaExceededError y devuelve la versión normalizada.
 export function saveCV(cvState) {
   const storage = getStorage();
   const scopedStorageKey = getScopedCVStorageKey();
@@ -214,12 +215,21 @@ export function saveCV(cvState) {
     },
   });
 
-  storage.setItem(scopedStorageKey, JSON.stringify(normalizedCV));
+  try {
+    storage.setItem(scopedStorageKey, JSON.stringify(normalizedCV));
+  } catch (err) {
+    if (err.name === "QuotaExceededError" || err.code === 22 || err.message?.includes("quota")) {
+      console.error("[CVStorage] Cuota de almacenamiento excedida:", err.message);
+    } else {
+      console.error("[CVStorage] Error al guardar CV:", err.message);
+    }
+  }
 
   return normalizedCV;
 }
 
-// Carga el estado del CV desde localStorage.
+// Carga el estado del CV desde storage seguro.
+// Maneja corrupción de datos y migración legada.
 export function loadCV() {
   const storage = getStorage();
   const { storageKey, storedCV, migratedFromLegacy } = getStoredCVSnapshot();
@@ -240,13 +250,17 @@ export function loadCV() {
     // Si limpiamos demo legado o migramos desde la clave global antigua,
     // persistimos el estado saneado en la clave del usuario actual.
     if (hasRemovedLegacyDemo || migratedFromLegacy) {
-      storage.setItem(storageKey, JSON.stringify(cvState));
+      try {
+        storage.setItem(storageKey, JSON.stringify(cvState));
+      } catch (err) {
+        console.warn("[CVStorage] No se pudo persistir CV saneado:", err.message);
+      }
     }
 
     return cvState;
   } catch (error) {
     // Si el JSON está corrupto, evitamos romper la app.
-    console.error("Error al cargar el CV desde localStorage:", error);
+    console.error("Error al cargar el CV desde storage:", error);
 
     return createInitialCVState();
   }
