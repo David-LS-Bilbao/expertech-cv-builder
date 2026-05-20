@@ -4,18 +4,40 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/polish-accessibility` o `feat/visual-polish-final`
+- `chore/add-gitattributes-line-endings`
 
 Objetivo actual:
-- cerrar pulido visual, revisar estados UX, accesibilidad base
-- consolidar la calidad del código, microcopias y diseño final post-integraciones
-- mantener todo esto dentro del frontend MVP sin abrir arquitectura
+- añadir un `.gitattributes` conservador para evitar diffs ruidosos por finales de línea (CRLF/LF) entre Windows/macOS/Linux
+- no renormalizar EOL del repo completo en este PR
+- preparar el cierre documental del bloque de hardening
+
+## Bloque de hardening recién cerrado (mayo 2026)
 
 Estado real actual:
-- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, y Búsqueda de empleo) están resueltas arquitectónicamente
-- la fase activa está en cierre visual/documental para preparar PR a `dev` y después a `main`
+- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, Búsqueda de empleo) están resueltas arquitectónicamente
+- se ha cerrado una tanda de hardening sobre `dev` con PRs #22 a #29
+- queda pendiente promocionar el conjunto a `main`
+
+Ramas cerradas en este bloque:
+- `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
+- `chore/remove-claude-local-settings` (#23/#24): ignorar settings locales del asistente
+- `fix/jobs-proxy-contract-and-security` (#25): endurecer el contrato y la seguridad del proxy de empleo
+- `security/remove-exposed-jooble-key-and-local-docs` (#26): retirada de docs locales con API key expuesta
+- `fix/storage-fallback-and-quota-handling` (#27): `SafeStorageService` con fallback `localStorage → sessionStorage → memoria` y límites de avatar
+- `security/remove-reintroduced-local-docs` (#28): limpieza secundaria de docs reintroducidos
+- `refactor/extract-project-rendering-utils` (#29): extracción de `js/utils/projects.js` y consumo desde los tres renderers
 
 ## Última feature cerrada
+
+- `refactor/extract-project-rendering-utils` (#29)
+
+Objetivo cubierto:
+- eliminar la duplicación de `isRenderableProject` y `getVisibleProjects` entre `PreviewRenderer`, `PrintCVRenderer` y `PublicCVRenderer`
+- crear `js/utils/projects.js` como única fuente de verdad para la regla de visibilidad de proyectos
+- mantener el comportamiento visual idéntico (mismo criterio, mismo orden, mismos textos)
+- limpieza de imports no utilizados en los renderers
+
+## Feature anterior cerrada
 
 - `feat/jooble-search-proxy-mvp`
 
@@ -39,12 +61,13 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- `feat/polish-accessibility` o `feat/visual-polish-final`
+- promocionar `dev` → `main` con todo el bloque de hardening
+- después, retomar (o descartar) `feat/visual-polish-final`
 
 Objetivo siguiente:
-- cerrar pulido visual, estados UX y accesibilidad base
-- dejar documentación y checklist de release listos para PR
-- mantener el alcance en frontend MVP sin reabrir arquitectura
+- abrir PR `chore/add-gitattributes-line-endings` → `dev`
+- abrir PR `dev` → `main` para llevar el hardening a producción del MVP
+- decidir si se mantiene el polish visual como feature separada o se cierra el MVP aquí
 
 ## Validación técnica reciente (Jooble)
 
@@ -104,9 +127,10 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. cerrar `feat/visual-polish-final` con documentación al día
-2. abrir PR `feat/visual-polish-final` -> `dev`
-3. tras validar `dev`, abrir PR `dev` -> `main`
+1. cerrar `chore/add-gitattributes-line-endings` con documentación al día
+2. abrir PR `chore/add-gitattributes-line-endings` -> `dev`
+3. tras validar `dev`, abrir PR `dev` -> `main` con el bloque de hardening completo
+4. decidir si se reabre `feat/visual-polish-final` o se cierra el MVP en este punto
 
 ## Fase siguiente
 
