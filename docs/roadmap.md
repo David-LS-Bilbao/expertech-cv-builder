@@ -4,22 +4,21 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `chore/reconcile-main-before-v2`
+- `chore/v2-fase-4-docs-and-polish`
 
 Objetivo actual:
-- Fase 0 del plan V2: reconciliar `main ↔ dev` y dejar la baseline estable antes de arrancar la Fase 2 (scaffold React + TypeScript)
-- actualizar este roadmap para reflejar el estado real del proyecto
-- auditoría de los patrones peligrosos del plan V2 sección 4 (todos limpios — ver más abajo)
-- abrir PR `chore/reconcile-main-before-v2 → dev` y luego PR `dev → main` con tag `mvp-baseline-pre-v2`
+- micro-rama de auditoría post-Fase 4: pulido de metadata HTML, README propio de `apps/web/`, documentación de limitaciones temporales antes del backend y registro del cierre de Fases 2, 3 y 4 en roadmap y evidencias
+- sin cambios de producto ni de lógica: solo documentación y metadatos
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
 Estado real actual:
-- todas las integraciones pesadas del MVP (Auth local, Editor, Preview, Export, GitHub, Búsqueda de empleo) están resueltas arquitectónicamente
-- bloque de hardening cerrado sobre `dev` con PRs #22 a #30
+- todas las integraciones pesadas del MVP legacy (Auth local, Editor, Preview, Export, GitHub, Búsqueda de empleo) están resueltas arquitectónicamente
+- bloque de hardening legacy cerrado sobre `dev` con PRs #22 a #30
 - bloque documental V2 cerrado sobre `dev` con PRs #31 a #33
 - sanitización de seguridad adicional con PR #34
-- pendiente: promocionar el conjunto a `main` (Fase 0 del plan V2, rama activa)
+- reconciliación `main ↔ dev` + promoción a `main` completadas con PRs #35 y #36
+- **Fases 2, 3 y 4 del plan V2 cerradas sobre `dev`** con PRs #37, #38 y #39
 
 Ramas cerradas en este bloque:
 - `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
@@ -34,16 +33,23 @@ Ramas cerradas en este bloque:
 - `fix/remove-merge-conflict-from-job-offers-service` (#32): eliminar conflicto de merge pendiente en el servicio de ofertas
 - `docs/add-v2-stitch-mockups-anexo` (#33): anexo de bocetos Stitch, mockups versionados y prompt de arranque
 - `security/sanitize-reintroduced-jooble-key` (#34): sanitización de la API key de Jooble reintroducida por error en `docs/memoria/`
+- `chore/reconcile-main-before-v2` (#35): roadmap actualizado y auditoría pre-baseline V2
+- `release: promote MVP baseline pre-V2` (#36): promoción `dev → main` con tag `mvp-baseline-pre-v2`
+- `feat/v2-react-ts-scaffold` (#37): scaffold Vite + React + TypeScript en `apps/web/` (Fase 2)
+- `feat/v2-domain-models-and-storage` (#38): modelos dominio y storage TypeScript en `apps/web/src/lib/` (Fase 3)
+- `feat/v2-react-auth-and-editor-shell` (#39): auth local, editor de perfil y preview React (Fase 4)
 
 ## Última feature cerrada
 
-- `security/sanitize-reintroduced-jooble-key` (#34)
+- `feat/v2-react-auth-and-editor-shell` (#39) — Fase 4 del plan V2
 
 Objetivo cubierto:
-- detectar y sanitizar la API key real de Jooble reintroducida por error en `docs/memoria/features/feature-jobs-proxy-security.md:396` por el commit `727f9e0`
-- sustituir el UUID real por el placeholder `YOUR_REAL_KEY_HERE`, coherente con el resto del documento
-- cero impacto en código de la app; cambio acotado a un único archivo de documentación
-- cierra la brecha de seguridad que el PR #26 y el PR #28 habían dejado parcialmente abierta
+- pantalla de auth (login/registro con tabs) con auth local de demo, misma limitación explícita que el legacy
+- layout autenticado con cabecera, logout y disposición editor+preview en dos columnas
+- formulario de perfil controlado con guardado explícito (preview sincronizada al guardar)
+- preview del CV con visibilidad de proyectos usando la misma regla que `js/utils/projects.js`
+- port TypeScript de `AuthStorageService` e `isRenderableProject`/`getVisibleProjects`
+- verificado: `typecheck` OK, `lint` OK, `build` OK (28 módulos, 86ms)
 
 ## Feature anterior cerrada
 
@@ -69,14 +75,14 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `chore/reconcile-main-before-v2` → `dev` (esta misma rama, roadmap actualizado)
-- PR `dev` → `main` con tag `mvp-baseline-pre-v2` para cerrar Fase 0 del plan V2
-- comenzar Fase 2: `feat/v2-react-ts-scaffold` (scaffold Vite + React + TypeScript en carpeta separada del legacy)
+- PR `chore/v2-fase-4-docs-and-polish` → `dev` ← rama activa (pulido documental post-Fase 4)
+- comenzar Fase 5: `feat/v2-backend-api-foundation` (backend TypeScript con endpoints mínimos, sin DB todavía)
 
 Objetivo siguiente:
-- dejar `main` y `dev` en el mismo commit saneado (baseline estable pre-V2)
-- verificar que los patrones peligrosos del plan V2 sección 4 están limpios antes del merge a `main` (auditado en esta rama — resultado: todos limpios)
-- arrancar el scaffold React + TypeScript sin arrastrar deuda de la divergencia `main ↔ dev`
+- cerrar esta micro-rama de documentación sin ampliar alcance de producto
+- arrancar backend Express/Fastify TypeScript en `apps/api/` conviviendo con el proxy legacy de Jooble
+- endpoints mínimos: `GET /health`, `POST /auth/register`, `POST /auth/login`, `GET/PUT /cvs/me`, `GET /jobs/search`
+- conectar el frontend React a los endpoints sin URL hardcodeada (variable de entorno)
 
 ## Validación técnica reciente (Jooble)
 
@@ -136,10 +142,29 @@ Objetivo siguiente:
 
 ## Orden funcional acordado para esta fase
 
-1. cerrar `chore/reconcile-main-before-v2` con roadmap al día ← rama activa
-2. abrir PR `chore/reconcile-main-before-v2` → `dev`
-3. tras validar `dev`, abrir PR `dev` → `main` con tag `mvp-baseline-pre-v2`
-4. comenzar Fase 2 del plan V2: `feat/v2-react-ts-scaffold`
+1. ✅ Fase 0: reconciliar `main ↔ dev` (PRs #35 y #36)
+2. ✅ Fase 2: scaffold React + TypeScript en `apps/web/` (PR #37)
+3. ✅ Fase 3: dominio y storage TypeScript (PR #38)
+4. ✅ Fase 4: auth, editor de perfil y preview React (PR #39)
+5. cerrar `chore/v2-fase-4-docs-and-polish` con docs al día ← rama activa
+6. comenzar Fase 5: `feat/v2-backend-api-foundation`
+
+## Limitaciones temporales antes del backend (Fase 5)
+
+Quedan documentadas para no confundirlas con bugs:
+
+- **Auth local no segura**: contraseñas guardadas en texto plano en `localStorage`.
+  Funcional solo como demo MVP. No apta para producción ni datos reales.
+- **CV no aislado por usuario**: la clave de storage es fija (`expertech-cv:v2`).
+  Pasará a ser session-scoped cuando se integre el backend real (Fase 5/6).
+- **Preview sincronizada al guardar**: la preview del CV se actualiza al pulsar
+  "Guardar perfil", no en tiempo real mientras se escribe. El live-typing
+  requiere gestión de estado más sofisticada prevista para Fase 4+/Fase 5.
+- **Jooble y proxy local son legacy temporal**: el buscador de empleo opera
+  desde `server/server.js` (Express legacy). Se sustituirá o la API key se
+  rotará cuando exista backend serio en `apps/api/` (Fase 5).
+- **GitHub OAuth y exportación PDF no portados**: disponibles en el legacy;
+  pendientes de portado incremental en Fases siguientes.
 
 ## Auditoría pre-baseline (plan V2 sección 4 · realizada 2026-05-21)
 
