@@ -393,7 +393,7 @@ app.get('/api/jobs/search', async (req, res) => {
 
 ```bash
 # server/.env (ya configurado)
-JOOBLE_API_KEY=5c416f55-e684-408d-a7a1-960e929fa446
+JOOBLE_API_KEY=YOUR_REAL_KEY_HERE
 PORT=3001
 ```
 
