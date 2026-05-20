@@ -1,19 +1,17 @@
 import { Router } from 'express'
 import { toPublicUser } from '../domain.js'
 import { requireAuth } from '../middleware/auth.js'
-import { userStore } from '../storage/memory.js'
+import { prisma } from '../lib/prisma.js'
 
 export const usersRouter = Router()
 
 usersRouter.use(requireAuth)
 
 usersRouter.get('/me', (req, res) => {
-  // requireAuth garantiza que req.user existe.
   res.json({ user: toPublicUser(req.user!) })
 })
 
-usersRouter.put('/me', (req, res) => {
-  const current = req.user!
+usersRouter.put('/me', async (req, res) => {
   const { displayName } = req.body as Record<string, unknown>
 
   if (typeof displayName !== 'string' || displayName.trim().length === 0) {
@@ -21,6 +19,9 @@ usersRouter.put('/me', (req, res) => {
     return
   }
 
-  const updated = userStore.update({ ...current, displayName: displayName.trim() })
+  const updated = await prisma.user.update({
+    where: { id: req.user!.id },
+    data: { displayName: displayName.trim() },
+  })
   res.json({ user: toPublicUser(updated) })
 })

@@ -1,39 +1,29 @@
-// Factories de dominio del backend. Equivalentes a las del frontend
-// (apps/web/src/lib/domain/) pero ejecutándose en Node.
+// Factories de dominio que normalizan shapes antes de persistir.
+// Los IDs de User/CV/PublicProfile los genera Prisma (cuid).
+// Los tokens de sesión se generan con crypto.randomBytes.
 
 import { randomBytes } from 'node:crypto'
-import type {
-  CandidateProfile,
-  LocalUser,
-  PortfolioCV,
-  Project,
-  PublicUser,
-  Session,
-} from './types.js'
-
-function normalize(s: string): string {
-  return s.trim()
-}
-
-function normalizeEmail(s: string): string {
-  return s.trim().toLowerCase()
-}
-
-export function createId(prefix: string): string {
-  return `${prefix}-${Date.now()}-${randomBytes(4).toString('hex')}`
-}
+import type { CandidateProfile, PortfolioCV, Project, PublicUser } from './types.js'
 
 export function createToken(): string {
   return randomBytes(32).toString('hex')
 }
 
-export function toPublicUser(user: LocalUser): PublicUser {
+export interface UserLike {
+  id: string
+  displayName: string
+  email: string
+  provider: string
+  createdAt: Date | string
+}
+
+export function toPublicUser(user: UserLike): PublicUser {
   return {
     id: user.id,
     displayName: user.displayName,
     email: user.email,
     provider: user.provider,
-    createdAt: user.createdAt,
+    createdAt: typeof user.createdAt === 'string' ? user.createdAt : user.createdAt.toISOString(),
   }
 }
 
@@ -93,32 +83,5 @@ export function createPortfolioCV(data: PortfolioCVInput = {}): PortfolioCV {
 }
 
 export function createInitialCVState(): PortfolioCV {
-  return createPortfolioCV({ profile: {}, projects: [], meta: { version: 1, isDraft: true } })
-}
-
-export function createUserRecord(input: {
-  displayName: string
-  email: string
-  password: string
-  provider?: string
-}): LocalUser {
-  return {
-    id: createId('user'),
-    displayName: normalize(input.displayName),
-    email: normalizeEmail(input.email),
-    password: input.password,
-    provider: normalize(input.provider ?? 'local'),
-    createdAt: new Date().toISOString(),
-  }
-}
-
-export function createSessionRecord(user: LocalUser): Session {
-  return {
-    token: createToken(),
-    userId: user.id,
-    displayName: user.displayName,
-    email: user.email,
-    provider: user.provider,
-    loggedAt: new Date().toISOString(),
-  }
+  return createPortfolioCV()
 }

@@ -1,16 +1,15 @@
 import type { NextFunction, Request, Response } from 'express'
-import type { LocalUser, Session } from '../types.js'
-import { sessionStore, userStore } from '../storage/memory.js'
+import type { User } from '@prisma/client'
+import { prisma } from '../lib/prisma.js'
 
-// Extiende Request para llevar la sesión y el usuario autenticados.
 declare module 'express-serve-static-core' {
   interface Request {
-    session?: Session
-    user?: LocalUser
+    user?: User
+    sessionToken?: string
   }
 }
 
-export function requireAuth(req: Request, res: Response, next: NextFunction): void {
+export async function requireAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
   const header = req.header('authorization') ?? ''
   const [scheme, token] = header.split(' ')
 
@@ -19,20 +18,17 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
     return
   }
 
-  const session = sessionStore.findByToken(token)
+  const session = await prisma.session.findUnique({
+    where: { token },
+    include: { user: true },
+  })
+
   if (!session) {
     res.status(401).json({ error: 'Token de sesión inválido o expirado.' })
     return
   }
 
-  const user = userStore.findById(session.userId)
-  if (!user) {
-    sessionStore.delete(token)
-    res.status(401).json({ error: 'Usuario asociado a la sesión ya no existe.' })
-    return
-  }
-
-  req.session = session
-  req.user = user
+  req.user = session.user
+  req.sessionToken = session.token
   next()
 }

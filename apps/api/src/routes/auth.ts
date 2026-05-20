@@ -1,7 +1,9 @@
 import { Router } from 'express'
-import { createSessionRecord, createUserRecord, toPublicUser } from '../domain.js'
+import { Prisma } from '@prisma/client'
+import { createToken, toPublicUser } from '../domain.js'
 import { requireAuth } from '../middleware/auth.js'
-import { sessionStore, userStore } from '../storage/memory.js'
+import { prisma } from '../lib/prisma.js'
+import { hashPassword, verifyPassword } from '../lib/password.js'
 
 export const authRouter = Router()
 
@@ -9,7 +11,11 @@ function hasText(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0
 }
 
-authRouter.post('/register', (req, res) => {
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase()
+}
+
+authRouter.post('/register', async (req, res) => {
   const { displayName, email, password } = req.body as Record<string, unknown>
 
   if (!hasText(displayName)) {
@@ -25,18 +31,35 @@ authRouter.post('/register', (req, res) => {
     return
   }
 
-  if (userStore.findByEmail(email)) {
-    res.status(409).json({ error: 'Ya existe una cuenta con ese email.' })
-    return
+  try {
+    const user = await prisma.user.create({
+      data: {
+        displayName: displayName.trim(),
+        email: normalizeEmail(email),
+        hashedPassword: await hashPassword(password),
+        provider: 'local',
+      },
+    })
+
+    const session = await prisma.session.create({
+      data: { token: createToken(), userId: user.id },
+    })
+
+    res.status(201).json({
+      user: toPublicUser(user),
+      session: { token: session.token, userId: user.id, loggedAt: session.loggedAt.toISOString() },
+    })
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      res.status(409).json({ error: 'Ya existe una cuenta con ese email.' })
+      return
+    }
+    console.error('[auth/register] error:', err)
+    res.status(500).json({ error: 'Error interno al registrar.' })
   }
-
-  const user = userStore.create(createUserRecord({ displayName, email, password }))
-  const session = sessionStore.create(createSessionRecord(user))
-
-  res.status(201).json({ user: toPublicUser(user), session })
 })
 
-authRouter.post('/login', (req, res) => {
+authRouter.post('/login', async (req, res) => {
   const { email, password } = req.body as Record<string, unknown>
 
   if (!hasText(email)) {
@@ -48,23 +71,31 @@ authRouter.post('/login', (req, res) => {
     return
   }
 
-  const user = userStore.findByEmail(email)
+  const user = await prisma.user.findUnique({ where: { email: normalizeEmail(email) } })
   if (!user) {
-    res.status(401).json({ error: 'No existe una cuenta con ese email.' })
-    return
-  }
-  if (user.password !== password) {
-    res.status(401).json({ error: 'La contraseña no es correcta.' })
+    res.status(401).json({ error: 'Credenciales inválidas.' })
     return
   }
 
-  const session = sessionStore.create(createSessionRecord(user))
-  res.json({ user: toPublicUser(user), session })
+  const ok = await verifyPassword(password, user.hashedPassword)
+  if (!ok) {
+    res.status(401).json({ error: 'Credenciales inválidas.' })
+    return
+  }
+
+  const session = await prisma.session.create({
+    data: { token: createToken(), userId: user.id },
+  })
+
+  res.json({
+    user: toPublicUser(user),
+    session: { token: session.token, userId: user.id, loggedAt: session.loggedAt.toISOString() },
+  })
 })
 
-authRouter.post('/logout', requireAuth, (req, res) => {
-  if (req.session) {
-    sessionStore.delete(req.session.token)
+authRouter.post('/logout', requireAuth, async (req, res) => {
+  if (req.sessionToken) {
+    await prisma.session.delete({ where: { token: req.sessionToken } })
   }
   res.json({ ok: true })
 })

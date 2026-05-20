@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: expertech-cv-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: expertech
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: expertech_cv_dev
+    ports:
+      # 5435 en host para no chocar con otros servicios PostgreSQL del usuario
+      # (Homebrew en 5432, nutricoach_db en 5432, postgres en 5433, taller_db en 5434).
+      # 5432 sigue siendo el puerto interno del contenedor.
+      - "5435:5432"
+    volumes:
+      - expertech_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U expertech -d expertech_cv_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  expertech_pg_data:
+    name: expertech_pg_data
