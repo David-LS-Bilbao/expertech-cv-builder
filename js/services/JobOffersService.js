@@ -7,6 +7,7 @@ function getJobsProxyUrl() {
 }
 
 const CONFIG = {
+<<<<<<< HEAD
   mode: 'proxy', // Siempre intenta proxy primero, fallback automático a mock si falla.
   get proxyUrl() {
     return getJobsProxyUrl();
@@ -25,6 +26,35 @@ function validateString(value, fieldName, maxLength = 100) {
     throw new Error(`${fieldName} excede máximo de ${maxLength} caracteres.`);
   }
   return value.trim();
+=======
+  // Modo base para entorno local de desarrollo.
+  // En despliegue estático (ej. GitHub Pages) degradamos automáticamente a mock.
+  mode: "proxy",
+  proxyUrl: "http://localhost:3001/api/jobs/search",
+};
+
+function isLocalRuntime() {
+  const hostname = String(window.location.hostname || "").toLowerCase();
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "[::1]"
+  );
+}
+
+function resolveRuntimeMode() {
+  if (CONFIG.mode === "mock") {
+    return "mock";
+  }
+
+  // En despliegue estático no existe proxy local, así que usamos mock
+  // para evitar errores de red al usuario final.
+  if (!isLocalRuntime()) {
+    return "mock";
+  }
+
+  return "proxy";
+>>>>>>> origin/main
 }
 
 /**
@@ -137,7 +167,9 @@ export async function searchOffers({ keyword, location = "" }) {
     throw new Error(`Validación fallida: ${err.message}`);
   }
 
-  if (CONFIG.mode === 'proxy') {
+  const runtimeMode = resolveRuntimeMode();
+
+  if (runtimeMode === "proxy") {
     try {
       return await fetchFromProxy({ keyword, location });
     } catch (err) {
@@ -151,5 +183,8 @@ export async function searchOffers({ keyword, location = "" }) {
     }
   }
 
-  return fetchFromMock({ keyword, location });
+  const mockResults = await fetchFromMock({ keyword, location });
+  mockResults._fallbackWarning =
+    "Despliegue estático detectado: mostrando datos mock (sin backend proxy).";
+  return mockResults;
 }
