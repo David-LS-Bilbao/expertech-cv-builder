@@ -16,6 +16,7 @@
 
 import { createPortfolioCV } from "../models/PortfolioCV.js";
 import { renderPreviewTemplate } from "./PreviewTemplate.js";
+import { getVisibleProjects } from "../utils/projects.js";
 
 // Textos fallback por si algún campo todavía está vacío.
 // Así evitamos que la preview quede rota o con huecos raros.
@@ -132,37 +133,6 @@ export function createPreviewRenderer({
     projectsListElement.innerHTML = "";
   }
 
-  // Determina si un proyecto tiene contenido suficiente para ser visible.
-  // No exigimos todos los campos; basta con que tenga algún dato útil.
-  function isRenderableProject(projectData = {}) {
-    const name = String(projectData.name ?? "").trim();
-    const description = String(projectData.description ?? "").trim();
-    const repoUrl = String(projectData.repoUrl ?? "").trim();
-    const demoUrl = String(projectData.demoUrl ?? "").trim();
-    const stack = Array.isArray(projectData.stack) ? projectData.stack : [];
-
-    return Boolean(name || description || repoUrl || demoUrl || stack.length > 0);
-  }
-
-  // Devuelve proyectos útiles para la preview.
-  // Regla de esta feature:
-  // - si hay proyectos featured válidos, mostramos esos
-  // - si no, mostramos todos los proyectos válidos
-  function getVisibleProjects(projects = []) {
-    if (!Array.isArray(projects)) {
-      return [];
-    }
-
-    const renderableProjects = projects.filter((project) =>
-      isRenderableProject(project)
-    );
-
-    const featuredProjects = renderableProjects.filter(
-      (project) => Boolean(project.featured)
-    );
-
-    return featuredProjects.length > 0 ? featuredProjects : renderableProjects;
-  }
 
   // Crea una lista visual compacta del stack del proyecto.
   // Si no hay stack, devolvemos null y no pintamos ese bloque.
