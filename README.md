@@ -4,11 +4,11 @@
 
 ## Estado del proyecto
 
-Estado actual: `MVP legacy vanilla JS saneado + plan V2 documentado`
+Estado actual: `MVP legacy estable + V2 en progreso (Fases 2–6 cerradas)`
 
-Fase actual: `docs/add-v2-react-backend-docker-plan`
+Fase actual: `chore/v2-fase-6-docs-and-safety-audit` (auditoría documental post-Fase 6)
 
-El MVP legacy en vanilla JS está completo y, además, se ha cerrado un bloque de hardening sobre `dev` (PRs #22 a #30) que ha estabilizado listeners, securizado el proxy de empleo, añadido fallback de storage, retirado documentación local con secretos, extraído utilidades comunes de proyectos y añadido `.gitattributes`. Sobre esta baseline, el proyecto entra ahora en una fase **documental** previa a V2: este repositorio contiene un plan explícito de migración a React + TypeScript, backend real con APIs, base de datos PostgreSQL, Dockerización y preparación de despliegue. Ningún cambio de código de V2 se ha implementado todavía: queda pendiente reconciliar `main ↔ dev` antes de arrancar las fases V2.
+El MVP legacy en vanilla JS está completo y saneado (PRs #22–#30 de hardening). La V2 del proyecto ya ha cerrado seis fases de implementación real: scaffold React + TypeScript (`apps/web/`), modelos de dominio TypeScript, auth y preview React, backend Express + TypeScript (`apps/api/`), y persistencia real con PostgreSQL + Prisma + bcrypt (Fases 2–6, PRs #37–#42). `main` y `dev` están sincronizadas desde el tag `mvp-baseline-pre-v2` (PR #36). El siguiente bloque es la Dockerización completa del stack (Fase 7).
 
 El comportamiento funcional del MVP sigue intacto: maqueta visual navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage` con fallback automático a `sessionStorage` o memoria, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub) con límites de tamaño para evitar `QuotaExceededError`, exportación PDF basada en una vista específica de impresión con QR y una demo pública estática. Además, el bloque de búsqueda de empleo está conectado a Jooble mediante proxy local con degradación a mock cuando falla la API, contrato estable `{ results, fallbackWarning, source }` y URL del proxy parametrizable (sin `localhost:3001` hardcodeado en el frontend).
 
@@ -255,17 +255,22 @@ Sigue quedando fuera de este cierre:
 
 Las features `feat/github-integration`, `feat/projects-visualization`, `feat/login-screen`, `feat/github-project-sources`, `feat/export-pdf-qr`, `feat/github-pages-public-preview` y `feat/jooble-search-proxy-mvp` dejan una base MVP sólida que el bloque de hardening posterior ha endurecido en estabilidad, seguridad y limpieza: auth local de demostración, integración pública con GitHub, representación recruiter-friendly de proyectos, trazabilidad mínima del origen importado, avatar híbrido con límites, exportación PDF útil, demo pública estática y buscador de empleo con proxy local seguro y contrato estable.
 
-Limitaciones actuales importantes:
+Limitaciones del legacy (aplican al MVP vanilla JS en la raíz, no a V2):
 
-- la auth actual es local y orientada a demo, no auth real de producción
-- las contraseñas se guardan en `localStorage` en texto plano como limitación explícita de este MVP
-- Google y GitHub no implementan OAuth real todavía
-- no hay backend serio ni base de datos PostgreSQL en esta fase: el `server/` actual es solo un proxy local mínimo para la búsqueda de empleo
-- existe aislamiento básico por sesión local para el estado del CV, pero no persistencia multiusuario real
-- no hay validación avanzada de autoría o atribución en proyectos GitHub
-- no hay soporte real para múltiples cuentas GitHub ni colaboraciones en esta fase
-- la búsqueda de empleo se apoya en proxy local Jooble y mantiene fallback a mock como protección UX
-- el proxy local de Jooble está validado para entorno local, pero no es backend de producción
+- la auth del legacy es local y orientada a demo; las contraseñas del legacy se guardan en `localStorage` en texto plano (limitación explícita del MVP)
+- Google y GitHub no implementan OAuth real todavía en ninguna versión
+- el `server/` de la raíz es un proxy mínimo para Jooble; no es backend de producción
+- no hay validación avanzada de autoría o atribución en proyectos GitHub en el legacy
+- no hay soporte para múltiples cuentas GitHub ni colaboraciones en esta fase
+
+Limitaciones del backend V2 (`apps/api/`) post-Fase 6:
+
+- contraseñas hasheadas con bcrypt; backend no guarda texto plano
+- persistencia real en PostgreSQL con aislamiento por usuario (`ownerId`)
+- sesiones en DB sin expiración automática todavía (Fase 8)
+- sin rate limit ni logs estructurados todavía (Fase 8)
+- token Bearer del frontend en `localStorage` (migración a cookie httpOnly en Fase 8)
+- Docker Compose solo tiene el servicio de DB; frontend y backend todavía no dockerizados (Fase 7)
 
 Orden recomendado a partir del estado actual:
 
