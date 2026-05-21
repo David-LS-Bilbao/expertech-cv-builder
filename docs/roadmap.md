@@ -4,11 +4,13 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `chore/v2-fase-6-docs-and-safety-audit`
+- `feat/v2-docker-compose-local` — Fase 7 del plan V2
 
 Objetivo actual:
-- micro-rama de auditoría post-Fase 6: actualizar roadmap y evidencias con el cierre de Fases 5 y 6, corregir limitaciones obsoletas en docs y READMEs, y dejar el repositorio coherente antes de arrancar Fase 7 (Docker compose local)
-- sin cambios de código ni dependencias: solo documentación
+- Dockerización completa del stack V2: `web` (Nginx + Vite build), `api` (Node), `postgres`
+- `docker compose up --build` levanta todo desde la raíz sin configuración adicional
+- Frontend usa `/api/*` como URL relativa; Nginx proxea al backend por red interna
+- `prisma migrate deploy` en arranque del contenedor API
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -44,6 +46,7 @@ Ramas cerradas en este bloque:
 - `chore/v2-fase-4-docs-and-polish` (#40): pulido documental post-Fase 4, metadata HTML, limitaciones V2
 - `feat/v2-backend-api-foundation` (#41): backend Express + TypeScript con endpoints mínimos, CORS, health, auth, users, cvs, jobs (Fase 5)
 - `feat/v2-database-persistence` (#42): PostgreSQL + Prisma + bcrypt + sesiones en DB + frontend rewire (Fase 6)
+- `chore/v2-fase-6-docs-and-safety-audit` (#43): documentación post-Fases 5 y 6
 
 ## Última feature cerrada
 
@@ -84,8 +87,8 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `chore/v2-fase-6-docs-and-safety-audit` → `dev` ← rama activa
-- comenzar Fase 7: `feat/v2-docker-compose-local` — Docker Compose completo con frontend, backend y DB
+- PR `feat/v2-docker-compose-local` → `dev` ← rama activa (Fase 7 cerrada)
+- comenzar Fase 8: `feat/v2-deployment-readiness` — build reproducible, variables dev/prod, checklist de seguridad pre-deploy, README de despliegue
 
 Objetivo siguiente:
 - cerrar esta micro-rama documental sin ampliar alcance de producto
@@ -158,8 +161,9 @@ Objetivo siguiente:
 5. ✅ Docs post-Fase 4 (PR #40)
 6. ✅ Fase 5: backend API foundation (PR #41)
 7. ✅ Fase 6: PostgreSQL + Prisma + frontend rewire (PR #42)
-8. cerrar `chore/v2-fase-6-docs-and-safety-audit` ← rama activa
-9. comenzar Fase 7: `feat/v2-docker-compose-local`
+8. ✅ Docs post-Fase 6 (PR #43)
+9. cerrar Fase 7: `feat/v2-docker-compose-local` ← rama activa
+10. comenzar Fase 8: `feat/v2-deployment-readiness`
 
 ## Limitaciones conocidas post-Fase 6
 

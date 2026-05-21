@@ -4,11 +4,39 @@
 
 ## Estado del proyecto
 
-Estado actual: `MVP legacy estable + V2 en progreso (Fases 2–6 cerradas)`
+Estado actual: `MVP legacy estable + V2 Fases 2–7 cerradas`
 
-Fase actual: `chore/v2-fase-6-docs-and-safety-audit` (auditoría documental post-Fase 6)
+Fase actual: `feat/v2-docker-compose-local` (Fase 7, Dockerización del stack V2)
 
-El MVP legacy en vanilla JS está completo y saneado (PRs #22–#30 de hardening). La V2 del proyecto ya ha cerrado seis fases de implementación real: scaffold React + TypeScript (`apps/web/`), modelos de dominio TypeScript, auth y preview React, backend Express + TypeScript (`apps/api/`), y persistencia real con PostgreSQL + Prisma + bcrypt (Fases 2–6, PRs #37–#42). `main` y `dev` están sincronizadas desde el tag `mvp-baseline-pre-v2` (PR #36). El siguiente bloque es la Dockerización completa del stack (Fase 7).
+El MVP legacy en vanilla JS está completo y saneado. La V2 ha cerrado siete fases: scaffold React + TypeScript, dominio TS, UI React, backend Express + TypeScript, PostgreSQL + Prisma + bcrypt, y Dockerización completa (Fases 2–7). El stack V2 arranca con un solo comando desde la raíz.
+
+## Arranque Docker local V2
+
+Requisitos: Docker y Docker Compose.
+
+```bash
+# Desde la raíz del repo:
+docker compose up --build   # primera vez (construye imágenes)
+docker compose up -d        # arranques posteriores (en background)
+```
+
+Servicios levantados:
+
+| Servicio | URL local | Descripción |
+|---|---|---|
+| `web` | http://localhost:8080 | Frontend React servido por Nginx |
+| `api` | http://localhost:3002 | Backend Express (acceso directo, dev) |
+| `postgres` | localhost:5435 | PostgreSQL (acceso directo, dev) |
+
+> **Nota:** si el puerto `8080` está ocupado en tu máquina (por otro contenedor o servicio), edita la línea `"8080:80"` en `docker-compose.yml` por el puerto que prefieras. Los demás puertos siguen la misma lógica.
+
+```bash
+# Parar el stack (conserva el volumen de DB):
+docker compose down
+
+# Parar y borrar el volumen (reset total de datos):
+docker compose down -v
+```
 
 El comportamiento funcional del MVP sigue intacto: maqueta visual navegable, auth local básica para MVP con `login/register`, persistencia de usuarios y sesión en `localStorage` con fallback automático a `sessionStorage` o memoria, restauración de sesión al recargar, formulario funcional de perfil conectado al estado, preview recruiter-friendly sincronizada en tiempo real, integración pública básica con GitHub para enriquecer el CV con perfil y repositorios seleccionados manualmente, visualización dinámica de proyectos en la preview, trazabilidad mínima del origen de proyectos importados desde GitHub, sistema de avatar híbrido (local y GitHub) con límites de tamaño para evitar `QuotaExceededError`, exportación PDF basada en una vista específica de impresión con QR y una demo pública estática. Además, el bloque de búsqueda de empleo está conectado a Jooble mediante proxy local con degradación a mock cuando falla la API, contrato estable `{ results, fallbackWarning, source }` y URL del proxy parametrizable (sin `localhost:3001` hardcodeado en el frontend).
 

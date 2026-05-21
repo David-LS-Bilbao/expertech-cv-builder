@@ -294,3 +294,30 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - Smoke test multi-usuario Alice/Bob con aislamiento correcto (curl end-to-end)
 - Limitaciones pendientes: sesiones sin TTL, sin rate limit, sin logs estructurados, token en localStorage, tipos duplicados, PublicProfile sin gestión de slug, falta Docker compose completo para web + api.
 - Próximo paso: `feat/v2-docker-compose-local` — Dockerizar frontend y backend; un solo `docker compose up` levanta el stack completo.
+
+### [2026-05-21] Fase 7: Dockerización del stack V2
+
+- Objetivo: levantar el stack V2 completo (frontend + backend + base de datos) con un solo `docker compose up --build` desde la raíz del repositorio.
+- Trabajo realizado:
+  - `apps/api/Dockerfile`: multi-stage (deps → build → runtime). `npm ci --omit=dev`, `prisma generate` y `npx tsc`. CMD: `prisma migrate deploy && node dist/server.js`.
+  - `apps/api/.dockerignore`: excluye `node_modules`, `dist`, `.env`.
+  - `apps/web/Dockerfile`: multi-stage (build con Node → runtime con Nginx alpine). Build con `VITE_API_URL=/api` (build arg), copia `dist/` + `nginx.conf`.
+  - `apps/web/.dockerignore`: excluye `node_modules`, `dist`, `.env`.
+  - `apps/web/nginx.conf`: sirve SPA con `try_files $uri /index.html`; proxea `/api/*` a `http://api:3002/` (stripping de prefijo) con headers estándar.
+  - `docker-compose.yml` (raíz): tres servicios `postgres`, `api`, `web` en red `expertech_network`. Healthchecks en los tres. `api` depende de `postgres` healthy; `web` depende de `api` healthy. Volumen `expertech_pg_data` marcado como `external` para reutilizar datos de desarrollo.
+  - Corrección durante el proceso: `package.json` debía copiarse en el stage de build para que `tsc` con `"module":"node16"` generara ESM (no CJS) al resolver `"type":"module"` del package.json.
+  - Ajuste de puerto: frontend expone `8090:80` localmente (8080 ocupado por otro contenedor en el equipo de desarrollo).
+- Archivos afectados: `apps/api/Dockerfile`, `apps/api/.dockerignore`, `apps/web/Dockerfile`, `apps/web/.dockerignore`, `apps/web/nginx.conf`, `docker-compose.yml`, `README.md`, `docs/roadmap.md`, `docs/evidencias.md`.
+- Resultado: `docker compose up --build` levanta los tres servicios. El frontend sirve la SPA React compilada con Nginx. Las llamadas a `/api/*` llegan al backend sin URL hardcodeada. Las migraciones Prisma se aplican automáticamente en el arranque del contenedor API.
+- Validación:
+  - `docker compose config` OK
+  - `docker compose build` OK (ambas imágenes)
+  - `docker compose up -d` OK (todos healthy)
+  - `curl http://localhost:3002/health` → `{ status: "ok", storage: "postgres" }`
+  - `curl http://localhost:8090/api/health` → mismo resultado vía Nginx proxy
+  - `curl http://localhost:8090/` → HTTP 200 (SPA)
+  - Smoke test: register "Docker Test" → guardar CV → recuperar CV vía proxy → users: 3
+  - `apps/api`: typecheck OK, lint OK, build OK
+  - `apps/web`: typecheck OK, lint OK, build OK (26 módulos, 87ms)
+- Limitaciones pendientes: Fase 8 (build reproducible, variables dev/prod separadas, rate limit, cookies httpOnly, logs estructurados, checklist de seguridad pre-deploy).
+- Próximo paso: `feat/v2-deployment-readiness` (Fase 8).
