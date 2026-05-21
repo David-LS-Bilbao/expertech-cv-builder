@@ -4,21 +4,24 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `chore/v2-fase-4-docs-and-polish`
+- `chore/v2-fase-6-docs-and-safety-audit`
 
 Objetivo actual:
-- micro-rama de auditoría post-Fase 4: pulido de metadata HTML, README propio de `apps/web/`, documentación de limitaciones temporales antes del backend y registro del cierre de Fases 2, 3 y 4 en roadmap y evidencias
-- sin cambios de producto ni de lógica: solo documentación y metadatos
+- micro-rama de auditoría post-Fase 6: actualizar roadmap y evidencias con el cierre de Fases 5 y 6, corregir limitaciones obsoletas en docs y READMEs, y dejar el repositorio coherente antes de arrancar Fase 7 (Docker compose local)
+- sin cambios de código ni dependencias: solo documentación
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
 Estado real actual:
-- todas las integraciones pesadas del MVP legacy (Auth local, Editor, Preview, Export, GitHub, Búsqueda de empleo) están resueltas arquitectónicamente
+- todas las integraciones pesadas del MVP legacy están resueltas arquitectónicamente
 - bloque de hardening legacy cerrado sobre `dev` con PRs #22 a #30
 - bloque documental V2 cerrado sobre `dev` con PRs #31 a #33
 - sanitización de seguridad adicional con PR #34
 - reconciliación `main ↔ dev` + promoción a `main` completadas con PRs #35 y #36
-- **Fases 2, 3 y 4 del plan V2 cerradas sobre `dev`** con PRs #37, #38 y #39
+- Fases 2, 3, 4 del plan V2 cerradas con PRs #37–#39
+- pulido documental post-Fase 4 con PR #40
+- **Fase 5 cerrada con PR #41**: backend Express + TypeScript en `apps/api/`
+- **Fase 6 cerrada con PR #42**: PostgreSQL + Prisma + bcrypt + frontend rewire al backend
 
 Ramas cerradas en este bloque:
 - `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
@@ -38,18 +41,24 @@ Ramas cerradas en este bloque:
 - `feat/v2-react-ts-scaffold` (#37): scaffold Vite + React + TypeScript en `apps/web/` (Fase 2)
 - `feat/v2-domain-models-and-storage` (#38): modelos dominio y storage TypeScript en `apps/web/src/lib/` (Fase 3)
 - `feat/v2-react-auth-and-editor-shell` (#39): auth local, editor de perfil y preview React (Fase 4)
+- `chore/v2-fase-4-docs-and-polish` (#40): pulido documental post-Fase 4, metadata HTML, limitaciones V2
+- `feat/v2-backend-api-foundation` (#41): backend Express + TypeScript con endpoints mínimos, CORS, health, auth, users, cvs, jobs (Fase 5)
+- `feat/v2-database-persistence` (#42): PostgreSQL + Prisma + bcrypt + sesiones en DB + frontend rewire (Fase 6)
 
 ## Última feature cerrada
 
-- `feat/v2-react-auth-and-editor-shell` (#39) — Fase 4 del plan V2
+- `feat/v2-database-persistence` (#42) — Fase 6 del plan V2
 
 Objetivo cubierto:
-- pantalla de auth (login/registro con tabs) con auth local de demo, misma limitación explícita que el legacy
-- layout autenticado con cabecera, logout y disposición editor+preview en dos columnas
-- formulario de perfil controlado con guardado explícito (preview sincronizada al guardar)
-- preview del CV con visibilidad de proyectos usando la misma regla que `js/utils/projects.js`
-- port TypeScript de `AuthStorageService` e `isRenderableProject`/`getVisibleProjects`
-- verificado: `typecheck` OK, `lint` OK, `build` OK (28 módulos, 86ms)
+- PostgreSQL 16 en Docker Compose (puerto 5435 en host); schema Prisma con `User`, `CV`, `PublicProfile`, `Session`
+- bcryptjs para hashing de contraseñas en registro y verificación en login
+- sesiones persistidas en DB con token Bearer; aislamiento garantizado por `ownerId` en todas las queries de CV
+- `health` endpoint pings DB y devuelve recuento de usuarios
+- `public-profiles/:slug` resuelve con Prisma: devuelve CV si `isPublic = true`, 404 si no
+- frontend rewire: `App.tsx` arranca con bootstrap async (token → `/users/me` + `/cvs/me`), `AuthScreen` llama backend, `AuthenticatedShell` recibe `PublicUser`
+- eliminados `lib/auth/` y `lib/storage/` del frontend (dead code tras rewire)
+- smoke test multi-usuario verificado: Alice y Bob nunca ven datos del otro
+- verificado: `typecheck` OK, `lint` OK, `build` OK (ambos, `apps/api` y `apps/web`)
 
 ## Feature anterior cerrada
 
@@ -75,14 +84,14 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `chore/v2-fase-4-docs-and-polish` → `dev` ← rama activa (pulido documental post-Fase 4)
-- comenzar Fase 5: `feat/v2-backend-api-foundation` (backend TypeScript con endpoints mínimos, sin DB todavía)
+- PR `chore/v2-fase-6-docs-and-safety-audit` → `dev` ← rama activa
+- comenzar Fase 7: `feat/v2-docker-compose-local` — Docker Compose completo con frontend, backend y DB
 
 Objetivo siguiente:
-- cerrar esta micro-rama de documentación sin ampliar alcance de producto
-- arrancar backend Express/Fastify TypeScript en `apps/api/` conviviendo con el proxy legacy de Jooble
-- endpoints mínimos: `GET /health`, `POST /auth/register`, `POST /auth/login`, `GET/PUT /cvs/me`, `GET /jobs/search`
-- conectar el frontend React a los endpoints sin URL hardcodeada (variable de entorno)
+- cerrar esta micro-rama documental sin ampliar alcance de producto
+- en Fase 7: `docker-compose.yml` en la raíz del repo con tres servicios: `web` (Vite/Nginx), `api` (Node), `postgres`
+- cada servicio con su `Dockerfile`, healthchecks, `.env.example` sin secretos reales
+- criterio de cierre Fase 7: `docker compose up` levanta el stack completo; el usuario puede registrarse, editar y ver su CV desde el navegador sin configuración manual adicional
 
 ## Validación técnica reciente (Jooble)
 
@@ -146,25 +155,38 @@ Objetivo siguiente:
 2. ✅ Fase 2: scaffold React + TypeScript en `apps/web/` (PR #37)
 3. ✅ Fase 3: dominio y storage TypeScript (PR #38)
 4. ✅ Fase 4: auth, editor de perfil y preview React (PR #39)
-5. cerrar `chore/v2-fase-4-docs-and-polish` con docs al día ← rama activa
-6. comenzar Fase 5: `feat/v2-backend-api-foundation`
+5. ✅ Docs post-Fase 4 (PR #40)
+6. ✅ Fase 5: backend API foundation (PR #41)
+7. ✅ Fase 6: PostgreSQL + Prisma + frontend rewire (PR #42)
+8. cerrar `chore/v2-fase-6-docs-and-safety-audit` ← rama activa
+9. comenzar Fase 7: `feat/v2-docker-compose-local`
 
-## Limitaciones temporales antes del backend (Fase 5)
+## Limitaciones conocidas post-Fase 6
 
-Quedan documentadas para no confundirlas con bugs:
+Quedan documentadas para no confundirlas con bugs ni con trabajo no hecho:
 
-- **Auth local no segura**: contraseñas guardadas en texto plano en `localStorage`.
-  Funcional solo como demo MVP. No apta para producción ni datos reales.
-- **CV no aislado por usuario**: la clave de storage es fija (`expertech-cv:v2`).
-  Pasará a ser session-scoped cuando se integre el backend real (Fase 5/6).
-- **Preview sincronizada al guardar**: la preview del CV se actualiza al pulsar
-  "Guardar perfil", no en tiempo real mientras se escribe. El live-typing
-  requiere gestión de estado más sofisticada prevista para Fase 4+/Fase 5.
-- **Jooble y proxy local son legacy temporal**: el buscador de empleo opera
-  desde `server/server.js` (Express legacy). Se sustituirá o la API key se
-  rotará cuando exista backend serio en `apps/api/` (Fase 5).
-- **GitHub OAuth y exportación PDF no portados**: disponibles en el legacy;
-  pendientes de portado incremental en Fases siguientes.
+- **Sesiones sin expiración automática**: el modelo `Session` en DB no tiene TTL.
+  Cleanup manual o cron job previsto para Fase 8 (deployment readiness).
+- **Sin rate limit en endpoints sensibles**: `/auth/register` y `/auth/login`
+  son atacables sin límite de intentos. Rate limit en Fase 8.
+- **Sin logs estructurados**: `console.log/error` por ahora. Logger con niveles y
+  formato JSON en Fase 8.
+- **Token Bearer en `localStorage`**: el token de sesión del frontend vive en
+  `localStorage`. Migración a `httpOnly cookie` en Fase 8.
+- **Tipos duplicados frontend/backend**: `PortfolioCV`, `Project`, etc. están en
+  `apps/web/src/lib/domain/types.ts` y en `apps/api/src/types.ts`. Se moverán
+  a un paquete compartido cuando el coste de duplicación crezca.
+- **`PublicProfile` sin endpoint de gestión**: el modelo existe en DB pero no hay
+  UI ni endpoint para que el usuario cree o active su slug. Pendiente de Fase 7+.
+- **Preview sincronizada al guardar**: la preview del CV se actualiza al guardar,
+  no en tiempo real al escribir. Live-typing requiere estado más sofisticado.
+- **Jooble legacy temporal**: el buscador de empleo V2 proxea a Jooble desde
+  `apps/api/src/services/joobleProxy.ts`. La API key debe rotarse antes de
+  producción. Normalización definitiva en Fase 8.
+- **GitHub OAuth y exportación PDF no portados a V2**: disponibles en el legacy;
+  pendientes de portado en Fases siguientes.
+- **Sin Docker Compose completo**: la DB está dockerizada (`apps/api/docker-compose.yml`);
+  el frontend y el backend todavía no. Fase 7 resuelve esto.
 
 ## Auditoría pre-baseline (plan V2 sección 4 · realizada 2026-05-21)
 

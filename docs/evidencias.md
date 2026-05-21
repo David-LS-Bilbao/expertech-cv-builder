@@ -273,3 +273,24 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `npm run build` — build limpio, 28 módulos
   - `git diff --name-only` — solo archivos dentro de los permitidos por la micro-rama
 - Próximo paso: `feat/v2-backend-api-foundation` — backend TypeScript en `apps/api/` con endpoints mínimos (`/health`, `/auth/*`, `/cvs/me`, `/jobs/search`) sin base de datos todavía.
+
+### [2026-05-21] Cierre Fases 5 y 6 de V2: backend API y persistencia PostgreSQL
+
+- Objetivo: completar el bloque de backend V2 con persistencia real y dejar el frontend plenamente conectado al backend antes de Dockerizar el stack completo en Fase 7.
+- Trabajo realizado:
+  - **PR #41 (`feat/v2-backend-api-foundation`)**: backend Express 4 + TypeScript 6 en `apps/api/`. CORS con allowlist, JSON body parser, 6 routers (`/health`, `/auth`, `/users`, `/cvs`, `/public-profiles`, `/jobs`). Proxy Jooble con contrato estable `{ results, fallbackWarning, source }` y degradación a mock. Sesiones en memoria (temporal). Frontend: `src/lib/api/client.ts` con fetch wrapper y `VITE_API_URL`; badge de estado del backend en el header.
+  - **PR #42 (`feat/v2-database-persistence`)**: PostgreSQL 16 en Docker Compose (`apps/api/docker-compose.yml`, puerto 5435 en host). Prisma 6 con schema `User / CV / PublicProfile / Session`. bcryptjs para hashing de contraseñas en register/login. Sesiones en DB. Aislamiento garantizado por `ownerId` en todas las queries CV/PublicProfile. Frontend rewire completo: `App.tsx` con bootstrap async (token → `/users/me` + `/cvs/me`), `AuthScreen` asíncrono, `AuthenticatedShell` con `PublicUser`. Eliminados `lib/auth/` y `lib/storage/` del frontend (dead code).
+- Archivos/carpetas afectadas:
+  - `apps/api/` (completo, nuevo): scaffold + rutas + Prisma schema + migraciones + docker-compose
+  - `apps/web/src/lib/api/client.ts`: cliente HTTP extendido con auth + CV + token en localStorage
+  - `apps/web/src/app/App.tsx`: bootstrap async, loading state, manejo de 401
+  - `apps/web/src/features/auth/AuthScreen.tsx`, `features/cv/AuthenticatedShell.tsx`: rewire al backend
+  - `apps/web/src/lib/auth/` y `apps/web/src/lib/storage/`: eliminados (dead code)
+  - `docs/`, `apps/*/README.md`: actualizados
+- Resultado: el flujo completo register → login → editar CV → ver preview opera contra backend real con PostgreSQL. Dos usuarios distintos no se mezclan por diseño (aislamiento a nivel de aplicación por `ownerId`). El legacy vanilla JS sigue funcional e intacto.
+- Validaciones reportadas:
+  - `apps/api`: `npm run typecheck` OK, `npm run lint` OK, `npm run build` OK
+  - `apps/web`: `npm run typecheck` OK, `npm run lint` OK, `npm run build` OK (26 módulos, 84ms)
+  - Smoke test multi-usuario Alice/Bob con aislamiento correcto (curl end-to-end)
+- Limitaciones pendientes: sesiones sin TTL, sin rate limit, sin logs estructurados, token en localStorage, tipos duplicados, PublicProfile sin gestión de slug, falta Docker compose completo para web + api.
+- Próximo paso: `feat/v2-docker-compose-local` — Dockerizar frontend y backend; un solo `docker compose up` levanta el stack completo.
