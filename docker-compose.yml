@@ -1,0 +1,89 @@
+services:
+
+  # ─── PostgreSQL ──────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: expertech-cv-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: expertech
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: expertech_cv_dev
+    volumes:
+      - expertech_pg_data:/var/lib/postgresql/data
+    # Port exposed to host for local debugging (e.g. Prisma Studio).
+    # Port 5435 avoids collisions with other local PG instances.
+    ports:
+      - "5435:5432"
+    networks:
+      - expertech_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U expertech -d expertech_cv_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  # ─── Backend API ─────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: expertech-cv-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PORT: 3002
+      # Uses internal Docker network hostname, not localhost.
+      DATABASE_URL: postgresql://expertech:devpassword@postgres:5432/expertech_cv_dev?schema=public
+      ALLOWED_ORIGINS: http://localhost:8090,http://127.0.0.1:8090
+      JOOBLE_API_KEY: YOUR_REAL_KEY_HERE
+    # Port exposed to host for direct API access during development.
+    ports:
+      - "3002:3002"
+    networks:
+      - expertech_network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3002/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ─── Frontend (Nginx) ─────────────────────────────────────────────────────────
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+    container_name: expertech-cv-web
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    # 8090 in host to avoid collision with other containers on 8080
+    # (e.g. rusteze-pgadmin-1). Standard port 8080 documented in README.
+    ports:
+      - "8090:80"
+    networks:
+      - expertech_network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  expertech_network:
+    name: expertech_network
+
+volumes:
+  # Mark as external so Docker Compose reuses the existing volume created
+  # by apps/api/docker-compose.yml during Fase 6 development. Remove
+  # `external: true` and add `name:` if you prefer a fresh volume.
+  expertech_pg_data:
+    external: true
