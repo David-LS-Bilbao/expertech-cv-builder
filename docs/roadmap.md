@@ -4,13 +4,12 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-docker-compose-local` — Fase 7 del plan V2
+- `feat/v2-deployment-readiness` — Fase 8 del plan V2
 
 Objetivo actual:
-- Dockerización completa del stack V2: `web` (Nginx + Vite build), `api` (Node), `postgres`
-- `docker compose up --build` levanta todo desde la raíz sin configuración adicional
-- Frontend usa `/api/*` como URL relativa; Nginx proxea al backend por red interna
-- `prisma migrate deploy` en arranque del contenedor API
+- preparación de despliegue real: build reproducible, vars dev/prod separadas, guía Railway + Vercel, checklist de seguridad pre-deploy, rollback documentado
+- código: `helmet`, rate limit en auth endpoints, `BCRYPT_ROUNDS` configurable
+- docs: `docs/deploy-guide.md`, `docs/security-checklist.md`
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -87,8 +86,8 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-docker-compose-local` → `dev` ← rama activa (Fase 7 cerrada)
-- comenzar Fase 8: `feat/v2-deployment-readiness` — build reproducible, variables dev/prod, checklist de seguridad pre-deploy, README de despliegue
+- PR `feat/v2-deployment-readiness` → `dev` ← rama activa (Fase 8)
+- después: revisión del plan V2 con el usuario para decidir el cierre del legacy y siguientes pasos del proyecto
 
 Objetivo siguiente:
 - cerrar esta micro-rama documental sin ampliar alcance de producto
@@ -162,8 +161,8 @@ Objetivo siguiente:
 6. ✅ Fase 5: backend API foundation (PR #41)
 7. ✅ Fase 6: PostgreSQL + Prisma + frontend rewire (PR #42)
 8. ✅ Docs post-Fase 6 (PR #43)
-9. cerrar Fase 7: `feat/v2-docker-compose-local` ← rama activa
-10. comenzar Fase 8: `feat/v2-deployment-readiness`
+9. ✅ Fase 7: Docker Compose local (PR #44)
+10. cerrar Fase 8: `feat/v2-deployment-readiness` ← rama activa
 
 ## Limitaciones conocidas post-Fase 6
 

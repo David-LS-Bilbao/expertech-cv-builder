@@ -1,5 +1,7 @@
 import cors from 'cors'
 import express from 'express'
+import helmet from 'helmet'
+import { rateLimit } from 'express-rate-limit'
 import { authRouter } from './routes/auth.js'
 import { cvsRouter } from './routes/cvs.js'
 import { healthRouter } from './routes/health.js'
@@ -12,9 +14,22 @@ function parseAllowedOrigins(): string[] {
   return raw.split(',').map((s) => s.trim()).filter(Boolean)
 }
 
+// Rate limit for auth endpoints: 20 attempts per IP per 15 minutes.
+// Prevents brute-force on register and login.
+const authRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Demasiados intentos. Espera 15 minutos antes de volver a intentarlo.' },
+})
+
 export function createApp(): express.Express {
   const app = express()
   const allowedOrigins = parseAllowedOrigins()
+
+  // Security headers (Content-Security-Policy, X-Frame-Options, etc.)
+  app.use(helmet())
 
   app.use(
     cors({
@@ -32,6 +47,8 @@ export function createApp(): express.Express {
   app.use(express.json({ limit: '1mb' }))
 
   app.use('/health', healthRouter)
+  app.use('/auth/register', authRateLimit)
+  app.use('/auth/login', authRateLimit)
   app.use('/auth', authRouter)
   app.use('/users', usersRouter)
   app.use('/cvs', cvsRouter)

@@ -321,3 +321,23 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: typecheck OK, lint OK, build OK (26 módulos, 87ms)
 - Limitaciones pendientes: Fase 8 (build reproducible, variables dev/prod separadas, rate limit, cookies httpOnly, logs estructurados, checklist de seguridad pre-deploy).
 - Próximo paso: `feat/v2-deployment-readiness` (Fase 8).
+
+### [2026-05-21] Fase 8: preparación de despliegue y checklist de seguridad
+
+- Objetivo: dejar el proyecto listo para un despliegue real por una persona ajena, con documentación concreta, código endurecido y checklist de seguridad verificado.
+- Trabajo realizado:
+  - **Código (`apps/api/`)**:
+    - `app.ts`: añadido `helmet()` (headers HTTP de seguridad) antes del middleware CORS; rate limit de 20 req/IP/15min en `POST /auth/register` y `POST /auth/login` con `express-rate-limit`.
+    - `lib/password.ts`: `BCRYPT_ROUNDS` ahora configurable via env (default 10, recomendado 12 en producción).
+    - `package.json`: `helmet@8.1.0` y `express-rate-limit@8.5.2` añadidos a `dependencies`.
+    - `.env.example`: secciones dev/prod separadas con comentarios explícitos sobre valores seguros.
+  - **Documentación nueva**:
+    - `docs/deploy-guide.md`: guía paso a paso para Railway (backend + PostgreSQL) + Vercel (frontend). Incluye variables de entorno, migraciones automáticas, dominio y rollback.
+    - `docs/security-checklist.md`: checklist con estado actual de cada ítem (✅/⚠️) y pendientes documentados.
+- Archivos afectados: `apps/api/src/app.ts`, `apps/api/src/lib/password.ts`, `apps/api/package.json`, `apps/api/package-lock.json`, `apps/api/.env.example`, `docs/deploy-guide.md`, `docs/security-checklist.md`, `docs/roadmap.md`, `docs/evidencias.md`.
+- Resultado: el proyecto dispone de guía de despliegue concreta, checklist de seguridad con estado explícito y código con `helmet` + rate limit activos.
+- Validaciones:
+  - `apps/api`: typecheck OK, lint OK, build OK
+  - `apps/web`: typecheck OK, lint OK, build OK (26 módulos, 86ms)
+- Limitaciones pendientes (documentadas en checklist): sesiones sin TTL, token en `localStorage` (no cookie httpOnly), rate limit en `/jobs/search`, logs estructurados, backups DB automáticos.
+- Próximo paso: revisión del plan V2 con el usuario para decidir cierre del legacy vanilla JS y siguientes pasos del proyecto.
