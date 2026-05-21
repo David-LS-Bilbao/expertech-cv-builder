@@ -38,7 +38,8 @@ services:
       PORT: 3002
       # Uses internal Docker network hostname, not localhost.
       DATABASE_URL: postgresql://expertech:devpassword@postgres:5432/expertech_cv_dev?schema=public
-      ALLOWED_ORIGINS: http://localhost:8090,http://127.0.0.1:8090
+      # 8090 = Nginx proxy (prod-like). 5173/5174 = Vite dev server (mixed mode).
+      ALLOWED_ORIGINS: http://localhost:8090,http://127.0.0.1:8090,http://localhost:5173,http://localhost:5174
       JOOBLE_API_KEY: YOUR_REAL_KEY_HERE
     # Port exposed to host for direct API access during development.
     ports:

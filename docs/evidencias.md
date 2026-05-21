@@ -341,3 +341,21 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: typecheck OK, lint OK, build OK (26 módulos, 86ms)
 - Limitaciones pendientes (documentadas en checklist): sesiones sin TTL, token en `localStorage` (no cookie httpOnly), rate limit en `/jobs/search`, logs estructurados, backups DB automáticos.
 - Próximo paso: revisión del plan V2 con el usuario para decidir cierre del legacy vanilla JS y siguientes pasos del proyecto.
+
+### [2026-05-21] Sprint UI 1: Tailwind v3 + design system Stitch + AuthScreen rediseñado
+
+- Objetivo: introducir la base visual V2 (Tailwind + tokens de DESIGN.md + Inter + lucide-react) y rediseñar la primera pantalla (Login/Registro) con la estética Stitch antes de portar el resto de la UI.
+- Trabajo realizado:
+  - `apps/web/tailwind.config.ts`: configuración Tailwind v3 con todos los tokens del design system (colores primary/secondary/tertiary/surface/on-surface, tipografía Inter con escala headline/body/label, radios, sombras, spacing 8px-base).
+  - `apps/web/postcss.config.js`: PostCSS con tailwindcss + autoprefixer.
+  - `apps/web/src/styles/index.css`: directivas `@tailwind base/components/utilities` + imports de Inter (400/500/600/700 vía `@fontsource/inter`) + CSS legacy preservado para componentes no migrados (convivencia controlada).
+  - `apps/web/src/features/auth/AuthScreen.tsx`: rediseño completo basado en el mockup `login_register_expertech_cv`. Layout dos columnas (panel oscuro decorativo en desktop + tarjeta de auth). Tabs login/registro, inputs con focus ring primario, toggle de contraseña, alertas de error/éxito con iconos lucide-react, social auth placeholders con SVG inline de Google y GitHub, footer de copyright.
+  - `package.json` / `package-lock.json`: tailwindcss@3, postcss, autoprefixer como devDeps; @fontsource/inter, lucide-react como deps. Lockfile regenerado con inyección de entradas `@emnapi` opcionales para compatibilidad Docker Alpine.
+- Archivos afectados: `apps/web/package.json`, `apps/web/package-lock.json`, `apps/web/tailwind.config.ts`, `apps/web/postcss.config.js`, `apps/web/src/styles/index.css`, `apps/web/src/features/auth/AuthScreen.tsx`, `apps/web/README.md`, `docs/roadmap.md`, `docs/evidencias.md`.
+- Resultado: Tailwind activo, design tokens aplicados, Inter como fuente base. AuthScreen con estética SaaS profesional alineada con Stitch. Lógica de auth intacta (backend real, bcrypt, PostgreSQL).
+- Nota técnica de lockfile: npm v11 local poda entradas opcionales de otras plataformas (@emnapi, rolldown WASM) que Docker Alpine necesita. Solución: inyección de esas entradas desde el lockfile original HEAD tras cada regeneración.
+- Validaciones:
+  - `apps/web`: typecheck OK, lint OK, build OK (Tailwind: 25.5 kB CSS generado, 26 módulos)
+  - `docker compose build web` OK
+  - `docker compose up -d` → 3 servicios healthy, HTTP 200 en / y /api/health
+- Próximo paso: `feat/v2-dashboard-and-editor` — Dashboard (bento grid) + Editor CV con acordeones + preview Stitch.
