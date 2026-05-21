@@ -4,12 +4,12 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-deployment-readiness` — Fase 8 del plan V2
+- `feat/v2-tailwind-design-system` — Sprint UI 1: base visual
 
 Objetivo actual:
-- preparación de despliegue real: build reproducible, vars dev/prod separadas, guía Railway + Vercel, checklist de seguridad pre-deploy, rollback documentado
-- código: `helmet`, rate limit en auth endpoints, `BCRYPT_ROUNDS` configurable
-- docs: `docs/deploy-guide.md`, `docs/security-checklist.md`
+- introducir Tailwind v3 + tokens visuales del design system Stitch (DESIGN.md) + fuente Inter + lucide-react
+- rediseñar `AuthScreen` como primera pantalla alineada con los mockups Stitch (layout dos columnas, tarjeta, tabs, inputs, iconos)
+- convivencia controlada: el CSS legacy permanece para componentes no migrados todavía
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -86,8 +86,18 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-deployment-readiness` → `dev` ← rama activa (Fase 8)
-- después: revisión del plan V2 con el usuario para decidir el cierre del legacy y siguientes pasos del proyecto
+- PR `feat/v2-tailwind-design-system` → `dev` ← rama activa
+- comenzar `feat/v2-dashboard-and-editor` — Sprint UI 2: Dashboard (bento grid) + Editor CV con acordeones + preview Stitch
+
+## Sprints de paridad funcional V2 (post-infraestructura)
+
+| Sprint | Rama | Contenido |
+|---|---|---|
+| UI 1 | `feat/v2-tailwind-design-system` ← activo | Tailwind + tokens + AuthScreen |
+| UI 2 | `feat/v2-dashboard-and-editor` | Dashboard + Editor acordeones + preview |
+| UI 3 | `feat/v2-github-integration` | Sync GitHub: perfil + repos |
+| UI 4 | `feat/v2-jobs-and-pdf` | Job search + exportar PDF |
+| UI 5 | `feat/v2-public-profile` | Página pública + landing |
 
 Objetivo siguiente:
 - cerrar esta micro-rama documental sin ampliar alcance de producto

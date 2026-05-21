@@ -19,6 +19,7 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Fase 4 | Auth local, editor de perfil y preview del CV | #39 |
 | Fase 5 | Backend API en `apps/api/` + cliente HTTP | #41 |
 | Fase 6 | Persistencia real (PostgreSQL + Prisma) y rewire frontend al backend | #42 |
+| Sprint UI 1 | Tailwind v3 + design system Stitch + AuthScreen rediseñado | — |
 
 **Siguiente fase:** `feat/v2-docker-compose-local` — Dockerizar frontend y backend para `docker compose up` completo.
 
