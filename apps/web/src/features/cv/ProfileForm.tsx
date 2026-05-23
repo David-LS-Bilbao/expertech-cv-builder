@@ -176,7 +176,7 @@ export function ProfileForm({ profile, projectCount = 0, onSave }: Props) {
             {projectCount > 0 ? `${projectCount} proyectos cargados en el CV.` : 'No hay proyectos cargados todavía.'}
           </p>
           <p className="mt-2 text-label-md text-on-surface-variant">
-            La edición e importación de proyectos queda preparada para el sprint de GitHub.
+            Los proyectos importados desde GitHub se añaden en la vista GitHub Sync.
           </p>
         </div>
       </EditorSection>

@@ -4,14 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-dashboard-and-editor` — Sprint UI 2: experiencia autenticada V2
+- `feat/v2-github-integration` — Sprint UI 3: integración GitHub pública
 
 Objetivo actual:
-- portar Dashboard y Editor CV a Tailwind v3 usando los tokens Stitch ya introducidos en PR #46
-- mantener intactos login/register/logout, carga y guardado de CV contra backend y preview sincronizada al guardar
-- añadir navegación interna local `Dashboard / Editor CV` sin router ni rutas reales
-- mostrar GitHub, Jobs, PDF y perfil público solo como placeholders visuales
-- mantener fuera de alcance backend, Prisma, Docker, landing, legacy vanilla JS y features reales de integraciones
+- portar a V2 la integración GitHub pública del legacy sin OAuth, token ni backend proxy
+- consultar perfil y repositorios públicos desde `api.github.com`
+- permitir seleccionar repositorios y convertirlos en `Project` usando el modelo V2 existente
+- guardar el CV actualizado mediante el flujo actual `PUT /cvs/me`
+- mantener fuera de alcance OAuth real, login con GitHub, Jobs UI, PDF, PublicProfile, landing, backend, Prisma, Docker y legacy
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -88,23 +88,23 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-dashboard-and-editor` → `dev` ← rama activa
-- comenzar `feat/v2-github-integration` — integración GitHub real para perfil y repositorios
+- PR `feat/v2-github-integration` → `dev` ← rama activa
+- comenzar `feat/v2-jobs-and-pdf` — Jobs UI + exportar PDF, o separar primero `feat/v2-jobs-search` si conviene reducir alcance
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
 | Sprint | Rama | Contenido |
 |---|---|---|
 | UI 1 | `feat/v2-tailwind-design-system` ✅ PR #46 | Tailwind + tokens + AuthScreen |
-| UI 2 | `feat/v2-dashboard-and-editor` ← activo | Dashboard + Editor acordeones + preview |
-| UI 3 | `feat/v2-github-integration` | Sync GitHub: perfil + repos |
+| UI 2 | `feat/v2-dashboard-and-editor` ✅ PR #47 | Dashboard + Editor acordeones + preview |
+| UI 3 | `feat/v2-github-integration` ← activo | Sync GitHub: perfil + repos |
 | UI 4 | `feat/v2-jobs-and-pdf` | Job search + exportar PDF |
 | UI 5 | `feat/v2-public-profile` | Página pública + landing |
 
 Objetivo siguiente:
-- `feat/v2-github-integration`
-- conectar GitHub real para enriquecer perfil/repositorios en V2
-- mantener Jobs UI, PDF, perfil público y landing fuera hasta sus sprints correspondientes
+- `feat/v2-jobs-and-pdf` o `feat/v2-jobs-search`
+- portar la experiencia de empleo y/o preparar exportación PDF
+- mantener OAuth GitHub, perfil público y landing fuera hasta sus sprints correspondientes
 
 ## Validación técnica reciente (Jooble)
 

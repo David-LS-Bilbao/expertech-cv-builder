@@ -376,3 +376,20 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
   - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
 - Próximo sprint recomendado: `feat/v2-github-integration`.
+
+### [2026-05-23] Sprint UI 3: integración GitHub pública en V2
+
+- Objetivo: portar a V2 la integración GitHub pública del legacy en la rama `feat/v2-github-integration`, sin OAuth, sin tokens, sin backend proxy y sin tocar legacy.
+- Contexto de partida: PR #46 dejó Tailwind/Stitch/AuthScreen; PR #47 dejó Dashboard, Editor CV y Preview autenticados en Tailwind/Stitch.
+- Trabajo realizado:
+  - `apps/web/src/lib/github/`: cliente tipado para `GET /users/:username` y `GET /users/:username/repos`, normalización de respuestas, detección de errores HTTP y rate limit público.
+  - Transformación `repo → Project`: nombre, descripción, lenguaje como stack, `repoUrl`, `homepage` como demo y metadatos de origen GitHub (`sourceProvider`, `sourceRepositoryFullName`, `sourceImportedAt`, etc.).
+  - `apps/web/src/features/github/`: UI GitHub Sync con estados idle, loading, success, empty, error y rate limited.
+  - Integración autenticada: nueva vista interna `GitHub` sin router; el Dashboard abre la vista desde “Sincronizar GitHub”.
+  - Importación: los repos seleccionados se añaden al CV sin borrar proyectos existentes y evitando duplicados por `sourceRepositoryFullName`; el guardado usa el flujo existente `onCVUpdate` → `PUT /cvs/me`.
+- Fuera de alcance mantenido: OAuth GitHub, login con GitHub, backend GitHub proxy, tokens GitHub, Jobs UI, PDF, PublicProfile, landing, backend, Prisma, Docker y legacy (`js/**`, `styles/**`).
+- Validación prevista antes de cerrar:
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
+  - smoke recomendado: buscar un usuario público, seleccionar repos e importar al CV.
+- Próximo sprint recomendado: `feat/v2-jobs-and-pdf` o separar primero `feat/v2-jobs-search`.
