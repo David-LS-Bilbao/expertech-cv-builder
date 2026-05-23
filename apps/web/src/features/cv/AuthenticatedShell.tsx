@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
-import { FileText, Gauge, LogOut, Server } from 'lucide-react'
+import { Code, FileText, Gauge, LogOut, Server } from 'lucide-react'
 import type { CandidateProfile, PortfolioCV } from '../../lib/domain/types'
 import { createPortfolioCV } from '../../lib/domain/createPortfolioCV'
 import type { PublicUser } from '../../lib/api/client'
 import { api } from '../../lib/api/client'
+import type { GitHubRepository } from '../../lib/github/types'
+import { githubRepositoryToProject } from '../../lib/github/githubToProject'
 import { ProfileForm } from './ProfileForm'
 import { CVPreview } from './CVPreview'
 import { Dashboard } from './Dashboard'
+import { GitHubSyncPanel } from '../github/GitHubSyncPanel'
 
 interface Props {
   user: PublicUser
@@ -16,7 +19,7 @@ interface Props {
 }
 
 type BackendStatus = 'checking' | 'ok' | 'offline'
-type ActiveView = 'dashboard' | 'editor'
+type ActiveView = 'dashboard' | 'editor' | 'github'
 
 export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
   const [backendStatus, setBackendStatus] = useState<BackendStatus>('checking')
@@ -34,11 +37,38 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
     await onCVUpdate(createPortfolioCV({ ...cv, profile }))
   }
 
+  async function handleGitHubImport(username: string, repositories: GitHubRepository[]) {
+    const importedFullNames = new Set(
+      cv.projects
+        .filter((project) => project.sourceProvider === 'github' && project.sourceRepositoryFullName)
+        .map((project) => project.sourceRepositoryFullName),
+    )
+
+    const nextProjects = repositories
+      .filter((repository) => !importedFullNames.has(repository.fullName))
+      .map(githubRepositoryToProject)
+
+    if (nextProjects.length === 0) {
+      throw new Error('Los repositorios seleccionados ya estaban importados en el CV.')
+    }
+
+    await onCVUpdate(createPortfolioCV({
+      ...cv,
+      profile: {
+        ...cv.profile,
+        githubUsername: username,
+      },
+      projects: [...cv.projects, ...nextProjects],
+    }))
+  }
+
   const userName = user.displayName || user.email
   const navigationItems = [
     { id: 'dashboard' as const, label: 'Dashboard', icon: Gauge },
     { id: 'editor' as const, label: 'Editor CV', icon: FileText },
+    { id: 'github' as const, label: 'GitHub', icon: Code },
   ]
+  const activeViewLabel = activeView === 'dashboard' ? 'Dashboard' : activeView === 'editor' ? 'Editor CV' : 'GitHub Sync'
 
   return (
     <div className="min-h-screen bg-background text-on-surface">
@@ -84,10 +114,10 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div>
               <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">
-                {activeView === 'dashboard' ? 'Dashboard' : 'Editor CV'}
+                {activeViewLabel}
               </p>
               <h1 className="mt-1 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-md">
-                {activeView === 'dashboard' ? `Hola, ${userName}` : 'Editor CV'}
+                {activeView === 'dashboard' ? `Hola, ${userName}` : activeViewLabel}
               </h1>
             </div>
 
@@ -157,8 +187,9 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
               cv={cv}
               backendStatus={backendStatus}
               onEditCV={() => setActiveView('editor')}
+              onSyncGitHub={() => setActiveView('github')}
             />
-          ) : (
+          ) : activeView === 'editor' ? (
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
               <section className="xl:col-span-7">
                 <ProfileForm
@@ -182,6 +213,11 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
                 </div>
               </aside>
             </div>
+          ) : (
+            <GitHubSyncPanel
+              cv={cv}
+              onImportRepositories={handleGitHubImport}
+            />
           )}
         </main>
       </div>

@@ -26,6 +26,7 @@ interface Props {
   cv: PortfolioCV
   backendStatus: BackendStatus
   onEditCV: () => void
+  onSyncGitHub: () => void
 }
 
 function getProfileCompletion(cv: PortfolioCV): number {
@@ -66,7 +67,7 @@ function backendLabel(status: BackendStatus): string {
   return 'Backend sin respuesta'
 }
 
-export function Dashboard({ user, cv, backendStatus, onEditCV }: Props) {
+export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub }: Props) {
   const visibleProjects = getVisibleProjects(cv.projects)
   const completion = getProfileCompletion(cv)
   const displayName = user.displayName || user.email
@@ -113,9 +114,10 @@ export function Dashboard({ user, cv, backendStatus, onEditCV }: Props) {
     },
     {
       label: 'Sincronizar GitHub',
-      description: 'Próximamente',
+      description: 'Importar repos',
       icon: Code,
-      active: false,
+      active: true,
+      onClick: onSyncGitHub,
     },
     {
       label: 'Buscar empleo',
@@ -197,7 +199,7 @@ export function Dashboard({ user, cv, backendStatus, onEditCV }: Props) {
             </div>
           </div>
           <p className="mt-5 text-label-md text-inverse-on-surface/80">
-            GitHub, empleo, PDF y perfil público quedan visibles como acciones futuras, sin activar lógica nueva.
+            GitHub público ya se puede sincronizar sin OAuth. Empleo, PDF y perfil público siguen como placeholders.
           </p>
         </div>
       </section>
