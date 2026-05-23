@@ -49,6 +49,28 @@ export interface JobsSearchParams {
   location?: string
 }
 
+export interface PublicProfileSettings {
+  exists: boolean
+  slug: string
+  suggestedSlug: string
+  isPublic: boolean
+  publicPath: string
+  updatedAt: string | null
+}
+
+export interface PublicProfileSaveInput {
+  slug: string
+  isPublic: boolean
+}
+
+export interface PublicProfileView {
+  slug: string
+  isPublic: boolean
+  publicPath: string
+  displayName: string
+  cv: PortfolioCV
+}
+
 export class ApiError extends Error {
   status: number
   constructor(status: number, message: string) {
@@ -130,6 +152,18 @@ export const api = {
       params.set('keywords', keywords)
       if (location.trim()) params.set('location', location)
       return request<JobsSearchResponse>(`/jobs/search?${params.toString()}`)
+    },
+  },
+
+  publicProfiles: {
+    me(): Promise<{ publicProfile: PublicProfileSettings }> {
+      return request('/public-profiles/me', {}, true)
+    },
+    save(input: PublicProfileSaveInput): Promise<{ publicProfile: PublicProfileSettings }> {
+      return request('/public-profiles/me', { method: 'PUT', body: JSON.stringify(input) }, true)
+    },
+    getBySlug(slug: string): Promise<PublicProfileView> {
+      return request(`/public-profiles/${encodeURIComponent(slug)}`)
     },
   },
 }

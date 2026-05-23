@@ -28,6 +28,8 @@ distinto.
 | `PUT` | `/users/me` | Bearer | Actualizar `displayName` |
 | `GET` | `/cvs/me` | Bearer | CV del usuario (aislado por `ownerId`) |
 | `PUT` | `/cvs/me` | Bearer | Persistir CV del usuario (upsert por `ownerId`) |
+| `GET` | `/public-profiles/me` | Bearer | Configuración pública del usuario autenticado |
+| `PUT` | `/public-profiles/me` | Bearer | Crear/actualizar slug y publicar/despublicar |
 | `GET` | `/public-profiles/:slug` | — | Vista pública si `isPublic = true` |
 | `GET` | `/jobs/search?keywords&location` | — | Proxy Jooble con contrato `{ results, fallbackWarning, source }` |
 
@@ -104,8 +106,10 @@ ownerId/userId. Sin posibilidad de leer datos cruzados entre usuarios.
   Se moverá a un paquete compartido si el coste de duplicación crece.
 - **Coexiste con el proxy legacy** en `server/server.js` (puerto 3001).
   El frontend legacy sigue usándolo; el V2 usa este backend (puerto 3002).
-- **PublicProfile sin endpoint para crear/actualizar el slug** todavía;
-  llegará junto con la UI de "Hacer público mi CV" en una fase posterior.
+- **PublicProfile activo**: usa el modelo Prisma existente con `slug` único,
+  `ownerId` aislado por usuario e `isPublic`. La ruta pública solo devuelve CV
+  cuando `isPublic = true`; si el CV contiene email/teléfono, se publican como
+  parte explícita del contenido del CV.
 
 ## Próximos pasos (Fase 7+)
 

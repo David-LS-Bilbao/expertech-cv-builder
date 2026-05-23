@@ -435,3 +435,26 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
   - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
 - Próximo sprint recomendado: `feat/v2-public-profile`.
+
+### [2026-05-23] Sprint UI 5: PublicProfile V2
+
+- Objetivo: implementar perfil público V2 real en la rama `feat/v2-public-profile`, conectando la URL `/p/:slug` con el modelo Prisma `PublicProfile` existente.
+- Contexto de partida: PR #46 dejó Tailwind/Stitch/AuthScreen; PR #47 Dashboard/Editor/Preview; PR #48 GitHub Sync; PR #49 Jobs Search; PR #50 Export PDF con QR local apuntando a `/p/<slug>`.
+- Backend:
+  - `GET /public-profiles/me` protegido por Bearer para leer configuración pública del usuario.
+  - `PUT /public-profiles/me` protegido por Bearer para guardar slug y publicar/despublicar.
+  - `GET /public-profiles/:slug` sigue siendo público y solo devuelve CV si `isPublic = true`.
+  - Reutiliza el modelo Prisma existente `PublicProfile`; no requiere cambio de schema ni migración.
+  - Slug normalizado y validado en backend: minúsculas, números, guiones, mínimo 3 y máximo 60 caracteres.
+- Frontend:
+  - `App.tsx` detecta `/p/:slug` sin React Router y renderiza una página pública sin exigir login.
+  - Nueva feature `public-profile/`: página pública read-only, empty states y panel autenticado de publicación.
+  - `AuthenticatedShell` añade vista interna “Público”; Dashboard activa la acción “Perfil público”.
+  - Export PDF consulta la configuración pública y conecta el QR a `/p/:slug` real cuando el perfil está publicado.
+- Decisión de privacidad: la página pública muestra los datos incluidos en el CV guardado, incluyendo email/teléfono si el usuario los ha rellenado y publica el perfil.
+- Fuera de alcance mantenido: landing, custom themes, analytics, SEO avanzado, OpenGraph avanzado, dominio personalizado, Auth/OAuth nuevo, Docker, Prisma schema, legacy removal (`js/**`, `styles/**`).
+- Validación prevista antes de cerrar:
+  - `apps/api`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
+- Próximo sprint recomendado: `feat/v2-landing-page`.

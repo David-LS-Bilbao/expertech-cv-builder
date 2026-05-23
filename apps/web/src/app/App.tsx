@@ -5,6 +5,7 @@ import type { PublicUser } from '../lib/api/client'
 import { api, getToken, setToken } from '../lib/api/client'
 import { AuthScreen } from '../features/auth/AuthScreen'
 import { AuthenticatedShell } from '../features/cv/AuthenticatedShell'
+import { PublicProfilePage } from '../features/public-profile/PublicProfilePage'
 
 type AppStatus = 'initializing' | 'unauthenticated' | 'authenticated'
 
@@ -14,7 +15,15 @@ interface AuthState {
   cv: PortfolioCV
 }
 
+function getPublicProfileSlugFromPath(): string | null {
+  if (typeof window === 'undefined') return null
+
+  const match = window.location.pathname.match(/^\/p\/([^/]+)\/?$/)
+  return match ? decodeURIComponent(match[1]) : null
+}
+
 export default function App() {
+  const publicProfileSlug = getPublicProfileSlugFromPath()
   const [state, setState] = useState<AuthState>({
     status: 'initializing',
     user: null,
@@ -22,6 +31,8 @@ export default function App() {
   })
 
   useEffect(() => {
+    if (publicProfileSlug) return
+
     let cancelled = false
     async function bootstrap() {
       const token = getToken()
@@ -40,7 +51,7 @@ export default function App() {
     }
     void bootstrap()
     return () => { cancelled = true }
-  }, [])
+  }, [publicProfileSlug])
 
   async function handleAuthSuccess(user: PublicUser, token: string) {
     setToken(token)
@@ -70,6 +81,8 @@ export default function App() {
   }
 
   if (state.status === 'initializing') {
+    if (publicProfileSlug) return <PublicProfilePage slug={publicProfileSlug} />
+
     return (
       <div className="loading-screen">
         <p>Cargando…</p>

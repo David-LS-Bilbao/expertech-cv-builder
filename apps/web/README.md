@@ -26,11 +26,12 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Sprint UI 2 | Dashboard + Editor CV + Preview portados a Tailwind/Stitch | #47 |
 | Sprint UI 3 | Integración GitHub pública sin OAuth para importar repos como proyectos | #48 |
 | Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | #49 |
-| Sprint UI 4b | Exportación PDF por impresión nativa con QR local | — |
+| Sprint UI 4b | Exportación PDF por impresión nativa con QR local | #50 |
+| Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | — |
 
-**Sprint actual:** `feat/v2-export-pdf` — exportación PDF/print de CV en V2 mediante impresión nativa del navegador.
+**Sprint actual:** `feat/v2-public-profile` — perfil público real con publicación/despublicación y slug gestionable.
 
-**Siguiente sprint recomendado:** `feat/v2-public-profile` — perfil público real y slug gestionable.
+**Siguiente sprint recomendado:** `feat/v2-landing-page` — landing pública V2.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -54,6 +55,7 @@ src/
 │   └── export/           # Export PDF: panel, preview imprimible y QR
 │   └── github/           # GitHub Sync público: búsqueda, perfil, repos y selección
 │   └── jobs/             # Jobs Search: formulario, estados y tarjetas de ofertas
+│   └── public-profile/   # ruta pública /p/:slug y panel de publicación
 ├── lib/
 │   ├── api/              # cliente HTTP (fetch wrapper + token) — VITE_API_URL
 │   ├── domain/           # tipos PortfolioCV, Project, CandidateProfile + factories
@@ -84,9 +86,9 @@ Copiar a `.env.local` si necesitas apuntar a otro backend.
   sin token ni backend proxy. Permite seleccionar repos públicos e importarlos como
   proyectos del CV; no implementa login con GitHub.
 - **Exportación PDF V2**: usa `window.print()` y CSS `@media print`; el navegador permite guardar como PDF. No hay generación PDF binaria ni `jsPDF`.
-- **QR local**: se genera en frontend con `qrcode`, sin servicios externos. Apunta a `/p/<githubUsername-o-nombre-normalizado>` como URL pública planificada.
-- **Acciones futuras como placeholders**: perfil público real sigue como placeholder hasta `feat/v2-public-profile`.
-- **Fuera de alcance Export PDF**: PublicProfile real, landing, backend nuevo, Prisma, Docker, legacy, generación PDF binaria y plantillas múltiples.
+- **Perfil público V2**: `/p/:slug` renderiza un CV read-only si el usuario lo ha publicado. El slug se gestiona desde la zona autenticada.
+- **QR local**: se genera en frontend con `qrcode`, sin servicios externos. Apunta al perfil público real cuando está publicado y a una ruta planificada si está privado.
+- **Fuera de alcance PublicProfile**: landing, custom themes, analytics, SEO avanzado, OpenGraph avanzado, dominio personalizado y retirada de legacy.
 
 ## Relación con el legacy
 
