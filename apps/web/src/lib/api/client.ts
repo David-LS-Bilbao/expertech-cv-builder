@@ -26,6 +26,29 @@ export interface HealthResponse {
   timestamp: string
 }
 
+export interface JobOffer {
+  id: string
+  title: string
+  company: string
+  location: string
+  url: string
+  snippet: string
+  updated: string
+}
+
+export type JobsSearchSource = 'jooble' | 'mock'
+
+export interface JobsSearchResponse {
+  results: JobOffer[]
+  fallbackWarning: string | null
+  source: JobsSearchSource
+}
+
+export interface JobsSearchParams {
+  keywords: string
+  location?: string
+}
+
 export class ApiError extends Error {
   status: number
   constructor(status: number, message: string) {
@@ -98,6 +121,15 @@ export const api = {
     },
     save(cv: PortfolioCV): Promise<{ cv: PortfolioCV }> {
       return request('/cvs/me', { method: 'PUT', body: JSON.stringify(cv) }, true)
+    },
+  },
+
+  jobs: {
+    search({ keywords, location = '' }: JobsSearchParams): Promise<JobsSearchResponse> {
+      const params = new URLSearchParams()
+      params.set('keywords', keywords)
+      if (location.trim()) params.set('location', location)
+      return request<JobsSearchResponse>(`/jobs/search?${params.toString()}`)
     },
   },
 }

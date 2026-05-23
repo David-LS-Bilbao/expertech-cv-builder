@@ -23,11 +23,12 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Fase 6 | Persistencia real (PostgreSQL + Prisma) y rewire frontend al backend | #42 |
 | Sprint UI 1 | Tailwind v3 + design system Stitch + AuthScreen rediseñado | #46 |
 | Sprint UI 2 | Dashboard + Editor CV + Preview portados a Tailwind/Stitch | #47 |
-| Sprint UI 3 | Integración GitHub pública sin OAuth para importar repos como proyectos | — |
+| Sprint UI 3 | Integración GitHub pública sin OAuth para importar repos como proyectos | #48 |
+| Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | — |
 
-**Sprint actual:** `feat/v2-github-integration` — integración GitHub pública sin OAuth.
+**Sprint actual:** `feat/v2-jobs-search` — UI de búsqueda de empleo tech sobre el backend V2 existente.
 
-**Siguiente sprint recomendado:** `feat/v2-jobs-and-pdf` — Jobs UI y exportación PDF, o separar primero `feat/v2-jobs-search` si se prefiere reducir alcance.
+**Siguiente sprint recomendado:** `feat/v2-export-pdf` — port de exportación PDF a V2.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -49,6 +50,7 @@ src/
 │   ├── auth/             # AuthScreen (login/registro contra backend)
 │   └── cv/               # Dashboard, AuthenticatedShell, ProfileForm, CVPreview
 │   └── github/           # GitHub Sync público: búsqueda, perfil, repos y selección
+│   └── jobs/             # Jobs Search: formulario, estados y tarjetas de ofertas
 ├── lib/
 │   ├── api/              # cliente HTTP (fetch wrapper + token) — VITE_API_URL
 │   ├── domain/           # tipos PortfolioCV, Project, CandidateProfile + factories
@@ -71,13 +73,15 @@ Copiar a `.env.local` si necesitas apuntar a otro backend.
 - **Jooble y proxy legacy** en `server/server.js` (puerto 3001) siguen
   operativos para el legacy. El frontend V2 consume `/jobs/search` del nuevo
   backend (`apps/api/`, puerto 3002).
+- **Jobs Search V2** consume el endpoint backend existente `/jobs/search`.
+  Si `JOOBLE_API_KEY` no está configurada, el backend devuelve resultados
+  mock/fallback con `fallbackWarning`; la UI lo muestra como aviso.
 - **GitHub Sync público sin OAuth**: la V2 consulta `api.github.com` desde el frontend
   sin token ni backend proxy. Permite seleccionar repos públicos e importarlos como
   proyectos del CV; no implementa login con GitHub.
 - **Sin exportación PDF**: disponible en el legacy; no portada todavía a V2.
-- **Acciones futuras como placeholders**: Jobs, PDF y perfil público se muestran en Dashboard pero no ejecutan features reales.
-- **Sin Jobs UI, landing ni perfil público V2** en este sprint.
-- **Backend, Prisma, Docker y legacy vanilla JS quedan fuera de alcance** del port GitHub V2.
+- **Acciones futuras como placeholders**: PDF y perfil público se muestran en Dashboard pero no ejecutan features reales.
+- **Fuera de alcance Jobs**: guardar favoritas, aplicar a ofertas, alertas, PDF, PublicProfile, landing, backend nuevo, Prisma y legacy.
 
 ## Relación con el legacy
 

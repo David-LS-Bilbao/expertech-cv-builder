@@ -4,14 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-github-integration` — Sprint UI 3: integración GitHub pública
+- `feat/v2-jobs-search` — Sprint UI 4a: búsqueda de empleo V2
 
 Objetivo actual:
-- portar a V2 la integración GitHub pública del legacy sin OAuth, token ni backend proxy
-- consultar perfil y repositorios públicos desde `api.github.com`
-- permitir seleccionar repositorios y convertirlos en `Project` usando el modelo V2 existente
-- guardar el CV actualizado mediante el flujo actual `PUT /cvs/me`
-- mantener fuera de alcance OAuth real, login con GitHub, Jobs UI, PDF, PublicProfile, landing, backend, Prisma, Docker y legacy
+- portar a V2 solo la UI de búsqueda de empleo tech
+- consumir el endpoint backend existente `/jobs/search` con `keywords` y `location`
+- mostrar resultados Jooble o mock/fallback cuando el backend no tenga `JOOBLE_API_KEY`
+- mantener Jobs separado de PDF, PublicProfile y Landing
+- mantener fuera de alcance guardar ofertas, aplicar a ofertas, alertas, PDF, PublicProfile, landing, backend nuevo, Prisma, Docker y legacy
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -88,8 +88,8 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-github-integration` → `dev` ← rama activa
-- comenzar `feat/v2-jobs-and-pdf` — Jobs UI + exportar PDF, o separar primero `feat/v2-jobs-search` si conviene reducir alcance
+- PR `feat/v2-jobs-search` → `dev` ← rama activa
+- comenzar `feat/v2-export-pdf` — port de exportación PDF a V2
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
@@ -97,14 +97,15 @@ Objetivo cubierto:
 |---|---|---|
 | UI 1 | `feat/v2-tailwind-design-system` ✅ PR #46 | Tailwind + tokens + AuthScreen |
 | UI 2 | `feat/v2-dashboard-and-editor` ✅ PR #47 | Dashboard + Editor acordeones + preview |
-| UI 3 | `feat/v2-github-integration` ← activo | Sync GitHub: perfil + repos |
-| UI 4 | `feat/v2-jobs-and-pdf` | Job search + exportar PDF |
+| UI 3 | `feat/v2-github-integration` ✅ PR #48 | Sync GitHub: perfil + repos |
+| UI 4a | `feat/v2-jobs-search` ← activo | Job search |
+| UI 4b | `feat/v2-export-pdf` | Exportar PDF |
 | UI 5 | `feat/v2-public-profile` | Página pública + landing |
 
 Objetivo siguiente:
-- `feat/v2-jobs-and-pdf` o `feat/v2-jobs-search`
-- portar la experiencia de empleo y/o preparar exportación PDF
-- mantener OAuth GitHub, perfil público y landing fuera hasta sus sprints correspondientes
+- `feat/v2-export-pdf`
+- portar exportación PDF a V2
+- mantener PublicProfile y landing fuera hasta sus sprints correspondientes
 
 ## Validación técnica reciente (Jooble)
 
