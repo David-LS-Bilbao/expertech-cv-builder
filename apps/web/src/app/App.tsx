@@ -5,9 +5,11 @@ import type { PublicUser } from '../lib/api/client'
 import { api, getToken, setToken } from '../lib/api/client'
 import { AuthScreen } from '../features/auth/AuthScreen'
 import { AuthenticatedShell } from '../features/cv/AuthenticatedShell'
+import { LandingPage } from '../features/landing/LandingPage'
 import { PublicProfilePage } from '../features/public-profile/PublicProfilePage'
 
 type AppStatus = 'initializing' | 'unauthenticated' | 'authenticated'
+type PublicEntryView = 'landing' | 'auth'
 
 interface AuthState {
   status: AppStatus
@@ -24,6 +26,7 @@ function getPublicProfileSlugFromPath(): string | null {
 
 export default function App() {
   const publicProfileSlug = getPublicProfileSlugFromPath()
+  const [publicEntryView, setPublicEntryView] = useState<PublicEntryView>('landing')
   const [state, setState] = useState<AuthState>({
     status: 'initializing',
     user: null,
@@ -66,6 +69,7 @@ export default function App() {
   async function handleLogout() {
     try { await api.auth.logout() } catch { /* ignore */ }
     setToken(null)
+    setPublicEntryView('landing')
     setState({ status: 'unauthenticated', user: null, cv: createInitialCVState() })
   }
 
@@ -91,7 +95,16 @@ export default function App() {
   }
 
   if (state.status === 'unauthenticated' || !state.user) {
-    return <AuthScreen onAuthSuccess={handleAuthSuccess} />
+    if (publicEntryView === 'auth') {
+      return <AuthScreen onAuthSuccess={handleAuthSuccess} />
+    }
+
+    return (
+      <LandingPage
+        onStart={() => setPublicEntryView('auth')}
+        onSignIn={() => setPublicEntryView('auth')}
+      />
+    )
   }
 
   return (

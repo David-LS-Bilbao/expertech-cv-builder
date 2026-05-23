@@ -3,13 +3,15 @@
 Fecha: 2026-05-23  
 Rama: `chore/v2-legacy-parity-audit`
 
+Actualización en `feat/v2-landing-page`: este sprint cierra el gap principal de landing V2 en `/` cuando se mergee a `dev`. La recomendación posterior pasa a ejecutar `chore/v2-final-demo-audit` antes de archivar o retirar legacy.
+
 ## 1. Resumen ejecutivo
 
 Estado global: **Casi lista, quedan gaps menores**.
 
 La V2 ya cubre el núcleo funcional del legacy vanilla JS y lo supera en arquitectura: frontend React/TypeScript, backend Express, persistencia real con PostgreSQL/Prisma, Docker local, autenticación con sesiones en backend, dashboard, editor, preview, GitHub Sync público, Jobs Search, exportación por impresión con QR local y perfil público real en `/p/:slug`.
 
-No obstante, **no recomiendo retirar el legacy todavía** porque aún no existe una landing V2 equivalente al punto de entrada/demo pública del legacy y porque `public.html` puede seguir teniendo valor como referencia histórica o enlace usado en demos previas. El siguiente corte debe cerrar `feat/v2-landing-page` y después hacer una auditoría final de demo antes de archivar o retirar legacy.
+No obstante, **no recomiendo retirar el legacy todavía** porque `public.html` puede seguir teniendo valor como referencia histórica o enlace usado en demos previas. Con `feat/v2-landing-page`, la V2 ya cubre la entrada pública principal en `/`, pero debe ejecutarse una auditoría final de demo antes de archivar o retirar legacy.
 
 ## 2. Alcance de la auditoría
 
@@ -42,7 +44,7 @@ No se implementa nada. Esta auditoría solo documenta estado, gaps, riesgos y re
 | QR | Legacy usa servicio externo `api.qrserver.com` hacia `public.html`. | V2 genera QR local con `qrcode`; apunta a `/p/:slug` real si está publicado. | Mejorado en V2 | `js/ui/PrintCVRenderer.js`; `apps/web/src/lib/qr/**`, `ExportPdfPanel.tsx` | No |
 | Public profile | `public.html` estático cargando `data/public-cv.json`. | `/p/:slug` real, gestionable por usuario, solo visible si `isPublic = true`. | Mejorado en V2 | `public.html`, `js/application/PublicPageRuntime.js`; `apps/web/src/features/public-profile/**`, `apps/api/src/routes/publicProfiles.ts` | No |
 | Ruta pública | `public.html` estático. | SPA detecta `/p/:slug` sin router y consulta backend. | Mejorado en V2 | `public.html`; `apps/web/src/app/App.tsx` | No |
-| Landing page | `index.html` legacy funciona como entrada principal auth/app y demo visual. | No existe landing V2 separada; la app entra en AuthScreen o `/p/:slug`. | No cubierto | `index.html`; ausencia de `features/landing` o ruta landing V2 | **Sí, si se quiere reemplazo público completo** |
+| Landing page | `index.html` legacy funciona como entrada principal auth/app y demo visual. | Landing V2 en `/` para usuarios no autenticados, con CTAs hacia AuthScreen y preservando `/p/:slug`. | Cubierto | `index.html`; `apps/web/src/features/landing/LandingPage.tsx`, `apps/web/src/app/App.tsx` | No tras merge de `feat/v2-landing-page` |
 | Diseño visual | CSS manual legacy, dark mode y layouts propios. | Tailwind/Stitch en Auth, Dashboard, Editor, GitHub, Jobs, Export y PublicProfile. | Mejorado en V2 | `styles/main.css`; `apps/web/tailwind.config.ts`, features V2 | No |
 | Responsive | Legacy tiene CSS responsive manual. | V2 usa Tailwind responsive en pantallas portadas. | Cubierto | `styles/main.css`; `apps/web/src/features/**` | No |
 | Docker/local deploy | Legacy depende de archivos estáticos y server/proxy separado. | Docker Compose levanta web + api + postgres. | Mejorado en V2 | `server/server.js`; `docker-compose.yml`, `apps/*/Dockerfile` | No |
@@ -71,7 +73,7 @@ No se implementa nada. Esta auditoría solo documenta estado, gaps, riesgos y re
 
 ## 5. Features todavía no equivalentes o dudosas
 
-- **Landing page V2:** no existe todavía una landing V2 separada. La V2 tiene AuthScreen y ruta pública, pero no una página pública de producto/demostración que reemplace de forma clara el punto de entrada legacy.
+- **Landing page V2:** cerrada en `feat/v2-landing-page` como entrada pública `/`, pendiente de merge y auditoría final de demo.
 - **Preview live typing:** el legacy actualiza preview mientras cambia el estado del formulario; V2 sincroniza preview al guardar. No parece bloqueante, pero no es equivalencia exacta.
 - **Avatar/local upload:** legacy conserva flujo de avatar híbrido y subida local en el formulario. En V2 el modelo soporta `avatarUrl` y `avatarBase64`, pero el editor actual no ofrece un control completo de subida.
 - **Dark mode legacy:** `index.html` legacy incluye toggle de modo oscuro. V2 tiene tokens y `darkMode: class`, pero no se ha implementado toggle global equivalente.
@@ -87,26 +89,25 @@ No se implementa nada. Esta auditoría solo documenta estado, gaps, riesgos y re
 - Que usuario, docente o evaluador siga usando la demo legacy como referencia visual.
 - Perder referencia histórica útil para explicar la migración del MVP vanilla JS a V2.
 - Introducir ruido CRLF/LF en `styles/**` o `js/**` al mover/archivar legacy desde Windows.
-- Confundir retirada técnica con cierre de producto: V2 todavía necesita landing para sustituir la entrada pública completa.
+- Confundir retirada técnica con cierre de producto: tras landing, todavía falta una auditoría final de demo y una decisión explícita de archivo o retirada.
 
 ## 7. Recomendación
 
-Recomendación: **C. Mantener legacy hasta cerrar una landing V2**.
+Recomendación actualizada: **D. Mantener legacy hasta una demo final comparativa**.
 
-Justificación: V2 cubre y mejora casi todo el flujo autenticado y público, pero todavía no existe landing V2. Retirar legacy ahora dejaría sin reemplazo claro la entrada pública/marketing/demo del producto. El legacy debe mantenerse read-only hasta cerrar `feat/v2-landing-page` y verificar una demo final comparativa.
+Justificación: V2 cubre y mejora casi todo el flujo autenticado y público, y `feat/v2-landing-page` cubre el reemplazo de entrada pública. Aun así, el legacy debe mantenerse read-only hasta verificar una demo final comparativa y decidir explícitamente si se archiva o se retira.
 
-No recomiendo retirar legacy ya. Tampoco recomiendo archivar todavía si la landing V2 no existe, porque archivar puede generar confusión o romper expectativas de demo.
+No recomiendo retirar legacy ya. Tampoco recomiendo archivarlo dentro del sprint de landing, porque la decisión debe llegar tras validar la demo V2 completa.
 
 ## 8. Próximos sprints recomendados
 
-1. `feat/v2-landing-page`
-2. `chore/v2-final-demo-audit`
-3. `chore/archive-legacy-readonly`
-4. `chore/remove-legacy-after-v2-parity` solo si procede y con decisión explícita
+1. `chore/v2-final-demo-audit`
+2. `chore/archive-legacy-readonly`
+3. `chore/remove-legacy-after-v2-parity` solo si procede y con decisión explícita
 
 ## 9. Criterios para retirar legacy
 
-- [ ] V2 tiene landing funcional.
+- [x] V2 tiene landing funcional en `feat/v2-landing-page` pendiente de merge.
 - [x] V2 tiene auth.
 - [x] V2 tiene editor.
 - [x] V2 tiene GitHub Sync.
@@ -115,15 +116,15 @@ No recomiendo retirar legacy ya. Tampoco recomiendo archivar todavía si la land
 - [x] V2 tiene perfil público.
 - [x] V2 pasa typecheck/lint/build en API y Web según últimos sprints.
 - [x] Docker Compose funciona según últimos sprints.
-- [ ] README raíz apunta claramente a V2 como entrada principal.
-- [ ] Demo pública documentada.
+- [x] README raíz apunta claramente a V2 como entrada principal en `feat/v2-landing-page`.
+- [ ] Demo pública documentada y validada en auditoría final.
 - [ ] Decisión explícita tomada: archivar o retirar legacy.
 - [ ] Plan de compatibilidad para enlaces a `public.html`.
 - [ ] Auditoría final confirma que no hay uso activo de `js/**`, `styles/**` o `server/**` por la demo V2.
 
 ## 10. Decisión propuesta
 
-- **Estado actual:** V2 casi lista para sustituir legacy, pero falta landing V2.
-- **Decisión recomendada:** mantener legacy vivo y read-only hasta cerrar landing V2.
-- **Siguiente rama:** `feat/v2-landing-page`.
+- **Estado actual:** V2 casi lista para sustituir legacy; landing V2 queda cubierta en `feat/v2-landing-page` pendiente de merge.
+- **Decisión recomendada:** mantener legacy vivo y read-only hasta una auditoría final de demo.
+- **Siguiente rama:** `chore/v2-final-demo-audit`.
 - **Qué NO hacer todavía:** no borrar `index.html`, `public.html`, `js/**`, `styles/**` ni `server/**`; no mover legacy; no crear `/docs/specs`; no declarar paridad final hasta la auditoría de demo.

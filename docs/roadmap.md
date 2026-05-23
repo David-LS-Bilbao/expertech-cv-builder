@@ -4,13 +4,13 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `chore/v2-legacy-parity-audit` — Auditoría de paridad V2 vs legacy
+- `feat/v2-landing-page` — Landing Page V2 como entrada pública principal
 
 Objetivo actual:
-- auditar paridad funcional entre legacy vanilla JS y V2 React/TypeScript
-- identificar features cubiertas, parciales y no cubiertas
-- separar gaps bloqueantes para retirar legacy de backlog no bloqueante
-- recomendar el siguiente sprint antes de archivar o retirar legacy
+- implementar una landing pública V2 en `/` para usuarios no autenticados
+- preservar `/p/:slug` como ruta pública de perfiles
+- conectar CTAs de landing con AuthScreen sin router
+- documentar que el gap principal de paridad queda cerrado por este sprint
 - no retirar legacy todavía
 
 ## Bloque de hardening y cierre documental (mayo 2026)
@@ -26,6 +26,7 @@ Estado real actual:
 - **Fase 5 cerrada con PR #41**: backend Express + TypeScript en `apps/api/`
 - **Fase 6 cerrada con PR #42**: PostgreSQL + Prisma + bcrypt + frontend rewire al backend
 - **PublicProfile V2 cerrado con PR #51**: slug gestionable, publicación/despublicación y ruta `/p/:slug`
+- **Auditoría de paridad cerrada con PR #52**: V2 casi lista, gap principal identificado en landing
 
 Ramas cerradas en este bloque:
 - `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
@@ -89,8 +90,8 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `chore/v2-legacy-parity-audit` → `dev` ← rama activa
-- comenzar `feat/v2-landing-page` — landing pública V2 antes de archivar legacy
+- cerrar `feat/v2-landing-page` con PR a `dev`
+- comenzar `chore/v2-final-demo-audit` antes de archivar legacy
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
@@ -102,13 +103,13 @@ Objetivo cubierto:
 | UI 4a | `feat/v2-jobs-search` ✅ PR #49 | Job search |
 | UI 4b | `feat/v2-export-pdf` ✅ PR #50 | Exportar PDF por impresión nativa + QR |
 | UI 5 | `feat/v2-public-profile` ✅ PR #51 | Perfil público `/p/:slug` |
-| Audit | `chore/v2-legacy-parity-audit` ← activo | Paridad V2 vs legacy |
-| UI 6 | `feat/v2-landing-page` | Landing pública |
+| Audit | `chore/v2-legacy-parity-audit` ✅ PR #52 | Paridad V2 vs legacy |
+| UI 6 | `feat/v2-landing-page` ← activo | Landing pública |
 
 Objetivo siguiente:
-- `feat/v2-landing-page`
-- crear landing pública V2
-- mantener legacy vivo hasta cerrar landing y ejecutar una auditoría final de demo
+- `chore/v2-final-demo-audit`
+- validar la demo completa V2 con landing, auth, dashboard, editor, GitHub, Jobs, PDF/QR y `/p/:slug`
+- mantener legacy vivo hasta completar la auditoría final de demo
 - mantener custom themes, analytics, SEO avanzado, OpenGraph avanzado y dominio personalizado fuera del siguiente corte salvo decisión explícita
 
 ## Validación técnica reciente (Jooble)

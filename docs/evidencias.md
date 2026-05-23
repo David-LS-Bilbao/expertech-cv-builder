@@ -472,3 +472,18 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - Gap bloqueante principal para retirar legacy: falta una landing V2 que sustituya la entrada pública/demo del legacy.
 - Recomendación: mantener legacy vivo y read-only hasta cerrar `feat/v2-landing-page`; después ejecutar `chore/v2-final-demo-audit` y decidir entre archivar o retirar.
 - Próximo paso: `feat/v2-landing-page`.
+
+### [2026-05-23] Landing Page V2 como entrada pública
+
+- Objetivo: implementar la landing pública V2 en la rama `feat/v2-landing-page` para cerrar el gap principal detectado en la auditoría de paridad.
+- Trabajo realizado:
+  - Nueva feature `apps/web/src/features/landing/` con hero, features, how-it-works, showcase visual y CTA final.
+  - `App.tsx` mantiene `/p/:slug` como ruta pública prioritaria y muestra Landing en `/` para usuarios no autenticados.
+  - Los CTAs “Crear mi CV”, “Entrar” y “Empezar ahora” abren AuthScreen sin instalar router ni tocar backend.
+  - Se conserva el flujo autenticado existente: tras login/register se renderiza `AuthenticatedShell`.
+- Archivos afectados: `apps/web/src/app/App.tsx`, `apps/web/src/features/landing/LandingPage.tsx`, `README.md`, `apps/web/README.md`, `docs/roadmap.md`, `docs/evidencias.md`, `docs/audits/v2-legacy-parity-audit.md`.
+- Resultado: V2 ya dispone de una entrada pública principal en `/`, manteniendo `/p/:slug` y dejando legacy vivo hasta la auditoría final.
+- Validación prevista:
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
+- Próximo paso: `chore/v2-final-demo-audit`.

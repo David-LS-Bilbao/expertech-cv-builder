@@ -4,11 +4,11 @@
 
 ## Estado del proyecto
 
-Estado actual: `MVP legacy estable + V2 funcional casi completa`
+Estado actual: `MVP legacy estable + V2 funcional completa pendiente de auditoría final`
 
-Fase actual: `chore/v2-legacy-parity-audit` (auditoría documental de paridad V2 vs legacy)
+Fase actual: `feat/v2-landing-page` (Landing Page V2 como entrada pública principal)
 
-El MVP legacy en vanilla JS está completo y saneado, pero todavía no se retira. La V2 ya incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`. La auditoría actual evalúa qué falta antes de archivar o eliminar legacy; el gap principal previsto es cerrar una landing V2.
+El MVP legacy en vanilla JS está completo y saneado, pero todavía no se retira. La V2 ya incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, Landing Page pública en `/`, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`. Tras cerrar la landing, el siguiente paso recomendado es una auditoría final de demo antes de archivar o eliminar legacy.
 
 ## Arranque Docker local V2
 
@@ -308,13 +308,9 @@ Orden recomendado a partir del estado actual:
 
 Siguiente bloque de trabajo según el plan V2:
 
-- `feat/v2-react-ts-scaffold`: scaffold inicial de Vite + React + TypeScript conviviendo con el legacy
-- `feat/v2-domain-models-and-storage`: migración del dominio del CV a TypeScript
-- `feat/v2-react-auth-and-editor-shell`: portado incremental de la UI
-- `feat/v2-backend-api-foundation`: backend real en TypeScript con endpoints mínimos
-- `feat/v2-database-persistence`: PostgreSQL y aislamiento por usuario
-- `feat/v2-docker-compose-local`: Dockerización del stack
-- `feat/v2-deployment-readiness`: build reproducible, variables dev/prod y checklist de seguridad pre-deploy
+- `chore/v2-final-demo-audit`: validar la demo completa V2 tras la landing.
+- `chore/archive-legacy-readonly`: archivar legacy como referencia read-only si la auditoría final lo confirma.
+- `chore/remove-legacy-after-v2-parity`: retirar legacy solo con decisión explícita posterior.
 
 Cada fase se ejecuta en su rama, con PR contra `dev` y validación mínima documentada. Consulta `docs/v2-react-backend-docker-plan.md` para el detalle completo.
 
