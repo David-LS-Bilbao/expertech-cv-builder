@@ -111,9 +111,8 @@ ownerId/userId. Sin posibilidad de leer datos cruzados entre usuarios.
   cuando `isPublic = true`; si el CV contiene email/teléfono, se publican como
   parte explícita del contenido del CV.
 
-## Próximos pasos (Fase 7+)
+## Próximos pasos
 
-- Fase 7: Dockerizar también frontend y backend para `docker compose up`
-  completo. La DB ya está dockerizada — solo falta envolver Node+Vite.
-- Fase 8: build reproducible, rate limit, hashing config seguro,
-  cookies con flags, checklist de seguridad pre-deploy.
+- Mantener backend V2 como fuente real de auth, CV, Jobs y PublicProfile.
+- Cerrar `feat/v2-landing-page` para completar la sustitución visual del legacy.
+- Después ejecutar auditoría final de demo antes de archivar o retirar legacy.

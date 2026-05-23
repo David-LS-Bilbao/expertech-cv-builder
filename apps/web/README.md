@@ -27,9 +27,9 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Sprint UI 3 | Integración GitHub pública sin OAuth para importar repos como proyectos | #48 |
 | Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | #49 |
 | Sprint UI 4b | Exportación PDF por impresión nativa con QR local | #50 |
-| Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | — |
+| Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | #51 |
 
-**Sprint actual:** `feat/v2-public-profile` — perfil público real con publicación/despublicación y slug gestionable.
+**Sprint actual:** `chore/v2-legacy-parity-audit` — auditoría documental de paridad V2 vs legacy.
 
 **Siguiente sprint recomendado:** `feat/v2-landing-page` — landing pública V2.
 

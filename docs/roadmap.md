@@ -4,14 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-public-profile` — Sprint UI 5: perfil público V2 con slug
+- `chore/v2-legacy-parity-audit` — Auditoría de paridad V2 vs legacy
 
 Objetivo actual:
-- habilitar publicación/despublicación del CV desde la zona autenticada
-- permitir definir o regenerar un slug público único
-- hacer que `/p/:slug` muestre una página pública read-only si el perfil está publicado
-- conectar el QR de Export PDF con la URL real publicada cuando exista
-- mantener fuera de alcance landing, custom themes, analytics, SEO avanzado, OpenGraph avanzado, dominio personalizado y retirada de legacy
+- auditar paridad funcional entre legacy vanilla JS y V2 React/TypeScript
+- identificar features cubiertas, parciales y no cubiertas
+- separar gaps bloqueantes para retirar legacy de backlog no bloqueante
+- recomendar el siguiente sprint antes de archivar o retirar legacy
+- no retirar legacy todavía
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -25,6 +25,7 @@ Estado real actual:
 - pulido documental post-Fase 4 con PR #40
 - **Fase 5 cerrada con PR #41**: backend Express + TypeScript en `apps/api/`
 - **Fase 6 cerrada con PR #42**: PostgreSQL + Prisma + bcrypt + frontend rewire al backend
+- **PublicProfile V2 cerrado con PR #51**: slug gestionable, publicación/despublicación y ruta `/p/:slug`
 
 Ramas cerradas en este bloque:
 - `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
@@ -88,8 +89,8 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-public-profile` → `dev` ← rama activa
-- comenzar `feat/v2-landing-page` — landing pública V2
+- PR `chore/v2-legacy-parity-audit` → `dev` ← rama activa
+- comenzar `feat/v2-landing-page` — landing pública V2 antes de archivar legacy
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
@@ -100,12 +101,14 @@ Objetivo cubierto:
 | UI 3 | `feat/v2-github-integration` ✅ PR #48 | Sync GitHub: perfil + repos |
 | UI 4a | `feat/v2-jobs-search` ✅ PR #49 | Job search |
 | UI 4b | `feat/v2-export-pdf` ✅ PR #50 | Exportar PDF por impresión nativa + QR |
-| UI 5 | `feat/v2-public-profile` ← activo | Perfil público `/p/:slug` |
+| UI 5 | `feat/v2-public-profile` ✅ PR #51 | Perfil público `/p/:slug` |
+| Audit | `chore/v2-legacy-parity-audit` ← activo | Paridad V2 vs legacy |
 | UI 6 | `feat/v2-landing-page` | Landing pública |
 
 Objetivo siguiente:
 - `feat/v2-landing-page`
 - crear landing pública V2
+- mantener legacy vivo hasta cerrar landing y ejecutar una auditoría final de demo
 - mantener custom themes, analytics, SEO avanzado, OpenGraph avanzado y dominio personalizado fuera del siguiente corte salvo decisión explícita
 
 ## Validación técnica reciente (Jooble)
