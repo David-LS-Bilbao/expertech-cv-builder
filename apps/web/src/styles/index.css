@@ -34,3 +34,54 @@
 
 /* ── App bootstrap state ────────────────────────────────────────────────── */
 .loading-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; font-size: 1rem; color: #64748b; }
+
+/* ── Print export surface ───────────────────────────────────────────────── */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #131b2e !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .printable-area,
+  .printable-area * {
+    visibility: visible;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .printable-area {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  .printable-cv {
+    width: 100% !important;
+    min-height: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
