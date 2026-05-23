@@ -28,11 +28,11 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | #49 |
 | Sprint UI 4b | Exportación PDF por impresión nativa con QR local | #50 |
 | Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | #51 |
-| Sprint UI 6 | Landing Page V2 como entrada pública `/` | pendiente |
+| Sprint UI 6 | Landing Page V2 como entrada pública `/` | #53 |
 
-**Sprint actual:** `feat/v2-landing-page` — landing pública V2 en `/`.
+**Sprint actual:** `chore/v2-final-demo-audit` — auditoría final de demo V2.
 
-**Siguiente sprint recomendado:** `chore/v2-final-demo-audit` — auditoría final de demo antes de archivar legacy.
+**Siguiente sprint recomendado:** `chore/archive-legacy-readonly` — marcar legacy como referencia read-only sin borrarlo.
 
 ## Comandos (ejecutar desde `apps/web/`)
 

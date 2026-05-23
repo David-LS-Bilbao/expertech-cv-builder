@@ -487,3 +487,25 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
   - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
 - Próximo paso: `chore/v2-final-demo-audit`.
+
+### [2026-05-23] Auditoría final de demo V2
+
+- Objetivo: validar si la V2 está lista para sustituir funcionalmente al legacy como demo principal antes de archivar legacy como read-only.
+- Validaciones ejecutadas:
+  - `apps/api`: `npm run typecheck`, `npm run lint`, `npm run build`.
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`.
+  - raíz: `docker compose build`, `docker compose up -d`, `docker compose ps`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `curl http://localhost:8090/p/slug-inexistente`, `docker compose down`.
+  - Smoke semi-automatizado por API: register/login/logout, guardado de CV, Jobs Search, publicación/despublicación de PublicProfile y consulta pública.
+  - GitHub público: `octocat` responde `200` en perfil y repositorios desde `api.github.com`.
+- Resultado:
+  - Estado global: **Lista con observaciones menores**.
+  - No se detectan bloqueantes técnicos.
+  - Docker local queda sano con web, api y postgres en `healthy`.
+  - Jobs Search responde con `source=mock`, comportamiento esperado si Jooble no está configurado.
+  - PublicProfile publica con `200` y deja de mostrar el CV con `404` al despublicar.
+- Hallazgos:
+  - Pendiente una revisión visual manual en navegador para CTA, Dashboard, Editor, selección GitHub e impresión nativa.
+  - Preview V2 se sincroniza al guardar, no con live typing exacto.
+  - Legacy sigue presente y debe archivarse read-only, no eliminarse.
+- Recomendación: V2 puede ser demo principal; siguiente sprint `chore/archive-legacy-readonly`.
+- Próximo paso: abrir PR de `chore/v2-final-demo-audit` contra `dev`.
