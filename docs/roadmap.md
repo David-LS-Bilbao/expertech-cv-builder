@@ -4,12 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-tailwind-design-system` — Sprint UI 1: base visual
+- `feat/v2-dashboard-and-editor` — Sprint UI 2: experiencia autenticada V2
 
 Objetivo actual:
-- introducir Tailwind v3 + tokens visuales del design system Stitch (DESIGN.md) + fuente Inter + lucide-react
-- rediseñar `AuthScreen` como primera pantalla alineada con los mockups Stitch (layout dos columnas, tarjeta, tabs, inputs, iconos)
-- convivencia controlada: el CSS legacy permanece para componentes no migrados todavía
+- portar Dashboard y Editor CV a Tailwind v3 usando los tokens Stitch ya introducidos en PR #46
+- mantener intactos login/register/logout, carga y guardado de CV contra backend y preview sincronizada al guardar
+- añadir navegación interna local `Dashboard / Editor CV` sin router ni rutas reales
+- mostrar GitHub, Jobs, PDF y perfil público solo como placeholders visuales
+- mantener fuera de alcance backend, Prisma, Docker, landing, legacy vanilla JS y features reales de integraciones
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -86,24 +88,23 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-tailwind-design-system` → `dev` ← rama activa
-- comenzar `feat/v2-dashboard-and-editor` — Sprint UI 2: Dashboard (bento grid) + Editor CV con acordeones + preview Stitch
+- PR `feat/v2-dashboard-and-editor` → `dev` ← rama activa
+- comenzar `feat/v2-github-integration` — integración GitHub real para perfil y repositorios
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
 | Sprint | Rama | Contenido |
 |---|---|---|
-| UI 1 | `feat/v2-tailwind-design-system` ← activo | Tailwind + tokens + AuthScreen |
-| UI 2 | `feat/v2-dashboard-and-editor` | Dashboard + Editor acordeones + preview |
+| UI 1 | `feat/v2-tailwind-design-system` ✅ PR #46 | Tailwind + tokens + AuthScreen |
+| UI 2 | `feat/v2-dashboard-and-editor` ← activo | Dashboard + Editor acordeones + preview |
 | UI 3 | `feat/v2-github-integration` | Sync GitHub: perfil + repos |
 | UI 4 | `feat/v2-jobs-and-pdf` | Job search + exportar PDF |
 | UI 5 | `feat/v2-public-profile` | Página pública + landing |
 
 Objetivo siguiente:
-- cerrar esta micro-rama documental sin ampliar alcance de producto
-- en Fase 7: `docker-compose.yml` en la raíz del repo con tres servicios: `web` (Vite/Nginx), `api` (Node), `postgres`
-- cada servicio con su `Dockerfile`, healthchecks, `.env.example` sin secretos reales
-- criterio de cierre Fase 7: `docker compose up` levanta el stack completo; el usuario puede registrarse, editar y ver su CV desde el navegador sin configuración manual adicional
+- `feat/v2-github-integration`
+- conectar GitHub real para enriquecer perfil/repositorios en V2
+- mantener Jobs UI, PDF, perfil público y landing fuera hasta sus sprints correspondientes
 
 ## Validación técnica reciente (Jooble)
 
