@@ -28,10 +28,11 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | #49 |
 | Sprint UI 4b | Exportación PDF por impresión nativa con QR local | #50 |
 | Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | #51 |
+| Sprint UI 6 | Landing Page V2 como entrada pública `/` | pendiente |
 
-**Sprint actual:** `chore/v2-legacy-parity-audit` — auditoría documental de paridad V2 vs legacy.
+**Sprint actual:** `feat/v2-landing-page` — landing pública V2 en `/`.
 
-**Siguiente sprint recomendado:** `feat/v2-landing-page` — landing pública V2.
+**Siguiente sprint recomendado:** `chore/v2-final-demo-audit` — auditoría final de demo antes de archivar legacy.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -55,6 +56,7 @@ src/
 │   └── export/           # Export PDF: panel, preview imprimible y QR
 │   └── github/           # GitHub Sync público: búsqueda, perfil, repos y selección
 │   └── jobs/             # Jobs Search: formulario, estados y tarjetas de ofertas
+│   └── landing/          # Landing pública V2 en /
 │   └── public-profile/   # ruta pública /p/:slug y panel de publicación
 ├── lib/
 │   ├── api/              # cliente HTTP (fetch wrapper + token) — VITE_API_URL
@@ -87,8 +89,9 @@ Copiar a `.env.local` si necesitas apuntar a otro backend.
   proyectos del CV; no implementa login con GitHub.
 - **Exportación PDF V2**: usa `window.print()` y CSS `@media print`; el navegador permite guardar como PDF. No hay generación PDF binaria ni `jsPDF`.
 - **Perfil público V2**: `/p/:slug` renderiza un CV read-only si el usuario lo ha publicado. El slug se gestiona desde la zona autenticada.
+- **Landing V2**: `/` muestra la entrada pública del producto para usuarios no autenticados y sus CTAs abren AuthScreen sin usar router.
 - **QR local**: se genera en frontend con `qrcode`, sin servicios externos. Apunta al perfil público real cuando está publicado y a una ruta planificada si está privado.
-- **Fuera de alcance PublicProfile**: landing, custom themes, analytics, SEO avanzado, OpenGraph avanzado, dominio personalizado y retirada de legacy.
+- **Fuera de alcance Landing**: analytics, SEO avanzado, OpenGraph avanzado, CMS, dominio personalizado y retirada de legacy.
 
 ## Relación con el legacy
 
