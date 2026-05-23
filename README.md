@@ -4,11 +4,11 @@
 
 ## Estado del proyecto
 
-Estado actual: `MVP legacy estable + V2 funcional completa pendiente de auditoría final`
+Estado actual: `MVP legacy estable + V2 lista como demo principal con observaciones menores`
 
-Fase actual: `feat/v2-landing-page` (Landing Page V2 como entrada pública principal)
+Fase actual: `chore/v2-final-demo-audit` (auditoría final de preparación de demo V2)
 
-El MVP legacy en vanilla JS está completo y saneado, pero todavía no se retira. La V2 ya incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, Landing Page pública en `/`, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`. Tras cerrar la landing, el siguiente paso recomendado es una auditoría final de demo antes de archivar o eliminar legacy.
+El MVP legacy en vanilla JS está completo y saneado, pero todavía no se retira. La V2 ya incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, Landing Page pública en `/`, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`. La auditoría final recomienda usar V2 como demo principal y archivar legacy como read-only en el siguiente sprint, sin eliminarlo todavía.
 
 ## Arranque Docker local V2
 
@@ -308,8 +308,7 @@ Orden recomendado a partir del estado actual:
 
 Siguiente bloque de trabajo según el plan V2:
 
-- `chore/v2-final-demo-audit`: validar la demo completa V2 tras la landing.
-- `chore/archive-legacy-readonly`: archivar legacy como referencia read-only si la auditoría final lo confirma.
+- `chore/archive-legacy-readonly`: archivar legacy como referencia read-only tras la auditoría final.
 - `chore/remove-legacy-after-v2-parity`: retirar legacy solo con decisión explícita posterior.
 
 Cada fase se ejecuta en su rama, con PR contra `dev` y validación mínima documentada. Consulta `docs/v2-react-backend-docker-plan.md` para el detalle completo.

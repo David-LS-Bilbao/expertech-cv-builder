@@ -114,5 +114,5 @@ ownerId/userId. Sin posibilidad de leer datos cruzados entre usuarios.
 ## Próximos pasos
 
 - Mantener backend V2 como fuente real de auth, CV, Jobs y PublicProfile.
-- Cerrar `feat/v2-landing-page` para completar la sustitución visual del legacy.
-- Después ejecutar auditoría final de demo antes de archivar o retirar legacy.
+- Mantener V2 como candidata a demo principal tras `chore/v2-final-demo-audit`.
+- Archivar legacy como read-only en `chore/archive-legacy-readonly`, sin borrarlo todavía.
