@@ -359,3 +359,20 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `docker compose build web` OK
   - `docker compose up -d` → 3 servicios healthy, HTTP 200 en / y /api/health
 - Próximo paso: `feat/v2-dashboard-and-editor` — Dashboard (bento grid) + Editor CV con acordeones + preview Stitch.
+
+### [2026-05-23] Sprint UI 2: Dashboard + Editor CV autenticados en Tailwind/Stitch
+
+- Objetivo: crear la primera experiencia autenticada V2 alineada con los mockups Stitch en la rama `feat/v2-dashboard-and-editor`, sin tocar backend, Docker, Prisma ni legacy vanilla JS.
+- Contexto de partida: PR #46 ya había introducido Tailwind v3, tokens desde `DESIGN.md`, Inter, lucide-react y el rediseño de `AuthScreen`.
+- Trabajo realizado:
+  - `AuthenticatedShell`: navegación interna local `Dashboard / Editor CV`, shell autenticado responsive, logout y badge de backend conservados.
+  - `Dashboard`: layout tipo bento grid con saludo al usuario, estado del backend, métricas derivadas del CV (completitud aproximada, skills, proyectos visibles, última actualización) y acciones rápidas.
+  - Acciones futuras: GitHub, empleo, PDF y perfil público quedan como placeholders visuales “Próximamente”; no implementan features reales.
+  - `ProfileForm`: editor visual con paneles plegables para perfil profesional, contacto, skills y proyectos; mantiene el contrato `onSave(profile)` y el flujo de guardado existente.
+  - `CVPreview`: preview portada a Tailwind/Stitch manteniendo datos actuales y reglas de visibilidad de proyectos.
+  - `apps/web/src/styles/index.css`: retirada de estilos manuales sustituidos por Tailwind en shell/editor/preview; se conservan Tailwind imports, Inter y `loading-screen`.
+- Fuera de alcance mantenido: GitHub real, Jobs UI, export PDF, PublicProfile, landing, backend, Prisma, Docker, package files y legacy (`js/**`, `styles/**`).
+- Validación prevista antes de cerrar:
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
+- Próximo sprint recomendado: `feat/v2-github-integration`.
