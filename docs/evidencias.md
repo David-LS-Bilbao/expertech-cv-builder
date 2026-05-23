@@ -393,3 +393,24 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
   - smoke recomendado: buscar un usuario público, seleccionar repos e importar al CV.
 - Próximo sprint recomendado: `feat/v2-jobs-and-pdf` o separar primero `feat/v2-jobs-search`.
+
+### [2026-05-23] Sprint UI 4a: Jobs Search V2
+
+- Objetivo: portar a V2 solo la UI de búsqueda de empleo tech en la rama `feat/v2-jobs-search`, consumiendo el endpoint backend existente `/jobs/search`.
+- Contexto de partida: PR #46 dejó Tailwind/Stitch/AuthScreen; PR #47 dejó Dashboard/Editor/Preview; PR #48 dejó GitHub Sync público sin OAuth.
+- Contrato usado:
+  - `GET /jobs/search?keywords=<texto>&location=<texto>`
+  - `keywords` es obligatorio.
+  - Respuesta estable: `{ results, fallbackWarning, source }`.
+  - `source` puede ser `jooble` o `mock`; si `JOOBLE_API_KEY` no está configurada, el backend devuelve mock/fallback.
+- Trabajo realizado:
+  - `apps/web/src/lib/api/client.ts`: tipos frontend mínimos para `JobOffer`, `JobsSearchResponse` y función `api.jobs.search`.
+  - `apps/web/src/features/jobs/`: UI Jobs Search con formulario keywords/location, chips rápidos, tarjetas de resultados y estados idle/loading/success/empty/error.
+  - `AuthenticatedShell`: nueva vista interna `jobs` sin router y navegación “Empleo”.
+  - `Dashboard`: acción “Buscar empleo” activa y conectada a la vista Jobs.
+  - Aviso visual cuando la respuesta viene de mock/fallback Jooble.
+- Fuera de alcance mantenido: guardar ofertas favoritas, aplicar a ofertas, alertas, PDF, PublicProfile, landing, backend nuevo, Prisma, Docker y legacy (`js/**`, `styles/**`).
+- Validación prevista antes de cerrar:
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `curl "http://localhost:8090/api/jobs/search?keywords=react&location=Bilbao"`, `docker compose down`
+- Próximo sprint recomendado: `feat/v2-export-pdf`.

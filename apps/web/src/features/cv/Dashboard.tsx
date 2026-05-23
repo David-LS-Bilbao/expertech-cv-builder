@@ -27,6 +27,7 @@ interface Props {
   backendStatus: BackendStatus
   onEditCV: () => void
   onSyncGitHub: () => void
+  onSearchJobs: () => void
 }
 
 function getProfileCompletion(cv: PortfolioCV): number {
@@ -67,7 +68,7 @@ function backendLabel(status: BackendStatus): string {
   return 'Backend sin respuesta'
 }
 
-export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub }: Props) {
+export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub, onSearchJobs }: Props) {
   const visibleProjects = getVisibleProjects(cv.projects)
   const completion = getProfileCompletion(cv)
   const displayName = user.displayName || user.email
@@ -121,9 +122,10 @@ export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub }: P
     },
     {
       label: 'Buscar empleo',
-      description: 'Próximamente',
+      description: 'Buscar ofertas',
       icon: BriefcaseBusiness,
-      active: false,
+      active: true,
+      onClick: onSearchJobs,
     },
     {
       label: 'Exportar PDF',
@@ -199,7 +201,7 @@ export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub }: P
             </div>
           </div>
           <p className="mt-5 text-label-md text-inverse-on-surface/80">
-            GitHub público ya se puede sincronizar sin OAuth. Empleo, PDF y perfil público siguen como placeholders.
+            GitHub y búsqueda de empleo ya están activos. PDF y perfil público siguen como placeholders.
           </p>
         </div>
       </section>

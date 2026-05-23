@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Code, FileText, Gauge, LogOut, Server } from 'lucide-react'
+import { BriefcaseBusiness, Code, FileText, Gauge, LogOut, Server } from 'lucide-react'
 import type { CandidateProfile, PortfolioCV } from '../../lib/domain/types'
 import { createPortfolioCV } from '../../lib/domain/createPortfolioCV'
 import type { PublicUser } from '../../lib/api/client'
@@ -10,6 +10,7 @@ import { ProfileForm } from './ProfileForm'
 import { CVPreview } from './CVPreview'
 import { Dashboard } from './Dashboard'
 import { GitHubSyncPanel } from '../github/GitHubSyncPanel'
+import { JobsSearchPanel } from '../jobs/JobsSearchPanel'
 
 interface Props {
   user: PublicUser
@@ -19,7 +20,7 @@ interface Props {
 }
 
 type BackendStatus = 'checking' | 'ok' | 'offline'
-type ActiveView = 'dashboard' | 'editor' | 'github'
+type ActiveView = 'dashboard' | 'editor' | 'github' | 'jobs'
 
 export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
   const [backendStatus, setBackendStatus] = useState<BackendStatus>('checking')
@@ -67,8 +68,13 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
     { id: 'dashboard' as const, label: 'Dashboard', icon: Gauge },
     { id: 'editor' as const, label: 'Editor CV', icon: FileText },
     { id: 'github' as const, label: 'GitHub', icon: Code },
+    { id: 'jobs' as const, label: 'Empleo', icon: BriefcaseBusiness },
   ]
-  const activeViewLabel = activeView === 'dashboard' ? 'Dashboard' : activeView === 'editor' ? 'Editor CV' : 'GitHub Sync'
+  const activeViewLabel =
+    activeView === 'dashboard' ? 'Dashboard'
+      : activeView === 'editor' ? 'Editor CV'
+        : activeView === 'github' ? 'GitHub Sync'
+          : 'Buscar empleo'
 
   return (
     <div className="min-h-screen bg-background text-on-surface">
@@ -105,7 +111,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
 
         <div className="rounded-lg border border-primary/20 bg-primary-container/20 p-4 text-on-primary-container">
           <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Sprint UI 2</p>
-          <p className="mt-2 text-label-md">Dashboard y editor visual alineados con Stitch.</p>
+          <p className="mt-2 text-label-md">Jobs Search consume el backend V2 existente.</p>
         </div>
       </aside>
 
@@ -188,6 +194,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
               backendStatus={backendStatus}
               onEditCV={() => setActiveView('editor')}
               onSyncGitHub={() => setActiveView('github')}
+              onSearchJobs={() => setActiveView('jobs')}
             />
           ) : activeView === 'editor' ? (
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
@@ -214,10 +221,14 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
               </aside>
             </div>
           ) : (
-            <GitHubSyncPanel
-              cv={cv}
-              onImportRepositories={handleGitHubImport}
-            />
+            activeView === 'github' ? (
+              <GitHubSyncPanel
+                cv={cv}
+                onImportRepositories={handleGitHubImport}
+              />
+            ) : (
+              <JobsSearchPanel />
+            )
           )}
         </main>
       </div>
