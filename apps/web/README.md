@@ -10,6 +10,7 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 - **TypeScript 6** — tipado estático
 - **Tailwind CSS 3** — capa visual V2 con tokens Stitch
 - **lucide-react** — iconografía lineal
+- **qrcode** — generación local de QR para exportación imprimible
 - **ESLint 10** — linting (flat config)
 
 ## Estado actual
@@ -24,11 +25,12 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Sprint UI 1 | Tailwind v3 + design system Stitch + AuthScreen rediseñado | #46 |
 | Sprint UI 2 | Dashboard + Editor CV + Preview portados a Tailwind/Stitch | #47 |
 | Sprint UI 3 | Integración GitHub pública sin OAuth para importar repos como proyectos | #48 |
-| Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | — |
+| Sprint UI 4a | Jobs Search V2 contra endpoint `/jobs/search` existente | #49 |
+| Sprint UI 4b | Exportación PDF por impresión nativa con QR local | — |
 
-**Sprint actual:** `feat/v2-jobs-search` — UI de búsqueda de empleo tech sobre el backend V2 existente.
+**Sprint actual:** `feat/v2-export-pdf` — exportación PDF/print de CV en V2 mediante impresión nativa del navegador.
 
-**Siguiente sprint recomendado:** `feat/v2-export-pdf` — port de exportación PDF a V2.
+**Siguiente sprint recomendado:** `feat/v2-public-profile` — perfil público real y slug gestionable.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -49,12 +51,14 @@ src/
 ├── features/
 │   ├── auth/             # AuthScreen (login/registro contra backend)
 │   └── cv/               # Dashboard, AuthenticatedShell, ProfileForm, CVPreview
+│   └── export/           # Export PDF: panel, preview imprimible y QR
 │   └── github/           # GitHub Sync público: búsqueda, perfil, repos y selección
 │   └── jobs/             # Jobs Search: formulario, estados y tarjetas de ofertas
 ├── lib/
 │   ├── api/              # cliente HTTP (fetch wrapper + token) — VITE_API_URL
 │   ├── domain/           # tipos PortfolioCV, Project, CandidateProfile + factories
 │   ├── github/           # cliente público GitHub + transformación repo → Project
+│   ├── qr/               # helpers puros para QR y URL pública planificada
 │   └── utils/            # isRenderableProject, getVisibleProjects
 └── styles/               # index.css (reset + layout + componentes)
 ```
@@ -79,9 +83,10 @@ Copiar a `.env.local` si necesitas apuntar a otro backend.
 - **GitHub Sync público sin OAuth**: la V2 consulta `api.github.com` desde el frontend
   sin token ni backend proxy. Permite seleccionar repos públicos e importarlos como
   proyectos del CV; no implementa login con GitHub.
-- **Sin exportación PDF**: disponible en el legacy; no portada todavía a V2.
-- **Acciones futuras como placeholders**: PDF y perfil público se muestran en Dashboard pero no ejecutan features reales.
-- **Fuera de alcance Jobs**: guardar favoritas, aplicar a ofertas, alertas, PDF, PublicProfile, landing, backend nuevo, Prisma y legacy.
+- **Exportación PDF V2**: usa `window.print()` y CSS `@media print`; el navegador permite guardar como PDF. No hay generación PDF binaria ni `jsPDF`.
+- **QR local**: se genera en frontend con `qrcode`, sin servicios externos. Apunta a `/p/<githubUsername-o-nombre-normalizado>` como URL pública planificada.
+- **Acciones futuras como placeholders**: perfil público real sigue como placeholder hasta `feat/v2-public-profile`.
+- **Fuera de alcance Export PDF**: PublicProfile real, landing, backend nuevo, Prisma, Docker, legacy, generación PDF binaria y plantillas múltiples.
 
 ## Relación con el legacy
 

@@ -414,3 +414,24 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
   - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `curl "http://localhost:8090/api/jobs/search?keywords=react&location=Bilbao"`, `docker compose down`
 - Próximo sprint recomendado: `feat/v2-export-pdf`.
+
+### [2026-05-23] Sprint UI 4b: Export PDF V2
+
+- Objetivo: portar a V2 la exportación de CV a PDF en la rama `feat/v2-export-pdf`, usando impresión nativa del navegador y sin implementar todavía PublicProfile real ni Landing.
+- Contexto de partida: PR #46 dejó Tailwind/Stitch/AuthScreen; PR #47 dejó Dashboard/Editor/Preview; PR #48 dejó GitHub Sync público; PR #49 dejó Jobs Search V2.
+- Decisión técnica:
+  - Se usa `window.print()` y CSS `@media print`.
+  - Se evita `jsPDF` y cualquier generación PDF binaria.
+  - El QR se genera localmente en frontend con `qrcode`, sin servicios externos.
+  - Al no existir aún gestión de slug público real, la URL planificada usa `/p/<githubUsername-o-nombre-normalizado>`.
+- Trabajo realizado:
+  - `apps/web/src/lib/qr/`: helper de QR local y helper de URL pública planificada.
+  - `apps/web/src/features/export/`: panel Exportar PDF, preview imprimible, bloque QR y acción de impresión.
+  - `AuthenticatedShell`: nueva vista interna `export` sin router y navegación “Exportar”.
+  - `Dashboard`: acción “Exportar PDF” activa y conectada a la vista Export.
+  - `apps/web/src/styles/index.css`: estilos print mínimos para imprimir solo el área imprimible.
+- Fuera de alcance mantenido: PublicProfile real, landing, backend nuevo, Prisma, Docker, legacy (`js/**`, `styles/**`), `jsPDF`, generación PDF binaria y plantillas múltiples.
+- Validación prevista antes de cerrar:
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
+- Próximo sprint recomendado: `feat/v2-public-profile`.

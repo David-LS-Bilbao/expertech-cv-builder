@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BriefcaseBusiness, Code, FileText, Gauge, LogOut, Server } from 'lucide-react'
+import { BriefcaseBusiness, Code, Download, FileText, Gauge, LogOut, Server } from 'lucide-react'
 import type { CandidateProfile, PortfolioCV } from '../../lib/domain/types'
 import { createPortfolioCV } from '../../lib/domain/createPortfolioCV'
 import type { PublicUser } from '../../lib/api/client'
@@ -11,6 +11,7 @@ import { CVPreview } from './CVPreview'
 import { Dashboard } from './Dashboard'
 import { GitHubSyncPanel } from '../github/GitHubSyncPanel'
 import { JobsSearchPanel } from '../jobs/JobsSearchPanel'
+import { ExportPdfPanel } from '../export/ExportPdfPanel'
 
 interface Props {
   user: PublicUser
@@ -20,7 +21,7 @@ interface Props {
 }
 
 type BackendStatus = 'checking' | 'ok' | 'offline'
-type ActiveView = 'dashboard' | 'editor' | 'github' | 'jobs'
+type ActiveView = 'dashboard' | 'editor' | 'github' | 'jobs' | 'export'
 
 export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
   const [backendStatus, setBackendStatus] = useState<BackendStatus>('checking')
@@ -69,12 +70,14 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
     { id: 'editor' as const, label: 'Editor CV', icon: FileText },
     { id: 'github' as const, label: 'GitHub', icon: Code },
     { id: 'jobs' as const, label: 'Empleo', icon: BriefcaseBusiness },
+    { id: 'export' as const, label: 'Exportar', icon: Download },
   ]
   const activeViewLabel =
     activeView === 'dashboard' ? 'Dashboard'
       : activeView === 'editor' ? 'Editor CV'
         : activeView === 'github' ? 'GitHub Sync'
-          : 'Buscar empleo'
+          : activeView === 'jobs' ? 'Buscar empleo'
+            : 'Exportar PDF'
 
   return (
     <div className="min-h-screen bg-background text-on-surface">
@@ -110,8 +113,8 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
         </nav>
 
         <div className="rounded-lg border border-primary/20 bg-primary-container/20 p-4 text-on-primary-container">
-          <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Sprint UI 2</p>
-          <p className="mt-2 text-label-md">Jobs Search consume el backend V2 existente.</p>
+          <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Sprint UI 4b</p>
+          <p className="mt-2 text-label-md">Exportación PDF por impresión nativa.</p>
         </div>
       </aside>
 
@@ -128,7 +131,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between xl:justify-end">
-              <nav className="flex rounded-lg border border-outline-variant/70 bg-surface-container-low p-1 lg:hidden" aria-label="Navegación móvil">
+              <nav className="flex max-w-full overflow-x-auto rounded-lg border border-outline-variant/70 bg-surface-container-low p-1 lg:hidden" aria-label="Navegación móvil">
                 {navigationItems.map((item) => {
                   const Icon = item.icon
                   const isActive = activeView === item.id
@@ -195,6 +198,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
               onEditCV={() => setActiveView('editor')}
               onSyncGitHub={() => setActiveView('github')}
               onSearchJobs={() => setActiveView('jobs')}
+              onExportPDF={() => setActiveView('export')}
             />
           ) : activeView === 'editor' ? (
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
@@ -226,8 +230,10 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
                 cv={cv}
                 onImportRepositories={handleGitHubImport}
               />
-            ) : (
+            ) : activeView === 'jobs' ? (
               <JobsSearchPanel />
+            ) : (
+              <ExportPdfPanel cv={cv} />
             )
           )}
         </main>
