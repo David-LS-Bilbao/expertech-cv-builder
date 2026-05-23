@@ -4,11 +4,11 @@
 
 ## Estado del proyecto
 
-Estado actual: `MVP legacy estable + V2 Fases 2–7 cerradas`
+Estado actual: `MVP legacy estable + V2 funcional casi completa`
 
-Fase actual: `feat/v2-docker-compose-local` (Fase 7, Dockerización del stack V2)
+Fase actual: `chore/v2-legacy-parity-audit` (auditoría documental de paridad V2 vs legacy)
 
-El MVP legacy en vanilla JS está completo y saneado. La V2 ha cerrado siete fases: scaffold React + TypeScript, dominio TS, UI React, backend Express + TypeScript, PostgreSQL + Prisma + bcrypt, y Dockerización completa (Fases 2–7). El stack V2 arranca con un solo comando desde la raíz.
+El MVP legacy en vanilla JS está completo y saneado, pero todavía no se retira. La V2 ya incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`. La auditoría actual evalúa qué falta antes de archivar o eliminar legacy; el gap principal previsto es cerrar una landing V2.
 
 ## Arranque Docker local V2
 
@@ -24,11 +24,11 @@ Servicios levantados:
 
 | Servicio | URL local | Descripción |
 |---|---|---|
-| `web` | http://localhost:8080 | Frontend React servido por Nginx |
+| `web` | http://localhost:8090 | Frontend React servido por Nginx |
 | `api` | http://localhost:3002 | Backend Express (acceso directo, dev) |
 | `postgres` | localhost:5435 | PostgreSQL (acceso directo, dev) |
 
-> **Nota:** si el puerto `8080` está ocupado en tu máquina (por otro contenedor o servicio), edita la línea `"8080:80"` en `docker-compose.yml` por el puerto que prefieras. Los demás puertos siguen la misma lógica.
+> **Nota:** el frontend V2 se expone actualmente en `8090:80`. Si ese puerto está ocupado en tu máquina, ajusta el mapeo de puertos local antes de levantar el stack.
 
 ```bash
 # Parar el stack (conserva el volumen de DB):

@@ -458,3 +458,17 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
   - raíz: `docker compose build`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
 - Próximo sprint recomendado: `feat/v2-landing-page`.
+
+### [2026-05-23] Auditoría de paridad V2 vs legacy
+
+- Objetivo: documentar la paridad funcional entre el legacy vanilla JS y la V2 React/TypeScript antes de decidir si archivar o retirar legacy.
+- Archivos revisados:
+  - Legacy: `index.html`, `public.html`, `js/application/AppRuntime.js`, `js/application/AuthenticatedCVApp.js`, `js/application/PublicPageRuntime.js`, `js/ui/AuthScreen.js`, `js/ui/AuthScreenTemplate.js`, `js/ui/GitHubIntegration.js`, `js/ui/GitHubBlockTemplate.js`, `js/ui/PreviewRenderer.js`, `js/ui/PreviewTemplate.js`, `js/ui/PrintCVRenderer.js`, `js/ui/PrintCVTemplate.js`, `js/ui/PublicCVRenderer.js`, `js/ui/JobSearchIntegration.js`, `js/services/AuthStorageService.js`, `js/services/GitHubProfileService.js`, `js/services/JobOffersService.js`, `js/services/PublicCVDataService.js`, `js/models/PortfolioCV.js`, `js/models/Project.js`, `styles/reset.css`.
+  - V2: `apps/web/src/app/App.tsx`, features `auth`, `cv`, `github`, `jobs`, `export`, `public-profile`, `apps/web/src/lib/api/client.ts`, `apps/api/src/routes/**`, `apps/api/prisma/schema.prisma`.
+  - Documentación: `docs/roadmap.md`, `docs/evidencias.md`, `apps/web/README.md`, `apps/api/README.md`.
+- Resultado:
+  - V2 cubre el núcleo legacy y lo supera en backend real, PostgreSQL/Prisma, multiusuario, Docker, Tailwind/Stitch, perfil público real y QR conectado a `/p/:slug`.
+  - Estado global propuesto: **Casi lista, quedan gaps menores**.
+  - Gap bloqueante principal para retirar legacy: falta una landing V2 que sustituya la entrada pública/demo del legacy.
+- Recomendación: mantener legacy vivo y read-only hasta cerrar `feat/v2-landing-page`; después ejecutar `chore/v2-final-demo-audit` y decidir entre archivar o retirar.
+- Próximo paso: `feat/v2-landing-page`.
