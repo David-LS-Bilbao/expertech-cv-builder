@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BriefcaseBusiness, Code, Download, FileText, Gauge, LogOut, Server } from 'lucide-react'
+import { BriefcaseBusiness, Code, Download, ExternalLink, FileText, Gauge, LogOut, Server } from 'lucide-react'
 import type { CandidateProfile, PortfolioCV } from '../../lib/domain/types'
 import { createPortfolioCV } from '../../lib/domain/createPortfolioCV'
 import type { PublicUser } from '../../lib/api/client'
@@ -12,6 +12,7 @@ import { Dashboard } from './Dashboard'
 import { GitHubSyncPanel } from '../github/GitHubSyncPanel'
 import { JobsSearchPanel } from '../jobs/JobsSearchPanel'
 import { ExportPdfPanel } from '../export/ExportPdfPanel'
+import { PublicProfileSettingsPanel } from '../public-profile/PublicProfileSettingsPanel'
 
 interface Props {
   user: PublicUser
@@ -21,7 +22,7 @@ interface Props {
 }
 
 type BackendStatus = 'checking' | 'ok' | 'offline'
-type ActiveView = 'dashboard' | 'editor' | 'github' | 'jobs' | 'export'
+type ActiveView = 'dashboard' | 'editor' | 'github' | 'jobs' | 'export' | 'publicProfile'
 
 export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
   const [backendStatus, setBackendStatus] = useState<BackendStatus>('checking')
@@ -71,13 +72,15 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
     { id: 'github' as const, label: 'GitHub', icon: Code },
     { id: 'jobs' as const, label: 'Empleo', icon: BriefcaseBusiness },
     { id: 'export' as const, label: 'Exportar', icon: Download },
+    { id: 'publicProfile' as const, label: 'Público', icon: ExternalLink },
   ]
   const activeViewLabel =
     activeView === 'dashboard' ? 'Dashboard'
       : activeView === 'editor' ? 'Editor CV'
         : activeView === 'github' ? 'GitHub Sync'
           : activeView === 'jobs' ? 'Buscar empleo'
-            : 'Exportar PDF'
+            : activeView === 'export' ? 'Exportar PDF'
+              : 'Perfil público'
 
   return (
     <div className="min-h-screen bg-background text-on-surface">
@@ -113,8 +116,8 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
         </nav>
 
         <div className="rounded-lg border border-primary/20 bg-primary-container/20 p-4 text-on-primary-container">
-          <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Sprint UI 4b</p>
-          <p className="mt-2 text-label-md">Exportación PDF por impresión nativa.</p>
+          <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Sprint UI 5</p>
+          <p className="mt-2 text-label-md">Perfil público real en /p/:slug.</p>
         </div>
       </aside>
 
@@ -199,6 +202,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
               onSyncGitHub={() => setActiveView('github')}
               onSearchJobs={() => setActiveView('jobs')}
               onExportPDF={() => setActiveView('export')}
+              onManagePublicProfile={() => setActiveView('publicProfile')}
             />
           ) : activeView === 'editor' ? (
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
@@ -232,8 +236,10 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
               />
             ) : activeView === 'jobs' ? (
               <JobsSearchPanel />
-            ) : (
+            ) : activeView === 'export' ? (
               <ExportPdfPanel cv={cv} />
+            ) : (
+              <PublicProfileSettingsPanel user={user} cv={cv} />
             )
           )}
         </main>

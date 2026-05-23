@@ -4,14 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `feat/v2-export-pdf` — Sprint UI 4b: exportación PDF/print de CV V2
+- `feat/v2-public-profile` — Sprint UI 5: perfil público V2 con slug
 
 Objetivo actual:
-- portar a V2 solo la experiencia de exportación PDF basada en impresión nativa del navegador
-- mostrar una preview imprimible del CV con formato blanco, buen contraste y secciones técnicas
-- generar un QR local en frontend, sin servicios externos, apuntando a una URL pública planificada `/p/<slug>`
-- mantener PublicProfile real y Landing separados para sus sprints correspondientes
-- mantener fuera de alcance backend nuevo, Prisma, Docker, legacy, `jsPDF`, generación PDF binaria y plantillas múltiples
+- habilitar publicación/despublicación del CV desde la zona autenticada
+- permitir definir o regenerar un slug público único
+- hacer que `/p/:slug` muestre una página pública read-only si el perfil está publicado
+- conectar el QR de Export PDF con la URL real publicada cuando exista
+- mantener fuera de alcance landing, custom themes, analytics, SEO avanzado, OpenGraph avanzado, dominio personalizado y retirada de legacy
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -88,8 +88,8 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- PR `feat/v2-export-pdf` → `dev` ← rama activa
-- comenzar `feat/v2-public-profile` — perfil público real y slug gestionable
+- PR `feat/v2-public-profile` → `dev` ← rama activa
+- comenzar `feat/v2-landing-page` — landing pública V2
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
@@ -99,13 +99,14 @@ Objetivo cubierto:
 | UI 2 | `feat/v2-dashboard-and-editor` ✅ PR #47 | Dashboard + Editor acordeones + preview |
 | UI 3 | `feat/v2-github-integration` ✅ PR #48 | Sync GitHub: perfil + repos |
 | UI 4a | `feat/v2-jobs-search` ✅ PR #49 | Job search |
-| UI 4b | `feat/v2-export-pdf` ← activo | Exportar PDF por impresión nativa + QR |
-| UI 5 | `feat/v2-public-profile` | Página pública + landing |
+| UI 4b | `feat/v2-export-pdf` ✅ PR #50 | Exportar PDF por impresión nativa + QR |
+| UI 5 | `feat/v2-public-profile` ← activo | Perfil público `/p/:slug` |
+| UI 6 | `feat/v2-landing-page` | Landing pública |
 
 Objetivo siguiente:
-- `feat/v2-public-profile`
-- activar perfil público real con slug gestionable
-- mantener landing fuera si se decide separarla en otra rama
+- `feat/v2-landing-page`
+- crear landing pública V2
+- mantener custom themes, analytics, SEO avanzado, OpenGraph avanzado y dominio personalizado fuera del siguiente corte salvo decisión explícita
 
 ## Validación técnica reciente (Jooble)
 

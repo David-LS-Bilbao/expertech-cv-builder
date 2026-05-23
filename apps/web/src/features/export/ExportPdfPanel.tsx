@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Download, FileText, Info, Printer, QrCode } from 'lucide-react'
 import type { PortfolioCV } from '../../lib/domain/types'
+import type { PublicProfileSettings } from '../../lib/api/client'
+import { api } from '../../lib/api/client'
 import { createQrCodeDataUrl } from '../../lib/qr/createQrCodeDataUrl'
-import { getPlannedPublicCvUrl } from '../../lib/qr/publicCvUrl'
+import { getPublicCvUrl } from '../../lib/qr/publicCvUrl'
 import { ExportActions } from './ExportActions'
 import { PrintableCV } from './PrintableCV'
 
@@ -18,24 +20,41 @@ interface QrState {
 }
 
 export function ExportPdfPanel({ cv }: Props) {
-  const plannedPublicUrl = useMemo(() => getPlannedPublicCvUrl(cv), [cv])
+  const [publicProfile, setPublicProfile] = useState<PublicProfileSettings | null>(null)
+  const publicCvUrl = useMemo(() => getPublicCvUrl(cv, publicProfile), [cv, publicProfile])
   const [qrState, setQrState] = useState<QrState>({
-    url: plannedPublicUrl.url,
+    url: publicCvUrl.url,
     dataUrl: '',
     status: 'loading',
   })
 
-  const qrDataUrl = qrState.url === plannedPublicUrl.url ? qrState.dataUrl : ''
-  const qrStatus = qrState.url === plannedPublicUrl.url ? qrState.status : 'loading'
+  const qrDataUrl = qrState.url === publicCvUrl.url ? qrState.dataUrl : ''
+  const qrStatus = qrState.url === publicCvUrl.url ? qrState.status : 'loading'
 
   useEffect(() => {
     let cancelled = false
 
-    createQrCodeDataUrl(plannedPublicUrl.url)
+    api.publicProfiles.me()
+      .then(({ publicProfile: settings }) => {
+        if (!cancelled) setPublicProfile(settings)
+      })
+      .catch(() => {
+        if (!cancelled) setPublicProfile(null)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+
+    createQrCodeDataUrl(publicCvUrl.url)
       .then((dataUrl) => {
         if (cancelled) return
         setQrState({
-          url: plannedPublicUrl.url,
+          url: publicCvUrl.url,
           dataUrl,
           status: dataUrl ? 'ready' : 'error',
         })
@@ -43,7 +62,7 @@ export function ExportPdfPanel({ cv }: Props) {
       .catch(() => {
         if (!cancelled) {
           setQrState({
-            url: plannedPublicUrl.url,
+            url: publicCvUrl.url,
             dataUrl: '',
             status: 'error',
           })
@@ -53,7 +72,7 @@ export function ExportPdfPanel({ cv }: Props) {
     return () => {
       cancelled = true
     }
-  }, [plannedPublicUrl.url])
+  }, [publicCvUrl.url])
 
   function handlePrint() {
     window.print()
@@ -95,9 +114,14 @@ export function ExportPdfPanel({ cv }: Props) {
               <Info className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Perfil público futuro</p>
+              <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">
+                {publicCvUrl.isPublished ? 'Perfil público real' : 'Perfil público pendiente'}
+              </p>
               <p className="mt-2 text-label-md">
-                El QR apunta a <span className="font-semibold">/p/{plannedPublicUrl.slug}</span>, una URL planificada. PublicProfile real queda fuera de este sprint.
+                El QR apunta a <span className="font-semibold">{publicCvUrl.path}</span>.
+                {publicCvUrl.isPublished
+                  ? ' Este perfil ya está publicado.'
+                  : ' Publica el perfil para convertir esta ruta en una URL pública real.'}
               </p>
             </div>
           </div>
@@ -119,8 +143,12 @@ export function ExportPdfPanel({ cv }: Props) {
         </article>
         <article className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-4 shadow-card">
           <Info className="h-5 w-5 text-tertiary" aria-hidden="true" />
-          <p className="mt-3 text-label-md font-semibold text-on-surface">Sin publicación real</p>
-          <p className="mt-1 text-label-sm text-on-surface-variant">Landing y PublicProfile siguen separados para el próximo sprint.</p>
+          <p className="mt-3 text-label-md font-semibold text-on-surface">
+            {publicCvUrl.isPublished ? 'Publicación activa' : 'Sin publicación real'}
+          </p>
+          <p className="mt-1 text-label-sm text-on-surface-variant">
+            {publicCvUrl.isPublished ? 'QR conectado a /p/:slug.' : 'QR con URL planificada hasta publicar.'}
+          </p>
         </article>
       </section>
 
@@ -134,7 +162,7 @@ export function ExportPdfPanel({ cv }: Props) {
         </div>
 
         <div className="printable-area overflow-auto">
-          <PrintableCV cv={cv} publicUrl={plannedPublicUrl.url} qrDataUrl={qrDataUrl} qrStatus={qrStatus} />
+          <PrintableCV cv={cv} publicUrl={publicCvUrl.url} qrDataUrl={qrDataUrl} qrStatus={qrStatus} />
         </div>
       </section>
     </div>

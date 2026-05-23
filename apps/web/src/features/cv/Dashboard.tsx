@@ -29,6 +29,7 @@ interface Props {
   onSyncGitHub: () => void
   onSearchJobs: () => void
   onExportPDF: () => void
+  onManagePublicProfile: () => void
 }
 
 function getProfileCompletion(cv: PortfolioCV): number {
@@ -69,7 +70,16 @@ function backendLabel(status: BackendStatus): string {
   return 'Backend sin respuesta'
 }
 
-export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub, onSearchJobs, onExportPDF }: Props) {
+export function Dashboard({
+  user,
+  cv,
+  backendStatus,
+  onEditCV,
+  onSyncGitHub,
+  onSearchJobs,
+  onExportPDF,
+  onManagePublicProfile,
+}: Props) {
   const visibleProjects = getVisibleProjects(cv.projects)
   const completion = getProfileCompletion(cv)
   const displayName = user.displayName || user.email
@@ -137,9 +147,10 @@ export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub, onS
     },
     {
       label: 'Perfil público',
-      description: 'Próximamente',
+      description: 'Publicar CV',
       icon: ExternalLink,
-      active: false,
+      active: true,
+      onClick: onManagePublicProfile,
     },
   ]
 
@@ -203,7 +214,7 @@ export function Dashboard({ user, cv, backendStatus, onEditCV, onSyncGitHub, onS
             </div>
           </div>
           <p className="mt-5 text-label-md text-inverse-on-surface/80">
-            GitHub, búsqueda de empleo y exportación PDF ya están activos. Perfil público sigue como placeholder.
+            GitHub, empleo, PDF y perfil público ya están activos. Landing queda fuera de alcance.
           </p>
         </div>
       </section>
