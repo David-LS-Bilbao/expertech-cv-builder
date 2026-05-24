@@ -509,3 +509,19 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - Legacy sigue presente y debe archivarse read-only, no eliminarse.
 - Recomendación: V2 puede ser demo principal; siguiente sprint `chore/archive-legacy-readonly`.
 - Próximo paso: abrir PR de `chore/v2-final-demo-audit` contra `dev`.
+
+### [2026-05-24] Legacy archivado como read-only
+
+- Objetivo: marcar formalmente el legacy vanilla JS como read-only sin borrar, mover ni modificar archivos legacy.
+- Documentos creados/modificados:
+  - `docs/legacy/legacy-readonly.md`: estado, alcance, reglas read-only, archivos legacy y próxima decisión futura.
+  - `docs/legacy/README.md`: índice breve del estado legacy.
+  - `docs/decisions/ADR-legacy-readonly.md`: decisión arquitectónica de mantener legacy en sitio y documentarlo como read-only.
+  - `README.md`, `apps/web/README.md`, `apps/api/README.md`, `docs/roadmap.md`, `docs/evidencias.md`.
+- Decisión:
+  - V2 pasa a ser la demo principal.
+  - Legacy queda como referencia histórica/read-only.
+  - No se implementan nuevas features en `index.html`, `public.html`, `js/**`, `styles/**`, `server/**` ni `data/**`.
+  - No se borra ni se mueve legacy en este sprint.
+- Fuera de alcance: código, backend, frontend, Docker, Prisma, `docs/specs/**`, borrado de legacy, movimiento de legacy y fixes funcionales.
+- Próximo paso: `chore/v2-final-cleanup-and-release-notes`; `chore/remove-legacy-after-v2-parity` queda reservado para una decisión explícita futura.

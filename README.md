@@ -4,11 +4,27 @@
 
 ## Estado del proyecto
 
-Estado actual: `MVP legacy estable + V2 lista como demo principal con observaciones menores`
+Estado actual: `V2 como demo principal + legacy read-only`
 
-Fase actual: `chore/v2-final-demo-audit` (auditoría final de preparación de demo V2)
+Fase actual: `chore/archive-legacy-readonly` (marcado documental del legacy como read-only)
 
-El MVP legacy en vanilla JS está completo y saneado, pero todavía no se retira. La V2 ya incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, Landing Page pública en `/`, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`. La auditoría final recomienda usar V2 como demo principal y archivar legacy como read-only en el siguiente sprint, sin eliminarlo todavía.
+V2 es la demo principal del proyecto. Incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, Landing Page pública en `/`, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`.
+
+El MVP legacy en vanilla JS queda conservado como referencia histórica en modo read-only. No se borra todavía y no debe recibir nuevas features.
+
+## Mapa rápido V2 / legacy
+
+| Área | Ubicación | Estado |
+|---|---|---|
+| Frontend V2 | `apps/web` | Demo principal |
+| Backend V2 | `apps/api` | Backend principal |
+| Docker local V2 | `docker-compose.yml` | Stack principal |
+| Legacy vanilla JS | raíz, `index.html`, `public.html`, `js/**`, `styles/**`, `server/**`, `data/**` | Read-only |
+
+Ver también:
+
+- [Legacy read-only](./docs/legacy/legacy-readonly.md)
+- [ADR legacy read-only](./docs/decisions/ADR-legacy-readonly.md)
 
 ## Arranque Docker local V2
 
@@ -125,6 +141,7 @@ Documentación viva recomendada para seguir el estado real del repositorio:
 - `README.md`
 - `docs/roadmap.md`
 - `docs/evidencias.md`
+- `docs/legacy/legacy-readonly.md`
 - `docs/v2-react-backend-docker-plan.md` para entender la dirección estratégica hacia V2
 
 La hoja de ruta larga de `docs/EXPERTECH_CV_hoja_de_ruta.md` se mantiene como referencia estratégica del proyecto, no como fuente operativa principal del día a día.
@@ -149,10 +166,24 @@ En este proyecto se está priorizando crear cada rama solo cuando vaya a utiliza
 
 ## Cómo abrir el proyecto
 
-La base actual es estática. Para revisarla en local puedes:
+La demo principal es V2. Para revisarla en local:
 
-- abrir `index.html` directamente en el navegador
-- o usar una extensión como Live Server en VS Code si quieres recarga automática
+```bash
+docker compose up --build
+```
+
+Después abre `http://localhost:8090`.
+
+El legacy sigue disponible para consulta histórica:
+
+- `index.html`
+- `public.html`
+- `js/**`
+- `styles/**`
+- `server/**`
+- `data/**`
+
+No lo modifiques en nuevas features salvo decisión específica.
 
 Importante para la demo pública:
 

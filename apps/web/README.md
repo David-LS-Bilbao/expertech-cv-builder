@@ -1,7 +1,7 @@
 # EXPERTECH CV — Frontend V2 (`apps/web`)
 
 Frontend React + TypeScript de la V2 del proyecto EXPERTECH CV Builder.
-Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo todavía.
+Es la demo principal del proyecto. Convive con el legacy vanilla JS en la raíz del repositorio, que queda marcado como read-only.
 
 ## Stack
 
@@ -30,9 +30,9 @@ Convive con el legacy vanilla JS en la raíz del repositorio sin reemplazarlo to
 | Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | #51 |
 | Sprint UI 6 | Landing Page V2 como entrada pública `/` | #53 |
 
-**Sprint actual:** `chore/v2-final-demo-audit` — auditoría final de demo V2.
+**Sprint actual:** `chore/archive-legacy-readonly` — marcado documental del legacy como read-only.
 
-**Siguiente sprint recomendado:** `chore/archive-legacy-readonly` — marcar legacy como referencia read-only sin borrarlo.
+**Siguiente sprint recomendado:** `chore/v2-final-cleanup-and-release-notes` — limpieza documental final y notas de release V2.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -91,11 +91,13 @@ Copiar a `.env.local` si necesitas apuntar a otro backend.
 - **Perfil público V2**: `/p/:slug` renderiza un CV read-only si el usuario lo ha publicado. El slug se gestiona desde la zona autenticada.
 - **Landing V2**: `/` muestra la entrada pública del producto para usuarios no autenticados y sus CTAs abren AuthScreen sin usar router.
 - **QR local**: se genera en frontend con `qrcode`, sin servicios externos. Apunta al perfil público real cuando está publicado y a una ruta planificada si está privado.
-- **Fuera de alcance Landing**: analytics, SEO avanzado, OpenGraph avanzado, CMS, dominio personalizado y retirada de legacy.
+- **Legacy read-only**: `index.html`, `public.html`, `js/**`, `styles/**`, `server/**` y `data/**` quedan como referencia histórica. Las nuevas features deben implementarse en V2.
+- **Fuera de alcance actual**: analytics, SEO avanzado, OpenGraph avanzado, CMS, dominio personalizado, borrar legacy o mover legacy.
 
 ## Relación con el legacy
 
-El legacy vanilla JS sigue operativo en la raíz del repositorio (`index.html`,
-`js/`, `styles/`, `server/`). Esta carpeta `apps/web/` es el nuevo frontend V2
-que lo irá sustituyendo por fases. El legacy se retirará cuando V2 alcance
-equivalencia funcional verificada.
+El legacy vanilla JS sigue en la raíz del repositorio (`index.html`, `public.html`,
+`js/`, `styles/`, `server/`, `data/`) pero queda en modo read-only. Esta carpeta
+`apps/web/` es el frontend principal de la demo V2.
+
+Consulta `docs/legacy/legacy-readonly.md` antes de tocar cualquier archivo legacy.
