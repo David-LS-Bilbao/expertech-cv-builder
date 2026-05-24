@@ -11,6 +11,8 @@ La V2 está preparada para actuar como demo principal del producto: la landing p
 
 La recomendación es tratar V2 como demo principal y mover el legacy a modo read-only en el siguiente sprint. No se recomienda borrar legacy todavía.
 
+Actualización posterior: `chore/archive-legacy-readonly` documenta esa recomendación y marca legacy como read-only sin borrar ni mover archivos.
+
 ## 2. Alcance
 
 Se valida:

@@ -1,9 +1,9 @@
 # EXPERTECH CV — Backend API (`apps/api`)
 
 Backend Express + TypeScript de la V2 del proyecto, con persistencia
-real en PostgreSQL via Prisma. Convive con el legacy proxy de Jooble
-(`server/server.js`, puerto 3001) en una carpeta separada y un puerto
-distinto.
+real en PostgreSQL via Prisma. Es el backend principal de la demo V2.
+Convive con el legacy proxy de Jooble (`server/server.js`, puerto 3001),
+que queda en modo read-only.
 
 ## Stack
 
@@ -105,7 +105,8 @@ ownerId/userId. Sin posibilidad de leer datos cruzados entre usuarios.
 - **Tipos duplicados** con el frontend (`apps/web/src/lib/domain/types.ts`).
   Se moverá a un paquete compartido si el coste de duplicación crece.
 - **Coexiste con el proxy legacy** en `server/server.js` (puerto 3001).
-  El frontend legacy sigue usándolo; el V2 usa este backend (puerto 3002).
+  El frontend legacy sigue usándolo, pero `server/**` queda read-only.
+  No debe usarse para nuevas features V2; el V2 usa este backend (puerto 3002).
 - **PublicProfile activo**: usa el modelo Prisma existente con `slug` único,
   `ownerId` aislado por usuario e `isPublic`. La ruta pública solo devuelve CV
   cuando `isPublic = true`; si el CV contiene email/teléfono, se publican como
@@ -114,5 +115,5 @@ ownerId/userId. Sin posibilidad de leer datos cruzados entre usuarios.
 ## Próximos pasos
 
 - Mantener backend V2 como fuente real de auth, CV, Jobs y PublicProfile.
-- Mantener V2 como candidata a demo principal tras `chore/v2-final-demo-audit`.
-- Archivar legacy como read-only en `chore/archive-legacy-readonly`, sin borrarlo todavía.
+- Mantener `server/**` como legacy read-only.
+- Preparar `chore/v2-final-cleanup-and-release-notes`.
