@@ -68,6 +68,7 @@ La decisión se basa en:
 
 - `docs/audits/v2-legacy-parity-audit.md`
 - `docs/audits/v2-final-demo-audit.md`
+- `docs/releases/v2-demo-release-notes.md`
 - cierre de PR #53 con Landing Page V2
 - resultado de auditoría final: V2 lista como demo principal con observaciones menores
 

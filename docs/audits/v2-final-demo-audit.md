@@ -13,6 +13,8 @@ La recomendación es tratar V2 como demo principal y mover el legacy a modo read
 
 Actualización posterior: `chore/archive-legacy-readonly` documenta esa recomendación y marca legacy como read-only sin borrar ni mover archivos.
 
+Release final: `docs/releases/v2-demo-release-notes.md` y `docs/releases/v2-demo-checklist.md` condensan este resultado para presentación/demo.
+
 ## 2. Alcance
 
 Se valida:

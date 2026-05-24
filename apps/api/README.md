@@ -46,6 +46,19 @@ npm run db:migrate         # aplica migraciones (Prisma)
 npm run dev                # backend en http://localhost:3002
 ```
 
+## Demo V2
+
+La API V2 queda como backend principal de la demo. Para validar el stack completo desde Docker:
+
+```bash
+curl http://localhost:8090/api/health
+```
+
+Consulta también:
+
+- `docs/releases/v2-demo-release-notes.md`
+- `docs/releases/v2-demo-checklist.md`
+
 ## Comandos (desde `apps/api/`)
 
 | Script | Descripción |
@@ -116,4 +129,4 @@ ownerId/userId. Sin posibilidad de leer datos cruzados entre usuarios.
 
 - Mantener backend V2 como fuente real de auth, CV, Jobs y PublicProfile.
 - Mantener `server/**` como legacy read-only.
-- Preparar `chore/v2-final-cleanup-and-release-notes`.
+- Usar `docs/releases/v2-demo-checklist.md` para la demo final.

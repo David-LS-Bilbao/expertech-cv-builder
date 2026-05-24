@@ -4,14 +4,14 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `chore/archive-legacy-readonly` — Marcar legacy como read-only
+- `chore/v2-final-cleanup-and-release-notes` — Release notes y checklist final V2
 
 Objetivo actual:
-- declarar V2 como demo principal
-- declarar legacy vanilla JS como referencia histórica/read-only
-- documentar qué archivos/carpetas forman parte del legacy
-- documentar qué NO se debe tocar en futuras features
-- preparar una decisión futura: mantener legacy archivado o retirarlo explícitamente
+- crear release notes de cierre V2
+- crear checklist de demo para presentar el proyecto
+- dejar README/roadmap/evidencias con estado final claro
+- declarar V2 como demo principal y legacy como read-only
+- proponer próximos pasos después del cierre V2
 - no retirar legacy todavía
 
 ## Bloque de hardening y cierre documental (mayo 2026)
@@ -30,6 +30,7 @@ Estado real actual:
 - **Auditoría de paridad cerrada con PR #52**: V2 casi lista, gap principal identificado en landing
 - **Landing V2 cerrada con PR #53**: entrada pública principal en `/` y CTAs hacia AuthScreen
 - **Auditoría final V2 cerrada con PR #54**: V2 lista como demo principal con observaciones menores
+- **Legacy read-only cerrado con PR #55**: legacy documentado como referencia histórica/read-only sin borrarlo
 
 Ramas cerradas en este bloque:
 - `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
@@ -93,9 +94,11 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- cerrar `chore/archive-legacy-readonly` con PR a `dev`
-- comenzar `chore/v2-final-cleanup-and-release-notes`
-- considerar `chore/remove-legacy-after-v2-parity` solo si se toma una decisión explícita posterior
+- cerrar `chore/v2-final-cleanup-and-release-notes` con PR a `dev`
+- recomendado: `chore/v2-demo-manual-browser-pass`
+- opcional técnico: `test/e2e-v2-demo-flow`
+- opcional despliegue: `deploy/v2-staging`
+- considerar `chore/remove-legacy-after-v2-parity` solo con decisión explícita posterior
 
 ## Sprints de paridad funcional V2 (post-infraestructura)
 
@@ -110,11 +113,12 @@ Objetivo cubierto:
 | Audit | `chore/v2-legacy-parity-audit` ✅ PR #52 | Paridad V2 vs legacy |
 | UI 6 | `feat/v2-landing-page` ✅ PR #53 | Landing pública |
 | Audit final | `chore/v2-final-demo-audit` ✅ PR #54 | Preparación final de demo V2 |
-| Archive | `chore/archive-legacy-readonly` ← activo | Legacy read-only documental |
+| Archive | `chore/archive-legacy-readonly` ✅ PR #55 | Legacy read-only documental |
+| Release docs | `chore/v2-final-cleanup-and-release-notes` ← activo | Release notes + checklist demo |
 
 Objetivo siguiente:
-- `chore/v2-final-cleanup-and-release-notes`
-- consolidar notas finales de release V2
+- `chore/v2-demo-manual-browser-pass` o `test/e2e-v2-demo-flow`
+- usar `docs/releases/v2-demo-checklist.md` para validar presentación
 - mantener legacy como read-only sin borrarlo ni moverlo
 - mantener custom themes, analytics, SEO avanzado, OpenGraph avanzado y dominio personalizado fuera del siguiente corte salvo decisión explícita
 

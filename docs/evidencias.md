@@ -525,3 +525,22 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
   - No se borra ni se mueve legacy en este sprint.
 - Fuera de alcance: código, backend, frontend, Docker, Prisma, `docs/specs/**`, borrado de legacy, movimiento de legacy y fixes funcionales.
 - Próximo paso: `chore/v2-final-cleanup-and-release-notes`; `chore/remove-legacy-after-v2-parity` queda reservado para una decisión explícita futura.
+
+### [2026-05-24] Cierre documental V2 y release notes
+
+- Objetivo: crear la documentación final de cierre V2 para presentar EXPERTECH CV como demo principal.
+- Documentos creados:
+  - `docs/releases/v2-demo-release-notes.md`: resumen de release, funcionalidades incluidas, arquitectura, validaciones, limitaciones y próximos pasos.
+  - `docs/releases/v2-demo-checklist.md`: checklist operativo para preparar y ejecutar la demo.
+- Documentos actualizados:
+  - `README.md`
+  - `apps/web/README.md`
+  - `apps/api/README.md`
+  - `docs/roadmap.md`
+  - `docs/evidencias.md`
+  - `docs/legacy/README.md`
+  - `docs/legacy/legacy-readonly.md`
+  - `docs/audits/v2-final-demo-audit.md`
+- Decisión: V2 queda documentada como demo principal; legacy sigue read-only y no se elimina.
+- Fuera de alcance: código, backend, frontend, Docker, Prisma, legacy real, specs, deploy y retirada legacy.
+- Próximo paso recomendado: `chore/v2-demo-manual-browser-pass`, `test/e2e-v2-demo-flow` o `deploy/v2-staging` según prioridad.

@@ -30,9 +30,9 @@ Es la demo principal del proyecto. Convive con el legacy vanilla JS en la raíz 
 | Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | #51 |
 | Sprint UI 6 | Landing Page V2 como entrada pública `/` | #53 |
 
-**Sprint actual:** `chore/archive-legacy-readonly` — marcado documental del legacy como read-only.
+**Sprint final:** `chore/v2-final-cleanup-and-release-notes` — release notes y checklist de demo V2.
 
-**Siguiente sprint recomendado:** `chore/v2-final-cleanup-and-release-notes` — limpieza documental final y notas de release V2.
+**Siguiente trabajo recomendado:** revisión visual manual, tests E2E o deploy/staging. No hay nuevas features obligatorias para cerrar la demo V2.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -44,6 +44,13 @@ npm run preview   # previsualizar el build
 npm run typecheck # comprobación de tipos sin compilar
 npm run lint      # linting con ESLint
 ```
+
+## Demo V2
+
+- Entrada pública principal: `/`
+- Release notes: `docs/releases/v2-demo-release-notes.md`
+- Checklist de demo: `docs/releases/v2-demo-checklist.md`
+- Legacy read-only: `docs/legacy/legacy-readonly.md`
 
 ## Estructura de `src/`
 

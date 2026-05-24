@@ -14,6 +14,8 @@ El legacy queda marcado como **read-only**. La demo principal del proyecto es V2
 ## Documentos
 
 - [Legacy read-only](./legacy-readonly.md)
+- [Release notes demo V2](../releases/v2-demo-release-notes.md)
+- [Checklist de demo V2](../releases/v2-demo-checklist.md)
 
 ## Regla práctica
 
