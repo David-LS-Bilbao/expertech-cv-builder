@@ -9,8 +9,15 @@ interface Props {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="rounded-lg border border-outline-variant/60 bg-surface p-4">
-      <p className="text-label-md font-semibold text-on-surface">{project.name}</p>
+    <article className="rounded-lg border border-outline-variant/60 bg-surface p-4 transition hover:border-primary/50">
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-label-md font-semibold text-on-surface">{project.name}</p>
+        {project.sourceProvider === 'github' && (
+          <span className="rounded-full bg-secondary-fixed/40 px-2 py-1 text-[10px] font-bold uppercase text-secondary">
+            GitHub
+          </span>
+        )}
+      </div>
       {project.description && <p className="mt-2 text-label-md text-on-surface-variant">{project.description}</p>}
       {project.stack.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
@@ -37,9 +44,9 @@ function ProjectCard({ project }: { project: Project }) {
           )}
         </div>
       )}
-      {project.sourceProvider && (
-        <p className="mt-3 text-label-sm text-outline">
-          {project.sourceProvider} · {project.sourceRepositoryFullName}
+      {project.sourceRepositoryFullName && (
+        <p className="mt-3 truncate text-label-sm text-outline">
+          {project.sourceRepositoryFullName}
         </p>
       )}
     </article>
@@ -77,6 +84,9 @@ export function CVPreview({ cv, compact = false }: Props) {
                 {profile.headline}
               </p>
             )}
+            <p className="mt-3 text-label-sm font-semibold uppercase text-outline">
+              Technical resume
+            </p>
           </div>
           {(profile.avatarBase64 || profile.avatarUrl) && (
             <img

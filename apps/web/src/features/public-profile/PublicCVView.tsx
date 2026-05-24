@@ -10,7 +10,7 @@ interface Props {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="rounded-lg border border-outline-variant/70 bg-surface-container-low p-5 shadow-card">
+    <article className="rounded-lg border border-outline-variant/70 bg-surface-container-low p-5 shadow-card transition hover:-translate-y-0.5 hover:border-primary/50">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h3 className="text-body-md font-semibold text-on-surface">{project.name || 'Proyecto destacado'}</h3>
@@ -68,7 +68,8 @@ export function PublicCVView({ cv, displayName, slug }: Props) {
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-8 md:px-margin-desktop md:py-12">
-        <section className="rounded-lg border border-outline-variant/70 bg-surface-container-lowest p-6 shadow-card md:p-8">
+        <section className="relative overflow-hidden rounded-lg border border-outline-variant/70 bg-surface-container-lowest p-6 shadow-card md:p-8">
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
               {(profile.avatarBase64 || profile.avatarUrl) && (
@@ -79,6 +80,9 @@ export function PublicCVView({ cv, displayName, slug }: Props) {
                 />
               )}
               <div>
+                <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">
+                  Perfil técnico publicado
+                </p>
                 <h1 className="text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
                   {title}
                 </h1>
@@ -143,7 +147,10 @@ export function PublicCVView({ cv, displayName, slug }: Props) {
 
             {visibleProjects.length > 0 && (
               <section className="space-y-4">
-                <h2 className="text-headline-md font-semibold text-on-surface">Proyectos destacados</h2>
+                <div>
+                  <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">Portfolio</p>
+                  <h2 className="mt-1 text-headline-md font-semibold text-on-surface">Proyectos destacados</h2>
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {visibleProjects.map((project) => (
                     <ProjectCard key={project.id || project.name} project={project} />
@@ -158,7 +165,7 @@ export function PublicCVView({ cv, displayName, slug }: Props) {
               <div className="flex items-center gap-3">
                 <span className="h-3 w-3 rounded-full bg-secondary" />
                 <h2 className="text-label-md font-bold uppercase tracking-[0.05em] text-secondary">
-                  Perfil publicado
+                  Disponible online
                 </h2>
               </div>
               <dl className="mt-5 space-y-4 text-label-md">
@@ -196,7 +203,7 @@ export function PublicCVView({ cv, displayName, slug }: Props) {
                 EXPERTECH CV
               </h2>
               <p className="mt-4 text-label-md text-inverse-on-surface/80">
-                CV público técnico generado desde la plataforma V2.
+                CV público técnico generado desde la plataforma EXPERTECH CV.
               </p>
             </section>
           </aside>

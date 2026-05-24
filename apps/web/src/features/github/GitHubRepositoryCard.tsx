@@ -21,7 +21,7 @@ export function GitHubRepositoryCard({ repository, selected, alreadyImported, on
   return (
     <article
       className={[
-        'rounded-lg border bg-surface-container-lowest p-4 shadow-card transition',
+        'rounded-lg border bg-surface-container-lowest p-4 shadow-card transition hover:-translate-y-0.5 hover:border-primary/50',
         selected ? 'border-primary ring-2 ring-primary-container/30' : 'border-outline-variant/60',
         alreadyImported ? 'opacity-75' : '',
       ].join(' ')}

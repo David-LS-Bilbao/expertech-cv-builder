@@ -81,17 +81,18 @@ export function ExportPdfPanel({ cv }: Props) {
   return (
     <div className="space-y-6">
       <section className="no-print grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <div className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card xl:col-span-8">
+        <div className="relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card xl:col-span-8">
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
           <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
             <div>
               <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">
                 Exportar PDF
               </p>
               <h2 className="mt-2 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-                Preview imprimible del CV
+                CV listo para imprimir
               </h2>
               <p className="mt-2 max-w-2xl text-body-md text-on-surface-variant">
-                Esta versión usa la impresión nativa del navegador. En el diálogo de impresión elige “Guardar como PDF”.
+                Revisa la versión final y abre la impresión del navegador. Desde ahí puedes guardar como PDF.
               </p>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-on-primary">
@@ -103,7 +104,7 @@ export function ExportPdfPanel({ cv }: Props) {
             <ExportActions onPrint={handlePrint} />
             <span className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-low px-3 text-label-sm font-semibold text-on-surface-variant">
               <Printer className="h-4 w-4 text-primary" aria-hidden="true" />
-              Sin generación PDF binaria
+              Impresión nativa, sin servicios externos
             </span>
           </div>
         </div>
@@ -120,8 +121,8 @@ export function ExportPdfPanel({ cv }: Props) {
               <p className="mt-2 text-label-md">
                 El QR apunta a <span className="font-semibold">{publicCvUrl.path}</span>.
                 {publicCvUrl.isPublished
-                  ? ' Este perfil ya está publicado.'
-                  : ' Publica el perfil para convertir esta ruta en una URL pública real.'}
+                  ? ' Listo para compartir.'
+                  : ' Publica el perfil para activar una URL real.'}
               </p>
             </div>
           </div>
@@ -132,7 +133,7 @@ export function ExportPdfPanel({ cv }: Props) {
         <article className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-4 shadow-card">
           <FileText className="h-5 w-5 text-primary" aria-hidden="true" />
           <p className="mt-3 text-label-md font-semibold text-on-surface">Formato imprimible</p>
-          <p className="mt-1 text-label-sm text-on-surface-variant">Diseño blanco, contraste alto y secciones compactas.</p>
+            <p className="mt-1 text-label-sm text-on-surface-variant">Diseño limpio, contraste alto y estructura A4 flexible.</p>
         </article>
         <article className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-4 shadow-card">
           <QrCode className="h-5 w-5 text-secondary" aria-hidden="true" />
@@ -147,7 +148,7 @@ export function ExportPdfPanel({ cv }: Props) {
             {publicCvUrl.isPublished ? 'Publicación activa' : 'Sin publicación real'}
           </p>
           <p className="mt-1 text-label-sm text-on-surface-variant">
-            {publicCvUrl.isPublished ? 'QR conectado a /p/:slug.' : 'QR con URL planificada hasta publicar.'}
+            {publicCvUrl.isPublished ? 'QR conectado a /p/:slug.' : 'URL prevista hasta publicar.'}
           </p>
         </article>
       </section>

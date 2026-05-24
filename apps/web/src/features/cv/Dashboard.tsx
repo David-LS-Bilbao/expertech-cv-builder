@@ -89,21 +89,21 @@ export function Dashboard({
     {
       label: 'Completitud',
       value: `${completion}%`,
-      detail: completion >= 80 ? 'Perfil sólido' : 'Perfil en progreso',
+      detail: completion >= 80 ? 'Listo para compartir' : 'Completa lo esencial',
       icon: Gauge,
       tone: 'text-primary',
     },
     {
       label: 'Skills',
       value: String(cv.profile.skills.length),
-      detail: cv.profile.skills.length > 0 ? 'Tecnologías declaradas' : 'Pendiente',
+      detail: cv.profile.skills.length > 0 ? 'Stack visible' : 'Añade tu stack',
       icon: Code2,
       tone: 'text-secondary',
     },
     {
       label: 'Proyectos visibles',
       value: String(visibleProjects.length),
-      detail: visibleProjects.length > 0 ? 'Listos para preview' : 'Sin proyectos aún',
+      detail: visibleProjects.length > 0 ? 'Portfolio activo' : 'Importa desde GitHub',
       icon: Layers3,
       tone: 'text-tertiary',
     },
@@ -119,35 +119,35 @@ export function Dashboard({
   const quickActions = [
     {
       label: 'Editar CV',
-      description: 'Abrir editor',
+      description: 'Perfil, contacto y stack',
       icon: FileText,
       active: true,
       onClick: onEditCV,
     },
     {
       label: 'Sincronizar GitHub',
-      description: 'Importar repos',
+      description: 'Repos como proyectos',
       icon: Code,
       active: true,
       onClick: onSyncGitHub,
     },
     {
       label: 'Buscar empleo',
-      description: 'Buscar ofertas',
+      description: 'Ofertas por stack',
       icon: BriefcaseBusiness,
       active: true,
       onClick: onSearchJobs,
     },
     {
       label: 'Exportar PDF',
-      description: 'Imprimir CV',
+      description: 'Impresión + QR',
       icon: Download,
       active: true,
       onClick: onExportPDF,
     },
     {
       label: 'Perfil público',
-      description: 'Publicar CV',
+      description: 'Ruta /p/:slug',
       icon: ExternalLink,
       active: true,
       onClick: onManagePublicProfile,
@@ -157,17 +157,18 @@ export function Dashboard({
   return (
     <div className="space-y-6">
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <div className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card xl:col-span-8">
+        <div className="relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card xl:col-span-8">
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
           <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
             <div>
               <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">
-                Dashboard V2
+                Command center
               </p>
               <h1 className="mt-2 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
                 Hola, {firstName}
               </h1>
               <p className="mt-2 max-w-2xl text-body-md text-on-surface-variant">
-                Centro de trabajo para mantener tu CV técnico listo antes de conectar integraciones.
+                Tu CV técnico, proyectos, búsqueda de empleo y perfil público en un mismo tablero.
               </p>
             </div>
 
@@ -208,14 +209,18 @@ export function Dashboard({
             </div>
             <div>
               <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary-fixed-dim">
-                Sprint actual
+                Demo principal
               </p>
-              <p className="text-body-md font-semibold">Dashboard + Editor CV</p>
+              <p className="text-body-md font-semibold">Flujo candidato completo</p>
             </div>
           </div>
-          <p className="mt-5 text-label-md text-inverse-on-surface/80">
-            GitHub, empleo, PDF y perfil público ya están activos. Landing queda fuera de alcance.
-          </p>
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            {['GitHub', 'Jobs', 'PDF/QR', 'Público'].map((item) => (
+              <span key={item} className="rounded border border-white/10 bg-white/10 px-3 py-2 text-center text-label-sm font-semibold text-inverse-on-surface/80">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -225,7 +230,7 @@ export function Dashboard({
           return (
             <article
               key={metric.label}
-              className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-5 shadow-card"
+              className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-5 shadow-card transition hover:-translate-y-0.5 hover:border-primary/50"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className={`flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container ${metric.tone}`}>
@@ -248,7 +253,7 @@ export function Dashboard({
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-headline-md font-semibold text-on-surface">Acciones rápidas</h2>
-              <p className="mt-1 text-label-md text-on-surface-variant">Accesos del flujo autenticado V2.</p>
+              <p className="mt-1 text-label-md text-on-surface-variant">Elige el siguiente paso del perfil.</p>
             </div>
             <Lock className="h-5 w-5 text-outline" aria-hidden="true" />
           </div>
@@ -263,9 +268,9 @@ export function Dashboard({
                   onClick={action.onClick}
                   disabled={!action.active}
                   className={[
-                    'flex min-h-28 items-center justify-between rounded-lg border p-4 text-left transition',
+                    'flex min-h-28 items-center justify-between rounded-lg border p-4 text-left shadow-card transition hover:-translate-y-0.5',
                     action.active
-                      ? 'border-primary/40 bg-surface-container-low hover:border-primary hover:bg-surface-container'
+                      ? 'border-outline-variant/70 bg-surface-container-lowest hover:border-primary hover:bg-surface-container-low'
                       : 'cursor-not-allowed border-outline-variant/60 bg-surface opacity-75',
                   ].join(' ')}
                 >
@@ -294,7 +299,7 @@ export function Dashboard({
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-headline-md font-semibold text-on-surface">Preview activa</h2>
-              <p className="mt-1 text-label-md text-on-surface-variant">Se sincroniza después de guardar el editor.</p>
+              <p className="mt-1 text-label-md text-on-surface-variant">Vista recruiter-friendly del CV guardado.</p>
             </div>
             <button type="button" className="text-label-md font-semibold text-primary" onClick={onEditCV}>
               Editor

@@ -40,8 +40,11 @@ export function PublicProfilePage({ slug }: Props) {
 
   if (state.status === 'loading') {
     return (
-      <div className="loading-screen">
-        <p>Cargando perfil público…</p>
+      <div className="flex min-h-screen items-center justify-center bg-background px-5 text-on-surface">
+        <div className="rounded-lg border border-outline-variant/70 bg-surface-container-lowest p-8 text-center shadow-card">
+          <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">Perfil público</p>
+          <p className="mt-3 text-body-md text-on-surface-variant">Cargando CV publicado...</p>
+        </div>
       </div>
     )
   }

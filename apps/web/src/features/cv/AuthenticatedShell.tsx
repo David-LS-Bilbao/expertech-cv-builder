@@ -66,6 +66,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
   }
 
   const userName = user.displayName || user.email
+  const userInitial = userName.trim().charAt(0).toUpperCase() || 'E'
   const navigationItems = [
     { id: 'dashboard' as const, label: 'Dashboard', icon: Gauge },
     { id: 'editor' as const, label: 'Editor CV', icon: FileText },
@@ -88,7 +89,7 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
         <div>
           <p className="text-headline-md font-bold text-primary">EXPERTECH CV</p>
           <p className="mt-1 text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
-            Plataforma V2
+            Technical workspace
           </p>
         </div>
 
@@ -116,8 +117,8 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
         </nav>
 
         <div className="rounded-lg border border-primary/20 bg-primary-container/20 p-4 text-on-primary-container">
-          <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Sprint UI 5</p>
-          <p className="mt-2 text-label-md">Perfil público real en /p/:slug.</p>
+          <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">Demo principal</p>
+          <p className="mt-2 text-label-md">Landing, CV, GitHub, Jobs, PDF y perfil público en V2.</p>
         </div>
       </aside>
 
@@ -177,6 +178,10 @@ export function AuthenticatedShell({ user, cv, onLogout, onCVUpdate }: Props) {
                   <p className="text-label-md font-semibold text-on-surface">{userName}</p>
                   <p className="text-label-sm text-on-surface-variant">{user.email}</p>
                 </div>
+
+                <span className="hidden h-10 w-10 items-center justify-center rounded-full border border-primary-fixed bg-primary-fixed text-label-md font-bold text-on-primary-fixed md:inline-flex">
+                  {userInitial}
+                </span>
 
                 <button
                   type="button"

@@ -4,15 +4,13 @@ Este documento resume el orden previsto de trabajo del MVP actual del proyecto.
 
 ## Feature activa en la rama actual
 
-- `chore/v2-final-cleanup-and-release-notes` — Release notes y checklist final V2
+- `feat/v2-visual-refresh-stitch-alignment` — Refresh visual V2 alineado con Stitch
 
 Objetivo actual:
-- crear release notes de cierre V2
-- crear checklist de demo para presentar el proyecto
-- dejar README/roadmap/evidencias con estado final claro
-- declarar V2 como demo principal y legacy como read-only
-- proponer próximos pasos después del cierre V2
-- no retirar legacy todavía
+- reforzar la apariencia SaaS moderna de la V2 real
+- alinear landing, dashboard, editor, GitHub, Jobs, Export y PublicProfile con los bocetos Stitch
+- mejorar jerarquía, microcopy, cards, spacing y estados visuales
+- no cambiar backend, contratos API, modelos de dominio ni legacy read-only
 
 ## Bloque de hardening y cierre documental (mayo 2026)
 
@@ -31,6 +29,7 @@ Estado real actual:
 - **Landing V2 cerrada con PR #53**: entrada pública principal en `/` y CTAs hacia AuthScreen
 - **Auditoría final V2 cerrada con PR #54**: V2 lista como demo principal con observaciones menores
 - **Legacy read-only cerrado con PR #55**: legacy documentado como referencia histórica/read-only sin borrarlo
+- **Release notes V2 cerradas con PR #56**: release notes y checklist de demo publicados para V2 como demo principal
 
 Ramas cerradas en este bloque:
 - `fix/stabilize-authenticated-app-listeners` (#22): listeners separados y re-login sin duplicar bindings
@@ -94,9 +93,10 @@ Objetivo cubierto:
 
 ## Siguiente feature prevista
 
-- cerrar `chore/v2-final-cleanup-and-release-notes` con PR a `dev`
-- recomendado: `chore/v2-demo-manual-browser-pass`
+- cerrar `feat/v2-visual-refresh-stitch-alignment` con PR a `dev`
+- recomendado: `chore/v2-demo-manual-browser-pass` para validar visualmente toda la demo
 - opcional técnico: `test/e2e-v2-demo-flow`
+- opcional producto: `feat/v2-jobs-multiprovider-api`
 - opcional despliegue: `deploy/v2-staging`
 - considerar `chore/remove-legacy-after-v2-parity` solo con decisión explícita posterior
 
@@ -114,10 +114,11 @@ Objetivo cubierto:
 | UI 6 | `feat/v2-landing-page` ✅ PR #53 | Landing pública |
 | Audit final | `chore/v2-final-demo-audit` ✅ PR #54 | Preparación final de demo V2 |
 | Archive | `chore/archive-legacy-readonly` ✅ PR #55 | Legacy read-only documental |
-| Release docs | `chore/v2-final-cleanup-and-release-notes` ← activo | Release notes + checklist demo |
+| Release docs | `chore/v2-final-cleanup-and-release-notes` ✅ PR #56 | Release notes + checklist demo |
+| Visual refresh | `feat/v2-visual-refresh-stitch-alignment` ← activo | Alineación visual Stitch de V2 real |
 
 Objetivo siguiente:
-- `chore/v2-demo-manual-browser-pass` o `test/e2e-v2-demo-flow`
+- `chore/v2-demo-manual-browser-pass`, `test/e2e-v2-demo-flow` o `feat/v2-jobs-multiprovider-api`
 - usar `docs/releases/v2-demo-checklist.md` para validar presentación
 - mantener legacy como read-only sin borrarlo ni moverlo
 - mantener custom themes, analytics, SEO avanzado, OpenGraph avanzado y dominio personalizado fuera del siguiente corte salvo decisión explícita

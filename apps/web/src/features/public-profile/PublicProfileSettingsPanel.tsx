@@ -121,15 +121,16 @@ export function PublicProfileSettingsPanel({ user, cv }: Props) {
 
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-      <section className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card xl:col-span-8">
+      <section className="relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card xl:col-span-8">
+        <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">Perfil público</p>
             <h2 className="mt-2 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-              Publica tu CV técnico
+              Publica una versión portfolio
             </h2>
             <p className="mt-2 max-w-2xl text-body-md text-on-surface-variant">
-              Gestiona el slug público y decide si tu CV está visible en la ruta `/p/:slug`.
+              Elige tu slug, controla la visibilidad y comparte un CV read-only con aspecto profesional.
             </p>
           </div>
           <span
@@ -267,7 +268,7 @@ export function PublicProfileSettingsPanel({ user, cv }: Props) {
         <section className="rounded-lg border border-primary/20 bg-primary-fixed/40 p-5 text-on-primary-fixed-variant shadow-card">
           <p className="text-label-sm font-semibold uppercase tracking-[0.05em]">QR PDF</p>
           <p className="mt-2 text-label-md">
-            Cuando el perfil esté publicado, Exportar PDF usará esta URL real para el QR. Si está privado, mantendrá una URL planificada.
+            Al publicar, Exportar PDF usa esta URL real para el QR. Si está privado, mantiene una URL prevista.
           </p>
         </section>
       </aside>
