@@ -4,9 +4,9 @@
 
 ## Estado del proyecto
 
-Estado actual: `V2 como demo principal + legacy read-only`
+Estado actual: `V2 demo principal cerrada documentalmente + legacy read-only`
 
-Fase actual: `chore/archive-legacy-readonly` (marcado documental del legacy como read-only)
+Fase actual: `chore/v2-final-cleanup-and-release-notes` (release notes y checklist final de demo V2)
 
 V2 es la demo principal del proyecto. Incluye React + TypeScript, backend Express, PostgreSQL + Prisma, Docker local, Landing Page pública en `/`, AuthScreen, Dashboard, Editor CV, GitHub Sync, Jobs Search, exportación PDF/QR y PublicProfile en `/p/:slug`.
 
@@ -23,6 +23,8 @@ El MVP legacy en vanilla JS queda conservado como referencia histórica en modo 
 
 Ver también:
 
+- [Release notes demo V2](./docs/releases/v2-demo-release-notes.md)
+- [Checklist de demo V2](./docs/releases/v2-demo-checklist.md)
 - [Legacy read-only](./docs/legacy/legacy-readonly.md)
 - [ADR legacy read-only](./docs/decisions/ADR-legacy-readonly.md)
 
@@ -135,6 +137,8 @@ Fuera de alcance en esta fase:
 - [Notas de arquitectura](./docs/architecture-notes.md)
 - [Roadmap operativo](./docs/roadmap.md)
 - [Plan V2 · React + TypeScript + Backend + Docker](./docs/v2-react-backend-docker-plan.md)
+- [Release notes demo V2](./docs/releases/v2-demo-release-notes.md)
+- [Checklist de demo V2](./docs/releases/v2-demo-checklist.md)
 
 Documentación viva recomendada para seguir el estado real del repositorio:
 
@@ -142,6 +146,8 @@ Documentación viva recomendada para seguir el estado real del repositorio:
 - `docs/roadmap.md`
 - `docs/evidencias.md`
 - `docs/legacy/legacy-readonly.md`
+- `docs/releases/v2-demo-release-notes.md`
+- `docs/releases/v2-demo-checklist.md`
 - `docs/v2-react-backend-docker-plan.md` para entender la dirección estratégica hacia V2
 
 La hoja de ruta larga de `docs/EXPERTECH_CV_hoja_de_ruta.md` se mantiene como referencia estratégica del proyecto, no como fuente operativa principal del día a día.
@@ -339,7 +345,9 @@ Orden recomendado a partir del estado actual:
 
 Siguiente bloque de trabajo según el plan V2:
 
-- `chore/archive-legacy-readonly`: archivar legacy como referencia read-only tras la auditoría final.
+- `chore/v2-demo-manual-browser-pass`: revisión visual/manual final de la demo.
+- `test/e2e-v2-demo-flow`: opcional, cubrir el flujo demo con tests E2E.
+- `deploy/v2-staging`: opcional, preparar una URL pública/staging.
 - `chore/remove-legacy-after-v2-parity`: retirar legacy solo con decisión explícita posterior.
 
 Cada fase se ejecuta en su rama, con PR contra `dev` y validación mínima documentada. Consulta `docs/v2-react-backend-docker-plan.md` para el detalle completo.
