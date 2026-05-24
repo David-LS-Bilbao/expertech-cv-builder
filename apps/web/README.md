@@ -29,10 +29,11 @@ Es la demo principal del proyecto. Convive con el legacy vanilla JS en la raíz 
 | Sprint UI 4b | Exportación PDF por impresión nativa con QR local | #50 |
 | Sprint UI 5 | Perfil público V2 con slug gestionable y ruta `/p/:slug` | #51 |
 | Sprint UI 6 | Landing Page V2 como entrada pública `/` | #53 |
+| Release docs | Release notes y checklist de demo V2 | #56 |
 
-**Sprint final:** `chore/v2-final-cleanup-and-release-notes` — release notes y checklist de demo V2.
+**Sprint activo:** `feat/v2-visual-refresh-stitch-alignment` — refresh visual para acercar la V2 real a los mockups Stitch y reforzar la percepción de plataforma SaaS técnica.
 
-**Siguiente trabajo recomendado:** revisión visual manual, tests E2E o deploy/staging. No hay nuevas features obligatorias para cerrar la demo V2.
+**Siguiente trabajo recomendado:** revisión visual manual en navegador, tests E2E o `feat/v2-jobs-multiprovider-api` si se prioriza ampliar Jobs después de validar la UI.
 
 ## Comandos (ejecutar desde `apps/web/`)
 
@@ -97,6 +98,7 @@ Copiar a `.env.local` si necesitas apuntar a otro backend.
 - **Exportación PDF V2**: usa `window.print()` y CSS `@media print`; el navegador permite guardar como PDF. No hay generación PDF binaria ni `jsPDF`.
 - **Perfil público V2**: `/p/:slug` renderiza un CV read-only si el usuario lo ha publicado. El slug se gestiona desde la zona autenticada.
 - **Landing V2**: `/` muestra la entrada pública del producto para usuarios no autenticados y sus CTAs abren AuthScreen sin usar router.
+- **Refresh visual Stitch**: landing, dashboard, editor, GitHub, Jobs, Export y PublicProfile se mantienen funcionalmente iguales, pero con jerarquía visual y microcopy más cercanos a producto SaaS.
 - **QR local**: se genera en frontend con `qrcode`, sin servicios externos. Apunta al perfil público real cuando está publicado y a una ruta planificada si está privado.
 - **Legacy read-only**: `index.html`, `public.html`, `js/**`, `styles/**`, `server/**` y `data/**` quedan como referencia histórica. Las nuevas features deben implementarse en V2.
 - **Fuera de alcance actual**: analytics, SEO avanzado, OpenGraph avanzado, CMS, dominio personalizado, borrar legacy o mover legacy.

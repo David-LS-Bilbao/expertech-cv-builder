@@ -15,7 +15,7 @@ export function GitHubProfileCard({ profile }: Props) {
           <img
             src={profile.avatarUrl}
             alt={`Avatar público de GitHub de ${profile.login}`}
-            className="h-24 w-24 rounded-lg border border-outline-variant/50 object-cover"
+            className="h-24 w-24 rounded-lg border-4 border-primary-fixed object-cover"
           />
         )}
 
@@ -43,13 +43,13 @@ export function GitHubProfileCard({ profile }: Props) {
           </p>
 
           <div className="mt-5 grid grid-cols-1 gap-3 text-label-md text-on-surface-variant sm:grid-cols-3">
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded bg-surface-container-low px-3 py-2">
               <Users className="h-4 w-4 text-primary" aria-hidden="true" />
               {profile.followers} seguidores
             </span>
-            <span>{profile.publicRepos} repos públicos</span>
+            <span className="rounded bg-surface-container-low px-3 py-2">{profile.publicRepos} repos públicos</span>
             {profile.location && (
-              <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded bg-surface-container-low px-3 py-2">
                 <MapPin className="h-4 w-4 text-primary" aria-hidden="true" />
                 {profile.location}
               </span>

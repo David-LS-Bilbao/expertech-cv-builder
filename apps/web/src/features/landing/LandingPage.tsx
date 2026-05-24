@@ -21,33 +21,33 @@ interface LandingPageProps {
 
 const features = [
   {
-    title: 'CV editable',
-    description: 'Construye un perfil técnico vivo con resumen, stack, skills y proyectos destacados.',
+    title: 'Editor code-ready',
+    description: 'Convierte experiencia, stack y proyectos en un CV técnico claro, escaneable y vivo.',
     icon: FileText,
   },
   {
-    title: 'GitHub Sync público',
-    description: 'Busca tu usuario de GitHub, selecciona repos y conviértelos en proyectos del CV.',
+    title: 'GitHub Sync',
+    description: 'Importa repos públicos seleccionados y destaca el trabajo que mejor representa tu perfil.',
     icon: Code2,
   },
   {
     title: 'Jobs Search',
-    description: 'Consulta ofertas tech desde el backend V2 con fallback controlado cuando Jooble no está configurado.',
+    description: 'Busca oportunidades tech por stack y ubicación con fallback demo cuando Jooble no esté activo.',
     icon: BriefcaseBusiness,
   },
   {
     title: 'PDF con QR',
-    description: 'Exporta mediante impresión nativa y enlaza el CV publicado con un QR generado localmente.',
+    description: 'Genera una versión imprimible y conecta el QR con tu perfil público cuando lo publiques.',
     icon: QrCode,
   },
   {
     title: 'Perfil público',
-    description: 'Publica un CV read-only en una ruta compartible `/p/:slug` cuando esté listo.',
+    description: 'Comparte una URL read-only en `/p/:slug`, pensada para recruiters y portfolio.',
     icon: ExternalLink,
   },
   {
-    title: 'Persistencia real',
-    description: 'React, Express, PostgreSQL y Prisma sostienen una experiencia multiusuario trazable.',
+    title: 'Backend real',
+    description: 'React, Express, PostgreSQL, Prisma y Docker sostienen una demo fullstack real.',
     icon: Database,
   },
 ]
@@ -106,13 +106,13 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
           <div className="max-w-3xl lg:col-span-6">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary-fixed-dim/40 bg-primary-fixed/20 px-4 py-2 text-label-sm font-semibold uppercase text-primary-fixed-dim">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
-              V2 lista para demo
+              Beta de acceso anticipado
             </span>
             <h1 className="mt-6 text-5xl font-bold leading-none text-white sm:text-6xl">
               EXPERTECH CV
             </h1>
             <p className="mt-5 max-w-xl text-body-lg text-inverse-on-surface/80">
-              CV técnico vivo para candidatos tech: edita tu perfil, importa proyectos, busca oportunidades y comparte una versión pública profesional.
+              Crea un CV web, conecta GitHub y encuentra oportunidades tech desde una plataforma profesional diseñada para perfiles técnicos.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <button
@@ -127,9 +127,16 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
                 href="#features"
                 className="inline-flex items-center justify-center gap-2 rounded border border-white/20 bg-white/10 px-6 py-4 text-label-md font-semibold text-white transition hover:bg-white/20"
               >
-                Explorar features
+                Ver cómo funciona
                 <ExternalLink className="h-5 w-5" aria-hidden="true" />
               </a>
+            </div>
+            <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
+              {['CV vivo', 'GitHub', 'Perfil público'].map((item) => (
+                <span key={item} className="rounded border border-white/10 bg-white/10 px-3 py-2 text-center text-label-sm font-semibold text-inverse-on-surface/80">
+                  {item}
+                </span>
+              ))}
             </div>
           </div>
 
@@ -196,10 +203,10 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-label-sm font-semibold uppercase text-primary">Producto V2</p>
             <h2 className="mt-3 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-              Todo lo necesario para presentar un perfil tech moderno
+              Diseñado por y para perfiles técnicos
             </h2>
             <p className="mt-4 text-body-md text-on-surface-variant">
-              La landing reemplaza la entrada pública del legacy sin retirar todavía el código vanilla JS.
+              Olvídate del PDF estático: tu carrera cambia, tu CV también.
             </p>
           </div>
 
@@ -207,7 +214,7 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
             {features.map((feature) => {
               const Icon = feature.icon
               return (
-                <article key={feature.title} className="rounded border border-outline-variant/70 bg-surface-container-lowest p-6 shadow-card transition hover:border-primary/60">
+                <article key={feature.title} className="group rounded border border-outline-variant/70 bg-surface-container-lowest p-6 shadow-card transition hover:border-primary/60 hover:-translate-y-0.5">
                   <span className="flex h-11 w-11 items-center justify-center rounded bg-surface-container text-primary">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
@@ -225,10 +232,10 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
           <div className="lg:col-span-5">
             <p className="text-label-sm font-semibold uppercase text-primary">Cómo funciona</p>
             <h2 className="mt-3 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-              Del borrador técnico al perfil compartible
+              De borrador a perfil compartible
             </h2>
             <p className="mt-4 text-body-md text-on-surface-variant">
-              El flujo V2 mantiene una separación clara entre edición, integraciones, exportación y publicación.
+              Un flujo simple para convertir tu experiencia real en una presencia técnica presentable.
             </p>
           </div>
 
@@ -242,7 +249,7 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
                   <h3 className="text-body-lg font-semibold text-on-surface">{step}</h3>
                   <p className="mt-1 text-label-md text-on-surface-variant">
                     {index === 0 && 'Registra una sesión y entra en tu dashboard autenticado.'}
-                    {index === 1 && 'Edita perfil, contacto, skills y proyectos sin depender del legacy.'}
+                    {index === 1 && 'Edita perfil, contacto, skills y proyectos con una estructura clara.'}
                     {index === 2 && 'Importa repos públicos seleccionados y evita duplicados por origen.'}
                     {index === 3 && 'Genera PDF con QR o activa tu perfil público en `/p/:slug`.'}
                   </p>
@@ -262,11 +269,11 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
               </span>
               <div>
                 <p className="text-label-sm font-semibold uppercase text-primary">Backend real</p>
-                <h2 className="text-headline-md font-semibold text-on-surface">Una demo pública con base de producto</h2>
+                <h2 className="text-headline-md font-semibold text-on-surface">Una demo con base de producto</h2>
               </div>
             </div>
             <p className="mt-5 max-w-2xl text-body-md text-on-surface-variant">
-              EXPERTECH CV V2 no es solo una maqueta: usa autenticación backend, CV persistido, perfiles públicos y Docker local para mostrar una arquitectura de producto completa.
+              Autenticación, CV persistido, perfiles públicos y Docker local demuestran una arquitectura fullstack lista para enseñar.
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {['React + TypeScript', 'Express API', 'PostgreSQL + Prisma'].map((item) => (
@@ -282,7 +289,7 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
             <Download className="h-9 w-9 text-primary-fixed-dim" aria-hidden="true" />
             <h2 className="mt-5 text-headline-md font-semibold text-white">PDF, QR y perfil público conectados</h2>
             <p className="mt-4 text-body-md text-inverse-on-surface/80">
-              El candidato puede guardar como PDF desde el navegador y apuntar el QR a su perfil publicado cuando lo active.
+              Guarda como PDF desde el navegador y lleva al recruiter a tu perfil publicado con un QR.
             </p>
             <div className="mt-6 rounded border border-white/10 bg-white/10 p-4">
               <p className="text-label-sm uppercase text-primary-fixed-dim">Ruta pública</p>
@@ -297,7 +304,7 @@ export function LandingPage({ onStart, onSignIn }: LandingPageProps) {
           <div>
             <p className="text-label-sm font-semibold uppercase text-primary">Listo para empezar</p>
             <h2 className="mt-2 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-              Crea un CV técnico preparado para demo, recruiters y portfolio.
+              Crea un CV técnico preparado para recruiters, portfolio y demo.
             </h2>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">

@@ -72,7 +72,7 @@ export function JobSearchForm({
               className={[
                 'rounded-full border px-4 py-2 text-label-md font-medium transition',
                 selected
-                  ? 'border-primary bg-primary-fixed text-primary'
+                  ? 'border-primary bg-primary-fixed text-primary shadow-card'
                   : 'border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:border-primary hover:text-primary',
               ].join(' ')}
             >

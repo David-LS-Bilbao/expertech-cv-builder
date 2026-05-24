@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AlertTriangle, BriefcaseBusiness, CheckCircle2, Loader2 } from 'lucide-react'
+import { AlertTriangle, BriefcaseBusiness, CheckCircle2, Loader2, MapPin, Search } from 'lucide-react'
 import { ApiError, api, type JobsSearchResponse } from '../../lib/api/client'
 import { JobSearchForm } from './JobSearchForm'
 import { JobResultsList } from './JobResultsList'
@@ -46,21 +46,33 @@ export function JobsSearchPanel() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card">
+      <section className="relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card">
+        <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
         <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">Jobs Search</p>
         <div className="mt-2 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-              Busca empleo tech
+              Encuentra ofertas por stack
             </h1>
             <p className="mt-2 max-w-2xl text-body-md text-on-surface-variant">
-              Consulta el backend V2 para encontrar ofertas por tecnología y ubicación. Si Jooble no está configurado, verás resultados demo controlados.
+              Lanza una búsqueda por tecnología y ubicación. Si Jooble no está configurado, la UI muestra fallback demo controlado.
             </p>
           </div>
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-outline-variant/60 bg-surface px-3 py-2 text-label-sm font-semibold text-on-surface-variant">
             <BriefcaseBusiness className="h-4 w-4 text-primary" aria-hidden="true" />
             `/jobs/search`
           </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-3 text-label-sm font-semibold">
+          <span className="inline-flex items-center gap-2 rounded-full bg-primary-fixed px-3 py-1 text-on-primary-fixed-variant">
+            <Search className="h-3.5 w-3.5" aria-hidden="true" />
+            {keywords || 'Keywords'}
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full bg-secondary-fixed/50 px-3 py-1 text-secondary">
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+            {location || 'Ubicación abierta'}
+          </span>
         </div>
 
         <div className="mt-6">
@@ -101,7 +113,7 @@ export function JobsSearchPanel() {
           </div>
           <h2 className="mt-5 text-headline-md font-semibold text-on-surface">Prepara tu próxima búsqueda</h2>
           <p className="mx-auto mt-2 max-w-xl text-body-md text-on-surface-variant">
-            Usa keywords como React, TypeScript o Full Stack y una ciudad como Bilbao para iniciar la consulta.
+            Prueba con React, TypeScript o Full Stack y una ciudad como Bilbao para iniciar la consulta.
           </p>
         </div>
       )}

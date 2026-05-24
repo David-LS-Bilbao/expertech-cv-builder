@@ -48,13 +48,17 @@ export function ProfileForm({ profile, projectCount = 0, onSave }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-5 shadow-card">
+      <div className="relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-5 shadow-card">
+        <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">
               Editor CV
             </p>
             <h2 className="mt-1 text-headline-md font-semibold text-on-surface">Contenido del perfil</h2>
+            <p className="mt-1 max-w-xl text-label-md text-on-surface-variant">
+              Ordena el relato técnico que verá un recruiter al abrir tu CV.
+            </p>
           </div>
           <div className="flex items-center gap-3">
             {saved && (
@@ -176,7 +180,7 @@ export function ProfileForm({ profile, projectCount = 0, onSave }: Props) {
             {projectCount > 0 ? `${projectCount} proyectos cargados en el CV.` : 'No hay proyectos cargados todavía.'}
           </p>
           <p className="mt-2 text-label-md text-on-surface-variant">
-            Los proyectos importados desde GitHub se añaden en la vista GitHub Sync.
+            Usa GitHub Sync para convertir repositorios públicos en proyectos destacados.
           </p>
         </div>
       </EditorSection>
@@ -195,7 +199,7 @@ interface EditorSectionProps {
 
 function EditorSection({ id, title, icon: Icon, open, onToggle, children }: EditorSectionProps) {
   return (
-    <section className="overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest shadow-card">
+    <section className="overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest shadow-card transition hover:border-primary/40">
       <button
         type="button"
         className="flex w-full items-center justify-between gap-4 p-5 text-left transition hover:bg-surface-container-low"

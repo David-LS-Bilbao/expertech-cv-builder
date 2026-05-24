@@ -544,3 +544,19 @@ Este archivo servirá como registro cronológico del proceso de desarrollo de `E
 - Decisión: V2 queda documentada como demo principal; legacy sigue read-only y no se elimina.
 - Fuera de alcance: código, backend, frontend, Docker, Prisma, legacy real, specs, deploy y retirada legacy.
 - Próximo paso recomendado: `chore/v2-demo-manual-browser-pass`, `test/e2e-v2-demo-flow` o `deploy/v2-staging` según prioridad.
+
+### [2026-05-24] Refresh visual V2 alineado con Stitch
+
+- Objetivo: mejorar la percepción visual de la V2 real en la rama `feat/v2-visual-refresh-stitch-alignment`, acercando landing, shell autenticada y features a los bocetos Stitch.
+- Trabajo realizado:
+  - Landing con hero, showcase, bento y microcopy más orientados a producto SaaS técnico.
+  - Dashboard con command center, métricas y acciones rápidas más visuales.
+  - Editor/Preview con mejor jerarquía y copy más recruiter-friendly.
+  - GitHub Sync, Jobs Search, Export PDF y PublicProfile refinados visualmente sin cambiar contratos ni flujos.
+  - Documentación mínima actualizada en README web, roadmap, evidencias y release notes.
+- Decisión: refresh visual sin nuevas features funcionales; V2 sigue siendo demo principal y legacy permanece read-only.
+- Fuera de alcance: backend, Prisma, Docker, legacy real, `apps/web/src/lib/**`, nuevos endpoints, nuevas dependencias, React Router y `docs/specs/**`.
+- Validación prevista antes de cerrar:
+  - `apps/web`: `npm run typecheck`, `npm run lint`, `npm run build`
+  - raíz: `docker compose build web`, `docker compose up -d`, `curl http://localhost:8090`, `curl http://localhost:8090/api/health`, `docker compose down`
+- Próximo paso recomendado: `chore/v2-demo-manual-browser-pass` para una revisión visual completa en navegador; alternativamente `feat/v2-jobs-multiprovider-api` si se prioriza ampliar Jobs.

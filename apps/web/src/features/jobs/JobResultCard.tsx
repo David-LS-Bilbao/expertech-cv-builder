@@ -27,7 +27,7 @@ export function JobResultCard({ job, source }: Props) {
   const tags = extractTags(job)
 
   return (
-    <article className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-5 shadow-card transition hover:border-primary/50">
+    <article className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-5 shadow-card transition hover:-translate-y-0.5 hover:border-primary/50">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex items-start gap-4">

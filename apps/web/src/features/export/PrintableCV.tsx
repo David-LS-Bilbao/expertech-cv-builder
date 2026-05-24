@@ -161,10 +161,10 @@ export function PrintableCV({ cv, publicUrl, qrDataUrl, qrStatus }: Props) {
 
           <section className="break-inside-avoid">
             <h3 className="border-b border-primary-container pb-2 text-body-md font-semibold text-on-surface">
-              Perfil público planificado
+              Perfil público
             </h3>
             <p className="mt-3 text-label-sm leading-5 text-on-surface-variant">
-              El QR apunta a la URL prevista para el futuro perfil público. La publicación real se implementará en otro sprint.
+              Escanea el QR para abrir la versión web asociada a este CV cuando esté publicada.
             </p>
             <div className="mt-3">
               <QRCodeBlock publicUrl={publicUrl} qrDataUrl={qrDataUrl} status={qrStatus} compact />

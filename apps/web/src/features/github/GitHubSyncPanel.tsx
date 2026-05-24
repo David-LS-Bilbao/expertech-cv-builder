@@ -119,13 +119,14 @@ export function GitHubSyncPanel({ cv, onImportRepositories }: Props) {
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
       <section className="space-y-6">
-        <div className="rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card">
+        <div className="relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-lowest p-6 shadow-card">
+          <div className="absolute inset-x-0 top-0 h-1 bg-primary" aria-hidden="true" />
           <p className="text-label-sm font-semibold uppercase tracking-[0.05em] text-primary">GitHub Sync</p>
           <h1 className="mt-2 text-headline-lg-mobile font-semibold text-on-surface sm:text-headline-lg">
-            Conecta tu GitHub público
+            Convierte repos en proyectos
           </h1>
           <p className="mt-2 max-w-2xl text-body-md text-on-surface-variant">
-            Busca un usuario público, revisa sus repositorios recientes y selecciona los proyectos que quieres destacar en el CV.
+            Busca un perfil público, revisa sus repositorios recientes y selecciona solo lo que merece aparecer en tu CV.
           </p>
 
           <form onSubmit={handleSearch} className="mt-6">
@@ -178,7 +179,7 @@ export function GitHubSyncPanel({ cv, onImportRepositories }: Props) {
             </div>
             <h2 className="mt-5 text-headline-md font-semibold text-on-surface">Listo para enseñar tu código</h2>
             <p className="mx-auto mt-2 max-w-xl text-body-md text-on-surface-variant">
-              Introduce un username de GitHub para cargar datos públicos. No se usan tokens, OAuth ni backend proxy.
+              Introduce un username y crea una selección curada. Sin tokens, sin OAuth, solo datos públicos.
             </p>
           </div>
         )}
@@ -196,7 +197,7 @@ export function GitHubSyncPanel({ cv, onImportRepositories }: Props) {
               {status === 'rate_limited' ? 'Límite público de GitHub alcanzado' : 'No se pudo cargar GitHub'}
             </h2>
             <p className="mt-2 text-body-md text-on-error-container">
-              El CV sigue editable manualmente. Puedes probar otro usuario o repetir la consulta más tarde.
+              El CV sigue editable. Prueba otro usuario o repite la consulta más tarde.
             </p>
           </div>
         )}
@@ -210,7 +211,7 @@ export function GitHubSyncPanel({ cv, onImportRepositories }: Props) {
                 <div>
                   <h2 className="text-headline-md font-semibold text-on-surface">Repositorios candidatos</h2>
                   <p className="mt-1 text-label-md text-on-surface-variant">
-                    Ordenados por actualización reciente. Forks excluidos: {githubData.excludedForks}.
+                    Orden reciente, sin forks por defecto. Excluidos: {githubData.excludedForks}.
                   </p>
                 </div>
                 <span className="w-fit rounded-full bg-surface-container-high px-3 py-1 text-label-sm font-semibold text-on-surface-variant">
@@ -267,7 +268,7 @@ export function GitHubSyncPanel({ cv, onImportRepositories }: Props) {
             Importar al CV
           </button>
           <p className="mt-4 text-center text-label-sm text-on-surface-variant">
-            Los proyectos seleccionados se guardan con el CV mediante el backend actual.
+            La selección se añade al CV guardado y aparece en la preview.
           </p>
         </div>
       </aside>

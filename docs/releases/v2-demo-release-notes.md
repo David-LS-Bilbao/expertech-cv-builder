@@ -140,6 +140,7 @@ No se borra ni se mueve legacy en esta release.
 
 - Ejecutar revisión visual manual final en navegador.
 - Preparar presentación/demo con `docs/releases/v2-demo-checklist.md`.
+- Aplicar y revisar el refresh visual Stitch de la V2 real antes de una demo pública formal.
 - Opcional: deploy público o staging.
 - Opcional: SEO/OpenGraph básico para landing y perfiles públicos.
 - Opcional: avatar upload completo en V2.
